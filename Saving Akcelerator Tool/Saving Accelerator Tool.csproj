@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{490A3C80-23B1-46C2-90A6-62C5F9735ABD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Saving_Accelerator_Tool</RootNamespace>
+    <AssemblyName>Saving Accelerator Tool</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Application\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Application\</UpdateUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3313390A6DC2A217E0D3EDA3592E0894670E1A65</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Saving Accelerator Tool_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>bitcoin-512.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Klasy\Raporty\ANC.cs" />
+    <Compile Include="Klasy\History.cs" />
+    <Compile Include="Klasy\Raporty\Excel_Function.cs" />
+    <Compile Include="Klasy\Raporty\Excel_Generate.cs" />
+    <Compile Include="Klasy\CalculationMass.cs" />
+    <Compile Include="Formy\ActionFunction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formy\ActionFunction.Designer.cs">
+      <DependentUpon>ActionFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\Calculation.cs" />
+    <Compile Include="Klasy\Charts.cs" />
+    <Compile Include="Klasy\AdminFormHendler.cs" />
+    <Compile Include="Klasy\ActionFormHendler.cs" />
+    <Compile Include="Klasy\ActionForm.cs" />
+    <Compile Include="Formy\AddData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formy\AddData.designer.cs">
+      <DependentUpon>AddData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\Action.cs" />
+    <Compile Include="Klasy\Admin.cs" />
+    <Compile Include="Klasy\AdminForm.cs" />
+    <Compile Include="Klasy\Budget.cs" />
+    <Compile Include="Formy\MainProgram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formy\MainProgram.Designer.cs">
+      <DependentUpon>MainProgram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\BuildForm.cs" />
+    <Compile Include="Klasy\Data_Import.cs" />
+    <Compile Include="Klasy\Outliv.cs" />
+    <Compile Include="Klasy\Program.cs" />
+    <Compile Include="Klasy\SummaryDetails.cs" />
+    <Compile Include="Klasy\ModifiActionForm.cs" />
+    <Compile Include="Klasy\ModifiActionFormHendler.cs" />
+    <Compile Include="Klasy\LogSingleton.cs" />
+    <Compile Include="Klasy\LoadAction.cs" />
+    <Compile Include="Klasy\Raporty\Level1.cs" />
+    <Compile Include="Klasy\Raporty\PCRaports_Genereted.cs" />
+    <Compile Include="Klasy\Raporty\PCRaport_Approval.cs" />
+    <Compile Include="Klasy\Raporty\MultiRaport.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Klasy\STK.cs" />
+    <Compile Include="Klasy\SummaryDetailsForm.cs" />
+    <Compile Include="Klasy\SummaryDetailsFormHendler.cs" />
+    <Compile Include="Klasy\STKCalculation.cs" />
+    <Compile Include="Klasy\SaveAction.cs" />
+    <Compile Include="Formy\ReportingOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formy\ReportingOption.Designer.cs">
+      <DependentUpon>ReportingOption.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Formy\ActionFunction.resx">
+      <DependentUpon>ActionFunction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formy\AddData.resx">
+      <DependentUpon>AddData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formy\MainProgram.resx">
+      <DependentUpon>MainProgram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Saving Accelerator Tool_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 i x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bitcoin-512.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

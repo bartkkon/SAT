@@ -2622,7 +2622,7 @@ namespace Saving_Accelerator_Tool
 
         public void AddValueANC(int counter, string ANCOld, string ANCNew, string STKold, string STKNew, string Delta, string STKEst, string Percent, string STKCal, string Next, string OldQ, string NewQ)
         {
-
+            
             TextBox nTB_OLDANC = (TextBox)mainProgram.TabControl.Controls.Find("TB_OldANC" + counter.ToString(), true).First();
             nTB_OLDANC.Text = ANCOld;
 
