@@ -190,7 +190,6 @@ namespace Saving_Accelerator_Tool
 
             //Quantity
             DataGridView Grid = (DataGridView)mainProgram.TabControl.Controls.Find("dg_Quantity", true).First();
-
             GridValue = GridReader(Grid);
             GridSave(ref NewRow, GridValue, "Quantity", Year);
 
@@ -203,6 +202,9 @@ namespace Saving_Accelerator_Tool
             Grid = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCC", true).First();
             GridValue = GridReader(Grid);
             GridSave(ref NewRow, GridValue, "ECCC", Year);
+
+            //Sprawdzenie czy to jest Akcja dodatnia czy ujemna
+            PozitiveOrNegative(ref NewRow);
 
             //Dodanie IDCO do pliku
             IDCOAdd(ref NewRow);
@@ -239,12 +241,27 @@ namespace Saving_Accelerator_Tool
             return true;
         }
 
+        //Sprawdzenie czy akcja jest dodatnia czy ujemna
+        private void PozitiveOrNegative( ref DataRow NewRow)
+        {
+            decimal Delta = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_CalcSum", true).First()).Text); 
+            if(Delta >=0)
+            {
+                NewRow["+ czy -"] = "Pozytywna";
+            }
+            else
+            {
+                NewRow["+ czy -"] = "Negatywna";
+            }
+        }
+
         private void PerANC_PNC(ref DataRow NewRow, decimal Year)
         {
             string Carry = "";
             string Save = "";
+            decimal YearCalc = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
 
-            if (Year == DateTime.Now.Year -1)
+            if (Year == YearCalc -1)
                 Carry = "Carry";
 
             if (USE!= null)
@@ -542,7 +559,7 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataGridViewRow PNCRow in DG.Rows)
             {
-                if (PNCRow.Index < (((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count - 1))
+                if (PNCRow.Index < (((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count))
                 {
                     if (PNCRow.Cells["PNC"].Value != null && PNCRow.Cells["PNC"].Value.ToString() != "")
                     {
@@ -631,7 +648,8 @@ namespace Saving_Accelerator_Tool
         //Zapis Gridów do tabeli
         private void GridSave(ref DataRow ActionRow, string[] GridValue, string Column, decimal Year)
         {
-            if (Year >= DateTime.Today.Year)
+            decimal YearSave = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
+            if (Year >= YearSave)
             {
                 ActionRow["CalcBU" + Column] = GridValue[4];
                 ActionRow["CalcEA1" + Column] = GridValue[3];
@@ -644,7 +662,7 @@ namespace Saving_Accelerator_Tool
                 ActionRow["CalcEA3" + Column + "Carry"] = "/////////////";
                 ActionRow["CalcUSE" + Column + "Carry"] = "/////////////";
             }
-            else if (Year == DateTime.Today.Year - 1)
+            else if (Year == YearSave -1)
             {
                 ActionRow["CalcBU" + Column + "Carry"] = GridValue[4];
                 ActionRow["CalcEA1" + Column + "Carry"] = GridValue[3];

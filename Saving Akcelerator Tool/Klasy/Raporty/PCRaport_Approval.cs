@@ -47,7 +47,7 @@ namespace Saving_Accelerator_Tool
 
             string Link;
             string DevisionFinal = Dewizje[Devision];
-            decimal Euro; 
+            decimal Euro;
 
             Link = data_Import.Load_Link("Action");
             data_Import.Load_TxtToDataTable(ref Action, Link);
@@ -65,9 +65,9 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataRow Row in Action.Rows)
             {
-                if(Row["Group"].ToString() == DevisionFinal && Row["StartYear"].ToString() == Year.ToString())
+                if (Row["Group"].ToString() == DevisionFinal && Row["StartYear"].ToString() == Year.ToString())
                 {
-                    Row.ItemArray = CalcSpecjal(Row, Rewizion, Euro, ref ANC, ref PNC).ItemArray;
+                    //Row.ItemArray = CalcSpecjal(Row, Rewizion, Euro, ref ANC, ref PNC).ItemArray;
                 }
             }
 
@@ -83,8 +83,8 @@ namespace Saving_Accelerator_Tool
             decimal Delta;
             decimal SteadyQuantity;
             decimal SteadySaving = 0;
-            decimal FiscalQunatity;
-            decimal FiscalSavings;
+            decimal FiscalQunatity =0;
+            decimal FiscalSavings =0;
             decimal Probalility = 100;
             string Quantity;
             string Saving;
@@ -94,11 +94,13 @@ namespace Saving_Accelerator_Tool
             Quantity = Action["Calc" + Rewizja + "Quantity"].ToString();
             Saving = Action["Calc" + Rewizja + "Saving"].ToString();
 
-            FiscalSavings = decimal.Parse((Saving.Split('/'))[12].ToString());
+            if ((Saving.Split('/'))[12].ToString() != "")
+                FiscalSavings = decimal.Parse((Saving.Split('/'))[12].ToString());
             if ((ECCC.Split('/'))[12].ToString() != "")
             {
                 FiscalSavings = FiscalSavings + decimal.Parse((ECCC.Split('/'))[12].ToString());
             }
+            if((Quantity.Split('/'))[12].ToString() != "")
             FiscalQunatity = decimal.Parse((Quantity.Split('/'))[12].ToString());
 
             FiscalSavings = FiscalSavings / Euro;

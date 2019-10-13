@@ -509,7 +509,7 @@ namespace Saving_Accelerator_Tool
 
         public void pb_AdminSaveCalcRevNew_Click(object sender, EventArgs e)
         {
-            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, "EA3");
+            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, "BU");
         }
 
         public void pb_AdminSaveCalcMonthNew_Click(object sender, EventArgs e)

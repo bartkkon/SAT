@@ -65,6 +65,9 @@ namespace Saving_Accelerator_Tool
             //Przyciski do ładowania i zapisu dla Bazy Kursy
             ModifiAction_Kursy(Gb_AdminAction_Top);
 
+            //Przyciski do ładowania i zapisu dla Bazy History
+            ModifAction_History(Gb_AdminAction_Top);
+
             //Export to XML
             SaveToXML(Gb_AdminAction_Top);
 
@@ -81,6 +84,29 @@ namespace Saving_Accelerator_Tool
             Gb_AdminAction_Top.Controls.Add(Pb_AdminAction_ClearGrid);
 
             ModifiActionAddColumn(Gb_AdminAction_Top);
+        }
+
+        private void ModifAction_History(GroupBox Gb_AdminAction_Top)
+        {
+            Button Pb_AdminAction_LoadHistory = new Button
+            {
+                Location = new System.Drawing.Point(460, 10),
+                Name = "Pb_AdminAction_LoadHistory",
+                Text = "Load History",
+                Size = new System.Drawing.Size(80, 30),
+            };
+            Pb_AdminAction_LoadHistory.Click += new EventHandler(Pb_AdminAction_LoadHistory_Click);
+            Gb_AdminAction_Top.Controls.Add(Pb_AdminAction_LoadHistory);
+
+            Button Pb_AdminAction_SaveHistory = new Button
+            {
+                Location = new System.Drawing.Point(460, 50),
+                Name = "Pb_AdminAction_SaveHistory",
+                Text = "Save Hisotry",
+                Size = new System.Drawing.Size(80, 30),
+            };
+            Pb_AdminAction_SaveHistory.Click += new EventHandler(Pb_AdminAction_SaveHistory_Click);
+            Gb_AdminAction_Top.Controls.Add(Pb_AdminAction_SaveHistory);
         }
 
         private void ModifiAction_STK(GroupBox Gb_AdminAction_Top)

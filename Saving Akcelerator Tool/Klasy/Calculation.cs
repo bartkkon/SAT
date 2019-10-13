@@ -91,6 +91,7 @@ namespace Saving_Accelerator_Tool
             bool USE;
             bool CurrentYear;
             bool CarryOver;
+            int ActionStart;
 
             //Ładowanie tablicy która mówi co jest zamrożone a no można przeliczyć
             LinkFrozen = ImportData.Load_Link("Frozen");
@@ -132,21 +133,25 @@ namespace Saving_Accelerator_Tool
             //Przeliczenie Rewizji
             if (RevisionBU)
             {
+                BU.Rows.Clear();
                 ClearDataGridViewForRevision("BU");
                 CalculationRevisionSaving(TypeofCalc, "BU", CarryOver, YearToCalc);
             }
             if (RevisionEA1)
             {
+                EA1.Rows.Clear();
                 ClearDataGridViewForRevision("EA1");
                 CalculationRevisionSaving(TypeofCalc, "EA1", CarryOver, YearToCalc);
             }
             if (RevisionEA2)
             {
+                EA2.Rows.Clear();
                 ClearDataGridViewForRevision("EA2");
                 CalculationRevisionSaving(TypeofCalc, "EA2", CarryOver, YearToCalc);
             }
             if (RevisionEA3)
             {
+                EA3.Rows.Clear();
                 ClearDataGridViewForRevision("EA3");
                 CalculationRevisionSaving(TypeofCalc, "EA3", CarryOver, YearToCalc);
             }
@@ -155,9 +160,18 @@ namespace Saving_Accelerator_Tool
             for (int Month = 1; Month <= 12; Month++)
             {
                 USE = RevisionPermission(FrozenRow, Month.ToString());
+                ActionStart = MonthActionStart();
                 if (USE)
                 {
-                    CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
+                    if (!CarryOver)
+                    {
+                        if (Month >= ActionStart)
+                            CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
+                    }else
+                    {
+                        if (Month < ActionStart)
+                            CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
+                    }
                 }
             }
         }
@@ -232,6 +246,11 @@ namespace Saving_Accelerator_Tool
             decimal ECCCSeconds = 0;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
+            int RevisionStart = RevisionStartMonth[Revision];
+            int MonthAction;
+
+            ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
+            MonthAction = Month[MonthCombo.SelectedItem.ToString()];
 
             if (Revision == "BU")
                 Per = BU;
@@ -239,11 +258,10 @@ namespace Saving_Accelerator_Tool
                 Per = EA1;
             else if (Revision == "EA2")
                 Per = EA2;
-            else 
+            else
                 Per = EA3;
 
-
-            int RevisionStart = RevisionStartMonth[Revision];
+            Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
 
             QuantityPercent = decimal.Parse(((TextBox)mainProgram.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text) / 100;
 
@@ -260,11 +278,11 @@ namespace Saving_Accelerator_Tool
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
             {
-                Delta = false;
+
                 for (int counter = 1; counter <= ANCChangeNumber; counter++)
                 {
                     //Sprawdzenie które ANC mamy wziąśc do liczenie
-                    if (CarryOver || MonthCalcStart == RevisionStart)
+                    if (Delta)
                     {
                         ANC = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NewANC" + counter.ToString(), true).First()).Text;
                         ANCNext = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NextANC" + counter.ToString(), true).First()).Text;
@@ -380,6 +398,10 @@ namespace Saving_Accelerator_Tool
             bool ToCalc;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
+            int MonthAction;
+
+            ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
+            MonthAction = Month[MonthCombo.SelectedItem.ToString()];
 
             if (Revision == "BU")
                 Per = BU;
@@ -391,6 +413,8 @@ namespace Saving_Accelerator_Tool
                 Per = EA3;
 
             int RevisionStart = RevisionStartMonth[Revision];
+
+            Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
 
             QuantityPercent = decimal.Parse(((TextBox)mainProgram.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text) / 100;
 
@@ -407,7 +431,6 @@ namespace Saving_Accelerator_Tool
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
             {
-                Delta = false;
 
 
                 for (int counter = 1; counter <= ANCChangeNumber; counter++)
@@ -417,7 +440,7 @@ namespace Saving_Accelerator_Tool
                     if (ToCalc)
                     {
                         //Sprawdzenie które ANC mamy wziąśc do liczenie
-                        if (CarryOver || MonthCalcStart == RevisionStart)
+                        if (Delta)
                         {
                             ANC = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NewANC" + counter.ToString(), true).First()).Text;
                             ANCNext = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NextANC" + counter.ToString(), true).First()).Text;
@@ -526,6 +549,10 @@ namespace Saving_Accelerator_Tool
             decimal ECCCSeconds = 0;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
+            int MonthAction;
+
+            ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
+            MonthAction = Month[MonthCombo.SelectedItem.ToString()];
 
             if (Revision == "BU")
                 Per = BU;
@@ -552,14 +579,7 @@ namespace Saving_Accelerator_Tool
             QuantityPNCTable = LoadQuantityPNCTable(Revision, YearToCalc);
 
             //Sprawdzenie czy ma brać jeszcze po estymacji czy po finalnych wyliczeniach 
-            if (CarryOver || MonthCalcStart == RevisionStart)
-            {
-                Delta = true;
-            }
-            else
-            {
-                Delta = false;
-            }
+            Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
             {
@@ -592,7 +612,7 @@ namespace Saving_Accelerator_Tool
                         if (Row[0].ToString() != "")
                             ResultsRow["Name"] = Row[0].ToString();
 
-                        
+
                         ResultsRow[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Quantity * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
                         Per.Rows.Add(ResultsRow);
                     }
@@ -652,6 +672,10 @@ namespace Saving_Accelerator_Tool
             string ECCCHelp;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
+            int MonthAction;
+
+            ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
+            MonthAction = Month[MonthCombo.SelectedItem.ToString()];
 
             if (Revision == "BU")
                 Per = BU;
@@ -684,19 +708,18 @@ namespace Saving_Accelerator_Tool
             QuantityPNCTable = LoadQuantityPNCTable(Revision, YearToCalc);
 
             //Sprawdzenie czy ma brać jeszcze po estymacji czy po finalnych wyliczeniach 
-            if (CarryOver || MonthCalcStart == RevisionStart)
+            Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
+
+            if(PNCTable.Columns.Count == 8)
             {
                 Delta = true;
             }
-            else
-            {
-                Delta = false;
-            }
 
             //Sprawdza Czy ma liczyć Saving po Estymacji czy finalny
-            if (Delta)
+            if (!Delta)
             {
-                DeltaCost = decimal.Parse(((TextBox)mainProgram.TabControl.Controls.Find("TB_EstymacjaPNC", true).First()).Text);
+                if (((TextBox)mainProgram.TabControl.Controls.Find("TB_EstymacjaPNC", true).First()).Text != "")
+                    DeltaCost = decimal.Parse(((TextBox)mainProgram.TabControl.Controls.Find("TB_EstymacjaPNC", true).First()).Text);
             }
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
@@ -704,7 +727,7 @@ namespace Saving_Accelerator_Tool
                 //Liczenie Oszczędności korzystając z tabelki z PNC Quantity 
                 foreach (DataGridViewRow PNCRow in PNCTable.Rows)
                 {
-                    if (PNCRow.Cells["PNC"].Value != null &&!PNCRow.Cells["PNC"].Value.ToString().Equals(""))
+                    if (PNCRow.Cells["PNC"].Value != null && !PNCRow.Cells["PNC"].Value.ToString().Equals(""))
                     {
                         PNC = PNCRow.Cells["PNC"].Value.ToString();
 
@@ -720,7 +743,7 @@ namespace Saving_Accelerator_Tool
                             Quantity = Quantity + QuantityPNC;
                         }
 
-                        if (Delta)
+                        if (!Delta)
                         {
                             Savings = Savings + (QuantityPNC * DeltaCost);
                         }
@@ -730,10 +753,14 @@ namespace Saving_Accelerator_Tool
                             Savings = Savings + (QuantityPNC * DeltaCost);
                         }
 
-                        if (Per != null)
+                        if (Per.Rows.Count != 0)
                         {
                             if (Row[Month.ToString()].ToString() != "")
                                 ResultsRow = Per.Select(string.Format("Name LIKE '%{0}%'", PNC)).FirstOrDefault();
+                        }
+                        else
+                        {
+                            ResultsRow = null;
                         }
                         if (ResultsRow == null)
                         {
@@ -827,7 +854,7 @@ namespace Saving_Accelerator_Tool
                 {
                     QuantityRow = QuantityANCTable.Select(string.Format("ANC LIKE '%{0}%'", ANC)).FirstOrDefault();
                     QuantityANC = decimal.Parse(QuantityRow[Month.ToString()].ToString());
-                    
+
                 }
                 if (ANCNext != "")
                 {
@@ -934,7 +961,7 @@ namespace Saving_Accelerator_Tool
                     }
 
                     //Dodanie Ilości danego ANC dla Quantity wykorzystywanego w danym miesiącu 
-                    Quantity =Quantity + QuantityANC;
+                    Quantity = Quantity + QuantityANC;
 
                     //Wylicza finalny saving na akcji
                     DeltaCost = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_DeltaSum", true).First()).Text);
@@ -1013,19 +1040,20 @@ namespace Saving_Accelerator_Tool
             //Sumuje ilości PNC dla danego miesiąca dla wszystkich PNC
             foreach (DataRow Row in QuantityPNCTable.Rows)
             {
+                ResultsRow = null;
                 QuantityPNC = QuantityPNC + decimal.Parse(Row[Month.ToString()].ToString());
                 Quantity = decimal.Parse(Row[Month.ToString()].ToString());
 
                 if (USE != null)
                 {
                     if (Row[Month.ToString()].ToString() != "")
-                        ResultsRow = USE.Select(string.Format("Name LIKE '%{0}%'", Row[Month.ToString()].ToString())).FirstOrDefault();
+                        ResultsRow = USE.Select(string.Format("Name LIKE '%{0}%'", Row["PNC"].ToString())).FirstOrDefault();
                 }
                 if (ResultsRow == null)
                 {
                     ResultsRow = USE.NewRow();
                     if (Row[Month.ToString()].ToString() != "")
-                        ResultsRow["Name"] = Row[Month.ToString()].ToString();
+                        ResultsRow["Name"] = Row["PNC"].ToString();
 
                     ResultsRow[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Quantity * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
                     USE.Rows.Add(ResultsRow);
@@ -1092,7 +1120,7 @@ namespace Saving_Accelerator_Tool
             //Liczenie Oszczędności korzystając z tabelki z PNC Quantity 
             foreach (DataGridViewRow PNCRow in PNCTable.Rows)
             {
-                if (!PNCRow.Cells["PNC"].Value.ToString().Equals(""))
+                if (PNCRow.Cells["PNC"].Value != null && !PNCRow.Cells["PNC"].Value.ToString().Equals(""))
                 {
                     PNC = PNCRow.Cells["PNC"].Value.ToString();
 
@@ -1111,13 +1139,13 @@ namespace Saving_Accelerator_Tool
                     if (USE != null)
                     {
                         if (Row[Month.ToString()].ToString() != "")
-                            ResultsRow = USE.Select(string.Format("Name LIKE '%{0}%'", Row[Month.ToString()].ToString())).FirstOrDefault();
+                            ResultsRow = USE.Select(string.Format("Name LIKE '%{0}%'", Row["PNC"].ToString())).FirstOrDefault();
                     }
                     if (ResultsRow == null)
                     {
                         ResultsRow = USE.NewRow();
                         if (Row[Month.ToString()].ToString() != "")
-                            ResultsRow["Name"] = Row[Month.ToString()].ToString();
+                            ResultsRow["Name"] = PNC;
 
                         ResultsRow[Month.ToString()] = QuantityPNC.ToString() + ":" + Math.Round(QuantityPNC * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
                         USE.Rows.Add(ResultsRow);
@@ -1199,7 +1227,7 @@ namespace Saving_Accelerator_Tool
                 GridColumn = Rev[RevRow];
                 for (int Column = 1; Column < GridColumn; Column++)
                 {
-                    if (QuantityGrid.Rows[0].Cells[Column.ToString()].Value != null &&QuantityGrid.Rows[0].Cells[Column.ToString()].Value.ToString() != "")
+                    if (QuantityGrid.Rows[0].Cells[Column.ToString()].Value != null && QuantityGrid.Rows[0].Cells[Column.ToString()].Value.ToString() != "")
                     {
                         QuantitySum = QuantitySum + decimal.Parse(QuantityGrid.Rows[0].Cells[Column.ToString()].Value.ToString());
                     }
@@ -1244,7 +1272,7 @@ namespace Saving_Accelerator_Tool
                     {
                         SavingsSum = SavingsSum + decimal.Parse(SavingsGrid.Rows[GridRow].Cells[Column.ToString()].Value.ToString());
                     }
-                    if (ECCCGrid.Rows[GridRow].Cells[Column.ToString()].Value != null &&ECCCGrid.Rows[GridRow].Cells[Column.ToString()].Value.ToString() != "")
+                    if (ECCCGrid.Rows[GridRow].Cells[Column.ToString()].Value != null && ECCCGrid.Rows[GridRow].Cells[Column.ToString()].Value.ToString() != "")
                     {
                         ECCCSum = ECCCSum + decimal.Parse(ECCCGrid.Rows[GridRow].Cells[Column.ToString()].Value.ToString());
                     }
@@ -1624,7 +1652,7 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataGridViewRow Row in dg_PNC.Rows)
             {
-                if (Row.Cells[0].Value.ToString() != "")
+                if (Row.Cells[0].Value != null && Row.Cells[0].Value.ToString() != "")
                 {
                     DataRow NewRow = PNCQuantity.NewRow();
                     PNC = Row.Cells[0].Value.ToString();
@@ -1754,7 +1782,7 @@ namespace Saving_Accelerator_Tool
         {
             NumericUpDown YearAction = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First();
 
-            if (YearToCalc == (YearAction.Value - 1))
+            if (YearToCalc - 1 == YearAction.Value)
             {
                 return true;
             }
@@ -1849,5 +1877,29 @@ namespace Saving_Accelerator_Tool
             return "";
         }
 
+
+        //Sprawdzenie Delty którą ma brać do kalkulacji
+        private bool DeltaIFcanCalculate(bool CarryOver, int MonthToCalc, int RevisionStart, int MonthAction)
+        {
+            bool Delta;
+
+            if (CarryOver)
+            {
+                if (MonthAction > DateTime.Now.Month)
+                    Delta = false;
+                else
+                    Delta = true;
+            }
+            else if(MonthToCalc < RevisionStart)
+            {
+                Delta = true;
+            }
+            else
+            {
+                Delta = false;
+            }
+
+            return Delta;
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Saving_Accelerator_Tool
         Data_Import ImportData;
         TabPage Tab_AdminAction;
         string LinkAction;
+        string LinkHistory;
         string LinkFrozen;
         string LinkAccess;
         string LinkKurs;
@@ -26,6 +27,7 @@ namespace Saving_Accelerator_Tool
             this.ImportData = ImportData;
             this.Tab_AdminAction = Tab_AdminAction;
             this.mainProgram = mainProgram;
+            LinkHistory = ImportData.Load_Link("History");
             LinkAction = ImportData.Load_Link("Action");
             LinkFrozen = ImportData.Load_Link("Frozen");
             LinkAccess = ImportData.Load_Link("Access");
@@ -44,6 +46,20 @@ namespace Saving_Accelerator_Tool
         {
             Cursor.Current = Cursors.WaitCursor;
             SaveFromDataGridView(LinkSTK);
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void Pb_AdminAction_LoadHistory_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            LoadToDataGridView(LinkHistory);
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void Pb_AdminAction_SaveHistory_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            SaveFromDataGridView(LinkHistory);
             Cursor.Current = Cursors.Default;
         }
 
@@ -154,7 +170,7 @@ namespace Saving_Accelerator_Tool
             //Level1 level1 = new Level1(mainProgram, ImportData);
             //level1.Genereted_Level1();
 
-            ReportingOption Report = new ReportingOption(ImportData);
+            ReportingOption Report = new ReportingOption(mainProgram, ImportData, 2020);
             Report.ShowDialog();
         }
 

@@ -99,6 +99,19 @@ namespace Saving_Accelerator_Tool
         public void Action_SavingCalculation()
         {
             //SavingCalculation();
+            if(NewActionCreate)
+            {
+                if(USE.Columns.Count != 13)
+                CreateColumnPerANC("USE");
+                if (BU.Columns.Count != 13)
+                    CreateColumnPerANC("BU");
+                if (EA1.Columns.Count != 11)
+                    CreateColumnPerANC("EA1");
+                if (EA2.Columns.Count != 8)
+                    CreateColumnPerANC("EA2");
+                if (EA3.Columns.Count != 5)
+                    CreateColumnPerANC("EA3");
+            }
             Calculation Calc = new Calculation(mainProgram, ImportData, ANCChangeNumber, USE, BU, EA1, EA2, EA3);
             Calc.SavingCalculation();
             ChangeCalcProtector(false);
@@ -2643,6 +2656,9 @@ namespace Saving_Accelerator_Tool
 
             Label nLab_Delta = (Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First();
             nLab_Delta.Text = Delta;
+            if(Delta == "")
+                Delta = "0"
+                    ;
             decimal DeltaDecimal = decimal.Parse(Delta);
             if (DeltaDecimal > 0)
             {
@@ -2669,6 +2685,9 @@ namespace Saving_Accelerator_Tool
             nTB_Percent.TextChanged += CalcAfterChange_TextChanged;
 
             Label nTB_Calc = (Label)mainProgram.TabControl.Controls.Find("Lab_Calc" + counter.ToString(), true).First();
+            if (STKCal == "")
+                STKCal = "0";
+
             nTB_Calc.Text = STKCal;
             if (decimal.Parse(nTB_Calc.Text) > 0)
             {

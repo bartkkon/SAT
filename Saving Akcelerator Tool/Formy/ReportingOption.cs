@@ -13,22 +13,24 @@ namespace Saving_Accelerator_Tool
     public partial class ReportingOption : Form
     {
         Data_Import ImportData;
+        MainProgram mainProgram;
 
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool>();
         private readonly Dictionary<string, bool> AkcjeApprove = new Dictionary<string, bool>();
 
         decimal Year;
 
-        public ReportingOption(Data_Import ImportData)
+        public ReportingOption(MainProgram mainProgram, Data_Import ImportData, decimal YearToAdd)
         {
             InitializeComponent();
+            this.mainProgram = mainProgram;
             this.ImportData = ImportData;
 
             this.Name = "Choose your Report";
             TopSummary();
             ((Label)this.Controls.Find("Lab_InfoTop", true).First()).Text = "Personalize your report";
 
-            PersonalizeRaport();
+            PersonalizeRaport(YearToAdd);
         }
 
         //Dodawanie Panelu Top w Oknie.
@@ -64,7 +66,7 @@ namespace Saving_Accelerator_Tool
         }
 
         //Personalizwoanie raportu
-        private void PersonalizeRaport()
+        private void PersonalizeRaport(decimal YearToAdd)
         {
             GroupBox Personalize = new GroupBox
             {
@@ -75,7 +77,7 @@ namespace Saving_Accelerator_Tool
             };
             this.Controls.Add(Personalize);
 
-            Status(Personalize);
+            Status(Personalize, YearToAdd);
 
             Devision(Personalize);
 
@@ -91,11 +93,11 @@ namespace Saving_Accelerator_Tool
 
             ActionDes(Personalize);
 
-            CalcBy(Personalize);
+            CalcBy(Personalize, YearToAdd);
         }
 
-        // Wybranie rku i czy akcje mają być z danego roku plus carry over czy nie 
-        private void Status(GroupBox Personalize)
+        // Wybranie roku i czy akcje mają być z danego roku plus carry over czy nie 
+        private void Status(GroupBox Personalize, decimal YearToCalc)
         {
             GroupBox groupBox = new GroupBox
             {
@@ -131,7 +133,7 @@ namespace Saving_Accelerator_Tool
             0,
             0,
             0}),
-                Value = DateTime.Today.Year,
+                Value = YearToCalc,
             };
             groupBox.Controls.Add(Year);
 
@@ -235,7 +237,7 @@ namespace Saving_Accelerator_Tool
                 AutoSize = true,
                 Name = "CB_Idea",
                 Text = "Idea",
-                Checked = true,
+                Checked = false,
             };
             groupBox.Controls.Add(Negative_Action);
         }
@@ -611,7 +613,7 @@ namespace Saving_Accelerator_Tool
         }
 
         //Jak mają być brane dane do Kalkulacji
-        private void CalcBy(GroupBox Personalize)
+        private void CalcBy(GroupBox Personalize, decimal YearToCalc)
         {
             GroupBox groupBox = new GroupBox
             {
@@ -631,6 +633,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Actual",
                 Checked = true,
             };
+            Actual.CheckedChanged += new EventHandler(CalcBy_Rewizion_CheckedChange);
             groupBox.Controls.Add(Actual);
 
             CheckBox BU = new CheckBox
@@ -681,6 +684,14 @@ namespace Saving_Accelerator_Tool
             EA3.CheckedChanged += new EventHandler(CalcBy_Rewizion_CheckedChange);
             groupBox.Controls.Add(EA3);
 
+            if (YearToCalc > DateTime.Now.Year)
+            {
+                BU.Checked = true;
+            }
+            else if (YearToCalc < DateTime.Now.Year)
+            {
+                Actual.Checked = true;
+            }
         }
 
         //Zapamiętanie do Dictionary wyborów użytkowaika
@@ -955,9 +966,7 @@ namespace Saving_Accelerator_Tool
             DataGridViewRow AllActionRow;
             string Link;
             int Index;
-            int Month = 0 ;
-
-            CalcAction = Action.Clone();
+            int Month = 0;
 
             Link = ImportData.Load_Link("History");
             ImportData.Load_TxtToDataTable(ref Action, Link);
@@ -966,6 +975,8 @@ namespace Saving_Accelerator_Tool
             ImportData.Load_TxtToDataTable(ref Frozen, Link);
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
+
+            CalcAction = Action.Clone();
 
             for (int counter = 12; counter > 1; counter--)
             {
@@ -1001,7 +1012,7 @@ namespace Saving_Accelerator_Tool
                 {
                     AllAction = Action.Select(string.Format("History LIKE '%{0}%'", "EA2/" + Year.ToString())).ToArray();
                 }
-                else if(Preferencje["EA3"])
+                else if (Preferencje["EA3"])
                 {
                     AllAction = Action.Select(string.Format("History LIKE '%{0}%'", "EA3/" + Year.ToString())).ToArray();
                 }
@@ -1013,14 +1024,11 @@ namespace Saving_Accelerator_Tool
 
             if (AllAction != null)
             {
-                CalcAction.Rows.Add(AllAction);
-
-
-                foreach (DataRow ActionRow in CalcAction.Rows)
+                foreach (DataRow ActionRow in AllAction)
                 {
                     if (Preferencje["Current Action"])
                     {
-                        if (ActionRow["StartYear"].ToString() == Year.ToString() || ActionRow["StartYear"].ToString() == "BU/" + Year.ToString())
+                        if (ActionRow["StartYear"].ToString() == Year.ToString() || (ActionRow["StartYear"].ToString() == "BU/" + Year.ToString() && !Preferencje["Actual"]))
                         {
                             if (Preferencje["Electronic"] && ActionRow["Group"].ToString() == "Electronic")
                             {
@@ -1128,57 +1136,60 @@ namespace Saving_Accelerator_Tool
                     {
                         if (ActionRow["StartYear"].ToString() == (Year - 1).ToString())
                         {
-                            if (Preferencje["Electronic"] && ActionRow["Group"].ToString() == "Electronic")
+                            if (ActionRow["StartMonth"].ToString() != "January")
                             {
-                                if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
+                                if (Preferencje["Electronic"] && ActionRow["Group"].ToString() == "Electronic")
                                 {
-                                    if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
                                     {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
-                                    }
-                                    else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
-                                    {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
+                                        else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
                                     }
                                 }
-                            }
-                            if (Preferencje["Mechanic"] && ActionRow["Group"].ToString() == "Mechanic")
-                            {
-                                if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
+                                if (Preferencje["Mechanic"] && ActionRow["Group"].ToString() == "Mechanic")
                                 {
-                                    if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
                                     {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
-                                    }
-                                    else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
-                                    {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
+                                        else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
                                     }
                                 }
-                            }
-                            if (Preferencje["NVR"] && ActionRow["Group"].ToString() == "NVR")
-                            {
-                                if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
+                                if (Preferencje["NVR"] && ActionRow["Group"].ToString() == "NVR")
                                 {
-                                    if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    if (Preferencje["Active"] && ActionRow["Status"].ToString() == "Active")
                                     {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
-                                    }
-                                    else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
-                                    {
-                                        Index = Actions.Rows.Add();
-                                        AllActionRow = Actions.Rows[Index];
-                                        AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        if (Preferencje["Positive"] && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
+                                        else if (Preferencje["Negative"] && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                        {
+                                            Index = Actions.Rows.Add();
+                                            AllActionRow = Actions.Rows[Index];
+                                            AllActionRow = AddRowToTable(AllActionRow, ActionRow, "Carry Over");
+                                        }
                                     }
                                 }
                             }
@@ -1284,50 +1295,67 @@ namespace Saving_Accelerator_Tool
             }
             else if (Click.Text == "Genereted")
             {
+                Cursor.Current = Cursors.WaitCursor;
                 ActionToDictionary();
-                MultiRaport CreateRaport = new MultiRaport(ImportData, AkcjeApprove, Preferencje, Year);
+                MultiRaport CreateRaport = new MultiRaport(mainProgram, ImportData, AkcjeApprove, Preferencje, Year);
                 CreateRaport.GeneretedMutliRaport();
+                Cursor.Current = Cursors.Default;
+                this.Close();
             }
         }
 
         private void CalcBy_Rewizion_CheckedChange(object sender, EventArgs e)
         {
             CheckBox Check = sender as CheckBox;
+            CheckBox Actual = (CheckBox)this.Controls.Find("CB_Actual", true).First();
             CheckBox BU = (CheckBox)this.Controls.Find("CB_CalcBU", true).First();
             CheckBox EA1 = (CheckBox)this.Controls.Find("CB_CalcEA1", true).First();
             CheckBox EA2 = (CheckBox)this.Controls.Find("CB_CalcEA2", true).First();
             CheckBox EA3 = (CheckBox)this.Controls.Find("CB_CalcEA3", true).First();
 
+            Actual.CheckedChanged -= CalcBy_Rewizion_CheckedChange;
             BU.CheckedChanged -= CalcBy_Rewizion_CheckedChange;
             EA1.CheckedChanged -= CalcBy_Rewizion_CheckedChange;
             EA2.CheckedChanged -= CalcBy_Rewizion_CheckedChange;
             EA3.CheckedChanged -= CalcBy_Rewizion_CheckedChange;
 
+            if (Check.Text == "Actual")
+            {
+                BU.Checked = false;
+                EA1.Checked = false;
+                EA2.Checked = false;
+                EA3.Checked = false;
+            }
             if (Check.Text == "BU")
             {
+                Actual.Checked = false;
                 EA1.Checked = false;
                 EA2.Checked = false;
                 EA3.Checked = false;
             }
             else if (Check.Text == "EA1")
             {
+                Actual.Checked = false;
                 BU.Checked = false;
                 EA2.Checked = false;
                 EA3.Checked = false;
             }
             else if (Check.Text == "EA2")
             {
+                Actual.Checked = false;
                 BU.Checked = false;
                 EA1.Checked = false;
                 EA3.Checked = false;
             }
             else if (Check.Text == "EA3")
             {
+                Actual.Checked = false;
                 BU.Checked = false;
                 EA1.Checked = false;
                 EA2.Checked = false;
             }
 
+            Actual.CheckedChanged += CalcBy_Rewizion_CheckedChange;
             BU.CheckedChanged += CalcBy_Rewizion_CheckedChange;
             EA1.CheckedChanged += CalcBy_Rewizion_CheckedChange;
             EA2.CheckedChanged += CalcBy_Rewizion_CheckedChange;

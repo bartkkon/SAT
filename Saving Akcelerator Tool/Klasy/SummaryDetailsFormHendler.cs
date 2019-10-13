@@ -668,10 +668,15 @@ namespace Saving_Accelerator_Tool
 
         public void PCRaport_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            PCRaports_Genereted genereted = new PCRaports_Genereted(mainProgram, data_Import);
-            genereted.Genereted_PCRaport();
-            Cursor.Current = Cursors.Default;
+            //Cursor.Current = Cursors.WaitCursor;
+            //PCRaports_Genereted genereted = new PCRaports_Genereted(mainProgram, data_Import);
+            //genereted.Genereted_PCRaport();
+            //Cursor.Current = Cursors.Default;
+
+            NumericUpDown YearToCalc = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
+
+            ReportingOption Report = new ReportingOption(mainProgram, data_Import, YearToCalc.Value);
+            Report.ShowDialog();
         }
     }
 }

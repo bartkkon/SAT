@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Saving_Accelerator_Tool
 {
-    class ANC
+    class PNCSpec
     {
         Data_Import ImportData;
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool> { };
@@ -28,20 +28,17 @@ namespace Saving_Accelerator_Tool
             {"December",12},
         };
 
-        public ANC(Data_Import ImportData, Dictionary<string, bool> Preferencje)
+        public PNCSpec(Data_Import ImportData, Dictionary<string, bool> Preferencje)
         {
             this.Preferencje = Preferencje;
             this.ImportData = ImportData;
         }
-        public void PrepareANC(DataRow ActionRow, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
+
+        public void PrepareANCSpec(DataRow ActionRow, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
         {
             DataRow RowtoAdd = Devision.NewRow();
-            bool OnlyOneRow = false;
 
             string[] IDCO = IDCOAction(ActionRow);
-
-            if (ActionRow["IloscANC"].ToString() == "1")
-                OnlyOneRow = true;
 
             RowtoAdd["Name"] = ActionRow["Name"];
 
@@ -54,29 +51,19 @@ namespace Saving_Accelerator_Tool
             if (Preferencje["Platform"])
                 RowtoAdd["Platform"] = ActionRow["Platform"];
 
-            if (Preferencje["Minimum"] || OnlyOneRow)
+            if (Preferencje["Minimum"])
             {
                 AddMinimum(ref RowtoAdd, ActionRow, MonthEnd, CarryOver, Status, IDCO);
                 Devision.Rows.Add(RowtoAdd);
             }
-            else if (Preferencje["Medium"] || Preferencje["Maximum"])
+            else if (Preferencje["Medium"])
             {
-                AddMediumMaximum(ref RowtoAdd, ActionRow, ref Devision, MonthEnd, CarryOver, Status);
+                AddMedium(ref RowtoAdd, ActionRow, ref Devision, MonthEnd, CarryOver, Status);
             }
-
-        }
-
-        private DataRow FindAction(DataTable Action, string Name)
-        {
-            foreach (DataRow ActionRow in Action.Rows)
+            else if (Preferencje["Maximum"])
             {
-                if (ActionRow["Name"].ToString() == Name)
-                {
-                    return ActionRow;
-                }
+                AddMaximum(ref RowtoAdd, ActionRow, ref Devision, MonthEnd, CarryOver, Status);
             }
-
-            return null;
         }
 
         private string[] IDCOAction(DataRow ActionRow)
@@ -141,29 +128,30 @@ namespace Saving_Accelerator_Tool
             else
                 YearAction = decimal.Parse(ActionRow["StartYear"].ToString().Remove(0, 3));
 
+
             if (Preferencje["Old ANC"])
             {
                 if (Preferencje["ANC Old"])
-                    RowtoAdd["ANC Old"] = ActionRow["Old ANC"].ToString().Replace("|", "");
+                    RowtoAdd["ANC Old"] = ActionRow["Old ANC"];
 
                 if (Preferencje["Old IDCO"])
                     if (IDCO != null)
                         RowtoAdd["Old IDCO"] = IDCO[0];
 
                 if (Preferencje["Old STK"])
-                    RowtoAdd["Old STK"] = ActionRow["Old STK"].ToString().Replace("|", "");
+                    RowtoAdd["Old STK"] = ActionRow["Old STK"];
             }
             if (Preferencje["New ANC"])
             {
                 if (Preferencje["ANC New"])
-                    RowtoAdd["ANC New"] = ActionRow["New ANC"].ToString().Replace("|", "");
+                    RowtoAdd["ANC New"] = ActionRow["New ANC"];
 
                 if (Preferencje["New IDCO"])
                     if (IDCO != null)
                         RowtoAdd["New IDCO"] = IDCO[1];
 
                 if (Preferencje["New STK"])
-                    RowtoAdd["New STK"] = ActionRow["New STK"].ToString().Replace("|", "");
+                    RowtoAdd["New STK"] = ActionRow["New STK"];
             }
 
             if (Preferencje["Delta"])
@@ -228,8 +216,8 @@ namespace Saving_Accelerator_Tool
 
                     for (int counter = 1; counter < RevStart; counter++)
                     {
-                        if (Help[counter - 1] != "")
-                            RowtoAdd["Q" + counter] = double.Parse(Help[counter - 1]);
+                        if(Help[counter-1] != "")
+                        RowtoAdd["Q" + counter] = double.Parse(Help[counter - 1]);
                     }
 
                     if (!CarryOver)
@@ -453,7 +441,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private void AddMediumMaximum(ref DataRow RowtoAdd, DataRow Rewizion, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
+        private void AddMedium(ref DataRow RowtoAdd, DataRow Rewizion, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
         {
             int Monthstart = Month[Rewizion["StartMonth"].ToString()];
             decimal YearAction;
@@ -470,11 +458,14 @@ namespace Saving_Accelerator_Tool
             string[] NEWSTK;
             string[] Delta;
             string[] Next;
+            string[] Calc;
+            string[] PNC;
             bool NewtoCalc = false;
             decimal[] Quantity = new decimal[12];
             string over = "";
             int Start = 1;
             int Finish = 0;
+            int CounterPNC = 0;
             DataTable PerANCUSE = new DataTable();
             DataTable PerANCRew = new DataTable();
 
@@ -527,9 +518,272 @@ namespace Saving_Accelerator_Tool
             NEWSTK = Rewizion["New STK"].ToString().Split('|');
             Next = Rewizion["Next"].ToString().Split('|');
 
+            //if (YearAction == DateTime.Now.Year)
+            //{
+            //    if (Monthstart < MonthEnd)
+            //    {
+            //        Delta = Rewizion["Delta"].ToString().Split('|');
+            //        NewtoCalc = true;
+            //    }
+            //    else
+            //    {
+            //        Delta = Rewizion["STKCal"].ToString().Split('|');
+            //        NewtoCalc = false;
+            //    }
+            //}
+            //else if (YearAction < DateTime.Now.Year)
+            //{
+            //    Delta = Rewizion["Delta"].ToString().Split('|');
+            //    NewtoCalc = true;
+            //}
+            //else
+            //{
+            //    Delta = Rewizion["STKCal"].ToString().Split('|');
+            //    NewtoCalc = false;
+            //}
+            if (Preferencje["ECCC"])
+            {
+                string[] Help;
+                if (Rewizja != "Actual")
+                {
+                    if (!CarryOver)
+                    {
+                        Help = Rewizion["CalcUSEECCC"].ToString().Split('/');
+                    }
+                    else
+                    {
+                        Help = Rewizion["CalcUSEECCCCarry"].ToString().Split('/');
+                    }
+
+                    for (int counter = 1; counter < RevStart; counter++)
+                    {
+                        if(Help[counter-1] !="")
+                        RowtoAdd["E" + counter] = double.Parse(Help[counter - 1]);
+                    }
+
+                    if (!CarryOver)
+                    {
+                        Help = Rewizion["Calc" + Rewizja + "ECCC"].ToString().Split('/');
+                    }
+                    else
+                    {
+                        Help = Rewizion["Calc" + Rewizja + "ECCCCarry"].ToString().Split('/');
+                    }
+
+                    for (int counter = RevStart; counter <= 12; counter++)
+                    {
+                        if (Help[counter - 1] != "")
+                            RowtoAdd["E" + counter] = double.Parse(Help[counter - 1]);
+                    }
+                }
+                else
+                {
+
+                    if (!CarryOver)
+                    {
+                        Help = Rewizion["CalcUSEECCC"].ToString().Split('/');
+                    }
+                    else
+                    {
+                        Help = Rewizion["CalcUSEECCCCarry"].ToString().Split('/');
+                    }
+
+                    for (int counter = 1; counter <= MonthEnd; counter++)
+                    {
+                        if (Help[counter - 1] != "")
+                            RowtoAdd["E" + counter] = double.Parse(Help[counter - 1]);
+                    }
+                }
+
+                double sum = 0;
+                for (int counter = 1; counter < 13; counter++)
+                {
+                    if (RowtoAdd["E" + counter.ToString()].ToString() != "")
+                    {
+                        sum = sum + double.Parse(RowtoAdd["E" + counter.ToString()].ToString());
+                    }
+                }
+                RowtoAdd["E13"] = sum;
+            }
+
+            Devision.Rows.Add(RowtoAdd);
+
+            PNC = Rewizion["PNC"].ToString().Split('|');
+            Calc= Rewizion["PNCSumSTK"].ToString().Split('|');
+            Delta = Rewizion["PNCSumDelta"].ToString().Split('|');
+
+            foreach (string PNCOne in PNC)
+            {
+                if (PNCOne != "")
+                {
+                    DataRow PNCRow = Devision.NewRow();
+                    if (Preferencje["ANC Old"])
+                        PNCRow["ANC Old"] = PNCOne;
+                    else if (Preferencje["ANC New"])
+                        PNCRow["ANC New"] = PNCOne;
+
+                    string[] CalcPNC = Calc[CounterPNC].Split(':');
+                    if (Preferencje["Old STK"])
+                        PNCRow["Old STK"] = CalcPNC[0];
+                    if(Preferencje["New STK"])
+                        PNCRow["New STK"] = CalcPNC[1];
+
+                    if (Preferencje["Delta"])
+                        PNCRow["Delta"] = Delta[CounterPNC];
+
+                    CounterPNC++;
+
+                    if (PerANCUSE.Rows.Count != 0)
+                    {
+                        DataRow PNCActual = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", PNCOne)).FirstOrDefault();
+                        if (PNCActual != null)
+                        {
+                            for (int counter2 = Start; counter2 <= Finish; counter2++)
+                            {
+                                string[] Help = PNCActual[counter2.ToString()].ToString().Split(':');
+
+                                if (Help[0] != "")
+                                {
+                                    if (Preferencje["Quantity"])
+                                        PNCRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString());
+                                    if (Preferencje["Savings"])
+                                        PNCRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString());
+                                }
+                            }
+                        }
+                    }
+                    if (!Preferencje["Actual"])
+                    {
+                        DataRow PNCRew = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", PNCOne)).FirstOrDefault();
+                        if (PNCRew != null)
+                        {
+                            for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
+                            {
+                                string[] Help = PNCRew[counter2.ToString()].ToString().Split(':');
+
+                                if (Help[0] != "")
+                                {
+                                    if (Preferencje["Quantity"])
+                                        PNCRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString());
+                                    if (Preferencje["Savings"])
+                                        PNCRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString());
+                                }
+                            }
+                        }
+                    }
+
+                    double sum = 0;
+                    if (Preferencje["Quantity"])
+                    {
+                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                        {
+                            if (PNCRow["Q" + counter2.ToString()].ToString() != "")
+                                sum = sum + double.Parse(PNCRow["Q" + counter2.ToString()].ToString());
+                        }
+                        PNCRow["Q13"] = sum;
+                        sum = 0;
+                    }
+                    if (Preferencje["Savings"])
+                    {
+                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                        {
+                            if (PNCRow["S" + counter2.ToString()].ToString() != "")
+                                sum = sum + double.Parse(PNCRow["S" + counter2.ToString()].ToString());
+                        }
+                        PNCRow["S13"] = sum;
+                        sum = 0;
+                    }
+                    Devision.Rows.Add(PNCRow);
+                }
+            }
+
+        }
+
+        private void AddMaximum(ref DataRow RowtoAdd, DataRow Rewizion, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
+        {
+            int Monthstart = Month[Rewizion["StartMonth"].ToString()];
+            decimal YearAction;
+            if (Rewizion["StartYear"].ToString().Length == 4)
+                YearAction = decimal.Parse(Rewizion["StartYear"].ToString());
+            else
+                YearAction = decimal.Parse(Rewizion["StartYear"].ToString().Remove(0, 3));
+            string Rewizja = "";
+            int RevStart = 0;
+            int RefFinish = 12;
+            string[] OldANC;
+            string[] NewANC;
+            string[] OLDSTK;
+            string[] NEWSTK;
+            string[] Delta;
+            string[] ANCSpec;
+            string[] STKSpec;
+            string[] DeltaSpec;
+            string[] Next;
+            string[] Calc;
+            string[] PNC;
+            bool NewtoCalc = false;
+            decimal[] Quantity = new decimal[12];
+            string over = "";
+            int Start = 1;
+            int Finish = 0;
+            DataTable PerANCUSE = new DataTable();
+            DataTable PerANCRew = new DataTable();
+
+            if (CarryOver)
+                over = "Carry";
+
+            CreateColumnPerANC("USE", PerANCUSE);
+            PerANC_PNCToTable(Rewizion, "USE", ref PerANCUSE, over, 1);
+
+
+            if (Preferencje["Actual"])
+            {
+                Finish = 12;
+                RevStart = 0;
+                RefFinish = 0;
+            }
+            else if (Preferencje["BU"])
+            {
+                RevStart = 0;
+                Finish = 0;
+                CreateColumnPerANC("BU", PerANCRew);
+                PerANC_PNCToTable(Rewizion, "BU", ref PerANCRew, over, 1);
+            }
+            else if (Preferencje["EA1"])
+            {
+                RevStart = 3;
+                Finish = 2;
+                CreateColumnPerANC("EA1", PerANCRew);
+                PerANC_PNCToTable(Rewizion, "EA1", ref PerANCRew, over, 3);
+            }
+            else if (Preferencje["EA2"])
+            {
+                RevStart = 6;
+                Finish = 5;
+                CreateColumnPerANC("EA2", PerANCRew);
+                PerANC_PNCToTable(Rewizion, "EA2", ref PerANCRew, over, 6);
+            }
+            else if (Preferencje["EA3"])
+            {
+                RevStart = 9;
+                Finish = 8;
+                CreateColumnPerANC("EA3", PerANCRew);
+                PerANC_PNCToTable(Rewizion, "EA3", ref PerANCRew, over, 9);
+            }
+
+
+            OldANC = Rewizion["Old ANC"].ToString().Split('|');
+            NewANC = Rewizion["New ANC"].ToString().Split('|');
+            OLDSTK = Rewizion["Old STK"].ToString().Split('|');
+            NEWSTK = Rewizion["New STK"].ToString().Split('|');
+            ANCSpec = Rewizion["PNC/ANC"].ToString().Split('|');
+            STKSpec = Rewizion["PNCSTK"].ToString().Split('|');
+            DeltaSpec = Rewizion["PNCDelta"].ToString().Split('|');
+            Next = Rewizion["Next"].ToString().Split('|');
+
             if (YearAction == DateTime.Now.Year)
             {
-                if (Monthstart < DateTime.Now.Month)
+                if (Monthstart < MonthEnd)
                 {
                     Delta = Rewizion["Delta"].ToString().Split('|');
                     NewtoCalc = true;
@@ -566,8 +820,8 @@ namespace Saving_Accelerator_Tool
 
                     for (int counter = 1; counter < RevStart; counter++)
                     {
-                        if (Help[counter - 1] != "")
-                            RowtoAdd["E" + counter] = double.Parse(Help[counter - 1]);
+                        if(Help[counter-1] != "")
+                        RowtoAdd["E" + counter] = double.Parse(Help[counter - 1]);
                     }
 
                     if (!CarryOver)
@@ -650,160 +904,124 @@ namespace Saving_Accelerator_Tool
                     NewRow["Delta"] = Delta[counter];
                 }
 
-                if (Preferencje["Actual"])
-                {
-                    if (NewANC[counter] != "")
-                    {
-
-                        for (int counter2 = Start; counter2 <= Finish; counter2++)
-                        {
-                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
-
-                            if (ANC != null)
-                            {
-                                string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-                                if (Help[0] != "")
-                                {
-                                    if (Preferencje["Quantity"])
-                                        if (Help[0] != "")
-                                            NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
-                                    if (Preferencje["Savings"])
-                                        if (Help[1] != "")
-                                            NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
-                                }
-                            }
-                        }
-
-                    }
-                    if (Next[counter] != "")
-                    {
-
-                        for (int counter2 = Start; counter2 <= Finish; counter2++)
-                        {
-                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
-
-                            if (ANC != null)
-                            {
-                                string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-
-                                if (Help[0] != "")
-                                {
-                                    if (Preferencje["Quantity"])
-                                        if (Help[0] != "")
-                                            NewRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString()) + double.Parse(NewRow["Q" + counter2.ToString()].ToString());
-                                    if (Preferencje["Savings"])
-                                        if (Help[1] != "")
-                                            NewRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString()) + double.Parse(NewRow["S" + counter2.ToString()].ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (!NewtoCalc)
-                    {
-                        if (OldANC[counter] != "")
-                        {
-                            DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", OldANC[counter])).First();
-
-                            if (ANC != null)
-                            {
-                                for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
-                                {
-                                    string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-
-                                    if (Help[0] != "")
-                                    {
-                                        if (Preferencje["Quantity"])
-                                            if (Help[0] != "")
-                                                NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
-                                        if (Preferencje["Savings"])
-                                            if (Help[1] != "")
-                                                NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (NewANC[counter] != "")
-                        {
-
-                            for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
-                            {
-                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
-
-                                if (ANC != null)
-                                {
-                                    string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-                                    if (Help[0] != "")
-                                    {
-                                        if (Preferencje["Quantity"])
-                                            if (Help[0] != "")
-                                                NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
-                                        if (Preferencje["Savings"])
-                                            if (Help[1] != "")
-                                                NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
-                                    }
-                                }
-                            }
-
-                        }
-                        if (Next[counter] != "")
-                        {
-
-                            for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
-                            {
-                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
-
-                                if (ANC != null)
-                                {
-                                    string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-
-                                    if (Help[0] != "")
-                                    {
-                                        if (Preferencje["Quantity"])
-                                            if (Help[0] != "")
-                                                NewRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString()) + double.Parse(NewRow["Q" + counter2.ToString()].ToString());
-                                        if (Preferencje["Savings"])
-                                            if (Help[1] != "")
-                                                NewRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString()) + double.Parse(NewRow["S" + counter2.ToString()].ToString());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                double sum = 0;
-                if (Preferencje["Quantity"])
-                {
-                    for (int counter2 = 1; counter2 <= 12; counter2++)
-                    {
-                        if (NewRow["Q" + counter2.ToString()].ToString() != "")
-                            sum = sum + double.Parse(NewRow["Q" + counter2.ToString()].ToString());
-                    }
-                    NewRow["Q13"] = sum;
-                    sum = 0;
-                }
-                if (Preferencje["Savings"])
-                {
-                    for (int counter2 = 1; counter2 <= 12; counter2++)
-                    {
-                        if (NewRow["S" + counter2.ToString()].ToString() != "")
-                            sum = sum + double.Parse(NewRow["S" + counter2.ToString()].ToString());
-                    }
-                    NewRow["S13"] = sum;
-                    sum = 0;
-                }
-
-
                 Devision.Rows.Add(NewRow);
             }
 
-        }
+            PNC = Rewizion["PNC"].ToString().Split('|');
 
+            foreach (string PNCOne in PNC)
+            {
+                if (PNCOne != "")
+                {
+                    DataRow PNCRow = Devision.NewRow();
+                    if (Preferencje["ANC Old"])
+                        PNCRow["ANC Old"] = PNCOne;
+                    else if (Preferencje["ANC New"])
+                        PNCRow["ANC New"] = PNCOne;
+                    if (PerANCUSE.Rows.Count != 0)
+                    {
+                        DataRow PNCActual = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", PNCOne)).First();
+                        if (PNCActual != null)
+                        {
+                            for (int counter2 = Start; counter2 <= Finish; counter2++)
+                            {
+                                string[] Help = PNCActual[counter2.ToString()].ToString().Split(':');
+
+                                if (Help[0] != "")
+                                {
+                                    if (Preferencje["Quantity"])
+                                        PNCRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString());
+                                    if (Preferencje["Savings"])
+                                        PNCRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString());
+                                }
+                            }
+                        }
+                    }
+                    if (!Preferencje["Actual"])
+                    {
+                        DataRow PNCRew = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", PNCOne)).First();
+                        if (PNCRew != null)
+                        {
+                            for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
+                            {
+                                string[] Help = PNCRew[counter2.ToString()].ToString().Split(':');
+
+                                if (Help[0] != "")
+                                {
+                                    if (Preferencje["Quantity"])
+                                        PNCRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString());
+                                    if (Preferencje["Savings"])
+                                        PNCRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString());
+                                }
+                            }
+                        }
+                    }
+                    double sum = 0;
+                    if (Preferencje["Quantity"])
+                    {
+                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                        {
+                            if (PNCRow["Q" + counter2.ToString()].ToString() != "")
+                                sum = sum + double.Parse(PNCRow["Q" + counter2.ToString()].ToString());
+                        }
+                        PNCRow["Q13"] = sum;
+                        sum = 0;
+                    }
+                    if (Preferencje["Savings"])
+                    {
+                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                        {
+                            if (PNCRow["S" + counter2.ToString()].ToString() != "")
+                                sum = sum + double.Parse(PNCRow["S" + counter2.ToString()].ToString());
+                        }
+                        PNCRow["S13"] = sum;
+                        sum = 0;
+                    }
+                    Devision.Rows.Add(PNCRow);
+
+                    string[] ANCSpecHelp = ANCSpec[PNCOne.IndexOf(PNCOne)].ToString().Split('/');
+                    string[] STKSpecHelp = STKSpec[PNCOne.IndexOf(PNCOne)].ToString().Split('/');
+                    string[] DeltaSpecHelp = DeltaSpec[PNCOne.IndexOf(PNCOne)].ToString().Split('/');
+                    for (int counter3 = 0; counter3< ANCSpecHelp.Length-1; counter3++)
+                    {
+                        string[] ANCSpecHelp2 = ANCSpecHelp[counter3].Split(':');
+                        string[] STKSpecHelp2 = STKSpecHelp[counter3].Split(':');
+                        
+                        DataRow PNCSpecANCRow = Devision.NewRow();
+                        if (Preferencje["Old ANC"])
+                        {
+                            if (Preferencje["ANC Old"])
+                                PNCSpecANCRow["ANC Old"] = ANCSpecHelp2[0];
+
+                            if (Preferencje["Old IDCO"])
+                                if (IDCOTabela.ContainsKey(ANCSpecHelp2[0].ToString()))
+                                    PNCSpecANCRow["Old IDCO"] = IDCOTabela[ANCSpecHelp2[0].ToString()];
+
+                            if (Preferencje["Old STK"])
+                                PNCSpecANCRow["Old STK"] = STKSpecHelp2[0];
+                        }
+                        if (Preferencje["New ANC"])
+                        {
+                            if (Preferencje["ANC New"])
+                                PNCSpecANCRow["ANC New"] = ANCSpecHelp2[1];
+
+                            if (Preferencje["New IDCO"])
+                                if (IDCOTabela.ContainsKey(ANCSpecHelp2[1].ToString()))
+                                    PNCSpecANCRow["New IDCO"] = IDCOTabela[ANCSpecHelp2[1].ToString()];
+
+                            if (Preferencje["New STK"])
+                                PNCSpecANCRow["New STK"] = STKSpecHelp2[1];
+                        }
+                        if(Preferencje["Delta"])
+                        {
+                            PNCSpecANCRow["Delta"] = DeltaSpecHelp[counter3];
+                        }
+
+                        Devision.Rows.Add(PNCSpecANCRow);
+                    }
+                }
+            }
+        }
         private double Delta(string DeltaToCalc)
         {
             double DeltaSum = 0;
@@ -818,87 +1036,6 @@ namespace Saving_Accelerator_Tool
             }
 
             return DeltaSum;
-        }
-
-        private string[] CalculationUSEANC(int Month, decimal YearToCalc, ref DataRow Action, ref DataTable QuantityANCTableMonth, string ANC, string ANCNext, string Delta)
-        {
-            DataTable QuantityANCTable = new DataTable();
-            DataRow QuantityRow;
-            decimal QuantityANC = 0;
-            decimal Savings = 0;
-            decimal DeltaCost;
-            string[] Results = new string[2];
-
-
-
-            //Znalezienie ilości do odpowiednich ANC
-            if (ANC != "")
-            {
-                QuantityRow = QuantityANCTableMonth.Select(string.Format("ANC LIKE '%{0}%'", ANC)).FirstOrDefault();
-                QuantityANC = decimal.Parse(QuantityRow[Month.ToString() + "/" + YearToCalc.ToString()].ToString());
-
-            }
-            if (ANCNext != "")
-            {
-                QuantityRow = QuantityANCTableMonth.Select(string.Format("ANC LIKE '%{0}%'", ANCNext)).FirstOrDefault();
-                QuantityANC = QuantityANC + decimal.Parse(QuantityRow[Month.ToString() + "/" + YearToCalc.ToString()].ToString());
-            }
-
-
-            //Sprawdza i wylicza Saving odpowiedni czy akcja już weszła czy jeszcze nie 
-            DeltaCost = decimal.Parse(Delta);
-            Savings = (QuantityANC * DeltaCost);
-            Savings = Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
-
-            Results[0] = QuantityANC.ToString();
-            Results[1] = Savings.ToString();
-
-            return Results;
-        }
-
-        private string[] CalculationANC(int Month, string Revision, ref DataRow Action, ref DataTable QuantityANCTableRewizion, string ANC, string ANCNext, string Delta)
-        {
-            DataTable QuantityANCTable = new DataTable();
-            DataRow QuantityRow;
-            decimal Quantity = 0;
-            decimal QuantityANC = 0;
-            decimal Savings = 0;
-            decimal DeltaCost;
-            decimal QuantityPercent;
-            string[] Results = new string[2];
-
-            string[] Help;
-            //int RevisionStart = RevisionStartMonth[Revision];
-
-            Help = Action["Percent"].ToString().Split('|');
-
-            QuantityPercent = decimal.Parse(Help[0]) / 100;
-
-            if (ANC != "")
-            {
-                QuantityRow = QuantityANCTableRewizion.Select(string.Format("BUANC LIKE '%{0}%'", ANC)).FirstOrDefault();
-                QuantityANC = decimal.Parse(QuantityRow[Month.ToString()].ToString()) * QuantityPercent;
-            }
-            if (ANCNext != "")
-            {
-                QuantityRow = QuantityANCTableRewizion.Select(string.Format("BUANC LIKE '%{0}%'", ANCNext)).FirstOrDefault();
-                QuantityANC = QuantityANC + (decimal.Parse(QuantityRow[Month.ToString()].ToString()) * QuantityPercent);
-            }
-
-
-            //Dodanie Ilości nadego ANC dla Quantity wykorzystywanego w danym miesiącu 
-            Quantity = QuantityANC;
-
-            //Sprawdza i wylicza Saving odpowiedni czy akcja już weszła czy jeszcze nie 
-
-            DeltaCost = decimal.Parse(Delta);
-            Savings = (QuantityANC * DeltaCost);
-            Savings = Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
-
-            Results[0] = QuantityANC.ToString();
-            Results[1] = Savings.ToString();
-
-            return Results;
         }
 
         private void CreateColumnPerANC(string Rew, DataTable Table)

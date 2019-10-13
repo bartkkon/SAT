@@ -675,44 +675,52 @@ namespace Saving_Accelerator_Tool
 
             if (FrozenYear != null)
             {
-                if (Month < 3)
+                if (Num_Year.Value == DateTime.Now.Year + 1)
                 {
                     Rewizion = "BU";
+                    Month = 1;
                 }
-                if (Month >= 3 && Month < 6)
+                else
                 {
-                    if (FrozenYear["EA1"].ToString() == "Approve" || FrozenYear["EA1"].ToString() == "Open")
-                    {
-                        Rewizion = "EA1";
-                    }
-                    else
+                    if (Month < 3)
                     {
                         Rewizion = "BU";
                     }
+                    if (Month >= 3 && Month < 6)
+                    {
+                        if (FrozenYear["EA1"].ToString() == "Approve" || FrozenYear["EA1"].ToString() == "Open")
+                        {
+                            Rewizion = "EA1";
+                        }
+                        else
+                        {
+                            Rewizion = "BU";
+                        }
 
-                }
-                if (Month >= 6 && Month < 9)
-                {
-                    if (FrozenYear["EA2"].ToString() == "Approve" || FrozenYear["EA2"].ToString() == "Open")
-                    {
-                        Rewizion = "EA2";
                     }
-                    else
+                    if (Month >= 6 && Month < 9)
                     {
-                        Rewizion = "EA1";
-                    }
+                        if (FrozenYear["EA2"].ToString() == "Approve" || FrozenYear["EA2"].ToString() == "Open")
+                        {
+                            Rewizion = "EA2";
+                        }
+                        else
+                        {
+                            Rewizion = "EA1";
+                        }
 
-                }
-                if (Month >= 9)
-                {
-
-                    if (FrozenYear["EA3"].ToString() == "Approve" || FrozenYear["EA3"].ToString() == "Open")
-                    {
-                        Rewizion = "EA3";
                     }
-                    else
+                    if (Month >= 9)
                     {
-                        Rewizion = "EA2";
+
+                        if (FrozenYear["EA3"].ToString() == "Approve" || FrozenYear["EA3"].ToString() == "Open")
+                        {
+                            Rewizion = "EA3";
+                        }
+                        else
+                        {
+                            Rewizion = "EA2";
+                        }
                     }
                 }
 
@@ -736,45 +744,49 @@ namespace Saving_Accelerator_Tool
                 SavingUse = (ActionRow["CalcUSESaving" + CarryOver].ToString()).Split('/');
                 ECCCUse = (ActionRow["CalcUSEECCC" + CarryOver].ToString()).Split('/');
 
-                for (int counter = 1; counter < Month; counter++)
+                if (QuantityUse.Length != 1)
                 {
-                    if (QuantityUse[counter - 1] != "")
+                    for (int counter = 1; counter < Month; counter++)
                     {
-                        Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
-                        Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
-                    }
-                    if (SavingUse[counter - 1] != "")
-                    {
-                        Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
-                        Table.Rows[rowIndex].Cells["S" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
-                    }
-                    if (ECCCUse[counter - 1] != "")
-                    {
-                        Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
-                        Table.Rows[rowIndex].Cells["E" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
+                        if (QuantityUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
+                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
+                        }
+                        if (SavingUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
+                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
+                        }
+                        if (ECCCUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
+                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
+                        }
                     }
                 }
 
                 QuantityUse = (ActionRow["Calc" + Rewizion + "Quantity" + CarryOver].ToString()).Split('/');
                 SavingUse = (ActionRow["Calc" + Rewizion + "Saving" + CarryOver].ToString()).Split('/');
                 ECCCUse = (ActionRow["Calc" + Rewizion + "ECCC" + CarryOver].ToString()).Split('/');
-
-                for (int counter = int.Parse(Month.ToString()); counter < 13; counter++)
+                if (QuantityUse.Length != 1)
                 {
-                    if (QuantityUse[counter - 1] != "")
+                    for (int counter = int.Parse(Month.ToString()); counter < 13; counter++)
                     {
-                        Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
-                    }
-                    if (SavingUse[counter - 1] != "")
-                    {
-                        Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
-                    }
-                    if (ECCCUse[counter - 1] != "")
-                    {
-                        Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
+                        if (QuantityUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
+                        }
+                        if (SavingUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
+                        }
+                        if (ECCCUse[counter - 1] != "")
+                        {
+                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
+                        }
                     }
                 }
-
                 decimal Quantity = 0;
                 decimal Saving = 0;
                 decimal ECCC = 0;
@@ -828,76 +840,89 @@ namespace Saving_Accelerator_Tool
             ActionUse = (ActionRow["CalcUSESaving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcUSEECCC" + CarryOver].ToString()).Split('/');
 
-            for (int counter = 1; counter < 13; counter++)
+            if (ActionUse.Length != 1)
             {
-                if (ActionUse[counter - 1].ToString() != "")
+                for (int counter = 1; counter < 13; counter++)
                 {
-                    Action.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
-                }
-                if (ECCCSum[counter - 1].ToString() != "")
-                {
-                    ECCC.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    if (ActionUse[counter - 1].ToString() != "")
+                    {
+                        Action.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
+                    }
+                    if (ECCCSum[counter - 1].ToString() != "")
+                    {
+                        ECCC.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
                 }
             }
 
             ActionUse = (ActionRow["CalcEA3Saving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcEA3ECCC" + CarryOver].ToString()).Split('/');
 
-            for (int counter = 1; counter < 13; counter++)
+            if (ActionUse.Length != 1)
             {
-                if (ActionUse[counter - 1].ToString() != "")
+                for (int counter = 1; counter < 13; counter++)
                 {
-                    Action.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
-                }
-                if (ECCCSum[counter - 1].ToString() != "")
-                {
-                    ECCC.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    if (ActionUse[counter - 1].ToString() != "")
+                    {
+                        Action.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
+                    }
+                    if (ECCCSum[counter - 1].ToString() != "")
+                    {
+                        ECCC.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
                 }
             }
 
             ActionUse = (ActionRow["CalcEA2saving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcEA2ECCC" + CarryOver].ToString()).Split('/');
 
-            for (int counter = 1; counter < 13; counter++)
+            if (ActionUse.Length != 1)
             {
-                if (ActionUse[counter - 1].ToString() != "")
+                for (int counter = 1; counter < 13; counter++)
                 {
-                    Action.Rows[2].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[2].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
-                }
-                if (ECCCSum[counter - 1].ToString() != "")
-                {
-                    ECCC.Rows[2].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[2].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    if (ActionUse[counter - 1].ToString() != "")
+                    {
+                        Action.Rows[2].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[2].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
+                    }
+                    if (ECCCSum[counter - 1].ToString() != "")
+                    {
+                        ECCC.Rows[2].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[2].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
                 }
             }
-
             ActionUse = (ActionRow["CalcEA1Saving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcEA1ECCC" + CarryOver].ToString()).Split('/');
 
-            for (int counter = 1; counter < 13; counter++)
+            if (ActionUse.Length != 1)
             {
-                if (ActionUse[counter - 1].ToString() != "")
+                for (int counter = 1; counter < 13; counter++)
                 {
-                    Action.Rows[3].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[3].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
-                }
-                if (ECCCSum[counter - 1].ToString() != "")
-                {
-                    ECCC.Rows[3].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[3].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    if (ActionUse[counter - 1].ToString() != "")
+                    {
+                        Action.Rows[3].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[3].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
+                    }
+                    if (ECCCSum[counter - 1].ToString() != "")
+                    {
+                        ECCC.Rows[3].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[3].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
                 }
             }
-
             ActionUse = (ActionRow["CalcBUSaving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcBUECCC" + CarryOver].ToString()).Split('/');
 
-            for (int counter = 1; counter < 13; counter++)
+            if (ActionUse.Length != 1)
             {
-                if (ActionUse[counter - 1].ToString() != "")
+                for (int counter = 1; counter < 13; counter++)
                 {
-                    Action.Rows[4].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[4].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
+                    if (ActionUse[counter - 1].ToString() != "")
+                    {
+                        Action.Rows[4].Cells[counter.ToString()].Value = decimal.Parse(Action.Rows[4].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ActionUse[counter - 1].ToString());
 
-                }
-                if (ECCCSum[counter - 1].ToString() != "")
-                {
-                    ECCC.Rows[4].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[4].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
+                    if (ECCCSum[counter - 1].ToString() != "")
+                    {
+                        ECCC.Rows[4].Cells[counter.ToString()].Value = decimal.Parse(ECCC.Rows[4].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(ECCCSum[counter - 1].ToString());
+                    }
                 }
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Data;
 
@@ -12,9 +12,9 @@ namespace Saving_Accelerator_Tool
     public class Create_Excel_Application
     {
 
-        public Microsoft.Office.Interop.Excel.Application Create_Application()
+        public Excel.Application Create_Application()
         {
-            Microsoft.Office.Interop.Excel.Application excel;
+            Excel.Application excel;
 
             excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -24,12 +24,12 @@ namespace Saving_Accelerator_Tool
 
     public class Create_Excel_WorkBooks
     {
-        public Workbook Create_WorkBooks(Microsoft.Office.Interop.Excel.Application application)
+        public Excel.Workbook Create_WorkBooks(Excel.Application application)
         {
-            Workbook WorkBook;
+            Excel.Workbook WorkBook;
 
             WorkBook = application.Workbooks.Add(Type.Missing);
-            
+
             return WorkBook;
         }
     }
@@ -43,7 +43,7 @@ namespace Saving_Accelerator_Tool
             this.mainProgram = mainProgram;
         }
 
-        public void Save_WorkBook(Microsoft.Office.Interop.Excel.Application application, Workbook workbook)
+        public void Save_WorkBook(Excel.Application application, Excel.Workbook workbook)
         {
             string FileName;
 
@@ -57,7 +57,7 @@ namespace Saving_Accelerator_Tool
             saveFileDialog.FilterIndex = 1;
             saveFileDialog.RestoreDirectory = true;
 
-            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 workbook.SaveAs(saveFileDialog.FileName);
                 workbook.Close();
@@ -71,15 +71,15 @@ namespace Saving_Accelerator_Tool
             decimal Year;
             decimal Month;
             decimal Day;
-            decimal Hour;
-            decimal Minute;
-            decimal Secound;
+            string Hour;
+            string Minute;
+            string Secound;
 
             ComboBox DevisionCB = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDevision", true).First();
             string Devision = DevisionCB.Text;
             decimal YearRep = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First()).Value;
 
-            if(Devision == "All")
+            if (Devision == "All")
             {
                 Name = "ProductCare_";
             }
@@ -95,16 +95,17 @@ namespace Saving_Accelerator_Tool
             Year = DateTime.Now.Year;
             Month = DateTime.Now.Month;
             Day = DateTime.Now.Day;
-            Hour = DateTime.Now.Hour;
-            Minute = DateTime.Now.Minute;
-            Secound = DateTime.Now.Second;
+            Hour = DateTime.Now.Hour.ToString("d2");
+            Minute = DateTime.Now.Minute.ToString("d2");
+            Secound = DateTime.Now.Second.ToString("d2");
 
             Name = Name + Year.ToString();
             Name = Name + Month.ToString();
             Name = Name + Day.ToString();
             Name = Name + "_";
-            Name = Name + Hour.ToString();
-            Name = Name + Minute.ToString();
+            Name = Name + Hour;
+            Name = Name + Minute;
+            Name = Name + Secound;
 
             return Name;
         }
@@ -112,14 +113,27 @@ namespace Saving_Accelerator_Tool
 
     public class Create_Excel_WorkSheet
     {
-        public Worksheet Create_WorkSheet(Workbook workbook, string Name)
+        public Excel.Worksheet Create_WorkSheet(Excel.Workbook workbook, string Name)
         {
-            Worksheet worksheet;
+            Excel.Worksheet worksheet;
 
-            worksheet = (Worksheet)workbook.Worksheets.Add();
+            worksheet = (Excel.Worksheet)workbook.Worksheets.Add();
             worksheet.Name = Name;
 
             return worksheet;
+        }
+    }
+
+    public class Remove_Empty_Sheet
+    {
+        public void Remove_Empty(Excel.Application application, Excel.Workbook workbook)
+        {
+            if (workbook.Sheets.Count > 1)
+            {
+                application.DisplayAlerts = false;
+                workbook.Worksheets["Sheet1"].Delete();
+                application.DisplayAlerts = true;
+            }
         }
     }
 

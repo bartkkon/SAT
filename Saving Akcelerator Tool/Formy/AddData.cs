@@ -89,7 +89,7 @@ namespace Saving_Accelerator_Tool
 
                     for (int counter = 0; counter < row.Length - 1; counter++)
                     {
-                        string[] row2 = row[counter].Split('\t');
+                        string[] row2 = row[counter].Split(';');
                         string PNC = row2[0];
                         string ECCC = "";
                         int Limit = ((row2.Length - 3) / 2);
@@ -98,10 +98,11 @@ namespace Saving_Accelerator_Tool
                             ECCC = "ECCC(" + row2[1] + ")";
                         }
                         dg_PNC.Rows.Add(PNC, ECCC, "");
-                        dg_PNC.Rows[dg_PNC.Rows.Count - 2].DefaultCellStyle.BackColor = Color.LightBlue;
-                        dg_PNC.Rows[dg_PNC.Rows.Count - 2].DefaultCellStyle.Font = new Font(dg_PNC.Font, FontStyle.Bold);
-                        dg_PNC.Rows[dg_PNC.Rows.Count - 2].Cells[1].Style.Font = new Font(dg_PNC.Font, FontStyle.Regular);
-                        dg_PNC.Rows[dg_PNC.Rows.Count - 2].Cells[1].Style.Font = new Font("Tahoma", 10F, GraphicsUnit.Pixel);
+
+                        dg_PNC.Rows[dg_PNC.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
+                        dg_PNC.Rows[dg_PNC.Rows.Count - 1].DefaultCellStyle.Font = new Font(dg_PNC.Font, FontStyle.Bold);
+                        dg_PNC.Rows[dg_PNC.Rows.Count - 1].Cells[1].Style.Font = new Font(dg_PNC.Font, FontStyle.Regular);
+                        dg_PNC.Rows[dg_PNC.Rows.Count - 1].Cells[1].Style.Font = new Font("Tahoma", 10F, GraphicsUnit.Pixel);
 
                         for (int counter2 = 2; counter2 < Limit + 2; counter2++)
                         {

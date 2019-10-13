@@ -57,7 +57,7 @@ namespace Saving_Accelerator_Tool
             string linkFile;
 
             linkFile = STK_FileData();
-            //link = @"I:\raporty Copics\2018\201812\20181229\stdcosts.txt";
+            //linkFile = @"C:\Users\bartkkon\Desktop\stdcosts.txt";
 
             if (linkFile == "0")
             {

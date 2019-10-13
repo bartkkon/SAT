@@ -27,8 +27,17 @@ namespace Saving_Accelerator_Tool
         {
             try
             {
-                string Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
-                //string Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                string Link;
+                if(ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                }
+                else
+                {
+                    //Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                    Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                }
+                
                 if (!File.Exists(Link))
                 {
                     MessageBox.Show("Brak dostępu do bazy danych. Proszę uruchomić dyski sieciowe lub połączyć się z siecią lub skontaktować się z Adminem.");

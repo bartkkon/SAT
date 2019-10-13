@@ -128,7 +128,7 @@ namespace Saving_Accelerator_Tool
         {
             string Carry = "";
 
-            if ((Year-1).ToString() == Action["StartYear"].ToString())
+            if ((Year - 1).ToString() == Action["StartYear"].ToString())
             {
                 Carry = "Carry";
             }
@@ -690,8 +690,18 @@ namespace Saving_Accelerator_Tool
             Label Delta = (Label)mainProgram.TabControl.Controls.Find("lab_DeltaSum", true).First();
             Label Calc = (Label)mainProgram.TabControl.Controls.Find("lab_CalcSum", true).First();
 
+
             for (int counter = 1; counter <= ANCChangeNumber; counter++)
             {
+                if (((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text == "")
+                    ((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text == "")
+                    ((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text == "")
+                    ((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)mainProgram.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text == "")
+                    ((Label)mainProgram.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text = "0";
+
                 OLDSTK = OLDSTK + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text);
                 NEWSTK = NEWSTK + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text);
                 DeltaSum = DeltaSum + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text);

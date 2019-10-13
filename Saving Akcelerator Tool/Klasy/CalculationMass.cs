@@ -129,14 +129,14 @@ namespace Saving_Accelerator_Tool
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ, Year).ItemArray;
                         }
                     }
                     else if (Calcby == "PNCSpec")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ, Year).ItemArray;
                         }
                     }
 
@@ -198,6 +198,9 @@ namespace Saving_Accelerator_Tool
                     }
                 }
             }
+
+            string LinkAction = data_Import.Load_Link("Action");
+            data_Import.Save_DataTableToTXT(ref ActionList, LinkAction);
         }
 
 
@@ -436,7 +439,7 @@ namespace Saving_Accelerator_Tool
             if (Estymacja)
             {
                 ANCCalc = ActionRow["Old ANC"].ToString().Split('|');
-                Delta = ActionRow["STKCalc"].ToString().Split('|');
+                Delta = ActionRow["STKCal"].ToString().Split('|');
                 PercentQuantity = decimal.Parse(ActionRow["PNCANCPersent"].ToString());
                 Next = ActionRow["Next"].ToString().Split('|');
             }
@@ -474,7 +477,7 @@ namespace Saving_Accelerator_Tool
             {
                 if (Revision != "USE")
                 {
-                    
+
                     QuantityBase = ANC.Select(string.Format("BUANC LIKE '%{0}%'", ANCCalc[counter].ToString())).FirstOrDefault();
 
                     if (Next[counter].ToString() != "")
@@ -554,7 +557,7 @@ namespace Saving_Accelerator_Tool
             SumRow(ref SavingTable);
             SumRow(ref ECCCTable);
             ActionRow["Calc" + Revision + "Quantity" + Carry] = ReturnValue(QuantityTable);
-            ActionRow["Calc" + Revision + "Savings" + Carry] = ReturnValue(SavingTable);
+            ActionRow["Calc" + Revision + "Saving" + Carry] = ReturnValue(SavingTable);
             ActionRow["Calc" + Revision + "ECCC" + Carry] = ReturnValue(ECCCTable);
             ActionRow["Per" + Revision + Carry] = SaveTablePerANC_PNC(QuantityPerANC);
 
@@ -588,7 +591,7 @@ namespace Saving_Accelerator_Tool
             if (Estymacja)
             {
                 ANCCalc = ActionRow["Old ANC"].ToString().Split('|');
-                Delta = ActionRow["STKCalc"].ToString().Split('|');
+                Delta = ActionRow["STKCal"].ToString().Split('|');
                 PercentQuantity = decimal.Parse(ActionRow["PNCANCPersent"].ToString());
                 Next = ActionRow["Next"].ToString().Split('|');
             }
@@ -622,10 +625,11 @@ namespace Saving_Accelerator_Tool
 
             for (int counter = 0; counter < Delta.Length; counter++)
             {
+                if(Delta[counter].ToString() != "")
                 Saving = Saving + decimal.Parse(Delta[counter].ToString());
             }
 
-            CalcBy = ActionRow["Calcby"].ToString().Split('|');
+            CalcBy = ActionRow["Calc"].ToString().Split('|');
             for (int counter = 0; counter < CalcBy.Length - 1; counter++)
             {
                 if (CalcBy[counter].ToString() == "true")
@@ -696,7 +700,7 @@ namespace Saving_Accelerator_Tool
             SumRow(ref ECCCTable);
 
             ActionRow["Calc" + Revision + "Quantity" + Carry] = ReturnValue(QuantityTable);
-            ActionRow["Calc" + Revision + "Savings" + Carry] = ReturnValue(SavingTable);
+            ActionRow["Calc" + Revision + "Saving" + Carry] = ReturnValue(SavingTable);
             ActionRow["Calc" + Revision + "ECCC" + Carry] = ReturnValue(ECCCTable);
             ActionRow["Per" + Revision + Carry] = SaveTablePerANC_PNC(QuantityPerANC);
 
@@ -730,7 +734,7 @@ namespace Saving_Accelerator_Tool
             if (Estymacja)
             {
                 ANCCalc = ActionRow["PNC"].ToString().Split('|');
-                Delta = ActionRow["STKCalc"].ToString().Split('|');
+                Delta = ActionRow["STKCal"].ToString().Split('|');
                 PercentQuantity = decimal.Parse(ActionRow["PNCANCPersent"].ToString());
             }
             else
@@ -762,10 +766,11 @@ namespace Saving_Accelerator_Tool
 
             for (int counter = 0; counter < Delta.Length; counter++)
             {
-                Saving = Saving + decimal.Parse(Delta[counter].ToString());
+                if (Delta[counter].ToString() != "")
+                    Saving = Saving + decimal.Parse(Delta[counter].ToString());
             }
 
-            CalcBy = ActionRow["Calcby"].ToString().Split('|');
+            CalcBy = ActionRow["Calc"].ToString().Split('|');
             for (int counter = 0; counter < CalcBy.Length - 1; counter++)
             {
                 if (Revision != "USE")
@@ -835,7 +840,7 @@ namespace Saving_Accelerator_Tool
             SumRow(ref ECCCTable);
 
             ActionRow["Calc" + Revision + "Quantity" + Carry] = ReturnValue(QuantityTable);
-            ActionRow["Calc" + Revision + "Savings" + Carry] = ReturnValue(SavingTable);
+            ActionRow["Calc" + Revision + "Saving" + Carry] = ReturnValue(SavingTable);
             ActionRow["Calc" + Revision + "ECCC" + Carry] = ReturnValue(ECCCTable);
             ActionRow["Per" + Revision + Carry] = SaveTablePerANC_PNC(QuantityPerANC);
 
@@ -914,7 +919,7 @@ namespace Saving_Accelerator_Tool
             SavingTable = ActionRow["Calc" + Revision + "Saving" + Carry].ToString().Split('/');
             ECCCTable = ActionRow["Calc" + Revision + "ECCC" + Carry].ToString().Split('/');
 
-            CalcBy = ActionRow["Calcby"].ToString().Split('|');
+            CalcBy = ActionRow["Calc"].ToString().Split('|');
             for (int counter = 0; counter < CalcBy.Length - 1; counter++)
             {
                 if (Revision != "USE")
@@ -1019,7 +1024,7 @@ namespace Saving_Accelerator_Tool
             SumRow(ref ECCCTable);
 
             ActionRow["Calc" + Revision + "Quantity" + Carry] = ReturnValue(QuantityTable);
-            ActionRow["Calc" + Revision + "Savings" + Carry] = ReturnValue(SavingTable);
+            ActionRow["Calc" + Revision + "Saving" + Carry] = ReturnValue(SavingTable);
             ActionRow["Calc" + Revision + "ECCC" + Carry] = ReturnValue(ECCCTable);
             ActionRow["Per" + Revision + Carry] = SaveTablePerANC_PNC(QuantityPerANC);
 

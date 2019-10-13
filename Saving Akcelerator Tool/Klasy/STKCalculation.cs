@@ -175,7 +175,7 @@ namespace Saving_Accelerator_Tool
                                     {
                                         if (!Zero)
                                         {
-                                            FoundRow = STK.Select(string.Format("ANC LIKE '%{0}%'", ANCSpec[counter])).First();
+                                            FoundRow = STK.Select(string.Format("ANC LIKE '%{0}%'", ANCSpec[counter])).FirstOrDefault();
                                             if (FoundRow != null || FoundRow[STKYear].ToString() != "")
                                             {
                                                 STKValue = decimal.Parse(FoundRow[STKYear].ToString());
