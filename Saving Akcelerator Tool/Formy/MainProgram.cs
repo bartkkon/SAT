@@ -34,8 +34,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    //Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
-                    Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                    Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                    //Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
                 }
                 
                 if (!File.Exists(Link))

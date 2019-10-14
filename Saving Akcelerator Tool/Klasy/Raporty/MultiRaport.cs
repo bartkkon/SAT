@@ -1588,6 +1588,28 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
+                    if(Action.Rows.IndexOf(Row) == Action.Rows.Count-1)
+                    {
+                        for (int counter = 1; counter <= 13; counter++)
+                        {
+                            if (Preferencje["Quantity"])
+                                if (Master["Q" + counter.ToString()].ToString() == "0")
+                                {
+                                    Master["Q" + counter.ToString()] = "";
+                                }
+                            if (Preferencje["Savings"])
+                                if (Master["S" + counter.ToString()].ToString() == "0")
+                                {
+                                    Master["S" + counter.ToString()] = "";
+                                }
+                            if (Preferencje["ECCC"])
+                                if (Master["E" + counter.ToString()].ToString() == "0")
+                                {
+                                    Master["E" + counter.ToString()] = "";
+                                }
+
+                        }
+                    }
                 }
 
             }
