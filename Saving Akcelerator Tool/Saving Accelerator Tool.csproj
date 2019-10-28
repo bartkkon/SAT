@@ -14,9 +14,9 @@
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>I:\CAD\Work\ELECTRICAL TEAM\Saving Accelerator Tool\</PublishUrl>
+    <PublishUrl>\\PLWS4031\Project\CAD\Work\ELECTRICAL TEAM\Saving Accelerator Tool\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -24,11 +24,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Application\</UpdateUrl>
+    <UpdateUrl>\\PLWS4031\Project\CAD\Work\ELECTRICAL TEAM\Saving Accelerator Tool\</UpdateUrl>
     <MinimumRequiredVersion>0.5.0.19</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>19</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
