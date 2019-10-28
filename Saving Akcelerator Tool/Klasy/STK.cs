@@ -12,11 +12,6 @@ namespace Saving_Accelerator_Tool
 {
     class STK
     {
-        //Dodać
-        //Dodać uprawnienia 
-        //Logi przy zmianach i aktualizacji
-        //Filtrowanie tylko na wybrany rok (połączone z counterem który jest dodany na Form)
-        //Zmienić linka do ładowania nowych STK z raportów- jest ustawione na dysk
         MainProgram form;
         Data_Import ImportData;
         string link;
@@ -32,17 +27,10 @@ namespace Saving_Accelerator_Tool
 
         public void STK_LoadFile()
         {
-            //string link;
-
-            //link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Akcelerator_Data\STK\STK.txt";
-
             if (File.Exists(link))
             {
                 DataTable Table = new DataTable();
-                //Data_Import ImportData = new Data_Import();
                 ImportData.Load_TxtToDataTable(ref Table, link);
-                //form.dg_ToSTK.DataSource = Table;
-                //form.dg_ToSTK.Show();
             }
             else
             {
@@ -69,10 +57,67 @@ namespace Saving_Accelerator_Tool
             }
         }
 
+        //Czyszczenie ręczne dla wybranego roku aby Admin mógł wyczyścic dane jeśli jakieś okażą się błędne lub są ręcznie wrzucone i estymowane
+        public void STK_ClearYear(decimal Year)
+        {
+            ClearYear(Year);
+        }
+
+        //Dodanie STK dla następnego roku manualnie 
+        public void STK_ManualUpdateFromFile(decimal Year)
+        {
+            ManulaUpadte(Year);
+        }
+
+        private void ManulaUpadte(decimal Year)
+        {
+            DataTable STKTable = new DataTable();
+
+            ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
+
+            if(STKTable.Columns.Contains(Year.ToString()))
+            {
+                DialogResult Results = MessageBox.Show("Dane STK na rok " + Year.ToString() + " istnieją!. Czy zamienić je ?", "Uwaga", MessageBoxButtons.YesNo);
+                if(Results == DialogResult.Yes)
+                {
+                    STKTable.Columns.Remove(Year.ToString());
+                    STKTable.Columns.Remove("STK/" + Year.ToString());
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            STKTable.Columns.Add(Year.ToString());
+            STKTable.Columns.Add("STK/" + Year.ToString());
+
+            ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
+
+            AddData Data = new AddData("Sprowadz dane dla STK", Year, form, ImportData);
+            //Data.Show();
+
+        }
+
+        private void ClearYear(decimal Year)
+        {
+            DataTable STKTable = new DataTable();
+
+            ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
+
+            if(STKTable.Columns.Contains(Year.ToString()))
+            {
+                STKTable.Columns.Remove(Year.ToString());
+                STKTable.Columns.Remove("STK/" + Year.ToString());
+
+                ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
+            }
+
+        }
+
         private void LoadNewSTKFile(string linkFile)
         {
             DataTable STKTable = new DataTable();
-            //string LinkBaza = @"I:\CAD\Work\bartkkon\EC_Akcelerator_Data\STK\STK.txt";
             string line_help;
             string ANC;
             int Year;
@@ -84,8 +129,6 @@ namespace Saving_Accelerator_Tool
             string month;
             string IDCO;
 
-
-            //Data_Import ImportData = new Data_Import();
             ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
 
             if (linkFile == "0")
@@ -213,9 +256,6 @@ namespace Saving_Accelerator_Tool
                 }
 
                 ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
-
-                //form.dg_ToSTK.DataSource = STKTable;
-                //form.dg_ToSTK.Refresh();
             }
         }
 

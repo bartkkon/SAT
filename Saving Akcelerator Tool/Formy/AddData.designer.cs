@@ -35,6 +35,7 @@ namespace Saving_Accelerator_Tool
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.PB_CopyTemplate = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -72,6 +73,7 @@ namespace Saving_Accelerator_Tool
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.PB_CopyTemplate);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.lab_AddData_Text);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -97,6 +99,18 @@ namespace Saving_Accelerator_Tool
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(675, 563);
             this.panel2.TabIndex = 4;
+            // 
+            // PB_CopyTemplate
+            // 
+            this.PB_CopyTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.PB_CopyTemplate.Location = new System.Drawing.Point(410, 7);
+            this.PB_CopyTemplate.Name = "PB_CopyTemplate";
+            this.PB_CopyTemplate.Size = new System.Drawing.Size(108, 22);
+            this.PB_CopyTemplate.TabIndex = 4;
+            this.PB_CopyTemplate.Text = "Download Template";
+            this.PB_CopyTemplate.UseVisualStyleBackColor = true;
+            this.PB_CopyTemplate.Visible = false;
+            this.PB_CopyTemplate.Click += new System.EventHandler(this.PB_CopyTemplate_Click);
             // 
             // AddData
             // 
@@ -124,5 +138,6 @@ namespace Saving_Accelerator_Tool
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel2;
+        private Button PB_CopyTemplate;
     }
 }

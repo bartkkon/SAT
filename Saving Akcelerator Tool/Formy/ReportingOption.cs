@@ -179,7 +179,8 @@ namespace Saving_Accelerator_Tool
                 AutoSize = true,
                 Name = "CB_Electronic",
                 Text = "Electronic",
-                Checked = true,
+                Checked = false,
+                Visible = false,
             };
             groupBox.Controls.Add(Electronic);
 
@@ -190,7 +191,8 @@ namespace Saving_Accelerator_Tool
                 AutoSize = true,
                 Name = "CB_Mechanic",
                 Text = "Mechanic",
-                Checked = true,
+                Checked = false,
+                Visible = false,
             };
             groupBox.Controls.Add(Mechanic);
 
@@ -201,10 +203,42 @@ namespace Saving_Accelerator_Tool
                 AutoSize = true,
                 Name = "CB_NVR",
                 Text = "NVR",
-                Checked = true,
+                Checked = false,
+                Visible = false,
             };
             groupBox.Controls.Add(NVR);
 
+            DataTable Access = new DataTable();
+            Access = ImportData.Load_Access("Access");
+            DataRow Person = Access.Rows[0];
+
+            if(Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
+            {
+                Electronic.Checked = true;
+                Electronic.Visible = true;
+                NVR.Checked = true;
+                NVR.Visible = true;
+                Mechanic.Checked = true;
+                Mechanic.Visible = true;
+            }
+            else if(Person["Role"].ToString() == "EleMenager")
+            {
+                Electronic.Checked = true;
+                Electronic.Visible = true;
+            }
+            else if(Person["Role"].ToString() == "MechMenager")
+            {
+                Mechanic.Checked = true;
+                Mechanic.Visible = true;
+            }
+            else if(Person["Role"].ToString() == "NVRMenager")
+            {
+                NVR.Checked = true;
+                NVR.Visible = true;
+            }
+
+            //Person = Access.Select(string.Format(""))
+                
         }
 
         //Jakie akcje mają być brane do kalkulacji Avtive czy Idea

@@ -509,12 +509,69 @@ namespace Saving_Accelerator_Tool
 
         public void pb_AdminSaveCalcRevNew_Click(object sender, EventArgs e)
         {
-            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, "BU");
+            string Rewizion = "";
+            Cursor.Current = Cursors.WaitCursor;
+            CheckBox BU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcBU", true).First();
+            CheckBox EA1 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA1", true).First();
+            CheckBox EA2 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA2", true).First();
+            CheckBox EA3 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA3", true).First();
+
+            if (BU.Checked)
+                Rewizion = "BU";
+            else if (EA1.Checked)
+                Rewizion = "EA1";
+            else if (EA2.Checked)
+                Rewizion = "EA2";
+            else if (EA3.Checked)
+                Rewizion = "EA3";
+
+            if (Rewizion != "")
+            {
+                CalculationMass Mass = new CalculationMass(mainProgram, ImportData, Rewizion);
+            }
+
+            Cursor.Current = Cursors.Default;
         }
 
         public void pb_AdminSaveCalcMonthNew_Click(object sender, EventArgs e)
         {
-            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, 8);
+            Cursor.Current = Cursors.WaitCursor;
+            NumericUpDown Month = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_MonthCalc", true).First();
+
+            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, int.Parse(Month.Value.ToString()));
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void pb_Admin_YearClear_Click(object sender, EventArgs e)
+        {
+            decimal Year;
+
+            Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("pb_Admin_STKYearToClear", true).First()).Value;
+
+            DialogResult Results = MessageBox.Show("Zostanie Usunięty Rok: " + Year.ToString() + "  Jesteś tego pewny?", "Uwaga!!", MessageBoxButtons.OKCancel);
+            if (Results == DialogResult.OK)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                STK _STK = new STK(mainProgram, ImportData);
+                _STK.STK_ClearYear(Year);
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        public void pb_Admin_ManualUpdate_Click(object sender, EventArgs e)
+        {
+            decimal Year;
+
+            Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("pb_Admin_STKYearToClear", true).First()).Value;
+
+            DialogResult Results = MessageBox.Show("Czy chcesz dodać STK amnualnie na rok: " + Year.ToString() + "  Jesteś tego pewny?", "Uwaga!!", MessageBoxButtons.OKCancel);
+            if (Results == DialogResult.OK)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                STK _STK = new STK(mainProgram, ImportData);
+                _STK.STK_ManualUpdateFromFile(Year);
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 }

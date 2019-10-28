@@ -234,6 +234,15 @@ namespace Saving_Accelerator_Tool
             return IfError;
         }
 
+        public void Action_STKCalcNeed()
+        {
+            ChangeANCProtector(true);
+        }
+
+        public void Action_CalcNeed()
+        {
+            ChangeCalcProtector(true);
+        }
 
         private void AddColumn()
         {
@@ -1115,11 +1124,7 @@ namespace Saving_Accelerator_Tool
 
         private string SavePerANC_PNC( string Rewision, bool CarryOver)
         {
-            string Carry = "";
             string Save = "";
-
-            if (CarryOver)
-                Carry = "Carry";
 
             if (Rewision == "USE")
             {
@@ -3273,8 +3278,14 @@ namespace Saving_Accelerator_Tool
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = true;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = true;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
+            //((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
+            for (int counter = 1; counter <= ANCChangeNumber; counter++)
+            {
+                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Estymacja" + counter.ToString(), true).First()).Enabled = true;
+                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Percent" + counter.ToString(), true).First()).Enabled = true;
+            }
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
+            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = true;
         }
 
         private void BlockAction()
@@ -3283,8 +3294,15 @@ namespace Saving_Accelerator_Tool
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = false;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = false;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
+            //((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
+            //((Button)mainProgram.TabControl.Controls.Find("pb_RefreshSTK", true).First()).Enabled = true;
+            for (int counter = 1; counter <= ANCChangeNumber; counter++)
+            {
+                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Estymacja" + counter.ToString(), true).First()).Enabled = false;
+                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Percent" + counter.ToString(), true).First()).Enabled = false;
+            }
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
+            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
         }
 
         //Przerwania

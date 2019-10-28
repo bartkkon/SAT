@@ -456,7 +456,7 @@ namespace Saving_Accelerator_Tool
             string[] NEWSTK;
             string[] Delta;
             string[] Next;
-            string[] Calc;
+            //string[] Calc;
             string[] PNC;
             bool NewtoCalc = false;
             decimal[] Quantity = new decimal[12];

@@ -19,7 +19,7 @@ namespace Saving_Accelerator_Tool
         Data_Import ImportData;
         TabPage tab_Admin;
 
-        public AdminForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person): base (mainProgram, action, summaryDetails, admin, ImportData, Person)
+        public AdminForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person) : base(mainProgram, action, summaryDetails, admin, ImportData, Person)
         {
             this.mainProgram = mainProgram;
             this.action = action;
@@ -837,7 +837,7 @@ namespace Saving_Accelerator_Tool
             {
                 Location = new Point(15, 525),
                 Name = "gb_AdminUpdateSTK",
-                Size = new Size(200, 70),
+                Size = new Size(200, 160),
                 TabStop = false,
                 Text = "Update STK",
             };
@@ -845,21 +845,62 @@ namespace Saving_Accelerator_Tool
 
             Button pb_Admin_UpdateSTK = new Button
             {
-                Location = new Point(60, 35),
+                Location = new Point(60, 25),
                 Name = "pb_Admin_UpdateSTK",
                 Size = new Size(80, 25),
                 Text = "Update STK",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_UpdateSTK.Click += new System.EventHandler(pb_Admin_UpdateSTK_Click);
+            pb_Admin_UpdateSTK.Click += new EventHandler(pb_Admin_UpdateSTK_Click);
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_UpdateSTK);
+
+            NumericUpDown pb_Admin_STKYearToClear = new NumericUpDown
+            {
+                Location = new Point(10, 64),
+                Maximum = new decimal(new int[] {
+            2100,
+            0,
+            0,
+            0}),
+                Minimum = new decimal(new int[] {
+            2018,
+            0,
+            0,
+            0}),
+                Name = "pb_Admin_STKYearToClear",
+                Size = new Size(78, 20),
+                Value = DateTime.Now.Year + 1, 
+            };
+            gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
+
+            Button pb_Admin_YearClear = new Button
+            {
+                Location = new Point(95, 60),
+                Name = "pb_Admin_YearClear",
+                Size = new Size(80, 25),
+                Text = "Clear Year",
+                UseVisualStyleBackColor = true,
+            };
+            pb_Admin_YearClear.Click += new EventHandler(pb_Admin_YearClear_Click);
+            gb_AdminUpdateSTK.Controls.Add(pb_Admin_YearClear);
+
+            Button pb_Admin_ManualUpdate = new Button
+            {
+                Location = new Point(45, 95),
+                Name = "pb_Admin_ManualUpdate",
+                Size = new Size(130, 25),
+                Text = "Manual Update",
+                UseVisualStyleBackColor = true,
+            };
+            pb_Admin_ManualUpdate.Click += new EventHandler(pb_Admin_ManualUpdate_Click);
+            gb_AdminUpdateSTK.Controls.Add(pb_Admin_ManualUpdate);
         }
 
         private void Admin_Group_EnableDGV_Change()
         {
             GroupBox gb_EnableDataGrid = new GroupBox
             {
-                Location = new Point(15, 595),
+                Location = new Point(220, 755),
                 Name = "gb_AdminEnableDataGrid",
                 Size = new Size(200, 90),
                 TabStop = false,
@@ -1433,7 +1474,7 @@ namespace Saving_Accelerator_Tool
         private void Admin_Frozen_AddFrozzen(GroupBox gb_AdminFrozen)
         {
             string[] ComboBoxItems = new string[] { "Close", "Open", "Approve" };
-            string[] ComboBoxItems2 = new string[] { "Close","", "Approve" };
+            string[] ComboBoxItems2 = new string[] { "Close", "", "Approve" };
 
             Label Lab_AdminBU = new Label
             {

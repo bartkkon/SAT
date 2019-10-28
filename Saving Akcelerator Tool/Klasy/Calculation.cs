@@ -88,7 +88,7 @@ namespace Saving_Accelerator_Tool
             bool RevisionEA1;
             bool RevisionEA2;
             bool RevisionEA3;
-            bool USE;
+            bool USEBool;
             bool CurrentYear;
             bool CarryOver;
             int ActionStart;
@@ -159,18 +159,25 @@ namespace Saving_Accelerator_Tool
             //Przeliczanie miesięcy dozwolonych do przeliczenia
             for (int Month = 1; Month <= 12; Month++)
             {
-                USE = RevisionPermission(FrozenRow, Month.ToString());
+                USEBool = RevisionPermission(FrozenRow, Month.ToString());
                 ActionStart = MonthActionStart();
-                if (USE)
+                if (USEBool)
                 {
                     if (!CarryOver)
                     {
                         if (Month >= ActionStart)
+                        {
+                            ClearColumnInUSE(Month);
                             CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
-                    }else
+                        }
+                    }
+                    else
                     {
                         if (Month < ActionStart)
+                        {
+                            ClearColumnInUSE(Month);
                             CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
+                        }
                     }
                 }
             }
@@ -246,11 +253,12 @@ namespace Saving_Accelerator_Tool
             decimal ECCCSeconds = 0;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
-            int RevisionStart = RevisionStartMonth[Revision];
+            int RevisionStart;
             int MonthAction;
 
             ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
             MonthAction = Month[MonthCombo.SelectedItem.ToString()];
+
 
             if (Revision == "BU")
                 Per = BU;
@@ -260,6 +268,8 @@ namespace Saving_Accelerator_Tool
                 Per = EA2;
             else
                 Per = EA3;
+
+            RevisionStart = RevisionStartMonth[Revision];
 
             Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
 
@@ -403,14 +413,23 @@ namespace Saving_Accelerator_Tool
             ComboBox MonthCombo = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First();
             MonthAction = Month[MonthCombo.SelectedItem.ToString()];
 
+
             if (Revision == "BU")
+            {
                 Per = BU;
+            }
             else if (Revision == "EA1")
+            {
                 Per = EA1;
+            }
             else if (Revision == "EA2")
+            {
                 Per = EA2;
+            }
             else
+            {
                 Per = EA3;
+            }
 
             int RevisionStart = RevisionStartMonth[Revision];
 
@@ -710,7 +729,7 @@ namespace Saving_Accelerator_Tool
             //Sprawdzenie czy ma brać jeszcze po estymacji czy po finalnych wyliczeniach 
             Delta = DeltaIFcanCalculate(CarryOver, MonthCalcStart, RevisionStart, MonthAction);
 
-            if(PNCTable.Columns.Count == 8)
+            if (PNCTable.Columns.Count == 8)
             {
                 Delta = true;
             }
@@ -829,7 +848,7 @@ namespace Saving_Accelerator_Tool
             bool ECCCtoCalc = false;
             decimal ECCCCost = 0;
             decimal ECCCSeconds = 0;
-            string Results = "";
+            //string Results = "";
             DataRow ResultsRow = null;
 
             //Sprawdzenie czy dana akcja ma być liczona z ECCC
@@ -924,7 +943,7 @@ namespace Saving_Accelerator_Tool
             decimal ECCCCost = 0;
             decimal ECCCSeconds = 0;
             bool ToCalc;
-            string Results = "";
+            //string Results = "";
             DataRow ResultsRow = null;
 
             //Sprawdzenie czy dana akcja ma być liczona z ECCC
@@ -1020,7 +1039,7 @@ namespace Saving_Accelerator_Tool
             bool ECCCtoCalc = false;
             decimal ECCCCost = 0;
             decimal ECCCSeconds = 0;
-            string Results = "";
+            //string Results = "";
             DataRow ResultsRow = null;
 
             //Sprawdzenie czy dana akcja ma być liczona z ECCC
@@ -1097,7 +1116,7 @@ namespace Saving_Accelerator_Tool
             decimal ECCCSeconds = 0;
             string PNC;
             string ECCCHelp;
-            string Results = "";
+            //string Results = "";
             DataRow ResultsRow = null;
 
             PNCTable = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
@@ -1182,20 +1201,20 @@ namespace Saving_Accelerator_Tool
             Savings = 0;
             ECCC = 0;
 
-            //if (Revision == "BU")
-            //    BU = Per;
-            //else if (Revision == "EA1")
-            //    EA1 = Per;
-            //else if (Revision == "EA2")
-            //    EA2 = Per;
-            //else
-            //    EA3 = Per;
-
             SumDataGridView();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Funkcje pomocnicze//
+
+        //Czyszczensie kolumny dla danego miesiąca w USE
+        private void ClearColumnInUSE(int MonthCalc)
+        {
+            foreach(DataRow Row in USE.Rows)
+            {
+                Row[MonthCalc] = "";
+            }
+        }
 
         //Sumowanie wierszy z Datagridów do sumy w poszczególnych Rewizjach:
         private void SumDataGridView()
@@ -1890,7 +1909,7 @@ namespace Saving_Accelerator_Tool
                 else
                     Delta = true;
             }
-            else if(MonthToCalc < RevisionStart)
+            else if (MonthAction < RevisionStart)
             {
                 Delta = true;
             }

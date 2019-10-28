@@ -82,22 +82,47 @@ namespace Saving_Accelerator_Tool
                 NameAction = NameAction.Replace(";", ",");
 
                 NameAction2 = ((TextBox)mainProgram.TabControl.Controls.Find("tb_Name", true).First()).Text;
-                NameAction2 = NameAction.Replace(";", ",");
+                NameAction2 = NameAction2.Replace(";", ",");
 
                 TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
                 foreach (DataRow Row in TableRow.Take(TableRow.Length))
                 {
-                    if (Row["StartYear"].ToString() == Year.ToString() && Row["Name"].ToString() == NameAction)
+                    if (Row["StartYear"].ToString() == Year.ToString() && Row["Name"].ToString() == NameAction2)
                     {
                         NewRow = Row;
                     }
-                    else if (Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Name"].ToString() == NameAction)
+                    else if (Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Name"].ToString() == NameAction2)
                     {
-                        NewRow = Row;
+                        //NewRow = Row;
+                        if (Year.ToString() != Row["StartYear"].ToString())
+                        {
+                            if (GridCheck(decimal.Parse(Row["StartYear"].ToString())))
+                            {
+                                //TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
+                                //foreach (DataRow Row2 in TableRow.Take(TableRow.Length))
+                                //{
+                                    //if (Row["Name"].ToString() == NameAction)
+                                   //{
+                                        Row["StartYear"] = "BU/" + Row["StartYear"].ToString();
+                                    //}
+                                //}
+
+                                NewRow = ActionList.NewRow();
+                                New_Year = true;
+                            }
+                            else
+                            {
+                                NewRow = Row;
+                            }
+                        }
+                        else
+                        {
+                            NewRow = Row;
+                        }
                     }
                 }
 
-                if (NewRow != null)
+                if (NewRow == null)
                 {
                     if (NameAction != NameAction2)
                     {
@@ -108,7 +133,7 @@ namespace Saving_Accelerator_Tool
                         }
                         else if (dialogResult == DialogResult.Yes)
                         {
-                            bool NameExist = CheckIfActionNameExist(NameAction, ref ActionList);
+                            bool NameExist = CheckIfActionNameExist(NameAction2, ref ActionList);
 
                             if (NameExist)
                             {
@@ -118,22 +143,45 @@ namespace Saving_Accelerator_Tool
                             else
                             {
                                 MessageBox.Show("Action will be Save with New Name");
-                                NameAction = ((TextBox)mainProgram.TabControl.Controls.Find("tb_Name", true).First()).Text;
+                                TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
+                                
+
+                                foreach (DataRow Row in TableRow.Take(TableRow.Length))
+                                {
+                                    if (Row["StartYear"].ToString() == Year.ToString() && Row["Name"].ToString() == NameAction)
+                                    {
+                                        NewRow = Row;
+                                    }
+                                    else if (Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Name"].ToString() == NameAction)
+                                    {
+                                        NewRow = Row;
+                                    }
+                                }
+                                NameAction = NameAction2;
+                                ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Text = NameAction2;
                             }
                         }
                     }
-                    else
-                    {
-                        if (Year.ToString() != NewRow["StartYear"].ToString())
-                        {
-                            if (GridCheck())
-                            {
-                                NewRow["StartYear"] = "BU/" + NewRow["StartYear"].ToString();
-                                NewRow = ActionList.NewRow();
-                                New_Year = true;
-                            }
-                        }
-                    }
+                    //else
+                    //{
+                    //    if (Year.ToString() != NewRow["StartYear"].ToString())
+                    //    {
+                    //        if (GridCheck(decimal.Parse(NewRow["StartYear"].ToString())))
+                    //        {
+                    //            TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
+                    //            foreach (DataRow Row in TableRow.Take(TableRow.Length))
+                    //            {
+                    //                if(Row["Name"].ToString() == NameAction)
+                    //                {
+                    //                    Row["StartYear"] = "BU/" + NewRow["StartYear"].ToString();
+                    //                }
+                    //            }
+                                    
+                    //            NewRow = ActionList.NewRow();
+                    //            New_Year = true;
+                    //        }
+                    //    }
+                    //}
                 }
             }
 
@@ -206,6 +254,9 @@ namespace Saving_Accelerator_Tool
             //Sprawdzenie czy to jest Akcja dodatnia czy ujemna
             PozitiveOrNegative(ref NewRow);
 
+            //Sprawdzenie czy jakiś Calc jest nie wpisany - jak nie jest to ma zamienić na same "//////////////"
+            IfEmptyCalc(ref NewRow);
+
             //Dodanie IDCO do pliku
             IDCOAdd(ref NewRow);
 
@@ -224,15 +275,17 @@ namespace Saving_Accelerator_Tool
                 Grid_Clear(Grid);
                 Grid = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCC", true).First();
                 Grid_Clear(Grid);
-                NewRow["IDCO"] = "";
+                //NewRow["IDCO"] = "";
             }
 
 
             //Jeśli to była nowa akcja to dodaje wiersz
-            if (NewAction)
+            if (NewAction || New_Year)
             {
                 ActionList.Rows.Add(NewRow);
             }
+
+
 
             //Zapis do pliku
             string LinkAction = ImportData.Load_Link("Action");
@@ -349,16 +402,19 @@ namespace Saving_Accelerator_Tool
         //Sprawdzenie czy dana nazwa akcji istnieje w tabeli
         private bool CheckIfActionNameExist(string Name, ref DataTable ActionList)
         {
-            DataRow CheckName = ActionList.Select(string.Format("Name LIKE '%{0}%'", Name)).FirstOrDefault();
+            bool NameExist = false;
+            DataRow CheckName2 = ActionList.Select(string.Format("Name LIKE '%{0}%'", Name)).FirstOrDefault();
+            DataRow[] CheckName = ActionList.Select(string.Format("Name LIKE '%{0}%'", Name)).ToArray();
 
-            if (CheckName == null)
+            foreach (DataRow Row in CheckName.Take(CheckName.Length))
             {
-                return false;
+                if(Name == Row["Name"].ToString())
+                {
+                    NameExist = true;
+                }
             }
-            else
-            {
-                return true;
-            }
+
+            return NameExist;
         }
 
         //Wyciąga i przetwarza Description do wyświetlanej akcji
@@ -649,18 +705,18 @@ namespace Saving_Accelerator_Tool
         private void GridSave(ref DataRow ActionRow, string[] GridValue, string Column, decimal Year)
         {
             decimal YearSave = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
-            if (Year >= YearSave)
+            if (Year == YearSave)
             {
                 ActionRow["CalcBU" + Column] = GridValue[4];
                 ActionRow["CalcEA1" + Column] = GridValue[3];
                 ActionRow["CalcEA2" + Column] = GridValue[2];
                 ActionRow["CalcEA3" + Column] = GridValue[1];
                 ActionRow["CalcUSE" + Column] = GridValue[0];
-                ActionRow["CalcBU" + Column + "Carry"] = "/////////////";
-                ActionRow["CalcEA1" + Column + "Carry"] = "/////////////";
-                ActionRow["CalcEA2" + Column + "Carry"] = "/////////////";
-                ActionRow["CalcEA3" + Column + "Carry"] = "/////////////";
-                ActionRow["CalcUSE" + Column + "Carry"] = "/////////////";
+                //ActionRow["CalcBU" + Column + "Carry"] = "/////////////";
+                //ActionRow["CalcEA1" + Column + "Carry"] = "/////////////";
+                //ActionRow["CalcEA2" + Column + "Carry"] = "/////////////";
+                //ActionRow["CalcEA3" + Column + "Carry"] = "/////////////";
+                //ActionRow["CalcUSE" + Column + "Carry"] = "/////////////";
             }
             else if (Year == YearSave -1)
             {
@@ -672,12 +728,64 @@ namespace Saving_Accelerator_Tool
             }
         }
 
+        //Sprawdzenie czy dla gridów nie ma pustego pola jak jest to ma wypełnić "////////////"
+        private void IfEmptyCalc(ref DataRow ActionRow)
+        {
+            string Carry = "";
+                for (int counter = 0; counter <= 1; counter++)
+            {
+                if (ActionRow["CalcBUSaving" + Carry].ToString() == "")
+                    ActionRow["CalcBUSaving" + Carry] = "/////////////";
+                if (ActionRow["CalcEA1Saving" + Carry].ToString() == "")
+                    ActionRow["CalcEA1Saving" + Carry] = "/////////////";
+                if (ActionRow["CalcEA2Saving" + Carry].ToString() == "")
+                    ActionRow["CalcEA2Saving" + Carry] = "/////////////";
+                if (ActionRow["CalcEA3Saving" + Carry].ToString() == "")
+                    ActionRow["CalcEA3Saving" + Carry] = "/////////////";
+                if (ActionRow["CalcUSESaving" + Carry].ToString() == "")
+                    ActionRow["CalcUSESaving" + Carry] = "/////////////";
+                if (ActionRow["CalcBUQuantity" + Carry].ToString() == "")
+                    ActionRow["CalcBUQuantity" + Carry] = "/////////////";
+                if (ActionRow["CalcEA1Quantity" + Carry].ToString() == "")
+                    ActionRow["CalcEA1Quantity" + Carry] = "/////////////";
+                if (ActionRow["CalcEA2Quantity" + Carry].ToString() == "")
+                    ActionRow["CalcEA2Quantity" + Carry] = "/////////////";
+                if (ActionRow["CalcEA3Quantity" + Carry].ToString() == "")
+                    ActionRow["CalcEA3Quantity" + Carry] = "/////////////";
+                if (ActionRow["CalcUSEQuantity" + Carry].ToString() == "")
+                    ActionRow["CalcUSEQuantity" + Carry] = "/////////////";
+                if (ActionRow["CalcBUECCC" + Carry].ToString() == "")
+                    ActionRow["CalcBUECCC" + Carry] = "/////////////";
+                if (ActionRow["CalcEA1ECCC" + Carry].ToString() == "")
+                    ActionRow["CalcEA1ECCC" + Carry] = "/////////////";
+                if (ActionRow["CalcEA2ECCC" + Carry].ToString() == "")
+                    ActionRow["CalcEA2ECCC" + Carry] = "/////////////";
+                if (ActionRow["CalcEA3ECCC" + Carry].ToString() == "")
+                    ActionRow["CalcEA3ECCC" + Carry] = "/////////////";
+                if (ActionRow["CalcUSEECCC" + Carry].ToString() == "")
+                    ActionRow["CalcUSEECCC" + Carry] = "/////////////";
+                Carry = "Carry";
+            }
+        }
+
         //Sprawdzenie czy w Gridach jest coś zapisane już 
-        private bool GridCheck()
+        private bool GridCheck(decimal Year)
         {
             bool Grid = false;
-
+            string link;
+            DataTable Frozen = new DataTable();
+            DataRow FrozenRow;
             DataGridView Table_Check = (DataGridView)mainProgram.TabControl.Controls.Find("dg_Saving", true).First();
+
+            link = ImportData.Load_Link("Frozen");
+            ImportData.Load_TxtToDataTable(ref Frozen, link);
+
+            FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+            if(FrozenRow == null)
+            {
+                return Grid;
+            }
+
 
             for (int Row = 0; Row < 5; Row++)
             {
@@ -685,8 +793,46 @@ namespace Saving_Accelerator_Tool
                 {
                     if (Table_Check.Rows[Row].Cells[Column] != null && Table_Check.Rows[Row].Cells[Column].ToString() != "")
                     {
-                        Grid = true;
-                        return Grid;
+                        if(Row == 1)
+                        {
+                            if(FrozenRow["EA3"].ToString() == "Approve")
+                            {
+                                Grid = true;
+                                return Grid;
+                            }
+                        }
+                        else if(Row == 2)
+                        {
+                            if (FrozenRow["EA2"].ToString() == "Approve")
+                            {
+                                Grid = true;
+                                return Grid;
+                            }
+                        }
+                        else if (Row == 3)
+                        {
+                            if (FrozenRow["EA1"].ToString() == "Approve")
+                            {
+                                Grid = true;
+                                return Grid;
+                            }
+                        }
+                        else if (Row == 4)
+                        {
+                            if (FrozenRow["BU"].ToString() == "Approve")
+                            {
+                                Grid = true;
+                                return Grid;
+                            }
+                        }
+                        else
+                        {
+                            if(FrozenRow[(Column +1).ToString()].ToString() == "Approve")
+                            {
+                                Grid = true;
+                                return Grid;
+                            }
+                        }
                     }
                 }
             }

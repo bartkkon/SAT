@@ -251,7 +251,8 @@ namespace Saving_Accelerator_Tool
                 Location = new Point(0, 0),
                 Name = "tree_Action",
                 Size = new Size(307, 785),
-                TabIndex = 0
+                TabIndex = 0,
+                HideSelection = false,
             };
             treeView_Action.AfterSelect += new TreeViewEventHandler(tree_Action_AfterSelect);
             panelLeftTree.Controls.Add(treeView_Action);

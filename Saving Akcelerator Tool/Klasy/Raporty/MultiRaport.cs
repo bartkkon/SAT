@@ -187,7 +187,7 @@ namespace Saving_Accelerator_Tool
                 MechanicA = SumAllDevision(MechanicActual);
                 if (Preferencje["Savings"])
                 {
-                    ColumnForSavings = ElectronicActual.Columns["S1"].Ordinal + 2;
+                    ColumnForSavings = MechanicActual.Columns["S1"].Ordinal + 2;
                 }
             }
             if (Preferencje["NVR"] && Preferencje["Current Action"])
@@ -198,7 +198,7 @@ namespace Saving_Accelerator_Tool
                 NVRA = SumAllDevision(NVRActual);
                 if (Preferencje["Savings"])
                 {
-                    ColumnForSavings = ElectronicActual.Columns["S1"].Ordinal + 2;
+                    ColumnForSavings = NVRActual.Columns["S1"].Ordinal + 2;
                 }
             }
             if (Preferencje["Electronic"] && Preferencje["Carry Action"])
@@ -220,7 +220,7 @@ namespace Saving_Accelerator_Tool
                 MechanicC = SumAllDevision(MechanicalCarry);
                 if (Preferencje["Savings"])
                 {
-                    ColumnForSavings = ElectronicActual.Columns["S1"].Ordinal + 2;
+                    ColumnForSavings = MechanicActual.Columns["S1"].Ordinal + 2;
                 }
             }
             if (Preferencje["NVR"] && Preferencje["Carry Action"])
@@ -231,7 +231,7 @@ namespace Saving_Accelerator_Tool
                 NVRC = SumAllDevision(NVRCarry);
                 if (Preferencje["Savings"])
                 {
-                    ColumnForSavings = ElectronicActual.Columns["S1"].Ordinal + 2;
+                    ColumnForSavings = NVRActual.Columns["S1"].Ordinal + 2;
                 }
             }
 

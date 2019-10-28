@@ -463,6 +463,7 @@ namespace Saving_Accelerator_Tool
             else if (How == "PNCSpec")
             {
                 ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNCSpec", true).First()).Checked = true;
+                ECCCSec(Action["ECCC"].ToString());
                 PNCSpecLoad(Action);
             }
         }
@@ -477,11 +478,11 @@ namespace Saving_Accelerator_Tool
 
             if (ECCC != "")
             {
+                ECCCCB.Enabled = true;
+                ECCCCB.Checked = true;
                 ECCCArry = ECCC.Split('|');
                 if (ECCCArry.Length == 1)
                 {
-                    ECCCCB.Enabled = true;
-                    ECCCCB.Checked = true;
                     ECCCSekundnik.Value = decimal.Parse(ECCCArry[0].ToString());
                 }
                 else

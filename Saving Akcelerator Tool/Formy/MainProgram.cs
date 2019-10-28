@@ -34,8 +34,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
-                    //Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                    //Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                    Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
                 }
                 
                 if (!File.Exists(Link))
@@ -55,6 +55,16 @@ namespace Saving_Accelerator_Tool
                 {
                     toolStripStatusLabel1.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + " Beta Version";
                 }
+                else
+                {
+                    toolStripStatusLabel1.Text = "0.5.0.16  Beta Version";
+                }
+
+                if(Environment.UserName.ToString() == "BartkKon")
+                {
+                    toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
+                }
+                
             }
             catch(Exception ex)
             {
@@ -62,9 +72,5 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private void MainProgram_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

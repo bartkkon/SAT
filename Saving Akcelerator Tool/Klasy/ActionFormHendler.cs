@@ -210,6 +210,8 @@ namespace Saving_Accelerator_Tool
 
         public void tree_Action_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            
+
             if (e.Node.Text == "Electronic" || e.Node.Text == "Mechanic" || e.Node.Text == "NVR" || e.Node.Text == "Electronic Carry Over" || e.Node.Text == "Mechanic Carry Over" || e.Node.Text == "NVR Carry Over")
             {
                 //Przy wybranym tytule akcji nie dziej się nie 
@@ -221,6 +223,7 @@ namespace Saving_Accelerator_Tool
                     ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Enabled = true;
                 }
                 action.Action_Load(e.Node.Text);
+                //e.Node.BackColor = Color.Yellow;
             }
         }
 
@@ -234,13 +237,27 @@ namespace Saving_Accelerator_Tool
         public void pb_PNC_Click(object sender, EventArgs e)
         {
             Form AddData = new AddData("Proszę podać liste PNC", "PNC", mainProgram, ImportData);
+            int DG_RowsCountStart = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
+
             AddData.ShowDialog();
+            int DG_RowsCountFinish = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
+            if (DG_RowsCountStart != DG_RowsCountFinish)
+            {
+                action.Action_CalcNeed();
+            }
         }
 
         public void pb_PNCSpec_Click(object sender, EventArgs e)
         {
             Form AddData = new AddData("Proszę podać liste PNC", "PNCSpec", mainProgram, ImportData);
+            int DG_RowsCountStart = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
+
             AddData.ShowDialog();
+            int DG_RowsCountFinish = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
+            if(DG_RowsCountStart != DG_RowsCountFinish)
+            {
+                action.Action_STKCalcNeed();
+            }
         }
 
         public void pb_Save_Click(object sender, EventArgs e)

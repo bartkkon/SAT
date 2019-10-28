@@ -696,7 +696,7 @@ namespace Saving_Accelerator_Tool
 
         private void PC_Raport(GroupBox gb_Show)
         {
-            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
+            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager" || Person["Role"].ToString() == "EleMenager" || Person["Role"].ToString() == "MechMenager" || Person["Role"].ToString() == "NVRMenager")
             {
                 Button PCRaport = new Button
                 {
