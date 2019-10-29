@@ -401,6 +401,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_OldANC",
                 Text = "OldANC",
                 Checked = true,
+                Enabled = false,
             };
             OldANC.CheckedChanged += new EventHandler(OLDANC_CheckedChange);
             Action.Controls.Add(OldANC);
@@ -413,6 +414,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_ANCOLD",
                 Text = "ANC",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(ANCOLD);
 
@@ -424,6 +426,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_IDCOOLD",
                 Text = "IDCO",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(IDCOOLD);
 
@@ -435,6 +438,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_STKOLD",
                 Text = "STK",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(STKOLD);
 
@@ -446,6 +450,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_NewANC",
                 Text = "NewANC",
                 Checked = true,
+                Enabled = false,
             };
             NewANC.CheckedChanged += new EventHandler(NewANC_CheckedChange);
             Action.Controls.Add(NewANC);
@@ -458,6 +463,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_ANCNEW",
                 Text = "ANC",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(ANCNEW);
 
@@ -469,6 +475,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_IDCONEW",
                 Text = "IDCO",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(IDCONEW);
 
@@ -480,6 +487,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_STKNEW",
                 Text = "STK",
                 Checked = true,
+                Enabled = false,
             };
             Action.Controls.Add(STKNEW);
 
@@ -617,6 +625,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_Minimum",
                 Text = "Minimum",
                 Checked = false,
+                Enabled = false,
             };
             Minimum.CheckedChanged += new EventHandler(ActionDec_CheckedChange);
             groupBox.Controls.Add(Minimum);
@@ -641,6 +650,7 @@ namespace Saving_Accelerator_Tool
                 Name = "CB_Maximum",
                 Text = "Maximum",
                 Checked = false,
+                Enabled = false,
             };
             Maximum.CheckedChanged += new EventHandler(ActionDec_CheckedChange);
             groupBox.Controls.Add(Maximum);

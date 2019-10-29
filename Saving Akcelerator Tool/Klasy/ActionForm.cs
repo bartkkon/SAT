@@ -116,7 +116,7 @@ namespace Saving_Accelerator_Tool
             //ładowanie form na akcje 
             Load_ActionForm(Action_groupBox, mainProgram, Person);
 
-            
+
         }
 
         private void Action_Group_MainFilter(Panel panelLeftOption)
@@ -1042,7 +1042,7 @@ namespace Saving_Accelerator_Tool
 
             //Dodanie osób z których można wybierać jako liderów akcji
             Add_People_To_Combobox(combox_Leader, false);
-            
+
         }
 
         private void Action_Group_CalcFinal_Change(GroupBox Action_GroupBox)
@@ -1161,7 +1161,7 @@ namespace Saving_Accelerator_Tool
             };
 
             CreaterDataGridView(dg_ECCC);
-            
+
             gb_CalcFinal.Controls.Add(dg_ECCC);
         }
 
@@ -1268,13 +1268,13 @@ namespace Saving_Accelerator_Tool
 
         private void Add_People_To_Combobox(ComboBox combox_Leader, bool All)
         {
-            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "MechMenager" || Person["Role"].ToString() == "EleMenager" || Person["Role"].ToString() == "NVRMenager" ||Person["Role"].ToString() == "PCMenager")
+            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "MechMenager" || Person["Role"].ToString() == "EleMenager" || Person["Role"].ToString() == "NVRMenager" || Person["Role"].ToString() == "PCMenager")
             {
                 DataTable Access = new DataTable();
                 string LinkAccess = ImportData.Load_Link("Access");
                 ImportData.Load_TxtToDataTable(ref Access, LinkAccess);
 
-                if(All)
+                if (All)
                 {
                     combox_Leader.Items.Add("All");
                 }
@@ -1290,25 +1290,31 @@ namespace Saving_Accelerator_Tool
                         {
                             combox_Leader.Items.Add(AccessRow["FullName"].ToString());
                         }
-                        if (Person["Role"].ToString() == "EleMenager")
+                        else if (Person["Role"].ToString() == "EleMenager")
                         {
                             if (AccessRow["ActionEle"].ToString() == "true")
                             {
-                                combox_Leader.Items.Add(AccessRow["FullName"].ToString());
+                                if (AccessRow["Role"].ToString() != "PCMenager")
+                                    combox_Leader.Items.Add(AccessRow["FullName"].ToString());
                             }
                         }
-                        if (Person["Role"].ToString() == "MechMenager")
+                        else if (Person["Role"].ToString() == "MechMenager")
                         {
                             if (AccessRow["ActionMech"].ToString() == "true")
                             {
-                                combox_Leader.Items.Add(AccessRow["FullName"].ToString());
+                                if (AccessRow["Role"].ToString() != "PCMenager" )
+                                    if (AccessRow["Role"].ToString() != "Admin")
+                                        combox_Leader.Items.Add(AccessRow["FullName"].ToString());
+                               
                             }
                         }
-                        if (Person["Role"].ToString() == "NVRMenager")
+                        else if (Person["Role"].ToString() == "NVRMenager")
                         {
                             if (AccessRow["ActionNVR"].ToString() == "true")
                             {
-                                combox_Leader.Items.Add(AccessRow["FullName"].ToString());
+                                if (AccessRow["Role"].ToString() != "PCMenager")
+                                    if (AccessRow["Role"].ToString() != "Admin")
+                                        combox_Leader.Items.Add(AccessRow["FullName"].ToString());
                             }
                         }
                     }
@@ -1374,11 +1380,15 @@ namespace Saving_Accelerator_Tool
             DG.ClearSelection();
             DG.Columns["Sum:"].DefaultCellStyle.Font = new Font(DG.Font, FontStyle.Bold);
             DG.Rows[0].DefaultCellStyle.Font = new Font(DG.Font, FontStyle.Bold);
-            DG.Rows[0].DefaultCellStyle.BackColor = Color.Lime;
+            //DG.Rows[0].DefaultCellStyle.BackColor = Color.Lime;
             DG.Rows[1].DefaultCellStyle.BackColor = Color.LightBlue;
             DG.Rows[2].DefaultCellStyle.BackColor = Color.MediumTurquoise;
             DG.Rows[3].DefaultCellStyle.BackColor = Color.DeepSkyBlue;
             DG.Rows[4].DefaultCellStyle.BackColor = Color.DodgerBlue;
+            DG.Rows[1].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            DG.Rows[2].DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
+            DG.Rows[3].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+            DG.Rows[4].DefaultCellStyle.BackColor = Color.FromArgb(240, 146, 91);
             DG.Rows[0].DefaultCellStyle.Format = "#,0.###";
             DG.Rows[1].DefaultCellStyle.Format = "#,0.###";
             DG.Rows[2].DefaultCellStyle.Format = "#,0.###";

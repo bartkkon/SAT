@@ -1909,7 +1909,7 @@ namespace Saving_Accelerator_Tool
                 else
                     Delta = true;
             }
-            else if (MonthAction < RevisionStart)
+            else if (MonthAction <= RevisionStart)
             {
                 Delta = true;
             }
