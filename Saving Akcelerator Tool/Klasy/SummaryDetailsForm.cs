@@ -375,7 +375,7 @@ namespace Saving_Accelerator_Tool
             {
                 Location = new Point(310, 5),
                 Name = "gb_ShowActionSum",
-                Size = new Size(1510, 970),
+                Size = new Size(1600, 970),
                 TabStop = false,
                 Text = "",
             };
@@ -386,6 +386,14 @@ namespace Saving_Accelerator_Tool
 
             //Generowanie 3 tablic na new action, Carry over i ECCC
             GeneretedSumCurrentAction_CarryOver_DataGridView();
+
+            //Generowanie tablic dla podsumowania poszczególnych grup
+            Plan_Grid(gb_ShowActionSum, 30, "Actual");
+            Plan_Grid(gb_ShowActionSum, 205, "CarryOver");
+            Plan_Grid(gb_ShowActionSum, 380, "ECCC");
+
+            //Generowanie Tablicy dla podsumowania całości
+            SumPlanGrid(gb_ShowActionSum);
 
             //Generowanie GrupBoxa dla zatwierdzania akcji Dla menagerów.
             ReportingForm(gb_Controls);
@@ -558,7 +566,8 @@ namespace Saving_Accelerator_Tool
                 Name = "Gb_ChartFilters",
                 Size = new Size(300, 70),
                 TabStop = false,
-                Text = "Chart Filters:"
+                Text = "Chart Filters:",
+                Enabled = false,
             };
             gb_ShowActionSum.Controls.Add(Gb_ChartFilters);
 
@@ -709,6 +718,102 @@ namespace Saving_Accelerator_Tool
                 PCRaport.Click += new EventHandler(PCRaport_Click);
                 gb_Show.Controls.Add(PCRaport);
             }
+        }
+
+        private void Plan_Grid(GroupBox gb_ShowActionSum, int Start_position, string Group)
+        {
+            DataGridView dg_SavingSum = new DataGridView
+            {
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+                Location = new Point(1200, Start_position),
+                Name = "dg_SavingSum" + Group,
+                Size = new Size(330, 133),
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                Enabled = false,
+            };
+            gb_ShowActionSum.Controls.Add(dg_SavingSum);
+
+            dg_SavingSum.Columns.Add("Percent", "Execution of plan [%]");
+            dg_SavingSum.Columns.Add("PercentDM", "Delivery DM [%]");
+            dg_SavingSum.Columns[0].Width = 140;
+            dg_SavingSum.Columns[1].Width = 120;
+            dg_SavingSum.Rows.Add(5);
+            dg_SavingSum.RowHeadersWidth = 68;
+            dg_SavingSum.Rows[0].HeaderCell.Value = "Actual:";
+            dg_SavingSum.Rows[1].HeaderCell.Value = "EA3:";
+            dg_SavingSum.Rows[2].HeaderCell.Value = "EA2:";
+            dg_SavingSum.Rows[3].HeaderCell.Value = "EA1:";
+            dg_SavingSum.Rows[4].HeaderCell.Value = "BU:";
+            dg_SavingSum.CurrentCell = dg_SavingSum[0, 0];
+            dg_SavingSum.ClearSelection();
+            dg_SavingSum.Rows[0].DefaultCellStyle.Format = "#,0.####";
+            dg_SavingSum.Rows[1].DefaultCellStyle.Format = "#,0.####";
+            dg_SavingSum.Rows[2].DefaultCellStyle.Format = "#,0.####";
+            dg_SavingSum.Rows[3].DefaultCellStyle.Format = "#,0.####";
+            dg_SavingSum.Rows[4].DefaultCellStyle.Format = "#,0.####";
+            dg_SavingSum.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dg_SavingSum.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dg_SavingSum.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dg_SavingSum.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dg_SavingSum.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dg_SavingSum.Rows[1].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            dg_SavingSum.Rows[2].DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
+            dg_SavingSum.Rows[3].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+            dg_SavingSum.Rows[4].DefaultCellStyle.BackColor = Color.FromArgb(240, 146, 91);
+        }
+
+        private void SumPlanGrid(GroupBox gb_ShowActionSum)
+        {
+            DataGridView DGV_SumPlan = new DataGridView()
+            {
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+                Location = new Point(700, 550),
+                Name = "DVG_SumPlan",
+                Size = new Size(771, 146),
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                Enabled = false,
+            };
+            gb_ShowActionSum.Controls.Add(DGV_SumPlan);
+
+            DGV_SumPlan.Columns.Add("Sum", "Sum [PLN]");
+            DGV_SumPlan.Columns.Add("Plan", "Execution of plan [%]");
+            DGV_SumPlan.Columns.Add("DM", "DM [%]");
+            DGV_SumPlan.Columns.Add("Target DM", "Target DM [PLN]");
+            DGV_SumPlan.Columns.Add("Target DMP", "Target DM [%]");
+            DGV_SumPlan.Columns.Add("Delta", "Delta [PLN]");
+            DGV_SumPlan.Columns.Add("DeltaP", "Delta [%]");
+            DGV_SumPlan.Columns[0].Width = 100;
+            DGV_SumPlan.Columns[1].Width = 100;
+            DGV_SumPlan.Columns[2].Width = 100;
+            DGV_SumPlan.Columns[3].Width = 100;
+            DGV_SumPlan.Columns[4].Width = 100;
+            DGV_SumPlan.Columns[5].Width = 100;
+            DGV_SumPlan.Columns[6].Width = 100;
+            DGV_SumPlan.Rows.Add(5);
+            DGV_SumPlan.RowHeadersWidth = 68;
+            DGV_SumPlan.Rows[0].HeaderCell.Value = "Actual:";
+            DGV_SumPlan.Rows[1].HeaderCell.Value = "EA3:";
+            DGV_SumPlan.Rows[2].HeaderCell.Value = "EA2:";
+            DGV_SumPlan.Rows[3].HeaderCell.Value = "EA1:";
+            DGV_SumPlan.Rows[4].HeaderCell.Value = "BU:";
+            DGV_SumPlan.CurrentCell = DGV_SumPlan[0, 0];
+            DGV_SumPlan.ClearSelection();
+            DGV_SumPlan.Rows[0].DefaultCellStyle.Format = "#,0.####";
+            DGV_SumPlan.Rows[1].DefaultCellStyle.Format = "#,0.####";
+            DGV_SumPlan.Rows[2].DefaultCellStyle.Format = "#,0.####";
+            DGV_SumPlan.Rows[3].DefaultCellStyle.Format = "#,0.####";
+            DGV_SumPlan.Rows[4].DefaultCellStyle.Format = "#,0.####";
+            DGV_SumPlan.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGV_SumPlan.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGV_SumPlan.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGV_SumPlan.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGV_SumPlan.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DGV_SumPlan.Rows[1].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            DGV_SumPlan.Rows[2].DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
+            DGV_SumPlan.Rows[3].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+            DGV_SumPlan.Rows[4].DefaultCellStyle.BackColor = Color.FromArgb(240, 146, 91);
         }
     }
 }

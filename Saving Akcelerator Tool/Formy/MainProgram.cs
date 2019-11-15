@@ -21,23 +21,25 @@ namespace Saving_Accelerator_Tool
         DataTable Access = new DataTable();
         SummaryDetails summaryDetails;
         Admin admin;
-        
+        public static MainProgram Self;
+
 
         public MainProgram()
         {
             try
             {
-                string Link;
-                if(ApplicationDeployment.IsNetworkDeployed)
+                string Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+
+                if (Environment.UserName.ToString() == "BartkKon")
                 {
-                    Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                    DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na lokalną?", "Baza Danych", MessageBoxButtons.YesNo);
+                    if (Results == DialogResult.Yes)
+                    {
+                        Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                    }
                 }
-                else
-                {
-                    Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
-                    //Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
-                }
-                
+
+
                 if (!File.Exists(Link))
                 {
                     MessageBox.Show("Brak dostępu do bazy danych. Proszę uruchomić dyski sieciowe lub połączyć się z siecią lub skontaktować się z Adminem.");
@@ -57,16 +59,17 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    toolStripStatusLabel1.Text = "0.5.0.20  Beta Version Portable Version";
+                    toolStripStatusLabel1.Text = "0.5.0.22  Beta Version Portable Version";
                 }
 
-                if(Environment.UserName.ToString() == "BartkKon")
+                if (Environment.UserName.ToString() == "BartkKon")
                 {
                     toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
                 }
-                
+                Self = this;
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogSingleton.Instance.SaveLog(ex.Message);
             }

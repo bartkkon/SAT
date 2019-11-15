@@ -114,7 +114,7 @@ namespace Saving_Accelerator_Tool
             if (Preferencje["Actual"])
             {
                 Rew = "Actual";
-                ActionRewizion = History.Select(string.Format("History LIKE '%{0}%'", Month.ToString() + "/" + Year.ToString())).ToArray();
+                ActionRewizion = History.Select(string.Format("History LIKE '%{0}%'", MonthA.ToString() + "/" + Year.ToString())).ToArray();
             }
             else if (Preferencje["BU"])
             {

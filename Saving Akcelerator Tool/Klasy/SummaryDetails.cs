@@ -68,6 +68,16 @@ namespace Saving_Accelerator_Tool
             DataGridDifferenceClear();
         }
 
+        public void SummaryDetails_PlanCheck()
+        {
+            PlanCheck();
+        }
+
+        public void SummaryDetails_SumPlanCheck()
+        {
+            SumPlanCheck();
+        }
+
         // Przeliczanie akcji dla raportu finalnego
         private void AddToFinalReport(string Devision)
         {
@@ -1038,6 +1048,467 @@ namespace Saving_Accelerator_Tool
                     {
                         DataGridSum.Rows[5].Cells[counter].Style.ForeColor = Color.Red;
                     }
+                }
+            }
+        }
+
+        private void PlanCheck()
+        {
+            string Link;
+            DataTable Kurs = new DataTable();
+            DataRow KursRow = null;
+
+            DataGridView Actual = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            DataGridView ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            DataGridView ActualPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumActual", true).First();
+            DataGridView CarryOverPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumCarryOver", true).First();
+            DataGridView ECCCPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumECCC", true).First();
+            NumericUpDown Num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
+
+            Link = ImportData.Load_Link("Kurs");
+            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+
+            KursRow = Kurs.Select(string.Format("Year LIKE '%{0}%'", Num_Year.Value.ToString())).FirstOrDefault();
+
+            PlanTableClear(ActualPlan);
+            PlanTableClear(CarryOverPlan);
+            PlanTableClear(ECCCPlan);
+
+            PlanTableCheck(Actual, ActualPlan, KursRow);
+            PlanTableCheck(CarryOver, CarryOverPlan, KursRow);
+            PlanTableCheck(ECCC, ECCCPlan, KursRow);
+        }
+
+        private void SumPlanCheck()
+        {
+            string Link;
+            DataTable Kurs = new DataTable();
+            DataRow KursRow = null;
+
+
+            DataGridView Summ = (DataGridView)mainProgram.TabControl.Controls.Find("DVG_SumPlan", true).First();
+            NumericUpDown Num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
+
+            Link = ImportData.Load_Link("Kurs");
+            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+
+            KursRow = Kurs.Select(string.Format("Year LIKE '%{0}%'", Num_Year.Value.ToString())).FirstOrDefault();
+
+            //Czyszczenie tablicy
+            CleanSummTabel(Summ);
+
+            //Sumowanie wartości z Actuala, CarryOver i ECCC
+            Summ.Rows[0].Cells[0].Value = SumPlanTable(0);
+            Summ.Rows[1].Cells[0].Value = SumPlanTable(1);
+            Summ.Rows[2].Cells[0].Value = SumPlanTable(2);
+            Summ.Rows[3].Cells[0].Value = SumPlanTable(3);
+            Summ.Rows[4].Cells[0].Value = SumPlanTable(4);
+
+            //Wyliczenie Procentów dostarczonych 
+            PercentWykonania(Summ);
+
+            //Wyliczenie ile już dostarczyliśmy DM 
+            DMForRewizion(Summ, KursRow);
+
+            //Wpisanie targetów
+            TargetsSum(Summ, KursRow);
+
+            //Delta 
+            DeltaSumm(Summ);
+
+        }
+
+        //Liczenie procentów i ile DM to jest
+        private void PlanTableCheck(DataGridView Actions, DataGridView Percent, DataRow KursRow)
+        {
+            string[] DM = new string[3];
+            bool DMexist = false;
+            decimal ActualDec;
+            decimal Rew;
+            decimal DMRew;
+            decimal PercentValue = 0;
+
+            if (KursRow != null)
+            {
+                if (KursRow["DM"].ToString() != "////" || KursRow["DM"].ToString() != "")
+                {
+                    DM = KursRow["DM"].ToString().Split('/');
+                    DMexist = true;
+                }
+            }
+
+            if (Actions.Rows[0].Cells["Sum"].Value != null && Actions.Rows[0].Cells["Sum"].Value.ToString() != "")
+            {
+                ActualDec = decimal.Parse(Actions.Rows[0].Cells["Sum"].Value.ToString());
+
+                for (int counter = 1; counter <= 4; counter++)
+                {
+                    if (Actions.Rows[counter].Cells["Sum"].Value != null && Actions.Rows[counter].Cells["Sum"].Value.ToString() != "")
+                    {
+                        Rew = decimal.Parse(Actions.Rows[counter].Cells["Sum"].Value.ToString());
+                        if (ActualDec > 0 && Rew > 0)
+                        {
+                            PercentValue = (ActualDec / Rew) * 100;
+                        }
+                        else if (ActualDec < 0 && Rew < 0)
+                        {
+                            PercentValue = (Rew / ActualDec) * 100;
+                        }
+                        else if (ActualDec > 0 && Rew < 0)
+                        {
+                            Rew = ActualDec - Rew;
+                            PercentValue = (Rew / ActualDec) * 100;
+                        }
+                        else if (ActualDec < 0 && Rew > 0)
+                        {
+                            Rew = Rew - ActualDec;
+                            PercentValue = (Rew / ActualDec) * 100;
+                        }
+                        Percent.Rows[counter].Cells[0].Value = Math.Round(PercentValue, 2, MidpointRounding.AwayFromZero);
+                        if (DMexist)
+                        {
+                            if (DM[4-counter].ToString() != "")
+                            {
+                                DMRew = decimal.Parse(DM[4 - counter].ToString());
+                                Percent.Rows[counter].Cells[1].Value = Math.Round((ActualDec / DMRew) * 100, 4, MidpointRounding.AwayFromZero);
+                            }
+                        }
+                    }
+                }
+
+                for (int counter = 1; counter <= 4; counter++)
+                {
+                    decimal Tocheck = decimal.Parse(Percent.Rows[counter].Cells[0].Value.ToString());
+                    if (Tocheck >= 100)
+                    {
+                        Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Red;
+                    }
+                }
+            }
+        }
+
+        //Czyszczenie poszczególnych tabel Dla procentów i DM 
+        private void PlanTableClear(DataGridView Percent)
+        {
+            for (int counter = 0; counter <= 4; counter++)
+            {
+                Percent.Rows[counter].Cells[0].Value = null;
+                Percent.Rows[counter].Cells[1].Value = null;
+            }
+        }
+
+        //Sumowanie Actual, CarryOver i ECCC
+        private decimal SumPlanTable(int Row)
+        {
+            decimal Sum = 0;
+            DataGridView Actual = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            DataGridView ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+
+            if (Actual.Rows[Row].Cells["Sum"].Value != null && Actual.Rows[Row].Cells["Sum"].Value.ToString() != "")
+            {
+                Sum = Sum + decimal.Parse(Actual.Rows[Row].Cells["Sum"].Value.ToString());
+            }
+            if (CarryOver.Rows[Row].Cells["Sum"].Value != null && CarryOver.Rows[Row].Cells["Sum"].Value.ToString() != "")
+            {
+                Sum = Sum + decimal.Parse(CarryOver.Rows[Row].Cells["Sum"].Value.ToString());
+            }
+            if (ECCC.Rows[Row].Cells["Sum"].Value != null && ECCC.Rows[Row].Cells["Sum"].Value.ToString() != "")
+            {
+                Sum = Sum + decimal.Parse(ECCC.Rows[Row].Cells["Sum"].Value.ToString());
+            }
+
+            return Sum;
+        }
+
+        //Liczenie procent wykonania planu dla SumWszystkich partów
+        private void PercentWykonania(DataGridView Summ)
+        {
+            decimal Rew;
+            decimal Actual = 0;
+            decimal Percent = 0;
+
+            if (Summ.Rows[0].Cells[0].Value != null && Summ.Rows[0].Cells[0].Value.ToString() != "")
+            {
+                Actual = decimal.Parse(Summ.Rows[0].Cells[0].Value.ToString());
+
+                for (int counter = 1; counter <= 4; counter++)
+                {
+                    if (Summ.Rows[counter].Cells[0].Value != null && Summ.Rows[counter].Cells[0].Value.ToString() != "")
+                    {
+                        Rew = decimal.Parse(Summ.Rows[counter].Cells[0].Value.ToString());
+
+                        if (Actual > 0 && Rew > 0)
+                        {
+                            Percent = (Actual / Rew) * 100;
+                        }
+                        else if (Actual < 0 && Rew < 0)
+                        {
+                            Percent = (Rew / Actual) * 100;
+                        }
+                        else if (Actual > 0 && Rew < 0)
+                        {
+                            Rew = Actual - Rew;
+                            Percent = (Rew / Actual) * 100;
+                        }
+                        else if (Actual < 0 && Rew>0)
+                        {
+                            Rew = Rew-Actual;
+                            Percent = (Rew / Actual) * 100;
+                        }
+
+                        Summ.Rows[counter].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
+                        if (Percent >= 100)
+                            Summ.Rows[counter].Cells[1].Style.ForeColor = Color.Green;
+                        else
+                            Summ.Rows[counter].Cells[1].Style.ForeColor = Color.Red;
+                    }
+                }
+
+                //if (Summ.Rows[1].Cells[0].Value != null && Summ.Rows[1].Cells[0].Value.ToString() != "")
+                //{
+                //    Rew = decimal.Parse(Summ.Rows[1].Cells[0].Value.ToString());
+                //    Percent = (Actual / Rew) * 100;
+                //    Summ.Rows[1].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
+                //    if (Percent >= 100)
+                //        Summ.Rows[1].Cells[1].Style.ForeColor = Color.Green;
+                //    else
+                //        Summ.Rows[1].Cells[1].Style.ForeColor = Color.Red;
+                //}
+                //if (Summ.Rows[2].Cells[0].Value != null && Summ.Rows[2].Cells[0].Value.ToString() != "")
+                //{
+                //    Rew = decimal.Parse(Summ.Rows[1].Cells[0].Value.ToString());
+                //    Percent = (Actual / Rew) * 100;
+                //    Summ.Rows[2].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
+                //    if (Percent >= 100)
+                //        Summ.Rows[2].Cells[1].Style.ForeColor = Color.Green;
+                //    else
+                //        Summ.Rows[2].Cells[1].Style.ForeColor = Color.Red;
+                //}
+                //if (Summ.Rows[3].Cells[0].Value != null && Summ.Rows[3].Cells[0].Value.ToString() != "")
+                //{
+                //    Rew = decimal.Parse(Summ.Rows[3].Cells[0].Value.ToString());
+                //    Percent = (Actual / Rew) * 100;
+                //    Summ.Rows[3].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
+                //    if (Percent >= 100)
+                //        Summ.Rows[3].Cells[1].Style.ForeColor = Color.Green;
+                //    else
+                //        Summ.Rows[3].Cells[1].Style.ForeColor = Color.Red;
+                //}
+                //if (Summ.Rows[4].Cells[0].Value != null && Summ.Rows[4].Cells[0].Value.ToString() != "")
+                //{
+                //    Rew = decimal.Parse(Summ.Rows[4].Cells[0].Value.ToString());
+                //    Percent = (Actual / Rew) * 100;
+                //    Summ.Rows[4].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
+                //    if (Percent >= 100)
+                //        Summ.Rows[4].Cells[1].Style.ForeColor = Color.Green;
+                //    else
+                //        Summ.Rows[4].Cells[1].Style.ForeColor = Color.Red;
+                //}
+            }
+        }
+
+        //Liczenie dostarczonego DM dla Rewizji
+        private void DMForRewizion(DataGridView Summ, DataRow KursRow)
+        {
+            string[] DM = new string[4];
+            bool CanCalc = false;
+            decimal Actual;
+            decimal DMValue;
+            decimal Percent;
+
+            if (KursRow["DM"].ToString() != "")
+            {
+                DM = KursRow["DM"].ToString().Split('/');
+                CanCalc = true;
+            }
+
+            if (CanCalc)
+            {
+                if (Summ.Rows[0].Cells[0].Value != null && Summ.Rows[0].Cells[0].Value.ToString() != "")
+                {
+                    Actual = decimal.Parse(Summ.Rows[0].Cells[0].Value.ToString());
+
+                    if (DM[0].ToString() != "")
+                    {
+                        DMValue = decimal.Parse(DM[0].ToString());
+                        Percent = (Actual / DMValue) * 100;
+                        Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
+                        Summ.Rows[4].Cells[2].Value = Percent;
+                    }
+                    if (DM[1].ToString() != "")
+                    {
+                        DMValue = decimal.Parse(DM[1].ToString());
+                        Percent = (Actual / DMValue) * 100;
+                        Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
+                        Summ.Rows[3].Cells[2].Value = Percent;
+                    }
+                    if (DM[2].ToString() != "")
+                    {
+                        DMValue = decimal.Parse(DM[2].ToString());
+                        Percent = (Actual / DMValue) * 100;
+                        Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
+                        Summ.Rows[2].Cells[2].Value = Percent;
+                    }
+                    if (DM[3].ToString() != "")
+                    {
+                        DMValue = decimal.Parse(DM[3].ToString());
+                        Percent = (Actual / DMValue) * 100;
+                        Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
+                        Summ.Rows[1].Cells[2].Value = Percent;
+                    }
+                }
+            }
+        }
+
+        //Wpisywanie targetów
+        private void TargetsSum(DataGridView Summ, DataRow KursRow)
+        {
+            string[] DMPercent = new string[4];
+            string[] DMValue = new string[4];
+            bool CanCalc = false;
+            decimal Target;
+            decimal Percent;
+            decimal DMRew;
+
+            ComboBox Devision = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDevision", true).First();
+
+            if (Devision.SelectedItem.ToString() == "All")
+            {
+                if (KursRow["PC"].ToString() != "")
+                {
+                    DMPercent = KursRow["PC"].ToString().Split('/');
+                    CanCalc = true;
+                }
+            }
+            else if (Devision.SelectedItem.ToString() == "Electronic")
+            {
+                if (KursRow["Ele"].ToString() != "")
+                {
+                    DMPercent = KursRow["Ele"].ToString().Split('/');
+                    CanCalc = true;
+                }
+            }
+            else if (Devision.SelectedItem.ToString() == "Mechanic")
+            {
+                if (KursRow["Mech"].ToString() != "")
+                {
+                    DMPercent = KursRow["Mech"].ToString().Split('/');
+                    CanCalc = true;
+                }
+            }
+            else if (Devision.SelectedItem.ToString() == "NVR")
+            {
+                if (KursRow["NVR"].ToString() != "")
+                {
+                    DMPercent = KursRow["Ele"].ToString().Split('/');
+                    CanCalc = true;
+                }
+            }
+
+            if (KursRow["DM"].ToString() != "")
+            {
+                DMValue = KursRow["DM"].ToString().Split('/');
+            }
+
+            if (CanCalc)
+            {
+                if (DMPercent[0].ToString() != "" && DMValue[0].ToString() != "")
+                {
+                    Percent = decimal.Parse(DMPercent[0].ToString());
+                    DMRew = decimal.Parse(DMValue[0].ToString());
+                    Target = DMRew * (Percent / 100);
+                    Target = Math.Round(Target, 0, MidpointRounding.AwayFromZero);
+                    Summ.Rows[4].Cells[3].Value = Target;
+                    Summ.Rows[4].Cells[4].Value = Percent;
+                }
+                if (DMPercent[1].ToString() != "" && DMValue[1].ToString() != "")
+                {
+                    Percent = decimal.Parse(DMPercent[1].ToString());
+                    DMRew = decimal.Parse(DMValue[1].ToString());
+                    Target = DMRew * (Percent / 100);
+                    Target = Math.Round(Target, 0, MidpointRounding.AwayFromZero);
+                    Summ.Rows[3].Cells[3].Value = Target;
+                    Summ.Rows[3].Cells[4].Value = Percent;
+                }
+                if (DMPercent[2].ToString() != "" && DMValue[2].ToString() != "")
+                {
+                    Percent = decimal.Parse(DMPercent[2].ToString());
+                    DMRew = decimal.Parse(DMValue[2].ToString());
+                    Target = DMRew * (Percent / 100);
+                    Target = Math.Round(Target, 0, MidpointRounding.AwayFromZero);
+                    Summ.Rows[2].Cells[3].Value = Target;
+                    Summ.Rows[2].Cells[4].Value = Percent;
+                }
+                if (DMPercent[3].ToString() != "" && DMValue[3].ToString() != "")
+                {
+                    Percent = decimal.Parse(DMPercent[3].ToString());
+                    DMRew = decimal.Parse(DMValue[3].ToString());
+                    Target = DMRew * (Percent / 100);
+                    Target = Math.Round(Target, 0, MidpointRounding.AwayFromZero);
+                    Summ.Rows[1].Cells[3].Value = Target;
+                    Summ.Rows[1].Cells[4].Value = Percent;
+                }
+            }
+        }
+
+        //Wyliczenie Delty 
+        private void DeltaSumm(DataGridView Summ)
+        {
+            decimal Delivery;
+            decimal Plan;
+            for (int counter = 1; counter <= 4; counter++)
+            {
+                if (Summ.Rows[counter].Cells[3].Value != null && Summ.Rows[counter].Cells[3].Value.ToString() != "")
+                {
+                    if (Summ.Rows[0].Cells[0].Value != null && Summ.Rows[0].Cells[0].Value.ToString() != "")
+                    {
+                        Plan = decimal.Parse(Summ.Rows[counter].Cells[3].Value.ToString());
+                        Delivery = decimal.Parse(Summ.Rows[0].Cells[0].Value.ToString());
+                        Summ.Rows[counter].Cells[5].Value = Delivery - Plan;
+                        if (Delivery - Plan < 0)
+                        {
+                            Summ.Rows[counter].Cells[5].Style.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            Summ.Rows[counter].Cells[5].Style.ForeColor = Color.Green;
+                        }
+                    }
+                }
+                if (Summ.Rows[counter].Cells[4].Value != null && Summ.Rows[counter].Cells[4].Value.ToString() != "")
+                {
+                    if (Summ.Rows[counter].Cells[2].Value != null && Summ.Rows[counter].Cells[2].Value.ToString() != "")
+                    {
+                        Plan = decimal.Parse(Summ.Rows[counter].Cells[4].Value.ToString());
+                        Delivery = decimal.Parse(Summ.Rows[counter].Cells[2].Value.ToString());
+                        Summ.Rows[counter].Cells[6].Value = Delivery - Plan;
+                        if (Delivery - Plan < 0)
+                        {
+                            Summ.Rows[counter].Cells[6].Style.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            Summ.Rows[counter].Cells[6].Style.ForeColor = Color.Green;
+                        }
+                    }
+                }
+            }
+        }
+
+        //Czyszenie tablei
+        private void CleanSummTabel(DataGridView Summ)
+        {
+            for (int counter = 0; counter <= 4; counter++)
+            {
+                for (int counter2 = 0; counter2 <= 6; counter2++)
+                {
+                    Summ.Rows[counter].Cells[counter2].Value = null;
                 }
             }
         }

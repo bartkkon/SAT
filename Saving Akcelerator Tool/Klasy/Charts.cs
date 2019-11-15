@@ -45,12 +45,12 @@ namespace Saving_Accelerator_Tool
             GroupBox Gb_Summary = (GroupBox)mainProgram.Controls.Find("gb_ShowActionSum", true).First();
 
             Chart ChartSummary = new Chart();
-            ChartSummary.Size = new Size(1100, 350);
+            ChartSummary.Size = new Size(1400, 280);
             ChartSummary.Name = "ChartSummary";
-            ChartSummary.Location = new Point(5, 540);
+            ChartSummary.Location = new Point(260, 700);
             ChartSummary.Legends.Add(new Legend("Expenses"));
             ChartSummary.Legends[0].TableStyle = LegendTableStyle.Auto;
-            ChartSummary.Legends[0].Docking = Docking.Bottom;
+            ChartSummary.Legends[0].Docking = Docking.Right;
             ChartSummary.Legends[0].Alignment = StringAlignment.Center;
 
             ChartArea ChartAreaSummary = new ChartArea();
@@ -59,12 +59,15 @@ namespace Saving_Accelerator_Tool
             ChartAreaSummary.AxisX.LabelStyle.Font = new Font("Consolas", 8);
             ChartAreaSummary.AxisY.LabelStyle.Font = new Font("Consolas", 8);
             ChartAreaSummary.AxisX.Interval = 1;
+            ChartAreaSummary.AxisX.Title = "Months";
+            ChartAreaSummary.AxisY.Title = "Savings [kPLN]";
 
             ChartSummary.ChartAreas.Add(ChartAreaSummary);
             Gb_Summary.Controls.Add(ChartSummary);
             ChartSummary.Invalidate();
 
             AddSeries();
+            ((GroupBox)mainProgram.Controls.Find("Gb_ChartFilters", true).First()).Enabled = true;
         }
 
         private void AddSeries()
@@ -196,7 +199,7 @@ namespace Saving_Accelerator_Tool
                     if (Current != "")
                     {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Current);
+                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Current)/1000;
                     }
                 }
 
@@ -206,7 +209,7 @@ namespace Saving_Accelerator_Tool
                     if (Carry != "")
                     {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Carry);
+                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Carry)/1000;
                     }
                 }
 
@@ -216,7 +219,7 @@ namespace Saving_Accelerator_Tool
                     if (ECCCTab != "")
                     {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(ECCCTab);
+                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(ECCCTab)/1000;
                     }
                 }
             }

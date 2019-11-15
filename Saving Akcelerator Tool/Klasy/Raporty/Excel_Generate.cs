@@ -34,9 +34,11 @@ namespace Saving_Accelerator_Tool
         }
     }
 
+    //Zapis pliku dla MiltuRaport
     public class Save_Excel_WorkBook
     {
         MainProgram mainProgram;
+       
 
         public Save_Excel_WorkBook(MainProgram mainProgram)
         {
@@ -110,6 +112,29 @@ namespace Saving_Accelerator_Tool
             return Name;
         }
     }
+
+    //Zapis pliku dla reszty
+    public class Save_Excel_WorkBook_All
+    {
+        public void Save_WorkBook(Excel.Application application, Excel.Workbook workbook, string FileName)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.FileName = FileName;
+            saveFileDialog.DefaultExt = "Xlsx";
+            saveFileDialog.Filter = "Excel Files (*.xlsx)|*xlsx";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                workbook.SaveAs(saveFileDialog.FileName);
+                workbook.Close();
+                application.Quit();
+            }
+        }
+    }
+    
 
     public class Create_Excel_WorkSheet
     {

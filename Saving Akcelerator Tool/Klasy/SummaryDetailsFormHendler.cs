@@ -61,6 +61,8 @@ namespace Saving_Accelerator_Tool
             charts.ChartSummary();
             summaryDetails.SummaryDetails_DataGridDifferenceClear();
             summaryDetails.SummaryDetails_DataGridDifference();
+            summaryDetails.SummaryDetails_PlanCheck();
+            summaryDetails.SummaryDetails_SumPlanCheck();
             Cursor.Current = Cursors.Default;
         }
 
@@ -375,7 +377,7 @@ namespace Saving_Accelerator_Tool
                 Location = new System.Drawing.Point(470, 15),
                 Name = "lab_CurrentActionSum",
                 Size = new System.Drawing.Size(20, 13),
-                Text = "Current Year:",
+                Text = "Actual:",
             };
             gb_ShowActionSum.Controls.Add(lab_CurrentActionSum);
 
@@ -384,62 +386,13 @@ namespace Saving_Accelerator_Tool
                 ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
                 Location = new System.Drawing.Point(5, 30),
                 Name = "dg_SavingSum",
-                Size = new System.Drawing.Size(1120, 155),
+                Size = new System.Drawing.Size(1133, 155),
                 AllowUserToAddRows = false,
                 ReadOnly = true,
                 Enabled = false,
             };
-            dg_SavingSum.Columns.Add("1", "I");
-            dg_SavingSum.Columns.Add("2", "II");
-            dg_SavingSum.Columns.Add("3", "III");
-            dg_SavingSum.Columns.Add("4", "IV");
-            dg_SavingSum.Columns.Add("5", "V");
-            dg_SavingSum.Columns.Add("6", "VI");
-            dg_SavingSum.Columns.Add("7", "VII");
-            dg_SavingSum.Columns.Add("8", "VIII");
-            dg_SavingSum.Columns.Add("9", "IX");
-            dg_SavingSum.Columns.Add("10", "X");
-            dg_SavingSum.Columns.Add("11", "XI");
-            dg_SavingSum.Columns.Add("12", "XII");
-            dg_SavingSum.Columns.Add("Sum", "Sum:");
-            dg_SavingSum.Columns[0].Width = 80;
-            dg_SavingSum.Columns[1].Width = 80;
-            dg_SavingSum.Columns[2].Width = 80;
-            dg_SavingSum.Columns[3].Width = 80;
-            dg_SavingSum.Columns[4].Width = 80;
-            dg_SavingSum.Columns[5].Width = 80;
-            dg_SavingSum.Columns[6].Width = 80;
-            dg_SavingSum.Columns[7].Width = 80;
-            dg_SavingSum.Columns[8].Width = 80;
-            dg_SavingSum.Columns[9].Width = 80;
-            dg_SavingSum.Columns[10].Width = 80;
-            dg_SavingSum.Columns[11].Width = 80;
-            dg_SavingSum.Columns[12].Width = 103;
-            dg_SavingSum.Rows.Add(6);
-            dg_SavingSum.RowHeadersWidth = 55;
-            dg_SavingSum.Rows[0].HeaderCell.Value = "Use:";
-            dg_SavingSum.Rows[1].HeaderCell.Value = "EA3:";
-            dg_SavingSum.Rows[2].HeaderCell.Value = "EA2:";
-            dg_SavingSum.Rows[3].HeaderCell.Value = "EA1:";
-            dg_SavingSum.Rows[4].HeaderCell.Value = "BU:";
-            dg_SavingSum.Rows[5].HeaderCell.Value = "Diff";
-            dg_SavingSum.CurrentCell = dg_SavingSum[0, 0];
-            dg_SavingSum.ClearSelection();
-            dg_SavingSum.Columns[0].Frozen = true;
-            dg_SavingSum.Rows[0].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[1].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[2].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[3].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[4].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[5].DefaultCellStyle.Format = "#,0.###";
-            dg_SavingSum.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Rows[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_SavingSum.Columns["Sum"].DefaultCellStyle.Font = new Font(dg_SavingSum.Font, FontStyle.Bold);
-            dg_SavingSum.Rows[0].DefaultCellStyle.Font = new Font(dg_SavingSum.Font, FontStyle.Bold);
+
+            CreateTable(dg_SavingSum);
             gb_ShowActionSum.Controls.Add(dg_SavingSum);
 
             Label lab_CarryOverSum = new Label
@@ -457,62 +410,13 @@ namespace Saving_Accelerator_Tool
                 ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
                 Location = new System.Drawing.Point(5, 205),
                 Name = "dg_CarryOverSum",
-                Size = new System.Drawing.Size(1120, 155),
+                Size = new System.Drawing.Size(1133, 155),
                 AllowUserToAddRows = false,
                 ReadOnly = true,
                 Enabled = false,
             };
-            dg_CarryOverSum.Columns.Add("1", "I");
-            dg_CarryOverSum.Columns.Add("2", "II");
-            dg_CarryOverSum.Columns.Add("3", "III");
-            dg_CarryOverSum.Columns.Add("4", "IV");
-            dg_CarryOverSum.Columns.Add("5", "V");
-            dg_CarryOverSum.Columns.Add("6", "VI");
-            dg_CarryOverSum.Columns.Add("7", "VII");
-            dg_CarryOverSum.Columns.Add("8", "VIII");
-            dg_CarryOverSum.Columns.Add("9", "IX");
-            dg_CarryOverSum.Columns.Add("10", "X");
-            dg_CarryOverSum.Columns.Add("11", "XI");
-            dg_CarryOverSum.Columns.Add("12", "XII");
-            dg_CarryOverSum.Columns.Add("Sum", "Sum:");
-            dg_CarryOverSum.Columns[0].Width = 80;
-            dg_CarryOverSum.Columns[1].Width = 80;
-            dg_CarryOverSum.Columns[2].Width = 80;
-            dg_CarryOverSum.Columns[3].Width = 80;
-            dg_CarryOverSum.Columns[4].Width = 80;
-            dg_CarryOverSum.Columns[5].Width = 80;
-            dg_CarryOverSum.Columns[6].Width = 80;
-            dg_CarryOverSum.Columns[7].Width = 80;
-            dg_CarryOverSum.Columns[8].Width = 80;
-            dg_CarryOverSum.Columns[9].Width = 80;
-            dg_CarryOverSum.Columns[10].Width = 80;
-            dg_CarryOverSum.Columns[11].Width = 80;
-            dg_CarryOverSum.Columns[12].Width = 103;
-            dg_CarryOverSum.Rows.Add(6);
-            dg_CarryOverSum.RowHeadersWidth = 55;
-            dg_CarryOverSum.Rows[0].HeaderCell.Value = "Use:";
-            dg_CarryOverSum.Rows[1].HeaderCell.Value = "EA3:";
-            dg_CarryOverSum.Rows[2].HeaderCell.Value = "EA2:";
-            dg_CarryOverSum.Rows[3].HeaderCell.Value = "EA1:";
-            dg_CarryOverSum.Rows[4].HeaderCell.Value = "BU:";
-            dg_CarryOverSum.Rows[5].HeaderCell.Value = "Diff:";
-            dg_CarryOverSum.CurrentCell = dg_CarryOverSum[0, 0];
-            dg_CarryOverSum.ClearSelection();
-            dg_CarryOverSum.Columns[0].Frozen = true;
-            dg_CarryOverSum.Rows[0].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[1].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[2].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[3].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[4].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[5].DefaultCellStyle.Format = "#,0.###";
-            dg_CarryOverSum.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Rows[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_CarryOverSum.Columns["Sum"].DefaultCellStyle.Font = new Font(dg_CarryOverSum.Font, FontStyle.Bold);
-            dg_CarryOverSum.Rows[0].DefaultCellStyle.Font = new Font(dg_CarryOverSum.Font, FontStyle.Bold);
+
+            CreateTable(dg_CarryOverSum);
             gb_ShowActionSum.Controls.Add(dg_CarryOverSum);
 
             Label lab_ECCCSum = new Label
@@ -530,63 +434,13 @@ namespace Saving_Accelerator_Tool
                 ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
                 Location = new System.Drawing.Point(5, 380),
                 Name = "dg_ECCCSum",
-                Size = new System.Drawing.Size(1120, 155),
+                Size = new System.Drawing.Size(1133, 155),
                 AllowUserToAddRows = false,
                 ReadOnly = true,
                 Enabled = false,
             };
 
-            dg_ECCCSum.Columns.Add("1", "I");
-            dg_ECCCSum.Columns.Add("2", "II");
-            dg_ECCCSum.Columns.Add("3", "III");
-            dg_ECCCSum.Columns.Add("4", "IV");
-            dg_ECCCSum.Columns.Add("5", "V");
-            dg_ECCCSum.Columns.Add("6", "VI");
-            dg_ECCCSum.Columns.Add("7", "VII");
-            dg_ECCCSum.Columns.Add("8", "VIII");
-            dg_ECCCSum.Columns.Add("9", "IX");
-            dg_ECCCSum.Columns.Add("10", "X");
-            dg_ECCCSum.Columns.Add("11", "XI");
-            dg_ECCCSum.Columns.Add("12", "XII");
-            dg_ECCCSum.Columns.Add("Sum", "Sum:");
-            dg_ECCCSum.Columns[0].Width = 80;
-            dg_ECCCSum.Columns[1].Width = 80;
-            dg_ECCCSum.Columns[2].Width = 80;
-            dg_ECCCSum.Columns[3].Width = 80;
-            dg_ECCCSum.Columns[4].Width = 80;
-            dg_ECCCSum.Columns[5].Width = 80;
-            dg_ECCCSum.Columns[6].Width = 80;
-            dg_ECCCSum.Columns[7].Width = 80;
-            dg_ECCCSum.Columns[8].Width = 80;
-            dg_ECCCSum.Columns[9].Width = 80;
-            dg_ECCCSum.Columns[10].Width = 80;
-            dg_ECCCSum.Columns[11].Width = 80;
-            dg_ECCCSum.Columns[12].Width = 103;
-            dg_ECCCSum.Rows.Add(6);
-            dg_ECCCSum.RowHeadersWidth = 55;
-            dg_ECCCSum.Rows[0].HeaderCell.Value = "Use:";
-            dg_ECCCSum.Rows[1].HeaderCell.Value = "EA3:";
-            dg_ECCCSum.Rows[2].HeaderCell.Value = "EA2:";
-            dg_ECCCSum.Rows[3].HeaderCell.Value = "EA1:";
-            dg_ECCCSum.Rows[4].HeaderCell.Value = "BU:";
-            dg_ECCCSum.Rows[5].HeaderCell.Value = "Diff:";
-            dg_ECCCSum.CurrentCell = dg_ECCCSum[0, 0];
-            dg_ECCCSum.ClearSelection();
-            dg_ECCCSum.Columns[0].Frozen = true;
-            dg_ECCCSum.Rows[0].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[1].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[2].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[3].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[4].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[5].DefaultCellStyle.Format = "#,0.###";
-            dg_ECCCSum.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Rows[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dg_ECCCSum.Columns["Sum"].DefaultCellStyle.Font = new Font(dg_ECCCSum.Font, FontStyle.Bold);
-            dg_ECCCSum.Rows[0].DefaultCellStyle.Font = new Font(dg_ECCCSum.Font, FontStyle.Bold);
+            CreateTable(dg_ECCCSum);
             gb_ShowActionSum.Controls.Add(dg_ECCCSum);
         }
 
@@ -677,6 +531,65 @@ namespace Saving_Accelerator_Tool
 
             ReportingOption Report = new ReportingOption(mainProgram, data_Import, YearToCalc.Value);
             Report.ShowDialog();
+        }
+
+        private void CreateTable(DataGridView Table)
+        {
+            Table.Columns.Add("1", "I");
+            Table.Columns.Add("2", "II");
+            Table.Columns.Add("3", "III");
+            Table.Columns.Add("4", "IV");
+            Table.Columns.Add("5", "V");
+            Table.Columns.Add("6", "VI");
+            Table.Columns.Add("7", "VII");
+            Table.Columns.Add("8", "VIII");
+            Table.Columns.Add("9", "IX");
+            Table.Columns.Add("10", "X");
+            Table.Columns.Add("11", "XI");
+            Table.Columns.Add("12", "XII");
+            Table.Columns.Add("Sum", "Sum:");
+            Table.Columns[0].Width = 80;
+            Table.Columns[1].Width = 80;
+            Table.Columns[2].Width = 80;
+            Table.Columns[3].Width = 80;
+            Table.Columns[4].Width = 80;
+            Table.Columns[5].Width = 80;
+            Table.Columns[6].Width = 80;
+            Table.Columns[7].Width = 80;
+            Table.Columns[8].Width = 80;
+            Table.Columns[9].Width = 80;
+            Table.Columns[10].Width = 80;
+            Table.Columns[11].Width = 80;
+            Table.Columns[12].Width = 103;
+            Table.Rows.Add(6);
+            Table.RowHeadersWidth = 68;
+            Table.Rows[0].HeaderCell.Value = "Actual:";
+            Table.Rows[1].HeaderCell.Value = "EA3:";
+            Table.Rows[2].HeaderCell.Value = "EA2:";
+            Table.Rows[3].HeaderCell.Value = "EA1:";
+            Table.Rows[4].HeaderCell.Value = "BU:";
+            Table.Rows[5].HeaderCell.Value = "Diff:";
+            Table.CurrentCell = Table[0, 0];
+            Table.ClearSelection();
+            Table.Columns[0].Frozen = true;
+            Table.Rows[0].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[1].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[2].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[3].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[4].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[5].DefaultCellStyle.Format = "#,0.###";
+            Table.Rows[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Table.Rows[1].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            Table.Rows[2].DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
+            Table.Rows[3].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+            Table.Rows[4].DefaultCellStyle.BackColor = Color.FromArgb(240, 146, 91);
+            Table.Columns["Sum"].DefaultCellStyle.Font = new Font(Table.Font, FontStyle.Bold);
+            Table.Rows[0].DefaultCellStyle.Font = new Font(Table.Font, FontStyle.Bold);
         }
     }
 }

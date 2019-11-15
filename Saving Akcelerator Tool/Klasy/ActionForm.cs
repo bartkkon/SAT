@@ -414,6 +414,7 @@ namespace Saving_Accelerator_Tool
                 Text = "DMD",
                 UseVisualStyleBackColor = true
             };
+            cb_DMD.CheckedChanged += new EventHandler(cb_Platform_CheckedChanged);
             gb_Platform.Controls.Add(cb_DMD);
 
             CheckBox cb_D45 = new CheckBox
@@ -947,6 +948,7 @@ namespace Saving_Accelerator_Tool
                 combox_Devision.Items.Add("NVR");
             }
             combox_Devision.SelectedIndex = 0;
+            combox_Devision.SelectedIndexChanged += new EventHandler(combo_Devision_SelectedIndexChange);
             gb_State.Controls.Add(combox_Devision);
 
             Label leb_YearAction = new Label
@@ -976,6 +978,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(78, 20),
                 Value = DateTime.Today.Year
             };
+            num_YearAction.ValueChanged += new EventHandler(num_YearAction_ValueChanged);
             gb_State.Controls.Add(num_YearAction);
 
             Label leb_MonthAction = new Label
@@ -997,6 +1000,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Wybierz Miesiąc",
             };
             combox_Month.Items.AddRange(new object[] { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
+            combox_Month.SelectedIndexChanged += new EventHandler(combox_Month_SelectedIndexChange);
             gb_State.Controls.Add(combox_Month);
 
             Label lab_Leader = new Label
@@ -1016,7 +1020,7 @@ namespace Saving_Accelerator_Tool
                 Name = "comBox_Leader",
                 Size = new Size(140, 21),
             };
-
+            combox_Leader.SelectedIndexChanged += new EventHandler(combox_Leader_SelectedIndexChanged);
             gb_State.Controls.Add(combox_Leader);
 
             Label lab_Factory = new Label
@@ -1038,6 +1042,7 @@ namespace Saving_Accelerator_Tool
             };
             combox_Factory.Items.AddRange(new object[] { "PLV", "ZM" });
             combox_Factory.SelectedIndex = 0;
+            combox_Factory.SelectedIndexChanged += new EventHandler(combox_Factory_SelectedIndexChanged);
             gb_State.Controls.Add(combox_Factory);
 
             //Dodanie osób z których można wybierać jako liderów akcji
@@ -1329,6 +1334,7 @@ namespace Saving_Accelerator_Tool
 
         private void Load_SpecialButton(GroupBox Action_GroupBox)
         {
+            //PRzycisk do pokazywania IDCO jakie jest w akcji
             Button IDCO = new Button
             {
                 Location = new Point(975, 490),
@@ -1338,6 +1344,18 @@ namespace Saving_Accelerator_Tool
             };
             IDCO.Click += new EventHandler(IDCO_Click);
             Action_GroupBox.Controls.Add(IDCO);
+
+            //Przycisk do zapisywania do Excela danych z Akcji PNC i PNC Spec
+            Button SavePNC = new Button
+            {
+                Location = new Point(975, 930),
+                Name = "PB_SavePNC",
+                Size = new Size(75, 30),
+                Text = "Save Data",
+                Visible = false,
+            };
+            SavePNC.Click += new EventHandler(SavePNC_Click);
+            Action_GroupBox.Controls.Add(SavePNC);
 
         }
 

@@ -46,6 +46,7 @@ namespace Saving_Accelerator_Tool
 
                 //Tab_Action_Comp();
                 ActionForm actionForm = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                action.Action_NoChangeInAction();
             }
             // 
             // tab_SummaryDetail

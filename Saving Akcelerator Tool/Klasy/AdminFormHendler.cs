@@ -57,6 +57,7 @@ namespace Saving_Accelerator_Tool
         public void Tb_AdminTargets_TextChange(object sender, EventArgs e)
         {
             TextBox ChangeText = (sender as TextBox);
+            ChangeText.TextChanged -= Tb_AdminTargets_TextChange;
 
             decimal delta = 0;
 
@@ -82,10 +83,15 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
-            if(ChangeText.Name == "Tb_AdminTargetsDM")
+            if (ChangeText.Name == "Tb_AdminTargetsDM")
             {
-                ChangeText.Text = string.Format("{0:# ### ##0}", double.Parse(ChangeText.Text));
-            }
+                if (ChangeText.Text != "")
+                {
+                    ChangeText.Text = string.Format("{0:# ### ##0}", double.Parse(ChangeText.Text));
+                    ChangeText.Focus();
+                    ChangeText.SelectionStart = ChangeText.Text.Length;
+                }
+                }
 
             if (ChangeText.Name == "Tb_AdminTargetsPercent")
             {
@@ -155,6 +161,7 @@ namespace Saving_Accelerator_Tool
                     Calc.Text = "";
                 }
             }
+            ChangeText.TextChanged += Tb_AdminTargets_TextChange;
         }
 
         public void pb_AdminSaveCalcRev_Click(object sender, EventArgs e)
@@ -572,6 +579,13 @@ namespace Saving_Accelerator_Tool
                 _STK.STK_ManualUpdateFromFile(Year);
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        public void comb_AdminTargetsComboBoxChange_SelectedItemChange(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            admin.Admin_TargetChangeRewizion();
+            Cursor.Current = Cursors.Default;
         }
     }
 }

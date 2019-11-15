@@ -85,6 +85,8 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
+            action.Action_ChangeInAction();
+
             cb_InstallAll.CheckedChanged += cb_Installation_CheckedChanged;
             cb_FS.CheckedChanged += cb_Installation_CheckedChanged;
             cb_FI.CheckedChanged += cb_Installation_CheckedChanged;
@@ -175,6 +177,9 @@ namespace Saving_Accelerator_Tool
                     tb_Estymacja.SelectionStart = CursorPosition;
                 }
             }
+
+            action.Action_ChangeInAction();
+            action.Action_CalcNeed();
             tb_Estymacja.TextChanged += tb_PNCEStymation_TextChanged;
         }
 
@@ -222,8 +227,25 @@ namespace Saving_Accelerator_Tool
                 {
                     ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Enabled = true;
                 }
-                action.Action_Load(e.Node.Text);
-                //e.Node.BackColor = Color.Yellow;
+
+                if(action.Action_IfcanChange())
+                {
+                    DialogResult Results = MessageBox.Show("Do you want save change ?", "Save?", MessageBoxButtons.YesNo);
+
+                    if(Results == DialogResult.Yes)
+                    {
+                        action.Action_Save(mainProgram, Person);
+                        action.Action_Load(e.Node.Text);
+                    }
+                    else
+                    {
+                        action.Action_Load(e.Node.Text);
+                    }
+                }
+                else
+                {
+                    action.Action_Load(e.Node.Text);
+                }
             }
         }
 
@@ -244,6 +266,7 @@ namespace Saving_Accelerator_Tool
             if (DG_RowsCountStart != DG_RowsCountFinish)
             {
                 action.Action_CalcNeed();
+                action.Action_ChangeInAction();
             }
         }
 
@@ -257,6 +280,7 @@ namespace Saving_Accelerator_Tool
             if(DG_RowsCountStart != DG_RowsCountFinish)
             {
                 action.Action_STKCalcNeed();
+                action.Action_ChangeInAction();
             }
         }
 
@@ -284,6 +308,7 @@ namespace Saving_Accelerator_Tool
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First()).Enabled = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First()).Checked;
             ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCCSpec", true).First()).Enabled = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First()).Checked;
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First()).Value = 0;
+            action.Action_ChangeInAction();
         }
 
         public void pb_SaveDraft_Click(object sender, EventArgs e)
@@ -297,6 +322,7 @@ namespace Saving_Accelerator_Tool
 
             cb_Idea.CheckedChanged -= cb_Idea_CheckedChanged;
             cb_Idea.Checked = false;
+            action.Action_ChangeInAction();
             cb_Idea.CheckedChanged += cb_Idea_CheckedChanged;
         }
 
@@ -306,6 +332,7 @@ namespace Saving_Accelerator_Tool
 
             cb_Active.CheckedChanged -= cb_Active_CheckedChanged;
             cb_Active.Checked = false;
+            action.Action_ChangeInAction();
             cb_Active.CheckedChanged += cb_Active_CheckedChanged;
         }
 
@@ -317,6 +344,7 @@ namespace Saving_Accelerator_Tool
             CheckBox cb_CalcPNCSpec = (CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNCSpec", true).First();
             Button pb_PNC = (Button)mainProgram.TabControl.Controls.Find("pb_PNC", true).First();
             Button pb_PNCSpec = (Button)mainProgram.TabControl.Controls.Find("pb_PNCSPec", true).First();
+            Button PB_SavePNC = (Button)MainProgram.Self.TabControl.Controls.Find("PB_SavePNC", true).First();
             GroupBox gb_PNC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_PNC", true).First();
             DataGridView dg_PNC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
             GroupBox gb_Estyma = (GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First();
@@ -346,6 +374,7 @@ namespace Saving_Accelerator_Tool
                 gb_ANCby.Visible = false;
                 cb_ECCCSpec.Checked = false;
                 cb_ECCCSpec.Visible = false;
+                PB_SavePNC.Visible = false;
                 if (cb_ECCC.Checked)
                     num_ECCC.Enabled = true;
                 else
@@ -367,6 +396,7 @@ namespace Saving_Accelerator_Tool
                 gb_ANCby.Visible = true;
                 cb_ECCCSpec.Checked = false;
                 cb_ECCCSpec.Visible = false;
+                PB_SavePNC.Visible = false;
                 if (cb_ECCC.Checked)
                     num_ECCC.Enabled = true;
                 else
@@ -386,7 +416,8 @@ namespace Saving_Accelerator_Tool
                 gb_ANCby.Visible = false;
                 cb_ECCCSpec.Checked = false;
                 cb_ECCCSpec.Visible = false;
-                if(cb_ECCC.Checked)
+                PB_SavePNC.Visible = true;
+                if (cb_ECCC.Checked)
                     num_ECCC.Enabled = true;
                 else
                     num_ECCC.Enabled = false;
@@ -405,6 +436,7 @@ namespace Saving_Accelerator_Tool
                 gb_ANCby.Visible = false;
                 cb_ECCCSpec.Checked = false;
                 cb_ECCCSpec.Visible = true;
+                PB_SavePNC.Visible = true;
                 if (cb_ECCC.Checked && !cb_ECCCSpec.Checked)
                 {
                     num_ECCC.Enabled = true;
@@ -415,6 +447,8 @@ namespace Saving_Accelerator_Tool
             {
                 num_ECCC.Enabled = !cb_ECCCSpec.Checked;
             }
+
+            action.Action_ChangeInAction();
 
             cb_CalcANC.CheckedChanged += cb_Calc_CheckedChanged;
             cb_CalcANCby.CheckedChanged += cb_Calc_CheckedChanged;
@@ -432,11 +466,13 @@ namespace Saving_Accelerator_Tool
         public void pb_Plus_Click(object sender, EventArgs e)
         {
             action.Action_AddANC();
+            action.Action_ChangeInAction();
         }
 
         public void pb_Minus_Click(object sender, EventArgs e)
         {
             action.Action_RemoveANC();
+            action.Action_ChangeInAction();
         }
 
         public void Description_TextChange(object sender, EventArgs e)
@@ -445,6 +481,7 @@ namespace Saving_Accelerator_Tool
             TextBox Description = sender as TextBox;
 
             MaxLength.Text = Description.Text.Length.ToString() + "/1000";
+            action.Action_ChangeInAction();
         }
 
         public void Tb_PercentQuantity_Leave(object sender, EventArgs e)
@@ -460,6 +497,7 @@ namespace Saving_Accelerator_Tool
             TextBox PercentQuantity = sender as TextBox;
 
             PercentQuantity.Text = Regex.Replace(PercentQuantity.Text, @"[^0-9,]+", "");
+            action.Action_ChangeInAction();
         }
 
         public void IDCO_Click(object sender, EventArgs e)
@@ -501,6 +539,7 @@ namespace Saving_Accelerator_Tool
                     }
                 }
             }
+            action.Action_ChangeInAction();
         }
 
         public void Name_Leave(object sender, EventArgs e)
@@ -529,9 +568,47 @@ namespace Saving_Accelerator_Tool
                 Active.Checked = false;
                 Idea.Checked = true;
             }
+            action.Action_ChangeInAction();
 
             Active.CheckedChanged += Active_Idea_CheckedChange;
             Idea.CheckedChanged += Active_Idea_CheckedChange;
+        }
+
+        public void combo_Devision_SelectedIndexChange (object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void num_YearAction_ValueChanged(object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void combox_Month_SelectedIndexChange(object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void combox_Leader_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void combox_Factory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void cb_Platform_CheckedChanged(object sender, EventArgs e)
+        {
+            action.Action_ChangeInAction();
+        }
+
+        public void SavePNC_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            SavePNC Save = new SavePNC();
+            Cursor.Current = Cursors.Default;
         }
     }
 }

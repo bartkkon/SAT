@@ -402,13 +402,13 @@ namespace Saving_Accelerator_Tool
 
             if (Row != null)
             {
-                Row[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Quantity * Savings, 4, MidpointRounding.AwayFromZero);
+                Row[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
             }
             else
             {
                 Row = QuantityPerANC.NewRow();
                 Row["Name"] = ANC;
-                Row[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Quantity * Savings, 4, MidpointRounding.AwayFromZero);
+                Row[Month.ToString()] = Quantity.ToString() + ":" + Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
                 QuantityPerANC.Rows.Add(Row);
             }
 
@@ -1124,8 +1124,14 @@ namespace Saving_Accelerator_Tool
                     Sum = Sum + decimal.Parse(Row[counter].ToString());
                 }
             }
-
-            Row[12] = Sum.ToString();
+            if (Sum != 0)
+            {
+                Row[12] = Sum.ToString();
+            }
+            else
+            {
+                Row[12] = "";
+            }
         }
 
         private string ReturnValue(string[] Row)

@@ -24,6 +24,7 @@ namespace Saving_Accelerator_Tool
         string LinkECCC;
         bool ChangeANC = true; //Ustawia się gdy Zostało zmienione ANC (old new), Resetuje się gdy jest przeliczone STK
         bool SavingCalc = false; // Ustawia się gdy zostało przeliczone STK, Resetuje się gdy zrobiony jest calc dla akcji
+        bool IfanyChange = false; //Jeśli jakaś akcja była zrobiona w wyświetlanej akcji, zmienia się na true. Jeśli będziesz próbował przejść do innej akcji zapyta czy chesz zapisać zmiany
         bool NewActionCreate = false;
 
         DataTable USE = new DataTable();
@@ -114,6 +115,7 @@ namespace Saving_Accelerator_Tool
             }
             Calculation Calc = new Calculation(mainProgram, ImportData, ANCChangeNumber, USE, BU, EA1, EA2, EA3);
             Calc.SavingCalculation();
+            Action_ChangeInAction();
             ChangeCalcProtector(false);
         }
 
@@ -145,6 +147,7 @@ namespace Saving_Accelerator_Tool
             ChangeANCProtector(false);
             ChangeCalcProtector(false);
             NewActionCreate = false;
+            Action_NoChangeInAction();
 
             Cursor.Current = Cursors.Default;
             //}
@@ -175,6 +178,7 @@ namespace Saving_Accelerator_Tool
                 SaveAction Save = new SaveAction(mainProgram, ImportData, ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
                 Save.Save(NewActionCreate, IDCODictionary);
                 TreeRefresh(Person);
+                Action_NoChangeInAction();
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -190,6 +194,7 @@ namespace Saving_Accelerator_Tool
             RefreshEstimationAll();
             ChangeANCProtector(false);
             ChangeCalcProtector(true);
+            Action_ChangeInAction();
             Cursor.Current = Cursors.Default;
         }
 
@@ -242,6 +247,23 @@ namespace Saving_Accelerator_Tool
         public void Action_CalcNeed()
         {
             ChangeCalcProtector(true);
+        }
+
+        public void Action_ChangeInAction()
+        {
+            IfanyChange = true;
+            ((Button)mainProgram.TabControl.Controls.Find("pb_Save", true).First()).ForeColor = Color.Red;
+        }
+
+        public void Action_NoChangeInAction()
+        {
+            IfanyChange = false;
+            ((Button)mainProgram.TabControl.Controls.Find("pb_Save", true).First()).ForeColor = Color.Black;
+        }
+
+        public bool Action_IfcanChange()
+        {
+            return IfanyChange;
         }
 
         private void AddColumn()
@@ -3305,6 +3327,8 @@ namespace Saving_Accelerator_Tool
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
         }
 
+        
+
         //Przerwania
 
         //Handler dla wpisywanych wartości Estymacji i Procentów przez użytkownika
@@ -3360,6 +3384,7 @@ namespace Saving_Accelerator_Tool
 
                 RefreshEstimation_Calc(Number);
             }
+            Action_ChangeInAction();
         }
 
         //Przerwanie od sprawdzenia czy został wybrany tylko jeden checkbox dla ANCby
@@ -3395,6 +3420,7 @@ namespace Saving_Accelerator_Tool
                 (sender as CheckBox).Checked = true;
             }
             (sender as CheckBox).CheckedChanged += cb_ANCby_CheckedChanged;
+            Action_ChangeInAction();
         }
 
         //Przerwanie do wpisywania ANC New, Old, Next czy poza pierwszym znakiem jest char 
@@ -3466,6 +3492,7 @@ namespace Saving_Accelerator_Tool
                 ChangeANCProtector(true);
                 Tb_Quantity_Leave(sender, e);
             }
+            Action_ChangeInAction();
         }
 
         //Przerwanie dla Quantity czy jest prawidłowy
@@ -3490,6 +3517,7 @@ namespace Saving_Accelerator_Tool
                 Quantity.Focus();
                 Quantity.SelectionStart = CursorPosition;
             }
+            Action_ChangeInAction();
         }
 
         //Przerwanie które sprawdza czy po wyjściu z Quantity nie ma pustego pola

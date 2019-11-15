@@ -166,6 +166,7 @@ namespace Saving_Accelerator_Tool
             Comb_AdminTargetsRewizja.Items.Add("EA3");
             Gb_AdminTargets.Controls.Add(Comb_AdminTargetsRewizja);
             Comb_AdminTargetsRewizja.SelectedIndex = 0;
+            Comb_AdminTargetsRewizja.SelectedIndexChanged += new EventHandler(comb_AdminTargetsComboBoxChange_SelectedItemChange);
 
             Label Lab_AdminTargetsDM = new Label
             {
@@ -1870,5 +1871,7 @@ namespace Saving_Accelerator_Tool
             Pb_Deactivator_Action.Click += new EventHandler(Pb_DeactivatorAction_Click);
             Gb_Activater_Action.Controls.Add(Pb_Deactivator_Action);
         }
+
+
     }
 }

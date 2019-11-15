@@ -11,8 +11,20 @@ namespace Saving_Accelerator_Tool
 {
     public class Data_Import
     {
-        //string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Akcelerator_Data\Links.txt";
-        string Link_Access;
+        string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Akcelerator_Data\Links.txt";
+        //string Link_Access;
+
+        public Data_Import()
+        {
+            if (Environment.UserName.ToString() == "BartkKon")
+            {
+                DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na lokalną?", "Baza Danych", MessageBoxButtons.YesNo);
+                if (Results == DialogResult.Yes)
+                {
+                    Link_Access = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                }
+            }
+        }
 
         public Data_Import (string Link)
         {
@@ -61,7 +73,7 @@ namespace Saving_Accelerator_Tool
             string User;
             DataTable dataTable = new DataTable();
             DataTable dataTable2;
-            DataRow FoundRow;
+            DataRow FoundRow = null;
 
             Link = Load_Link("Access");
 
@@ -69,25 +81,32 @@ namespace Saving_Accelerator_Tool
 
             dataTable2 = dataTable.Clone();
 
-            User = Environment.UserName.ToString();
+            User = Environment.UserName.ToLower();
             FoundRow = dataTable.Select(string.Format("Name LIKE '%{0}%'", User)).FirstOrDefault();
             if (FoundRow == null)
             {
                 MessageBox.Show("You don't have access to this application. Please contact with administrator.");
-                System.Environment.Exit(0);
+                Environment.Exit(0);
                 Access = new string[1];
                 Access[0] = "";
 
             }
             else
             {
-                foreach (DataRow Row in dataTable.Rows)
-                {
-                    if (Row["Name"].ToString() == User)
+                //foreach (DataRow Row in dataTable.Rows)
+                //{
+                    if (FoundRow["Name"].ToString() == User)
                     {
-                        dataTable2.Rows.Add(Row.ItemArray);
+                        dataTable2.Rows.Add(FoundRow.ItemArray);
                     }
-                }
+                    else
+                    {
+                        MessageBox.Show("You don't have access to this application. Please contact with administrator.");
+                        Environment.Exit(0);
+                        Access = new string[1];
+                        Access[0] = "";
+                    }
+                //}
             }
 
             return dataTable2;
