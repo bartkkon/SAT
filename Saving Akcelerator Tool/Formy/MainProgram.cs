@@ -23,6 +23,7 @@ namespace Saving_Accelerator_Tool
         Admin admin;
         public static MainProgram Self;
 
+        //Wprowadzam zmny dla HotFixa
 
         public MainProgram()
         {
