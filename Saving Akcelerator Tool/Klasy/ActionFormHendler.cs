@@ -460,7 +460,7 @@ namespace Saving_Accelerator_Tool
         public void but_Action_NewAction_Click(object sender, EventArgs e)
         {
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Enabled = true;
-            action.Action_NewAction(mainProgram);
+            action.Action_NewAction(mainProgram, Person);
         }
 
         public void pb_Plus_Click(object sender, EventArgs e)

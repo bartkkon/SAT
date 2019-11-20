@@ -157,11 +157,31 @@ namespace Saving_Accelerator_Tool
             //}
         }
 
-        public void Action_NewAction(MainProgram mainProgram)
+        public void Action_NewAction(MainProgram mainProgram, DataRow Person)
         {
-            NewAction(mainProgram);
-            ChangeActionBlocker();
-            NewActionCreate = true;
+            if (IfanyChange)
+            {
+                DialogResult Results = MessageBox.Show("Do you want save change ? ", "Save ? ", MessageBoxButtons.YesNo);
+                if(Results == DialogResult.Yes)
+                {
+                    Action_Save(mainProgram, Person);
+                    NewAction(mainProgram);
+                    ChangeActionBlocker();
+                    NewActionCreate = true;
+                }
+                else if(Results == DialogResult.No)
+                {
+                    NewAction(mainProgram);
+                    ChangeActionBlocker();
+                    NewActionCreate = true;
+                }
+            }
+            else
+            {
+                NewAction(mainProgram);
+                ChangeActionBlocker();
+                NewActionCreate = true;
+            }
         }
 
         public void Action_Save(MainProgram mainProgram, DataRow Person)
