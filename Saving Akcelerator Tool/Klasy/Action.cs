@@ -447,8 +447,8 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
-                                        Saving = Saving + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent * decimal.Parse(Delta[counter].ToString()));
+                                        Quantity += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                        Saving += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent * decimal.Parse(Delta[counter].ToString()));
 
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
@@ -464,13 +464,13 @@ namespace Saving_Accelerator_Tool
 
                                     if (FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
-                                        Saving = Saving + (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent * decimal.Parse(Delta[counter].ToString()));
+                                        Quantity += (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                        Saving += (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent * decimal.Parse(Delta[counter].ToString()));
 
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                     }
                                 }

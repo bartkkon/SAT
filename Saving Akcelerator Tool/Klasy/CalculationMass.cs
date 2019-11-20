@@ -445,7 +445,7 @@ namespace Saving_Accelerator_Tool
             decimal Quantity = 0;
             decimal QuantityNext = 0;
             decimal Saving;
-            decimal SavingNext = 0;
+            //decimal SavingNext = 0;
             decimal ECCC;
             decimal ECCCSek = 0;
             decimal ECCCSekCost = 0;
