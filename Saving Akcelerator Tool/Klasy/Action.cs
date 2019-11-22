@@ -129,10 +129,8 @@ namespace Saving_Accelerator_Tool
 
         public void Action_Load(string Action)
         {
-            //try
-            //{
+
             Cursor.Current = Cursors.WaitCursor;
-            //LoadAction(mainProgram, Action);
             NewAction(mainProgram);
             LoadAction loadAction = new LoadAction(mainProgram, ImportData, this);
             loadAction.Load(Action);
@@ -142,7 +140,6 @@ namespace Saving_Accelerator_Tool
             EA2 = loadAction.ReturnTable("EA2");
             EA3 = loadAction.ReturnTable("EA3");
 
-
             ChangeActionBlocker();
             ChangeANCProtector(false);
             ChangeCalcProtector(false);
@@ -150,11 +147,6 @@ namespace Saving_Accelerator_Tool
             Action_NoChangeInAction();
 
             Cursor.Current = Cursors.Default;
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogSingleton.Instance.SaveLog(ex.Message);
-            //}
         }
 
         public void Action_NewAction(MainProgram mainProgram, DataRow Person)
