@@ -161,6 +161,7 @@
       <DependentUpon>ReportingOption.cs</DependentUpon>
     </Compile>
     <Compile Include="SavePNC.cs" />
+    <Compile Include="SumPNC\GroupingPNC.cs" />
     <EmbeddedResource Include="Formy\ActionFunction.resx">
       <DependentUpon>ActionFunction.cs</DependentUpon>
     </EmbeddedResource>
