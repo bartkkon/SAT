@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Saving_Accelerator_Tool
 {
-    public class Action
+    public class Action 
     {
         int ANCChangeNumber = 0;
         string link;
@@ -2633,6 +2633,8 @@ namespace Saving_Accelerator_Tool
             ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Clear();
             ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Columns.Clear();
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNC", true).First()).Enabled = false;
+            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNC", true).First()).Visible = false;
+            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_MassCalc", true).First()).Visible = false;
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Value = DateTime.Today.Year;
             ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Text = DateTime.Now.ToString("MMMM", CultureInfo.InvariantCulture);
             ((Button)mainProgram.TabControl.Controls.Find("pb_SaveDraft", true).First()).Visible = true;
@@ -3402,37 +3404,20 @@ namespace Saving_Accelerator_Tool
         //Przerwanie od sprawdzenia czy został wybrany tylko jeden checkbox dla ANCby
         private void cb_ANCby_CheckedChanged(object sender, EventArgs e)
         {
-            int number;
+            bool Status = false;
+            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First();
 
-            string WhatCheckBox = (sender as CheckBox).Name;
-            GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
-            (sender as CheckBox).CheckedChanged -= cb_ANCby_CheckedChanged;
-
-            WhatCheckBox = WhatCheckBox.Remove(0, 8);
-            number = Int32.Parse(WhatCheckBox);
-
-            if ((sender as CheckBox).Checked)
+            for (int counter = 1; counter <= ANCChangeNumber; counter++)
             {
-                for (int counter = 1; counter <= ANCChangeNumber; counter++)
+                CheckBox ANCby = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + counter.ToString(), true).First();
+
+                if(ANCby.Checked)
                 {
-                    if (counter != number)
-                    {
-                        CheckBox nCB_ANCby = (CheckBox)gb_ANCby.Controls.Find("cb_ANCby" + counter.ToString(), false).First();
-                        if (nCB_ANCby.Checked)
-                        {
-                            nCB_ANCby.CheckedChanged -= cb_ANCby_CheckedChanged;
-                            nCB_ANCby.Checked = false;
-                            nCB_ANCby.CheckedChanged += cb_ANCby_CheckedChanged;
-                        }
-                    }
+                    Status = true;
+                    All.Checked = false;
+
                 }
             }
-            else
-            {
-                (sender as CheckBox).Checked = true;
-            }
-            (sender as CheckBox).CheckedChanged += cb_ANCby_CheckedChanged;
-            Action_ChangeInAction();
         }
 
         //Przerwanie do wpisywania ANC New, Old, Next czy poza pierwszym znakiem jest char 

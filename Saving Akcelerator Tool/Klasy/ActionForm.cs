@@ -275,6 +275,9 @@ namespace Saving_Accelerator_Tool
             //Group Box dla pokazania PNC do użytku w wyliczeniach 
             Action_Group_PNC_PNCSpec_Change(Action_GroupBox);
 
+            //GroupBox dla mozlwiości zaznaczenia czy liczyć Mass czy nie 
+            Action_Mass_Calculation(Action_GroupBox);
+
             //Group Box dla Calculation by: - ACN/PNC/PNCSpec
             Action_Group_CalcBy_Change(Action_GroupBox);
 
@@ -788,6 +791,154 @@ namespace Saving_Accelerator_Tool
             };
             dg_PNC.RowHeadersWidth = 4;
             gb_PNC.Controls.Add(dg_PNC);
+        }
+
+        private void Action_Mass_Calculation(GroupBox Action_GroupBox)
+        {
+            GroupBox gb_MassCalc = new GroupBox
+            {
+                Location = new Point(1055, 130),
+                Name = "gb_MassCalc",
+                Size = new Size(525, 300),
+                TabStop = false,
+                Text = "Calculation Group",
+                Enabled = true,
+                Visible = false,
+            };
+            Action_GroupBox.Controls.Add(gb_MassCalc);
+
+            CheckBox cb_Mass_All = new CheckBox
+            {
+                Location = new Point(25, 25),
+                Name = "cb_Mass_All",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "All",
+            };
+            cb_Mass_All.CheckedChanged += new EventHandler(cb_Mass_All_CheckedChange);
+            gb_MassCalc.Controls.Add(cb_Mass_All);
+
+            CheckBox cb_Mass_DMD = new CheckBox
+            {
+                Location = new Point(25, 55),
+                Name = "cb_Mass_DMD",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "DMD",
+            };
+            cb_Mass_DMD.CheckedChanged += new EventHandler(cb_Mass_DMD_CheckedChange);
+            gb_MassCalc.Controls.Add(cb_Mass_DMD);
+
+            CheckBox cb_Mass_D45 = new CheckBox
+            {
+                Location = new Point(90, 55),
+                Name = "cb_Mass_D45",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "D45",
+            };
+            cb_Mass_D45.CheckedChanged += new EventHandler(cb_Mass_D45_CheckedChange);
+            gb_MassCalc.Controls.Add(cb_Mass_D45);
+
+            Label lab_DMD = new Label
+            {
+                Location = new Point(15, 95),
+                Name = "Lab_DMD",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "DMD:",
+            };
+            gb_MassCalc.Controls.Add(lab_DMD);
+
+            CheckBox cb_Mass_DMD_FS = new CheckBox
+            {
+                Location = new Point(25, 125),
+                Name = "cb_Mass_DMD_FS",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FS",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_DMD_FS);
+
+            CheckBox cb_Mass_DMD_FI = new CheckBox
+            {
+                Location = new Point(70, 125),
+                Name = "cb_Mass_DMD_FI",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FI",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_DMD_FI);
+
+            CheckBox cb_Mass_DMD_BI = new CheckBox
+            {
+                Location = new Point(115, 125),
+                Name = "cb_Mass_DMD_BI",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "BI/BU",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_DMD_BI);
+
+            CheckBox cb_Mass_DMD_FSBU = new CheckBox
+            {
+                Location = new Point(180, 125),
+                Name = "cb_Mass_DMD_FSBU",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FSBU",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_DMD_FSBU);
+
+            Label lab_D45 = new Label
+            {
+                Location = new Point(15, 165),
+                Name = "Lab_D45",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "D45:",
+            };
+            gb_MassCalc.Controls.Add(lab_D45);
+
+            CheckBox cb_Mass_D45_FS = new CheckBox
+            {
+                Location = new Point(25, 195),
+                Name = "cb_Mass_D45_FS",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FS",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_D45_FS);
+
+            CheckBox cb_Mass_D45_FI = new CheckBox
+            {
+                Location = new Point(70, 195),
+                Name = "cb_Mass_D45_FI",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FI",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_D45_FI);
+
+            CheckBox cb_Mass_D45_BI = new CheckBox
+            {
+                Location = new Point(115, 195),
+                Name = "cb_Mass_D45_BI",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "BI/BU",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_D45_BI);
+
+            CheckBox cb_Mass_D45_FSBU = new CheckBox
+            {
+                Location = new Point(180, 195),
+                Name = "cb_Mass_D45_FSBU",
+                AutoSize = true,
+                Size = new Size(20, 20),
+                Text = "FSBU",
+            };
+            gb_MassCalc.Controls.Add(cb_Mass_D45_FSBU);
         }
 
         private void Action_Group_CalcBy_Change(GroupBox Action_GroupBox)

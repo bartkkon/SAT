@@ -215,7 +215,7 @@ namespace Saving_Accelerator_Tool
 
         public void tree_Action_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            
+
 
             if (e.Node.Text == "Electronic" || e.Node.Text == "Mechanic" || e.Node.Text == "NVR" || e.Node.Text == "Electronic Carry Over" || e.Node.Text == "Mechanic Carry Over" || e.Node.Text == "NVR Carry Over")
             {
@@ -228,11 +228,11 @@ namespace Saving_Accelerator_Tool
                     ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Enabled = true;
                 }
 
-                if(action.Action_IfcanChange())
+                if (action.Action_IfcanChange())
                 {
                     DialogResult Results = MessageBox.Show("Do you want save change ?", "Save?", MessageBoxButtons.YesNo);
 
-                    if(Results == DialogResult.Yes)
+                    if (Results == DialogResult.Yes)
                     {
                         action.Action_Save(mainProgram, Person);
                         action.Action_Load(e.Node.Text);
@@ -277,7 +277,7 @@ namespace Saving_Accelerator_Tool
 
             AddData.ShowDialog();
             int DG_RowsCountFinish = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
-            if(DG_RowsCountStart != DG_RowsCountFinish)
+            if (DG_RowsCountStart != DG_RowsCountFinish)
             {
                 action.Action_STKCalcNeed();
                 action.Action_ChangeInAction();
@@ -352,6 +352,7 @@ namespace Saving_Accelerator_Tool
             CheckBox cb_ECCCSpec = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCCSpec", true).First();
             CheckBox cb_ECCC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First();
             NumericUpDown num_ECCC = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First();
+            GroupBox Mass = (GroupBox)mainProgram.TabControl.Controls.Find("gb_MassCalc", true).First();
 
             cb_CalcANC.CheckedChanged -= cb_Calc_CheckedChanged;
             cb_CalcANCby.CheckedChanged -= cb_Calc_CheckedChanged;
@@ -368,6 +369,8 @@ namespace Saving_Accelerator_Tool
                 pb_PNC.Enabled = false;
                 pb_PNCSpec.Enabled = false;
                 gb_PNC.Enabled = false;
+                gb_PNC.Visible = false;
+                Mass.Visible = false;
                 dg_PNC.Rows.Clear();
                 dg_PNC.Columns.Clear();
                 gb_Estyma.Visible = false;
@@ -389,7 +392,9 @@ namespace Saving_Accelerator_Tool
                 cb_CalcPNCSpec.Checked = false;
                 pb_PNC.Enabled = false;
                 pb_PNCSpec.Enabled = false;
+                gb_PNC.Visible = false;
                 gb_PNC.Enabled = false;
+                Mass.Visible = true;
                 dg_PNC.Rows.Clear();
                 dg_PNC.Columns.Clear();
                 gb_Estyma.Visible = false;
@@ -412,6 +417,8 @@ namespace Saving_Accelerator_Tool
                 pb_PNC.Enabled = true;
                 pb_PNCSpec.Enabled = false;
                 gb_PNC.Enabled = true;
+                gb_PNC.Visible = true;
+                Mass.Visible = false;
                 gb_Estyma.Visible = false;
                 gb_ANCby.Visible = false;
                 cb_ECCCSpec.Checked = false;
@@ -432,6 +439,8 @@ namespace Saving_Accelerator_Tool
                 pb_PNC.Enabled = false;
                 pb_PNCSpec.Enabled = true;
                 gb_PNC.Enabled = true;
+                gb_PNC.Visible = true;
+                Mass.Visible = false;
                 gb_Estyma.Visible = true;
                 gb_ANCby.Visible = false;
                 cb_ECCCSpec.Checked = false;
@@ -563,7 +572,7 @@ namespace Saving_Accelerator_Tool
                 Active.Checked = true;
                 Idea.Checked = false;
             }
-            else if(Check.Text == "Idea Action")
+            else if (Check.Text == "Idea Action")
             {
                 Active.Checked = false;
                 Idea.Checked = true;
@@ -574,7 +583,7 @@ namespace Saving_Accelerator_Tool
             Idea.CheckedChanged += Active_Idea_CheckedChange;
         }
 
-        public void combo_Devision_SelectedIndexChange (object sender, EventArgs e)
+        public void combo_Devision_SelectedIndexChange(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
@@ -609,6 +618,81 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.WaitCursor;
             SavePNC Save = new SavePNC();
             Cursor.Current = Cursors.Default;
+        }
+
+        public void cb_Mass_DMD_CheckedChange(object sender, EventArgs e)
+        {
+            if ((sender as CheckBox).Checked)
+            {
+                Mass_DMD_D45_Enabled(false, "DMD");
+            }
+            else
+            {
+                Mass_DMD_D45_Enabled(true, "DMD");
+                Mass_DMD_D45_Checked(false, "DMD");
+            }
+        }
+
+        public void cb_Mass_D45_CheckedChange(object sender, EventArgs e)
+        {
+            if ((sender as CheckBox).Checked)
+            {
+                Mass_DMD_D45_Enabled(false, "D45");
+            }
+            else
+            {
+                Mass_DMD_D45_Enabled(true, "D45");
+                Mass_DMD_D45_Checked(false, "D45");
+            }
+        }
+
+        public void cb_Mass_All_CheckedChange(object sender, EventArgs e)
+        {
+            CheckBox DMD = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD", true).First();
+            CheckBox D45 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45", true).First();
+
+            if((sender as CheckBox).Checked)
+            {
+                DMD.Checked = false;
+                DMD.Enabled = false;
+                D45.Checked = false;
+                D45.Enabled = false;
+                Mass_DMD_D45_Enabled(false, "DMD");
+                Mass_DMD_D45_Enabled(false, "D45");
+            }
+            else
+            {
+                DMD.Enabled = true;
+                D45.Enabled = true;
+                Mass_DMD_D45_Enabled(true, "DMD");
+                Mass_DMD_D45_Enabled(true, "D45");
+            }
+        }
+
+        private void Mass_DMD_D45_Enabled (bool Status, string Instalation)
+        {
+            CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_"+Instalation+"_FS", true).First();
+            CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();
+            CheckBox BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_BI", true).First();
+            CheckBox FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FSBU", true).First();
+
+            FS.Enabled = Status;
+            FI.Enabled = Status;
+            BI.Enabled = Status;
+            FSBU.Enabled = Status;
+        }
+
+        private void Mass_DMD_D45_Checked(bool Status, string Instalation)
+        {
+            CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FS", true).First();
+            CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();
+            CheckBox BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_BI", true).First();
+            CheckBox FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FSBU", true).First();
+
+            FS.Checked = Status;
+            FI.Checked = Status;
+            BI.Checked = Status;
+            FSBU.Checked = Status;
         }
     }
 }
