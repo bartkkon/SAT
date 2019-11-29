@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Saving_Accelerator_Tool
 {
@@ -123,6 +124,116 @@ namespace Saving_Accelerator_Tool
         public void Admin_TargetChangeRewizion()
         {
             TargetChangeRewizion();
+        }
+
+        public void Admin_CloneDataBase()
+        {
+            CloneDataBase();
+        }
+
+        private void CloneDataBase()
+        {
+            string LinkServer = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\";
+            string LinkDysk = @"C:\Moje\EC_Accelerator_Data\";
+            string Access = @"Access\Access.txt";
+            string BUANC = @"BUANC\BUANC.txt";
+            string BUPNC = @"BUPNC\BUPNC.txt";
+            string Frozen = @"Frozen\Frozen.txt";
+            string Kurs = @"Kurs\Kurs.txt";
+            string STK = @"STK\STK.txt";
+            string ANC = @"ANC\ANC.txt";
+            string PNC = @"PNC\PNC.txt";
+            string Action = @"Action\Action.txt";
+            string History = @"History\History.txt";
+            string SumPNC = @"SumPNC\SumPNC.txt";
+            string SUMPNCBU = @"SumPNCBU\SumPNCBU.txt";
+
+            string date = "_" + DateTime.Now.ToString("yyyy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + DateTime.Now.ToString("HH") + DateTime.Now.ToString("mm") + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + ".txt";
+            
+            string Temp1 = LinkDysk + Access;
+            string Temp2 = LinkDysk + Access;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + BUANC;
+            //Temp2 = LinkDysk + BUANC;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + BUPNC;
+            //Temp2 = LinkDysk + BUPNC;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + Frozen;
+            //Temp2 = LinkDysk + Frozen;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + Kurs;
+            //Temp2 = LinkDysk + Kurs;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + STK;
+            //Temp2 = LinkDysk + STK;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + ANC;
+            //Temp2 = LinkDysk + ANC;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + PNC;
+            //Temp2 = LinkDysk + PNC;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + Action;
+            //Temp2 = LinkDysk + Action;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            //Temp1 = LinkDysk + History;
+            //Temp2 = LinkDysk + History;
+            //Temp2 = Temp2.Remove(Temp2.Length - 4);
+            //Temp2 = Temp2 + date;
+            //File.Move(Temp1, Temp2);
+
+            Temp1 = LinkDysk + SumPNC;
+            Temp2 = LinkDysk + SumPNC;
+            Temp2 = Temp2.Remove(Temp2.Length - 4);
+            Temp2 = Temp2 + date;
+            File.Move(Temp1, Temp2);
+
+            Temp1 = LinkDysk + SUMPNCBU;
+            Temp2 = LinkDysk + SUMPNCBU;
+            Temp2 = Temp2.Remove(Temp2.Length - 4);
+            Temp2 = Temp2 + date;
+            File.Move(Temp1, Temp2);
+
+            File.Copy(LinkServer + Access, LinkDysk + Access);
+            File.Copy(LinkServer + BUANC, LinkDysk + BUANC);
+            File.Copy(LinkServer + BUPNC, LinkDysk + BUPNC);
+            File.Copy(LinkServer + Frozen, LinkDysk + Frozen);
+            File.Copy(LinkServer + Kurs, LinkDysk + Kurs);
+            File.Copy(LinkServer + STK, LinkDysk + STK);
+            File.Copy(LinkServer + ANC, LinkDysk + ANC);
+            File.Copy(LinkServer + PNC, LinkDysk + PNC);
+            File.Copy(LinkServer + Action, LinkDysk + Action); 
+            File.Copy(LinkServer + History, LinkDysk + History);
+            File.Copy(LinkServer + SumPNC, LinkDysk + SumPNC);
+            File.Copy(LinkServer + SUMPNCBU, LinkDysk + SUMPNCBU);
         }
 
         private void DeactivatorAction()

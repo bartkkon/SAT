@@ -74,6 +74,9 @@ namespace Saving_Accelerator_Tool
             //Sumowanie PNC dla poszczególnych kategori
             Admin_SumPNC();
 
+            //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
+            Admin_CloneDataBase();
+
             Button pb_Admin_SaveCalcRev = new Button
             {
                 Location = new Point(100, 80),
@@ -2001,6 +2004,28 @@ namespace Saving_Accelerator_Tool
             };
             but_Admin_SumPNC_Revision.Click += new EventHandler(pb_Admin_SumPNC_Revision_Click);
             gb_SumPNC.Controls.Add(but_Admin_SumPNC_Revision);
+        }
+
+        private void  Admin_CloneDataBase ()
+        {
+            GroupBox gb_ColneDataBase = new GroupBox
+            {
+                Location = new Point(630,515),
+                Size = new Size(200,60),
+                Text = "Clone Data Base",
+                Name = "gb_CloneDataBase",
+            };
+            tab_Admin.Controls.Add(gb_ColneDataBase);
+
+            Button pb_CloneBase = new Button
+            {
+                Location = new Point(40, 20),
+                Size = new Size(120, 20),
+                Text = "Clone Data Base",
+                Name = "pb_CloneBase",
+            };
+            pb_CloneBase.Click += new EventHandler(pb_CloneBase_Click);
+            gb_ColneDataBase.Controls.Add(pb_CloneBase);
         }
     }
 }

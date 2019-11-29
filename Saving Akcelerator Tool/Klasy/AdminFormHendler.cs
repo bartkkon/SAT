@@ -610,5 +610,12 @@ namespace Saving_Accelerator_Tool
             PNC.GrupingPNC_Revision();
             Cursor.Current = Cursors.Default;
         }
+
+        public void pb_CloneBase_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            admin.Admin_CloneDataBase();
+            Cursor.Current = Cursors.Default;
+        }
     }
 }
