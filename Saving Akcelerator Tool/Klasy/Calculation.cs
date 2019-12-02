@@ -163,6 +163,8 @@ namespace Saving_Accelerator_Tool
                 ActionStart = MonthActionStart();
                 if (USEBool)
                 {
+                    ClearDataGridViewForMonthActual(Month);
+                    SumDataGridView();
                     if (!CarryOver)
                     {
                         if (Month >= ActionStart)
@@ -1719,6 +1721,18 @@ namespace Saving_Accelerator_Tool
                 Quantity.Rows[RevisionRow].Cells[counter].Value = "";
                 ECCC.Rows[RevisionRow].Cells[counter].Value = "";
             }
+        }
+
+        //czyszczenie DataGridView dla poszczegulnego Miesiąca w Actual:
+        private void ClearDataGridViewForMonthActual(int Month)
+        {
+            DataGridView Saving = (DataGridView)mainProgram.TabControl.Controls.Find("dg_Saving", true).First();
+            DataGridView Quantity = (DataGridView)mainProgram.TabControl.Controls.Find("dg_Quantity", true).First();
+            DataGridView ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCC", true).First();
+
+            Saving.Rows[0].Cells[Month - 1].Value = "";
+            Quantity.Rows[0].Cells[Month - 1].Value = "";
+            ECCC.Rows[0].Cells[Month - 1].Value = "";
         }
 
         //Do Jakiego Miesiąca ma liczyć
