@@ -3121,7 +3121,7 @@ namespace Saving_Accelerator_Tool
                 Text = "",
                 UseVisualStyleBackColor = true
             };
-            //cb_ANCby.CheckedChanged += cb_ANCby_CheckedChanged;
+            cb_ANCby.CheckedChanged += cb_ANCby_CheckedChanged;
             gb_ANCby.Controls.Add(cb_ANCby);
         }
 
@@ -3415,8 +3415,19 @@ namespace Saving_Accelerator_Tool
                 {
                     Status = true;
                     All.Checked = false;
-
+                    All.Enabled = false;
+                    Mass_DMD_D45_Checked(false, "DMD");
+                    Mass_DMD_D45_Checked(false, "D45");
+                    Mass_DMD_D45_Enabled(false, "DMD");
+                    Mass_DMD_D45_Enabled(false, "D45");
                 }
+            }
+
+            if(!Status)
+            {
+                All.Enabled = true;
+                Mass_DMD_D45_Enabled(true, "DMD");
+                Mass_DMD_D45_Enabled(true, "D45");
             }
         }
 
@@ -3557,6 +3568,36 @@ namespace Saving_Accelerator_Tool
                     Quantity.Text = "1";
                 }
             }
+        }
+
+        public void Mass_DMD_D45_Enabled(bool Status, string Instalation)
+        {
+            CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FS", true).First();
+            CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();
+            CheckBox BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_BI", true).First();
+            CheckBox FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FSBU", true).First();
+            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation, true).First();
+
+            All.Enabled = Status;
+            FS.Enabled = Status;
+            FI.Enabled = Status;
+            BI.Enabled = Status;
+            FSBU.Enabled = Status;
+        }
+
+        public void Mass_DMD_D45_Checked(bool Status, string Instalation)
+        {
+            CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FS", true).First();
+            CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();
+            CheckBox BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_BI", true).First();
+            CheckBox FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FSBU", true).First();
+            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation, true).First();
+
+            All.Checked = Status;
+            FS.Checked = Status;
+            FI.Checked = Status;
+            BI.Checked = Status;
+            FSBU.Checked = Status;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Saving_Accelerator_Tool
 {
-    class Admin
+    public class Admin
     {
         MainProgram mainProgram;
         Data_Import ImportData;

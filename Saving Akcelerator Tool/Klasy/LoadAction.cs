@@ -81,6 +81,9 @@ namespace Saving_Accelerator_Tool
             //Dodanie ANC
             ANCADD(Action);
 
+            //Czyszczenie dla Calcby dla MASS
+            ClearMassANCby();
+
             //Calcby plus dodanie ECCC i specyficznych rzeczy odnośnie danych akcji i ich sposobu kalkulacji
             CalcBy(Action);
 
@@ -104,6 +107,14 @@ namespace Saving_Accelerator_Tool
             //{
             //    LogSingleton.Instance.SaveLog(ex.Message);
             //}
+        }
+
+        private void ClearMassANCby()
+        {
+            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First();
+
+            All.Checked = true;
+            All.Checked = false;
         }
 
         public DataTable ReturnTable(string Rew)
@@ -452,7 +463,7 @@ namespace Saving_Accelerator_Tool
             {
                 ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcANCby", true).First()).Checked = true;
                 ECCCSec(Action["ECCC"].ToString());
-                CheckANCSPec(Action["Calc"].ToString());
+                CheckANCSPec(Action["Calc"].ToString(), Action["CalcMass"].ToString());
             }
             else if (How == "PNC")
             {
@@ -743,15 +754,52 @@ namespace Saving_Accelerator_Tool
         }
 
         //Zaznaczenie Check boxa po którym ma być liczone ANCSpec
-        private void CheckANCSPec(string CalcSpec)
+        private void CheckANCSPec(string CalcSpec, string CalcSpecMass)
         {
             string[] Calc = CalcSpec.Split('|');
+            string[] CalcMass = CalcSpecMass.Split('/');
+            bool Status = false;
             for (int counter = 0; counter <= Calc.Length - 1; counter++)
             {
                 if (Calc[counter] == "true")
                 {
+                    Status = true;
                     ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + (counter + 1).ToString(), true).First()).Checked = true;
                 }
+            }
+            if(!Status)
+            {
+                if(CalcMass[0] == "All")
+                {
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First()).Checked = true;
+                    return;
+                }
+                if (CalcMass[1] == "DMD")
+                {
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD", true).First()).Checked = true;
+                }
+                if (CalcMass[2] == "D45")
+                {
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45", true).First()).Checked = true;
+                }
+                if (CalcMass[3] == "DMD_FS")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FS", true).First()).Checked = true;
+                if (CalcMass[4] == "DMD_FI")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FI", true).First()).Checked = true;
+                if (CalcMass[5] == "DMD_BI")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_BI", true).First()).Checked = true;
+                if (CalcMass[6] == "DMD_FSBU")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FSBU", true).First()).Checked = true;
+
+                if (CalcMass[7] == "D45_FS")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FS", true).First()).Checked = true;
+                if (CalcMass[8] == "D45_FI")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FI", true).First()).Checked = true;
+                if (CalcMass[9] == "D45_BI")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_BI", true).First()).Checked = true;
+                if (CalcMass[10] == "D45_FSBU")
+                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FSBU", true).First()).Checked = true;
+
             }
         }
 

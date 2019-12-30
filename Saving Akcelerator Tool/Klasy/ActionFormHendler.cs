@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace Saving_Accelerator_Tool
 {
-    class ActionFormHendler
+     public class ActionFormHendler
     {
         MainProgram mainProgram;
         Action action;
@@ -625,6 +625,7 @@ namespace Saving_Accelerator_Tool
             if ((sender as CheckBox).Checked)
             {
                 Mass_DMD_D45_Enabled(false, "DMD");
+                Mass_DMD_D45_Checked(false, "DMD");
             }
             else
             {
@@ -638,6 +639,7 @@ namespace Saving_Accelerator_Tool
             if ((sender as CheckBox).Checked)
             {
                 Mass_DMD_D45_Enabled(false, "D45");
+                Mass_DMD_D45_Checked(false, "D45");
             }
             else
             {
@@ -658,18 +660,22 @@ namespace Saving_Accelerator_Tool
                 D45.Checked = false;
                 D45.Enabled = false;
                 Mass_DMD_D45_Enabled(false, "DMD");
+                Mass_DMD_D45_Checked(false, "DMD");
                 Mass_DMD_D45_Enabled(false, "D45");
+                Mass_DMD_D45_Checked(false, "D45");
             }
             else
             {
                 DMD.Enabled = true;
                 D45.Enabled = true;
                 Mass_DMD_D45_Enabled(true, "DMD");
+                Mass_DMD_D45_Checked(false, "DMD");
                 Mass_DMD_D45_Enabled(true, "D45");
+                Mass_DMD_D45_Checked(false, "D45");
             }
         }
 
-        private void Mass_DMD_D45_Enabled (bool Status, string Instalation)
+        public void Mass_DMD_D45_Enabled (bool Status, string Instalation)
         {
             CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_"+Instalation+"_FS", true).First();
             CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();
@@ -682,7 +688,7 @@ namespace Saving_Accelerator_Tool
             FSBU.Enabled = Status;
         }
 
-        private void Mass_DMD_D45_Checked(bool Status, string Instalation)
+        public void Mass_DMD_D45_Checked(bool Status, string Instalation)
         {
             CheckBox FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FS", true).First();
             CheckBox FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Instalation + "_FI", true).First();

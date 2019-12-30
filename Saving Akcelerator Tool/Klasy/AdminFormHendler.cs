@@ -290,7 +290,7 @@ namespace Saving_Accelerator_Tool
             UpdateSTK.STK_LoadNewSTK();
             Cursor.Current = Cursors.Default;
         }
-
+        
         public void pb_AdminSaveQuantityMonth_Click(object sender, EventArgs e)
         {
             NumericUpDown num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearMonth", true).First();

@@ -392,6 +392,7 @@ namespace Saving_Accelerator_Tool
         private void CalculationANCSpec(int MonthCalcStart, int MonthCalcFinish, string Revision, bool CarryOver, decimal YearToCalc)
         {
             DataTable QuantityANCTable = new DataTable();
+            DataTable QuantityMassTable = new DataTable();
             DataRow QuantityRow;
             decimal Quantity = 0;
             decimal QuantityANC = 0;
@@ -406,6 +407,7 @@ namespace Saving_Accelerator_Tool
             decimal ECCCCost = 0;
             decimal ECCCSeconds = 0;
             bool ToCalc;
+            bool Mass = true;
             DataRow ResultsRow = null;
             DataTable Per = new DataTable();
             int MonthAction;
@@ -447,17 +449,17 @@ namespace Saving_Accelerator_Tool
 
             //Załadowanie tablicy używanych ANC 
             QuantityANCTable = LoadQuantityANCTable(Revision, YearToCalc);
+            QuantityMassTable = LoadQuantityACNSpecMass(Revision, YearToCalc);
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
             {
-
-
                 for (int counter = 1; counter <= ANCChangeNumber; counter++)
                 {
                     //Sprawdzenie dla którego ANC mają być brane ilości
                     ToCalc = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + counter.ToString(), true).First()).Checked;
                     if (ToCalc)
                     {
+                        Mass = false;
                         //Sprawdzenie które ANC mamy wziąśc do liczenie
                         if (Delta)
                         {
@@ -531,6 +533,58 @@ namespace Saving_Accelerator_Tool
                         }
 
                         QuantityANC = 0;
+                    }
+                }
+
+                if (Mass)
+                {
+                    if (Delta)
+                    {
+                        DeltaCost = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("Lab_DeltaSum", true).First()).Text);
+                    }
+                    else
+                    {
+                        DeltaCost = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("Lab_CalcSum", true).First()).Text);
+                    }
+
+                    foreach (DataRow Row in QuantityMassTable.Rows)
+                    {
+                        string Name = Row["PNC"].ToString();
+
+                        if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Name, true).First()).Checked)
+                        {
+
+                            QuantityANC = decimal.Parse(Row[Revision + "/" + Month.ToString() + "/" + YearToCalc.ToString()].ToString()) * QuantityPercent;
+                            QuantityANC = Math.Round(QuantityANC, 0, MidpointRounding.AwayFromZero);
+                            Quantity += QuantityANC;
+                            Savings += (QuantityANC * DeltaCost);
+                            Savings = Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
+
+                            if (Per != null)
+                            {
+                                if (Name != "")
+                                    ResultsRow = Per.Select(string.Format("Name LIKE '%{0}%'", Name)).FirstOrDefault();
+                            }
+                            if (ResultsRow == null)
+                            {
+                                ResultsRow = Per.NewRow();
+                                if (Name != "")
+                                    ResultsRow["Name"] = Name;
+
+                                ResultsRow[Month.ToString()] = QuantityANC.ToString() + ":" + Math.Round(QuantityANC * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
+                                Per.Rows.Add(ResultsRow);
+                            }
+                            else
+                            {
+                                ResultsRow[Month.ToString()] = QuantityANC.ToString() + ":" + Math.Round(QuantityANC * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
+                            }
+
+                            if (ECCCtoCalc)
+                            {
+                                ECCC += (QuantityANC * ECCCSeconds * ECCCCost);
+                            }
+                            QuantityANC = 0;
+                        }
                     }
                 }
 
@@ -931,6 +985,7 @@ namespace Saving_Accelerator_Tool
         private void CalculationUSEANCSpec(int Month, bool CarryOver, decimal YearToCalc)
         {
             DataTable QuantityANCTable = new DataTable();
+            DataTable QuantityMassTable = new DataTable();
             DataRow QuantityRow;
             decimal Quantity = 0;
             decimal QuantityANC = 0;
@@ -943,6 +998,7 @@ namespace Saving_Accelerator_Tool
             decimal ECCCCost = 0;
             decimal ECCCSeconds = 0;
             bool ToCalc;
+            bool Mass = true;
             //string Results = "";
             DataRow ResultsRow = null;
 
@@ -956,6 +1012,7 @@ namespace Saving_Accelerator_Tool
 
             //Załadowanie tablicy używanych ANC 
             QuantityANCTable = LoadQuantityANCTableUSE(Month, YearToCalc);
+            QuantityMassTable = LoadQuantityACNSpecMass("USE", YearToCalc);
 
             for (int counter = 1; counter <= ANCChangeNumber; counter++)
             {
@@ -963,6 +1020,7 @@ namespace Saving_Accelerator_Tool
                 ToCalc = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + counter.ToString(), true).First()).Checked;
                 if (ToCalc)
                 {
+                    Mass = false;
                     //Sprawdzenie które ANC mamy wziąśc do liczenie
                     ANC = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NewANC" + counter.ToString(), true).First()).Text;
                     ANCNext = ((TextBox)mainProgram.TabControl.Controls.Find("TB_NextANC" + counter.ToString(), true).First()).Text;
@@ -1015,6 +1073,49 @@ namespace Saving_Accelerator_Tool
                         ECCC = ECCC + (QuantityANC * ECCCSeconds * ECCCCost);
                     }
                     QuantityANC = 0;
+                }
+            }
+            if(Mass)
+            {
+                DeltaCost = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_DeltaSum", true).First()).Text);
+
+                foreach (DataRow Row in QuantityMassTable.Rows)
+                {
+                    string Name = Row["PNC"].ToString();
+
+                    if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_" + Name, true).First()).Checked)
+                    {
+
+                        QuantityANC = decimal.Parse(Row[Month.ToString() + "/" + YearToCalc.ToString()].ToString());
+                        Quantity += QuantityANC;
+                        Savings += (QuantityANC * DeltaCost);
+                        Savings = Math.Round(Savings, 4, MidpointRounding.AwayFromZero);
+
+                        if (USE != null)
+                        {
+                            if (Name != "")
+                                ResultsRow = USE.Select(string.Format("Name LIKE '%{0}%'", Name)).FirstOrDefault();
+                        }
+                        if (ResultsRow == null)
+                        {
+                            ResultsRow = USE.NewRow();
+                            if (Name != "")
+                                ResultsRow["Name"] = Name;
+
+                            ResultsRow[Month.ToString()] = QuantityANC.ToString() + ":" + Math.Round(QuantityANC * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
+                            USE.Rows.Add(ResultsRow);
+                        }
+                        else
+                        {
+                            ResultsRow[Month.ToString()] = QuantityANC.ToString() + ":" + Math.Round(QuantityANC * DeltaCost, 4, MidpointRounding.AwayFromZero).ToString();
+                        }
+
+                        if (ECCCtoCalc)
+                        {
+                            ECCC += (QuantityANC * ECCCSeconds * ECCCCost);
+                        }
+                        QuantityANC = 0;
+                    }
                 }
             }
 
@@ -1210,7 +1311,7 @@ namespace Saving_Accelerator_Tool
         //Czyszczensie kolumny dla danego miesiąca w USE
         private void ClearColumnInUSE(int MonthCalc)
         {
-            foreach(DataRow Row in USE.Rows)
+            foreach (DataRow Row in USE.Rows)
             {
                 Row[MonthCalc] = "";
             }
@@ -1647,6 +1748,42 @@ namespace Saving_Accelerator_Tool
 
 
             return PNCQuantity;
+        }
+
+        private DataTable LoadQuantityACNSpecMass(string Revision, decimal YearToCalc)
+        {
+            DataTable Quantity = new DataTable();
+            DataTable QuantityFinal = new DataTable();
+            string link;
+
+            if (Revision == "USE")
+            {
+                link = ImportData.Load_Link("SumPNC");
+            }
+            else
+            {
+                link = ImportData.Load_Link("SumPNCBU");
+            }
+
+            ImportData.Load_TxtToDataTable(ref Quantity, link);
+
+            QuantityFinal = Quantity.Clone();
+            QuantityFinal = Quantity.Copy();
+
+            foreach (DataColumn column in Quantity.Columns)
+            {
+                string Name = column.ColumnName;
+                if (Name != "PNC")
+                {
+                    string Year = Name.Remove(0, Name.Length - 4);
+                    if (Year != YearToCalc.ToString())
+                    {
+                        QuantityFinal.Columns.Remove(Name);
+                    }
+                }
+            }
+
+            return QuantityFinal;
         }
 
         //Wyciągnięcie z bazy danych ilości PNC używanych w akcji dla USE
