@@ -346,7 +346,7 @@ namespace Saving_Accelerator_Tool
 
         //Do sumowania akcji aby stworzyć podsumowanie
 
-        private void SumActualRewizion(Excel.Worksheet MultiSum,int Start, double[] ElectronicA, double[] ElectronicC, double[] MechanicA, double[] MechanicC, double[] NVRA, double[] NVRC)
+        private void SumActualRewizion(Excel.Worksheet MultiSum, int Start, double[] ElectronicA, double[] ElectronicC, double[] MechanicA, double[] MechanicC, double[] NVRA, double[] NVRC)
         {
             double[] Actual = new double[14];
             double[] Carry = new double[14];
@@ -380,18 +380,18 @@ namespace Saving_Accelerator_Tool
             Excel.Range CellStart = MultiSum.Cells[Start, 3];
             Excel.Range CellFinish = MultiSum.Cells[Start, 16];
             MultiSum.Range[CellStart, CellFinish].Value2 = Carry.Select(x => x.ToString()).ToArray();
-            for (int counter = 3; counter<=16; counter++)
+            for (int counter = 3; counter <= 16; counter++)
             {
                 ConvertToNumber(MultiSum, counter, Start, Start);
             }
             MultiSum.Range[CellStart, CellFinish].NumberFormat = "# ### ##0";
 
-            CellStart = MultiSum.Cells[Start +1, 3];
+            CellStart = MultiSum.Cells[Start + 1, 3];
             CellFinish = MultiSum.Cells[Start + 1, 16];
             MultiSum.Range[CellStart, CellFinish].Value2 = Actual.Select(x => x.ToString()).ToArray();
             for (int counter = 3; counter <= 16; counter++)
             {
-                ConvertToNumber(MultiSum, counter, Start+1, Start+1);
+                ConvertToNumber(MultiSum, counter, Start + 1, Start + 1);
             }
             MultiSum.Range[CellStart, CellFinish].NumberFormat = "# ### ##0";
 
@@ -510,15 +510,15 @@ namespace Saving_Accelerator_Tool
             MultiSum.Range[CellStart, CellFinish].Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlDot;
 
             if (Rew == "BU")
-                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(217,217,217);
+                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(217, 217, 217);
             else if (Rew == "EA1")
-                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(218,150,148);
+                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(218, 150, 148);
             else if (Rew == "EA2")
-                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(230,184,183);
+                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(230, 184, 183);
             else if (Rew == "EA3")
-                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(191,191,191);
+                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(191, 191, 191);
             else if (Rew == "ACTUAL")
-                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(252,213,180);
+                MultiSum.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(252, 213, 180);
 
             Start++;
             MultiSum.Cells[Start, 2].Value2 = "ECI TOTAL";
@@ -1226,7 +1226,7 @@ namespace Saving_Accelerator_Tool
                 }
                 if (Small != 0)
                 {
-                    AddHearetToTable(MultiAction, Column - Small, "", "Old ANC", false, true);
+                    AddHearetToTable(MultiAction, Column - Small, "", "New ANC", false, true);
                     ScaleCells(MultiAction, Column, Small);
                 }
             }
@@ -1484,8 +1484,16 @@ namespace Saving_Accelerator_Tool
         {
             Excel.Range CellStart = MultiAction.Cells[RowStart, ColumnStart];
             Excel.Range CellFinish = MultiAction.Cells[RowFinish, ColumnStart];
-            if (MultiAction.Range[CellStart, CellFinish].Find("*") != null)
-                MultiAction.Range[CellStart, CellFinish].TextToColumns();
+            if (RowStart != RowFinish)
+            {
+                if (MultiAction.Range[CellStart, CellFinish].Find("*") != null)
+                    MultiAction.Range[CellStart, CellFinish].TextToColumns();
+            }
+            else
+            {
+                if (MultiAction.Range[CellStart, CellFinish].Value2 != null && MultiAction.Range[CellStart, CellFinish].Value2 != "")
+                    MultiAction.Range[CellStart, CellFinish].TextToColumns();
+            }
         }
 
         private void NumberFormatiog(Excel.Worksheet MultiAction, int ColumnStart, int ColumnFinish, int RowStart, int RowFinish)
@@ -1505,7 +1513,7 @@ namespace Saving_Accelerator_Tool
             MultiAction.Range[CellStart, CellFinish].Interior.Color = Color.FromArgb(250, 191, 143);
         }
 
-        private void Center (Excel.Worksheet MultiAction, int ColumnStart, int RowStart, int RowFinish)
+        private void Center(Excel.Worksheet MultiAction, int ColumnStart, int RowStart, int RowFinish)
         {
             Excel.Range CellStart = MultiAction.Cells[RowStart, ColumnStart];
             Excel.Range CellFinish = MultiAction.Cells[RowFinish, ColumnStart];
@@ -1588,7 +1596,7 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
-                    if(Action.Rows.IndexOf(Row) == Action.Rows.Count-1)
+                    if (Action.Rows.IndexOf(Row) == Action.Rows.Count - 1)
                     {
                         for (int counter = 1; counter <= 13; counter++)
                         {

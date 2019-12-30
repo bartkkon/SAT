@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace Saving_Accelerator_Tool
 {
-    class SummaryDetails
+    public class SummaryDetails
     {
         Data_Import ImportData;
         MainProgram mainProgram;

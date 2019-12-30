@@ -42,7 +42,10 @@ namespace Saving_Accelerator_Tool
             string[] IDCO = IDCOAction(ActionRow);
 
             if (ActionRow["IloscANC"].ToString() == "1")
-                OnlyOneRow = true;
+            {
+                if(ActionRow["CalcMass"].ToString() == "")
+                    OnlyOneRow = true;
+            }
 
             RowtoAdd["Name"] = ActionRow["Name"];
 
@@ -724,7 +727,6 @@ namespace Saving_Accelerator_Tool
                         {
                             if (NewANC[counter] != "")
                             {
-
                                 for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                                 {
                                     DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
@@ -747,7 +749,6 @@ namespace Saving_Accelerator_Tool
                             }
                             if (Next[counter] != "")
                             {
-
                                 for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                                 {
                                     DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
@@ -796,6 +797,41 @@ namespace Saving_Accelerator_Tool
                 Devision.Rows.Add(NewRow);
             }
 
+            if (Rewizion["CalcMass"].ToString() != "")
+            {
+                DataTable HelpTable;
+                if (Rewizja == "USE")
+                    HelpTable = PerANCUSE;
+                else
+                    HelpTable = PerANCRew;
+
+                foreach(DataRow Row in HelpTable.Rows)
+                {
+                    if(Row[0].ToString().Remove(1) == "D" || Row[0].ToString() == "All")
+                    {
+                        DataRow NewRow = Devision.NewRow();
+                        if (Preferencje["ANC New"])
+                            NewRow["ANC New"] = Row[0].ToString();
+                        else if (Preferencje["ANC Old"])
+                            NewRow["ANC Old"] = Row[0].ToString();
+
+                        for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
+                        {
+                            string[] Help = Row[counter2.ToString()].ToString().Split(':');
+                            if (Help[0] != "")
+                            {
+                                if (Preferencje["Quantity"])
+                                    if (Help[0] != "")
+                                        NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
+                                if (Preferencje["Savings"])
+                                    if (Help[1] != "")
+                                        NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
+                            }
+                        }
+                        Devision.Rows.Add(NewRow);
+                    }
+                }
+            }
         }
 
         private double Delta(string DeltaToCalc)
@@ -899,7 +935,24 @@ namespace Saving_Accelerator_Tool
 
         private void PerANC_PNCToTable(DataRow Action, string Rew, ref DataTable PerANC, string Carry, int MonthStart)
         {
+            int minus;
 
+            if (Rew == "USE" || Rew == "BU")
+            {
+                minus = 0;
+            }
+            else if (Rew == "EA1")
+            {
+                minus = 2;
+            }
+            else if(Rew == "EA2")
+            {
+                minus = 5;
+            }
+            else
+            {
+                minus = 8;
+            }
             if (Action["Per" + Rew + Carry].ToString() != "")
             {
                 string[] Help = Action["Per" + Rew + Carry].ToString().Split('/');
@@ -912,7 +965,7 @@ namespace Saving_Accelerator_Tool
                         NewRow["Name"] = Help3[0];
                         for (int counter = MonthStart; counter <= 12; counter++)
                         {
-                            NewRow[counter.ToString()] = Help3[counter];
+                            NewRow[counter.ToString()] = Help3[counter-minus];
                         }
                         PerANC.Rows.Add(NewRow);
                     }

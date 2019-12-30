@@ -85,13 +85,13 @@ namespace Saving_Accelerator_Tool
                 {
                     int RevStart = RevisionStartMonth[Revision];
                     int MonthStart = Month[ActionRow["StartMonth"].ToString()];
-                    int RevFinish =12;
+                    int RevFinish = 12;
                     bool Estymation = false;
                     string Calcby = ActionRow["Calculate"].ToString();
 
                     if (Revision == "USE")
                     {
-                        if(MonthCalc >= MonthStart)
+                        if (MonthCalc >= MonthStart)
                         {
                             RevStart = MonthCalc;
                             RevFinish = MonthCalc;
@@ -104,7 +104,7 @@ namespace Saving_Accelerator_Tool
                     }
                     else
                     {
-                        if(MonthStart >= RevStart)
+                        if (MonthStart >= RevStart)
                         {
                             RevStart = MonthStart;
                             Estymation = true;
@@ -168,11 +168,11 @@ namespace Saving_Accelerator_Tool
                     }
                     else
                     {
-                        if ((MonthStart-1) < RevFinish)
+                        if ((MonthStart - 1) < RevFinish)
                         {
-                            RevFinish = MonthStart-1;
+                            RevFinish = MonthStart - 1;
                         }
-                        if((MonthStart-1) <RevStart)
+                        if ((MonthStart - 1) < RevStart)
                         {
                             RevFinish = 0;
                         }
@@ -624,11 +624,14 @@ namespace Saving_Accelerator_Tool
             decimal SavingSum = 0;
             decimal ECCCSum = 0;
             bool ECCCCalc = false;
+            bool Mass = true;
             DataRow QuantityBase;
             DataTable QuantityPerANC = new DataTable();
+            DataTable QuantityMass = new DataTable();
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
+            QuantityMass = LoadQuantityACNSpecMass(Revision, Year);
 
             if (Estymacja)
             {
@@ -680,6 +683,7 @@ namespace Saving_Accelerator_Tool
             {
                 if (CalcBy[counter].ToString() == "true")
                 {
+                    Mass = false;
                     if (Revision != "USE")
                     {
                         QuantityBase = ANC.Select(string.Format("BUANC LIKE '%{0}%'", ANCCalc[counter].ToString())).FirstOrDefault();
@@ -730,6 +734,41 @@ namespace Saving_Accelerator_Tool
                         SavingSum = SavingSum + Saving;
 
                         QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
+                    }
+                    Quantity = 0;
+                    Saving = 0;
+                }
+            }
+            if (Mass)
+            {
+                string[] CalcMass = ActionRow["CalcMass"].ToString().Split('/');
+
+                foreach (string CalcMassOne in CalcMass)
+                {
+                    if (CalcMassOne != "")
+                    {
+                        QuantityBase = QuantityMass.Select(string.Format("PNC Like '%{0}%'", CalcMassOne)).First();
+                        if (Revision == "USE")
+                        {
+                            Quantity = decimal.Parse(QuantityBase[Month.ToString() + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                        }
+                        else
+                        {
+                            Quantity = decimal.Parse(QuantityBase[Revision.ToString() + "/" + Month.ToString() + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                        }
+                        Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
+                        QuantitySum += Quantity;
+                        Saving = Quantity * DeltaSum;
+                        Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
+                        SavingSum = SavingSum + Saving;
+
+                        if(ECCCCalc)
+                        {
+                            ECCC = Quantity * ECCCSek * ECCCSekCost;
+                            ECCCSum = ECCCSum + ECCC;
+                        }
+
+                        QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, CalcMassOne, Quantity, Saving, Month);
                     }
                     Quantity = 0;
                     Saving = 0;
@@ -800,7 +839,7 @@ namespace Saving_Accelerator_Tool
             {
                 ANCCalc = ActionRow["PNC"].ToString().Split('|');
                 Delta = ActionRow["Delta"].ToString().Split('|');
-                if(Revision == "USE")
+                if (Revision == "USE")
                     PercentQuantity = 1;
                 else
                     PercentQuantity = decimal.Parse(ActionRow["PNCANCPersent"].ToString()) / 100;
@@ -1114,6 +1153,42 @@ namespace Saving_Accelerator_Tool
             return ActionRow;
         }
 
+        private DataTable LoadQuantityACNSpecMass(string Revision, decimal YearToCalc)
+        {
+            DataTable Quantity = new DataTable();
+            DataTable QuantityFinal = new DataTable();
+            string link;
+
+            if (Revision == "USE")
+            {
+                link = data_Import.Load_Link("SumPNC");
+            }
+            else
+            {
+                link = data_Import.Load_Link("SumPNCBU");
+            }
+
+            data_Import.Load_TxtToDataTable(ref Quantity, link);
+
+            QuantityFinal = Quantity.Clone();
+            QuantityFinal = Quantity.Copy();
+
+            foreach (DataColumn column in Quantity.Columns)
+            {
+                string Name = column.ColumnName;
+                if (Name != "PNC")
+                {
+                    string Year = Name.Remove(0, Name.Length - 4);
+                    if (Year != YearToCalc.ToString())
+                    {
+                        QuantityFinal.Columns.Remove(Name);
+                    }
+                }
+            }
+
+            return QuantityFinal;
+        }
+
         private void SumRow(ref string[] Row)
         {
             decimal Sum = 0;
@@ -1147,7 +1222,7 @@ namespace Saving_Accelerator_Tool
 
         private void ClearColumnPer(ref DataTable Table, int month)
         {
-            foreach(DataRow Row in Table.Rows)
+            foreach (DataRow Row in Table.Rows)
             {
                 Row[month.ToString()] = "";
             }

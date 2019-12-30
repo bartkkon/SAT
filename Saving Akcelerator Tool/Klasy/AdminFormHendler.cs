@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
+using Saving_Accelerator_Tool.SumPNC;
 
 namespace Saving_Accelerator_Tool
 {
@@ -289,7 +290,7 @@ namespace Saving_Accelerator_Tool
             UpdateSTK.STK_LoadNewSTK();
             Cursor.Current = Cursors.Default;
         }
-
+        
         public void pb_AdminSaveQuantityMonth_Click(object sender, EventArgs e)
         {
             NumericUpDown num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
@@ -585,6 +586,35 @@ namespace Saving_Accelerator_Tool
         {
             Cursor.Current = Cursors.WaitCursor;
             admin.Admin_TargetChangeRewizion();
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void pb_Admin_SumPNC_Month_Click(object sender, EventArgs e)
+        {
+            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Year", true).First()).Value;
+            decimal Month = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Month", true).First()).Value;
+
+            Cursor.Current = Cursors.WaitCursor;
+            GroupingPNC PNC = new GroupingPNC(ImportData, Year, Month);
+            PNC.GrupingPNC_Month();
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void pb_Admin_SumPNC_Revision_Click(object sender, EventArgs e)
+        {
+            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Year", true).First()).Value;
+            string Rev = ((ComboBox)mainProgram.TabControl.Controls.Find("comb_Admin_SumPNC_Rev", true).First()).SelectedItem.ToString();
+
+            Cursor.Current = Cursors.WaitCursor;
+            GroupingPNC PNC = new GroupingPNC(ImportData, Year, Rev);
+            PNC.GrupingPNC_Revision();
+            Cursor.Current = Cursors.Default;
+        }
+
+        public void pb_CloneBase_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            admin.Admin_CloneDataBase();
             Cursor.Current = Cursors.Default;
         }
     }

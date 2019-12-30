@@ -215,6 +215,7 @@ namespace Saving_Accelerator_Tool
                 NewRow["Calculate"] = "ANCSpec";
                 ANCSave(ref NewRow);
                 NewRow["Calc"] = ANCCalcby();
+                NewRow["CalcMass"] = ANCCalcbyMass();
             }
             else if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNC", true).First()).Checked)
             {
@@ -584,6 +585,61 @@ namespace Saving_Accelerator_Tool
             }
             return Calcby;
         }
+
+        //Odczyt jak jest masowe liczenie 
+        private string ANCCalcbyMass()
+        {
+            string Results = "";
+            CheckBox DMD_FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FS", true).First();
+            CheckBox DMD_FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FI", true).First();
+            CheckBox DMD_BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_BI", true).First();
+            CheckBox DMD_FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FSBU", true).First();
+            CheckBox D45_FS = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FS", true).First();
+            CheckBox D45_FI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FI", true).First();
+            CheckBox D45_BI = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_BI", true).First();
+            CheckBox D45_FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FSBU", true).First();
+            CheckBox DMD = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD", true).First();
+            CheckBox D45 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45", true).First();
+            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First();
+
+            if (All.Checked)
+                Results += "All";
+            Results += "/";
+            if (DMD.Checked)
+                Results += "DMD";
+            Results += "/";
+            if (D45.Checked)
+                Results += "D45";
+            Results += "/";
+            if (DMD_FS.Checked)
+                Results += "DMD_FS";
+            Results += "/";
+            if (DMD_FI.Checked)
+                Results += "DMD_FI";
+            Results += "/";
+            if (DMD_BI.Checked)
+                Results += "DMD_BI";
+            Results += "/";
+            if (DMD_FSBU.Checked)
+                Results += "DMD_FSBU";
+            Results += "/";
+            if (D45_FS.Checked)
+                Results += "D45_FS";
+            Results += "/";
+            if (D45_FI.Checked)
+                Results += "D45_FI";
+            Results += "/";
+            if (D45_BI.Checked)
+                Results += "D45_BI";
+            Results += "/";
+            if (D45_FSBU.Checked)
+                Results += "D45_FSBU";
+            Results += "/";
+
+
+            return Results;
+        }
+
 
         //Odczytaj PNc które były użyte w akcji
         private string PNCReader()
