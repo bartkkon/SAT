@@ -1549,11 +1549,6 @@ namespace Saving_Accelerator_Tool
             DG.ClearSelection();
             DG.Columns["Sum:"].DefaultCellStyle.Font = new Font(DG.Font, FontStyle.Bold);
             DG.Rows[0].DefaultCellStyle.Font = new Font(DG.Font, FontStyle.Bold);
-            //DG.Rows[0].DefaultCellStyle.BackColor = Color.Lime;
-            DG.Rows[1].DefaultCellStyle.BackColor = Color.LightBlue;
-            DG.Rows[2].DefaultCellStyle.BackColor = Color.MediumTurquoise;
-            DG.Rows[3].DefaultCellStyle.BackColor = Color.DeepSkyBlue;
-            DG.Rows[4].DefaultCellStyle.BackColor = Color.DodgerBlue;
             DG.Rows[1].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
             DG.Rows[2].DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
             DG.Rows[3].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);

@@ -170,6 +170,7 @@ namespace Saving_Accelerator_Tool
             Comb_AdminTargetsRewizja.Items.Add("EA1");
             Comb_AdminTargetsRewizja.Items.Add("EA2");
             Comb_AdminTargetsRewizja.Items.Add("EA3");
+            Comb_AdminTargetsRewizja.Items.Add("EA4");
             Gb_AdminTargets.Controls.Add(Comb_AdminTargetsRewizja);
             Comb_AdminTargetsRewizja.SelectedIndex = 0;
             Comb_AdminTargetsRewizja.SelectedIndexChanged += new EventHandler(comb_AdminTargetsComboBoxChange_SelectedItemChange);
@@ -1308,17 +1309,17 @@ namespace Saving_Accelerator_Tool
             };
             gb_AdminAccess.Controls.Add(cb_AdminNVR);
 
-            CheckBox cb_AdminTabSummaryDetail = new CheckBox
+            CheckBox cb_AdminTabStatistic = new CheckBox
             {
                 AutoSize = true,
                 Location = new Point(15, 180),
-                Name = "cb_AdminTabSummaryDetail",
+                Name = "cb_AdminTabStatistic",
                 Size = new Size(80, 17),
                 TabIndex = 0,
-                Text = "Summary Detail",
+                Text = "Statistic",
                 UseVisualStyleBackColor = true
             };
-            gb_AdminAccess.Controls.Add(cb_AdminTabSummaryDetail);
+            gb_AdminAccess.Controls.Add(cb_AdminTabStatistic);
 
             CheckBox cb_AdminTabSummary = new CheckBox
             {
