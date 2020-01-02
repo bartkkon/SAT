@@ -96,13 +96,21 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
         private void SumRow()
         {
             DataGridView QuantityMonth = (DataGridView)MainProgram.Self.TabControl.Controls.Find("GDV_StatisticQuantityMonth", true).First();
+            decimal SumActual = 0;
+            decimal SumPlan = 0;
 
-
-
-            for(int counter =0; counter<12; counter++)
+            for (int counter = 0; counter < 12; counter++)
             {
-                //QuantityMonth[]
+                if (QuantityMonth.Rows[0].Cells[counter].Value != null)
+                    SumActual += decimal.Parse(QuantityMonth.Rows[0].Cells[counter].Value.ToString());
+                if (QuantityMonth.Rows[1].Cells[counter].Value != null)
+                    SumPlan += decimal.Parse(QuantityMonth.Rows[1].Cells[counter].Value.ToString());
             }
+
+            if (SumActual != 0)
+                QuantityMonth.Rows[0].Cells[12].Value = SumActual;
+            if (SumPlan != 0)
+                QuantityMonth.Rows[1].Cells[12].Value = SumPlan;
         }
 
         private void Different()
