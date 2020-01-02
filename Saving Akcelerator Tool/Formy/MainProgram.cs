@@ -55,7 +55,7 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    toolStripStatusLabel1.Text = "0.5.0.23  Beta Version Portable Version";
+                    toolStripStatusLabel1.Text = "0.5.0.24  Beta Version Portable Version";
                 }
 
                 if (Environment.UserName.ToString() == "BartkKon")

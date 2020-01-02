@@ -205,7 +205,10 @@ namespace Saving_Accelerator_Tool
             format = (Excel.FormatCondition)worksheet.Range[Start, Finish].FormatConditions.Add(Excel.XlFormatConditionType.xlCellValue, Excel.XlFormatConditionOperator.xlLess, 0);
             format.Font.Color = Color.Red;
 
+            Start = worksheet.Cells[2,1];
+            Finish = worksheet.Cells[1000, 9 + (6 * column)];
 
+            worksheet.Range[Start, Finish].NumberFormat = "0";
         }
 
         private void AddValueforPNCSpec(Excel.Worksheet worksheet, bool Eccc, int column, DataTable Table)
@@ -240,13 +243,15 @@ namespace Saving_Accelerator_Tool
         private void AddValueforPNCSpecFast(Excel.Worksheet worksheet, bool Eccc, int column, DataTable Table)
         {
             int ExcelRow = 2;
-            string[] RowData = new string[6 * column + 9];
+
             Excel.Range Start;
             Excel.Range Finish;
 
 
             foreach (DataRow Row in Table.Rows)
             {
+                string[] RowData = new string[6 * column + 9];
+
                 Start = worksheet.Cells[ExcelRow, 1];
                 Finish = worksheet.Cells[ExcelRow, 6 * column + 9];
 
@@ -263,9 +268,11 @@ namespace Saving_Accelerator_Tool
                     RowData[(2 * counter) + (2 * column) + 2] = Row["N" + counter.ToString() + "Q"].ToString();
 
                     if (Row["O" + counter.ToString() + "STK3"].ToString() != "")
-                        RowData[counter + (column * 4) + 3] = Row["O" + counter.ToString() + "STK3"].ToString();
+                        if (Row["O" + counter.ToString() + "STK3"].ToString() != "0" && Row["O" + counter.ToString()].ToString() != "")
+                            RowData[counter + (column * 4) + 3] = Row["O" + counter.ToString() + "STK3"].ToString();
 
                     if (Row["N" + counter.ToString() + "STK3"].ToString() != "")
+                        if(Row["N" + counter.ToString() + "STK3"].ToString() != "0" && Row["N" + counter.ToString()].ToString() != "")
                         RowData[counter + (column * 5) + 4] = Row["N" + counter.ToString() + "STK3"].ToString();
 
                 }
