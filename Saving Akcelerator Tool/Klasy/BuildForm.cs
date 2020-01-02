@@ -7,6 +7,8 @@ using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.ComponentModel;
+using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Klasy.StatisticTab;
 
 namespace Saving_Accelerator_Tool
 {
@@ -27,11 +29,12 @@ namespace Saving_Accelerator_Tool
             this.summaryDetails = summaryDetails;
             this.admin = admin;
             this.ImportData = ImportData;
+            Users User = Users.Singleton();
             
             // 
             // Tab_Action
             // 
-            if (Person["tab_Action"].ToString() == "true")
+            if (User.ActionTab)
             {
 
                 TabPage tab_Action = new TabPage();
@@ -51,14 +54,14 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_SummaryDetail
             // 
-            if (Person["tab_Summary"].ToString() == "true")
+            if (User.SummaryTab)
             {
                 TabPage tab_SummaryDetail = new TabPage
                 {
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Summary",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 3,
+                    TabIndex = 1,
                     Text = "Summary Detail",
                     UseVisualStyleBackColor = true
                 };
@@ -70,27 +73,44 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_SummaryS",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 3,
+                    TabIndex = 2,
                     Text = "Summary",
                     UseVisualStyleBackColor = true
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_Summary);
+                _ = new SummaryDetailsForm(mainProgram, Person, summaryDetails, ImportData);
 
-                SummaryDetailsForm summaryDetailsForm = new SummaryDetailsForm(mainProgram, Person, summaryDetails,ImportData);
+            }
 
+            //
+            // Tab Statistic- dane statystyczne
+            //
+            if(User.StatisticTab)
+            {
+                TabPage tab_Statistics = new TabPage
+                {
+                    Location = new System.Drawing.Point(4, 22),
+                    Name = "tab_Statistic",
+                    Size = new System.Drawing.Size(1826, 877),
+                    TabIndex = 3,
+                    Text = "Statistics",
+                    UseVisualStyleBackColor = true
+                };
+                mainProgram.TabControl.Controls.Add(tab_Statistics);
+                _ = new StatisticTabGenerator(tab_Statistics);
             }
             // 
             // tab_STK
             // 
-            if (Person["tab_STK"].ToString() == "true")
+            if (User.STKTab)
             {
                 TabPage tab_STK = new TabPage
                 {
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_STK",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 1,
+                    TabIndex = 4,
                     Text = "STK3",
                     UseVisualStyleBackColor = true
                 };
@@ -102,14 +122,14 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_Quantity
             // 
-            if (Person["tab_Quantity"].ToString() == "true")
+            if (User.QuantityTab)
             {
                 TabPage tab_Quantity = new TabPage
                 {
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Quantity",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 2,
+                    TabIndex = 5,
                     Text = "Quantity",
                     UseVisualStyleBackColor = true
                 };
@@ -121,7 +141,7 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_Admin
             // 
-            if (Person["tab_Admin"].ToString() == "true")
+            if (User.AdminTab)
             {
                 //admin = new Admin(mainProgram);
                 TabPage tab_Admin = new TabPage
@@ -129,7 +149,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Admin",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 4,
+                    TabIndex = 6,
                     Text = "Administration ",
                     UseVisualStyleBackColor = true
                 };
@@ -143,7 +163,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_AdminAction",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 5,
+                    TabIndex = 7,
                     Text = "Action Admin",
                     UseVisualStyleBackColor = true,
                 };

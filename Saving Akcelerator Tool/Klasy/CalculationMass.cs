@@ -61,8 +61,12 @@ namespace Saving_Accelerator_Tool
             DataTable ANCQ = new DataTable();
             DataTable PNCQ = new DataTable();
             DataTable ECCCQ = new DataTable();
+            decimal Year;
 
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityCalcRev", true).First()).Value;
+            if (Revision != "USE")
+                Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityCalcRev", true).First()).Value;
+            else
+                Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearCalc", true).First()).Value;
 
             ActionList = LoadActionTable();
 
@@ -762,7 +766,7 @@ namespace Saving_Accelerator_Tool
                         Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
                         SavingSum = SavingSum + Saving;
 
-                        if(ECCCCalc)
+                        if (ECCCCalc)
                         {
                             ECCC = Quantity * ECCCSek * ECCCSekCost;
                             ECCCSum = ECCCSum + ECCC;

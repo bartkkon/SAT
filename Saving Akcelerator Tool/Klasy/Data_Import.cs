@@ -11,14 +11,15 @@ namespace Saving_Accelerator_Tool
 {
     public class Data_Import
     {
-        string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Akcelerator_Data\Links.txt";
-        //string Link_Access;
+        private static Data_Import instance;
+        private string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+
 
         public Data_Import()
         {
             if (Environment.UserName.ToString() == "BartkKon")
             {
-                DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na lokalną?", "Baza Danych", MessageBoxButtons.YesNo);
+                DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na Testową?", "Czy baza danych testowa?", MessageBoxButtons.YesNo);
                 if (Results == DialogResult.Yes)
                 {
                     Link_Access = @"C:\Moje\EC_Accelerator_Data\Links.txt";
@@ -26,9 +27,37 @@ namespace Saving_Accelerator_Tool
             }
         }
 
+        public static Data_Import Singleton()
+        {
+                if(instance == null)
+                {
+                    instance = new Data_Import();
+                }
+                return instance;
+        }
+
         public Data_Import (string Link)
         {
             Link_Access = Link;
+        }
+
+        public bool CheckConnectionToDataBase()
+        {
+            bool Status = false;
+            if(!File.Exists(Link_Access))
+            {
+                MessageBox.Show("Brak dostępu do bazy danych. Proszę uruchomić dyski sieciowe lub połączyć się z siecią lub skontaktować się z Adminem.");
+            }
+            else
+            {
+                Status = true;
+            }
+            return Status;
+        }
+
+        public string CheckLink ()
+        {
+            return Link_Access;
         }
 
         /// <summary>
@@ -39,6 +68,16 @@ namespace Saving_Accelerator_Tool
         public void Load_TxtToDataTable(ref DataTable Table, string Link)
         {
             Load_File(ref Table, Link);
+        }
+
+        /// <summary>
+        /// Load DataBase from .txt file to DataTable. Version 2 put where not use link
+        /// </summary>
+        /// <param name="Table">Ref to DataTable</param>
+        /// <param name="Where">What DataBase you want load</param>
+        public void Load_TxtToDataTable2(ref DataTable Table, string Where)
+        {
+            Load_File(ref Table, Load_Link(Where));
         }
 
         public void Load_TxtToDataTableYear(ref DataTable Table, string Link, decimal Year)

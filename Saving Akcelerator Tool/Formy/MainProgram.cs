@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Deployment.Application;
-
+using Saving_Accelerator_Tool.Klasy.User;
 
 namespace Saving_Accelerator_Tool
 {
@@ -29,29 +29,24 @@ namespace Saving_Accelerator_Tool
         {
             try
             {
-                string Link = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+                data_Import = Data_Import.Singleton();
 
-                if (Environment.UserName.ToString() == "BartkKon")
+                if(!data_Import.CheckConnectionToDataBase())
                 {
-                    DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na lokalną?", "Baza Danych", MessageBoxButtons.YesNo);
-                    if (Results == DialogResult.Yes)
-                    {
-                        Link = @"C:\Moje\EC_Accelerator_Data\Links.txt";
-                    }
-                }
-
-
-                if (!File.Exists(Link))
-                {
-                    MessageBox.Show("Brak dostępu do bazy danych. Proszę uruchomić dyski sieciowe lub połączyć się z siecią lub skontaktować się z Adminem.");
                     Environment.Exit(0);
                 }
-                data_Import = new Data_Import(Link);
+
+                //Pobranie danych z bazy dla dostępów osób logujących się do programy
                 Access = data_Import.Load_Access("Access");
+                //Tworzenie Użytkowanika
+                CreateUsers NewUsers = new CreateUsers(Access);
+                //Inicjalizowanie programu
                 InitializeComponent();
                 action = new Action(this, data_Import);
                 admin = new Admin(this, data_Import);
                 summaryDetails = new SummaryDetails(this, data_Import);
+
+                //Budowanie Formsa w zależności od uprawnień
                 buildForm.Tab_Control_Add(Access, this, action, summaryDetails, admin, data_Import);
 
                 if (ApplicationDeployment.IsNetworkDeployed)
@@ -60,11 +55,12 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    toolStripStatusLabel1.Text = "0.5.0.22  Beta Version Portable Version";
+                    toolStripStatusLabel1.Text = "0.5.0.23  Beta Version Portable Version";
                 }
 
                 if (Environment.UserName.ToString() == "BartkKon")
                 {
+                    string Link = data_Import.CheckLink();
                     toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
                 }
                 Self = this;
