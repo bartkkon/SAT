@@ -160,6 +160,9 @@
     <Compile Include="Klasy\Raporty\MultiRaport.cs" />
     <Compile Include="Klasy\Raporty\PNC.cs" />
     <Compile Include="Klasy\Raporty\PNCSpec.cs" />
+    <Compile Include="Klasy\SummaryDetails\Framework\SDTableLoad.cs" />
+    <Compile Include="Klasy\SummaryDetails\Handlers\SDTableHandler.cs" />
+    <Compile Include="Klasy\SummaryDetails\View\SDTableView.cs" />
     <Compile Include="Klasy\User\CreateUsers.cs" />
     <Compile Include="Klasy\User\Users.cs" />
     <Compile Include="Klasy\User\User.cs" />

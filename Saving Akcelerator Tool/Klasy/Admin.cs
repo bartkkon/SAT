@@ -149,34 +149,54 @@ namespace Saving_Accelerator_Tool
             string SUMPNCBU = @"SumPNCBU\SumPNCBU.txt";
 
             string date = "_" + DateTime.Now.ToString("yyyy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + DateTime.Now.ToString("HH") + DateTime.Now.ToString("mm") + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + ".txt";
-            
-            string Temp1 = LinkDysk + Access;
-            string Temp2 = LinkDysk + Access;
 
-            Temp1 = LinkDysk + SumPNC;
-            Temp2 = LinkDysk + SumPNC;
-            Temp2 = Temp2.Remove(Temp2.Length - 4);
-            Temp2 = Temp2 + date;
-            File.Move(Temp1, Temp2);
-
-            Temp1 = LinkDysk + SUMPNCBU;
-            Temp2 = LinkDysk + SUMPNCBU;
-            Temp2 = Temp2.Remove(Temp2.Length - 4);
-            Temp2 = Temp2 + date;
-            File.Move(Temp1, Temp2);
-
+            ChangeNameForCopyBase(LinkDysk, Access, date);
             File.Copy(LinkServer + Access, LinkDysk + Access);
+
+            ChangeNameForCopyBase(LinkDysk, BUANC, date);
             File.Copy(LinkServer + BUANC, LinkDysk + BUANC);
+
+            ChangeNameForCopyBase(LinkDysk, BUPNC, date);
             File.Copy(LinkServer + BUPNC, LinkDysk + BUPNC);
+
+            ChangeNameForCopyBase(LinkDysk, Frozen, date);
             File.Copy(LinkServer + Frozen, LinkDysk + Frozen);
+
+            ChangeNameForCopyBase(LinkDysk, Kurs, date);
             File.Copy(LinkServer + Kurs, LinkDysk + Kurs);
+
+            ChangeNameForCopyBase(LinkDysk, STK, date);
             File.Copy(LinkServer + STK, LinkDysk + STK);
+
+            ChangeNameForCopyBase(LinkDysk, ANC, date);
             File.Copy(LinkServer + ANC, LinkDysk + ANC);
+
+            ChangeNameForCopyBase(LinkDysk, PNC, date);
             File.Copy(LinkServer + PNC, LinkDysk + PNC);
-            File.Copy(LinkServer + Action, LinkDysk + Action); 
+
+            ChangeNameForCopyBase(LinkDysk, Action, date);
+            File.Copy(LinkServer + Action, LinkDysk + Action);
+
+            ChangeNameForCopyBase(LinkDysk, History, date);
             File.Copy(LinkServer + History, LinkDysk + History);
+
+            ChangeNameForCopyBase(LinkDysk, SumPNC, date);
             File.Copy(LinkServer + SumPNC, LinkDysk + SumPNC);
+
+            ChangeNameForCopyBase(LinkDysk, SUMPNCBU, date);
             File.Copy(LinkServer + SUMPNCBU, LinkDysk + SUMPNCBU);
+        }
+
+        private void ChangeNameForCopyBase(string LinkDysk, string Link, string Date)
+        {
+            string Temp1;
+            string Temp2;
+
+            Temp1 = LinkDysk + Link;
+            Temp2 = LinkDysk + Link;
+            Temp2 = Temp2.Remove(Temp2.Length - 4);
+            Temp2 = Temp2 + Date;
+            File.Move(Temp1, Temp2);
         }
 
         private void DeactivatorAction()

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
-
-
+using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework;
 
 namespace Saving_Accelerator_Tool
 {
@@ -58,6 +57,7 @@ namespace Saving_Accelerator_Tool
         {
             Cursor.Current = Cursors.WaitCursor;
             summaryDetails.SummaryDetails_Show(Person);
+            _ = new SDTableLoad();
             charts.ChartSummary();
             summaryDetails.SummaryDetails_DataGridDifferenceClear();
             summaryDetails.SummaryDetails_DataGridDifference();
@@ -143,228 +143,6 @@ namespace Saving_Accelerator_Tool
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
             }
-        }
-
-        public void GeneretedCurrentAction_CarryOver_DataGridView()
-        {
-            GroupBox gb_ShowAction = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ShowAction", true).First();
-
-            DataGridView dg_CurrentAction = new DataGridView
-            {
-                ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new System.Drawing.Point(5, 60),
-                Name = "dg_CurrentAction",
-                Size = new System.Drawing.Size(1500, 400),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                //Enabled = false,
-
-            };
-            dg_CurrentAction.Columns.Add("Name", "Name Action");
-            dg_CurrentAction.Columns[0].Width = 200;
-            dg_CurrentAction.Columns.Add("Q1", "I");
-            dg_CurrentAction.Columns.Add("Q2", "II");
-            dg_CurrentAction.Columns.Add("Q3", "III");
-            dg_CurrentAction.Columns.Add("Q4", "IV");
-            dg_CurrentAction.Columns.Add("Q5", "V");
-            dg_CurrentAction.Columns.Add("Q6", "VI");
-            dg_CurrentAction.Columns.Add("Q7", "VII");
-            dg_CurrentAction.Columns.Add("Q8", "VIII");
-            dg_CurrentAction.Columns.Add("Q9", "IX");
-            dg_CurrentAction.Columns.Add("Q10", "X");
-            dg_CurrentAction.Columns.Add("Q11", "XI");
-            dg_CurrentAction.Columns.Add("Q12", "XII");
-            dg_CurrentAction.Columns.Add("QSum", "Sum:");
-
-            dg_CurrentAction.Columns[1].Width = 67;
-            dg_CurrentAction.Columns[2].Width = 67;
-            dg_CurrentAction.Columns[3].Width = 67;
-            dg_CurrentAction.Columns[4].Width = 67;
-            dg_CurrentAction.Columns[5].Width = 67;
-            dg_CurrentAction.Columns[6].Width = 67;
-            dg_CurrentAction.Columns[7].Width = 67;
-            dg_CurrentAction.Columns[8].Width = 67;
-            dg_CurrentAction.Columns[9].Width = 67;
-            dg_CurrentAction.Columns[10].Width = 67;
-            dg_CurrentAction.Columns[11].Width = 67;
-            dg_CurrentAction.Columns[12].Width = 67;
-            dg_CurrentAction.Columns[13].Width = 84;
-
-            dg_CurrentAction.Columns.Add("Break1", "");
-            dg_CurrentAction.Columns[14].Width = 50;
-
-            dg_CurrentAction.Columns.Add("S1", "I");
-            dg_CurrentAction.Columns.Add("S2", "II");
-            dg_CurrentAction.Columns.Add("S3", "III");
-            dg_CurrentAction.Columns.Add("S4", "IV");
-            dg_CurrentAction.Columns.Add("S5", "V");
-            dg_CurrentAction.Columns.Add("S6", "VI");
-            dg_CurrentAction.Columns.Add("S7", "VII");
-            dg_CurrentAction.Columns.Add("S8", "VIII");
-            dg_CurrentAction.Columns.Add("S9", "IX");
-            dg_CurrentAction.Columns.Add("S10", "X");
-            dg_CurrentAction.Columns.Add("S11", "XI");
-            dg_CurrentAction.Columns.Add("S12", "XII");
-            dg_CurrentAction.Columns.Add("SSum", "Sum:");
-
-            dg_CurrentAction.Columns[15].Width = 67;
-            dg_CurrentAction.Columns[16].Width = 67;
-            dg_CurrentAction.Columns[17].Width = 67;
-            dg_CurrentAction.Columns[18].Width = 67;
-            dg_CurrentAction.Columns[19].Width = 67;
-            dg_CurrentAction.Columns[20].Width = 67;
-            dg_CurrentAction.Columns[21].Width = 67;
-            dg_CurrentAction.Columns[22].Width = 67;
-            dg_CurrentAction.Columns[23].Width = 67;
-            dg_CurrentAction.Columns[24].Width = 67;
-            dg_CurrentAction.Columns[25].Width = 67;
-            dg_CurrentAction.Columns[26].Width = 67;
-            dg_CurrentAction.Columns[27].Width = 84;
-
-            dg_CurrentAction.Columns.Add("Break2", "");
-            dg_CurrentAction.Columns[28].Width = 50;
-
-            dg_CurrentAction.Columns.Add("E1", "I");
-            dg_CurrentAction.Columns.Add("E2", "II");
-            dg_CurrentAction.Columns.Add("E3", "III");
-            dg_CurrentAction.Columns.Add("E4", "IV");
-            dg_CurrentAction.Columns.Add("E5", "V");
-            dg_CurrentAction.Columns.Add("E6", "VI");
-            dg_CurrentAction.Columns.Add("E7", "VII");
-            dg_CurrentAction.Columns.Add("E8", "VIII");
-            dg_CurrentAction.Columns.Add("E9", "IX");
-            dg_CurrentAction.Columns.Add("E10", "X");
-            dg_CurrentAction.Columns.Add("E11", "XI");
-            dg_CurrentAction.Columns.Add("E12", "XII");
-            dg_CurrentAction.Columns.Add("ESum", "Sum:");
-
-            dg_CurrentAction.Columns[28].Width = 67;
-            dg_CurrentAction.Columns[29].Width = 67;
-            dg_CurrentAction.Columns[30].Width = 67;
-            dg_CurrentAction.Columns[31].Width = 67;
-            dg_CurrentAction.Columns[32].Width = 67;
-            dg_CurrentAction.Columns[33].Width = 67;
-            dg_CurrentAction.Columns[34].Width = 67;
-            dg_CurrentAction.Columns[35].Width = 67;
-            dg_CurrentAction.Columns[36].Width = 67;
-            dg_CurrentAction.Columns[37].Width = 67;
-            dg_CurrentAction.Columns[38].Width = 67;
-            dg_CurrentAction.Columns[39].Width = 67;
-            dg_CurrentAction.Columns[40].Width = 84;
-
-            dg_CurrentAction.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
-            dg_CurrentAction.ClearSelection();
-            dg_CurrentAction.Columns[0].Frozen = true;
-            gb_ShowAction.Controls.Add(dg_CurrentAction);
-
-
-            DataGridView dg_CarryOver = new DataGridView
-            {
-                ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new System.Drawing.Point(5, 520),
-                Name = "dg_CarryOver",
-                Size = new System.Drawing.Size(1500, 400),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                //Enabled = false,
-
-            };
-            dg_CarryOver.Columns.Add("Name", "Name Action");
-            dg_CarryOver.Columns[0].Width = 200;
-            dg_CarryOver.Columns.Add("Q1", "I");
-            dg_CarryOver.Columns.Add("Q2", "II");
-            dg_CarryOver.Columns.Add("Q3", "III");
-            dg_CarryOver.Columns.Add("Q4", "IV");
-            dg_CarryOver.Columns.Add("Q5", "V");
-            dg_CarryOver.Columns.Add("Q6", "VI");
-            dg_CarryOver.Columns.Add("Q7", "VII");
-            dg_CarryOver.Columns.Add("Q8", "VIII");
-            dg_CarryOver.Columns.Add("Q9", "IX");
-            dg_CarryOver.Columns.Add("Q10", "X");
-            dg_CarryOver.Columns.Add("Q11", "XI");
-            dg_CarryOver.Columns.Add("Q12", "XII");
-            dg_CarryOver.Columns.Add("QSum", "Sum:");
-
-            dg_CarryOver.Columns[1].Width = 67;
-            dg_CarryOver.Columns[2].Width = 67;
-            dg_CarryOver.Columns[3].Width = 67;
-            dg_CarryOver.Columns[4].Width = 67;
-            dg_CarryOver.Columns[5].Width = 67;
-            dg_CarryOver.Columns[6].Width = 67;
-            dg_CarryOver.Columns[7].Width = 67;
-            dg_CarryOver.Columns[8].Width = 67;
-            dg_CarryOver.Columns[9].Width = 67;
-            dg_CarryOver.Columns[10].Width = 67;
-            dg_CarryOver.Columns[11].Width = 67;
-            dg_CarryOver.Columns[12].Width = 67;
-            dg_CarryOver.Columns[13].Width = 84;
-
-            dg_CarryOver.Columns.Add("Break1", "");
-            dg_CarryOver.Columns[14].Width = 50;
-
-            dg_CarryOver.Columns.Add("S1", "I");
-            dg_CarryOver.Columns.Add("S2", "II");
-            dg_CarryOver.Columns.Add("S3", "III");
-            dg_CarryOver.Columns.Add("S4", "IV");
-            dg_CarryOver.Columns.Add("S5", "V");
-            dg_CarryOver.Columns.Add("S6", "VI");
-            dg_CarryOver.Columns.Add("S7", "VII");
-            dg_CarryOver.Columns.Add("S8", "VIII");
-            dg_CarryOver.Columns.Add("S9", "IX");
-            dg_CarryOver.Columns.Add("S10", "X");
-            dg_CarryOver.Columns.Add("S11", "XI");
-            dg_CarryOver.Columns.Add("S12", "XII");
-            dg_CarryOver.Columns.Add("SSum", "Sum:");
-
-            dg_CarryOver.Columns[15].Width = 67;
-            dg_CarryOver.Columns[16].Width = 67;
-            dg_CarryOver.Columns[17].Width = 67;
-            dg_CarryOver.Columns[18].Width = 67;
-            dg_CarryOver.Columns[19].Width = 67;
-            dg_CarryOver.Columns[20].Width = 67;
-            dg_CarryOver.Columns[21].Width = 67;
-            dg_CarryOver.Columns[22].Width = 67;
-            dg_CarryOver.Columns[23].Width = 67;
-            dg_CarryOver.Columns[24].Width = 67;
-            dg_CarryOver.Columns[25].Width = 67;
-            dg_CarryOver.Columns[26].Width = 67;
-            dg_CarryOver.Columns[27].Width = 84;
-
-            dg_CarryOver.Columns.Add("Break2", "");
-            dg_CarryOver.Columns[28].Width = 50;
-
-            dg_CarryOver.Columns.Add("E1", "I");
-            dg_CarryOver.Columns.Add("E2", "II");
-            dg_CarryOver.Columns.Add("E3", "III");
-            dg_CarryOver.Columns.Add("E4", "IV");
-            dg_CarryOver.Columns.Add("E5", "V");
-            dg_CarryOver.Columns.Add("E6", "VI");
-            dg_CarryOver.Columns.Add("E7", "VII");
-            dg_CarryOver.Columns.Add("E8", "VIII");
-            dg_CarryOver.Columns.Add("E9", "IX");
-            dg_CarryOver.Columns.Add("E10", "X");
-            dg_CarryOver.Columns.Add("E11", "XI");
-            dg_CarryOver.Columns.Add("E12", "XII");
-            dg_CarryOver.Columns.Add("ESum", "Sum:");
-
-            dg_CarryOver.Columns[28].Width = 67;
-            dg_CarryOver.Columns[29].Width = 67;
-            dg_CarryOver.Columns[30].Width = 67;
-            dg_CarryOver.Columns[31].Width = 67;
-            dg_CarryOver.Columns[32].Width = 67;
-            dg_CarryOver.Columns[33].Width = 67;
-            dg_CarryOver.Columns[34].Width = 67;
-            dg_CarryOver.Columns[35].Width = 67;
-            dg_CarryOver.Columns[36].Width = 67;
-            dg_CarryOver.Columns[37].Width = 67;
-            dg_CarryOver.Columns[38].Width = 67;
-            dg_CarryOver.Columns[39].Width = 67;
-            dg_CarryOver.Columns[40].Width = 84;
-
-            dg_CarryOver.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
-            dg_CarryOver.ClearSelection();
-            dg_CarryOver.Columns[0].Frozen = true;
-            gb_ShowAction.Controls.Add(dg_CarryOver);
         }
 
         public void GeneretedSumCurrentAction_CarryOver_DataGridView()
@@ -518,6 +296,46 @@ namespace Saving_Accelerator_Tool
 
             ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First()).CheckedChanged += Idea_CheckedChange;
             ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea2", true).First()).CheckedChanged += Idea_CheckedChange;
+        }
+
+        public void Positive_CheckedChange(object sender, EventArgs e)
+        {
+            CheckBox ToCheck = sender as CheckBox;
+
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged -= Positive_CheckedChange;
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged -= Positive_CheckedChange;
+
+            if (ToCheck.Name == "CB_Positive1")
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).Checked = ToCheck.Checked;
+            }
+            else
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).Checked = ToCheck.Checked;
+            }
+
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged += Positive_CheckedChange;
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged += Positive_CheckedChange;
+        }
+
+        public void Negative_CheckedChange(object sender, EventArgs e)
+        {
+            CheckBox ToCheck = sender as CheckBox;
+
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged -= Negative_CheckedChange;
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged -= Negative_CheckedChange;
+
+            if (ToCheck.Name == "CB_Negative1")
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).Checked = ToCheck.Checked;
+            }
+            else
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).Checked = ToCheck.Checked;
+            }
+
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged += Negative_CheckedChange;
+            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged += Negative_CheckedChange;
         }
 
         public void PCRaport_Click(object sender, EventArgs e)

@@ -469,15 +469,17 @@ namespace Saving_Accelerator_Tool
             DataTable Action = new DataTable();
             decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
-            DataGridView dg_CurrentAction = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CurrentAction", true).First();
-            DataGridView dg_CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOver", true).First();
+            //DataGridView dg_CurrentAction = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CurrentAction", true).First();
+            //DataGridView dg_CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOver", true).First();
             ComboBox Leader = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetLeader", true).First();
             ComboBox Devision = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetDevision", true).First();
             CheckBox Active = (CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First();
             CheckBox Idea = (CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First();
+            CheckBox Positive = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First();
+            CheckBox Negative = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First();
 
-            dg_CurrentAction.Rows.Clear();
-            dg_CarryOver.Rows.Clear();
+            //dg_CurrentAction.Rows.Clear();
+            //dg_CarryOver.Rows.Clear();
 
             ImportData.Load_TxtToDataTable(ref Action, LinkAction);
 
@@ -493,26 +495,34 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if(Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                         }
                         else if (ActionRow["Group"].ToString() == Devision.Text)
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                         }
                     }
@@ -522,26 +532,34 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                         }
                         else if (ActionRow["Group"].ToString() == Devision.Text)
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "");
-                                ShowLoadActionSum(ActionRow, "");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "");
                             }
                         }
                     }
@@ -555,26 +573,34 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                         }
                         else if (ActionRow["Group"].ToString() == Devision.Text)
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                         }
                     }
@@ -584,26 +610,34 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                         }
                         else if (ActionRow["Group"].ToString() == Devision.Text)
                         {
                             if (Leader.Text == "All")
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                             else if (ActionRow["Leader"].ToString() == Leader.Text)
                             {
-                                ShowLoadAction(ActionRow, "Carry");
-                                ShowLoadActionSum(ActionRow, "Carry");
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
+                                else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
+                                    ShowLoadActionSum(ActionRow, "Carry");
                             }
                         }
                     }
@@ -662,169 +696,6 @@ namespace Saving_Accelerator_Tool
                             Tabela.Rows[row].Cells[column].Value = "";
                         }
                     }
-                }
-            }
-        }
-
-        private void ShowLoadAction(DataRow ActionRow, string CarryOver)
-        {
-            DataGridView Table;
-            DataTable Frozen = new DataTable();
-            DataRow FrozenYear;
-
-            int rowIndex;
-            string[] QuantityUse;
-            string[] SavingUse;
-            string[] ECCCUse;
-            decimal Month = DateTime.Today.Month;
-            string Rewizion = "BU";
-            NumericUpDown Num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
-
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
-            FrozenYear = Frozen.Select(string.Format("Year LIKE '%{0}%'", Num_Year.Value.ToString())).FirstOrDefault();
-
-            if (FrozenYear != null)
-            {
-                if (Num_Year.Value == DateTime.Now.Year + 1)
-                {
-                    Rewizion = "BU";
-                    Month = 1;
-                }
-                else
-                {
-                    if (Month < 3)
-                    {
-                        Rewizion = "BU";
-                    }
-                    if (Month >= 3 && Month < 6)
-                    {
-                        if (FrozenYear["EA1"].ToString() == "Approve" || FrozenYear["EA1"].ToString() == "Open")
-                        {
-                            Rewizion = "EA1";
-                        }
-                        else
-                        {
-                            Rewizion = "BU";
-                        }
-
-                    }
-                    if (Month >= 6 && Month < 9)
-                    {
-                        if (FrozenYear["EA2"].ToString() == "Approve" || FrozenYear["EA2"].ToString() == "Open")
-                        {
-                            Rewizion = "EA2";
-                        }
-                        else
-                        {
-                            Rewizion = "EA1";
-                        }
-
-                    }
-                    if (Month >= 9)
-                    {
-
-                        if (FrozenYear["EA3"].ToString() == "Approve" || FrozenYear["EA3"].ToString() == "Open")
-                        {
-                            Rewizion = "EA3";
-                        }
-                        else
-                        {
-                            Rewizion = "EA2";
-                        }
-                    }
-                }
-
-                if (CarryOver == "")
-                {
-                    Table = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CurrentAction", true).First();
-                }
-                else
-                {
-                    Table = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOver", true).First();
-                }
-
-
-                rowIndex = Table.Rows.Add();
-                Table.Rows[rowIndex].DefaultCellStyle.Format = "#,0.###";
-                Table.Rows[rowIndex].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                Table.Rows[rowIndex].Cells[0].Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                Table.Rows[rowIndex].Cells["Name"].Value = ActionRow["Name"].ToString();
-
-                QuantityUse = (ActionRow["CalcUSEQuantity" + CarryOver].ToString()).Split('/');
-                SavingUse = (ActionRow["CalcUSESaving" + CarryOver].ToString()).Split('/');
-                ECCCUse = (ActionRow["CalcUSEECCC" + CarryOver].ToString()).Split('/');
-
-                if (QuantityUse.Length != 1)
-                {
-                    for (int counter = 1; counter < Month; counter++)
-                    {
-                        if (QuantityUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
-                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
-                        }
-                        if (SavingUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
-                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
-                        }
-                        if (ECCCUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
-                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Style.Font = new Font(Table.Font, FontStyle.Bold);
-                        }
-                    }
-                }
-
-                QuantityUse = (ActionRow["Calc" + Rewizion + "Quantity" + CarryOver].ToString()).Split('/');
-                SavingUse = (ActionRow["Calc" + Rewizion + "Saving" + CarryOver].ToString()).Split('/');
-                ECCCUse = (ActionRow["Calc" + Rewizion + "ECCC" + CarryOver].ToString()).Split('/');
-                if (QuantityUse.Length != 1)
-                {
-                    for (int counter = int.Parse(Month.ToString()); counter < 13; counter++)
-                    {
-                        if (QuantityUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value = decimal.Parse(QuantityUse[counter - 1]);
-                        }
-                        if (SavingUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["S" + counter.ToString()].Value = decimal.Parse(SavingUse[counter - 1]);
-                        }
-                        if (ECCCUse[counter - 1] != "")
-                        {
-                            Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value = decimal.Parse(ECCCUse[counter - 1]);
-                        }
-                    }
-                }
-                decimal Quantity = 0;
-                decimal Saving = 0;
-                decimal ECCC = 0;
-
-                for (int counter = 1; counter < 13; counter++)
-                {
-                    if (Table.Rows[rowIndex].Cells["Q" + counter.ToString()].Value != null)
-                    {
-                        Quantity = Quantity + decimal.Parse(Table.Rows[rowIndex].Cells["Q" + counter].Value.ToString());
-                        Saving = Saving + decimal.Parse(Table.Rows[rowIndex].Cells["S" + counter].Value.ToString());
-                    }
-                    if (Table.Rows[rowIndex].Cells["E" + counter.ToString()].Value != null)
-                    {
-                        ECCC = ECCC + decimal.Parse(Table.Rows[rowIndex].Cells["E" + counter].Value.ToString());
-                    }
-                }
-
-                if (Quantity != 0)
-                {
-                    Table.Rows[rowIndex].Cells["QSum"].Value = Quantity;
-                }
-                if (Saving != 0)
-                {
-                    Table.Rows[rowIndex].Cells["SSum"].Value = Saving;
-                }
-                if (ECCC != 0)
-                {
-                    Table.Rows[rowIndex].Cells["ESum"].Value = ECCC;
                 }
             }
         }
@@ -1406,7 +1277,7 @@ namespace Saving_Accelerator_Tool
             {
                 if (KursRow["NVR"].ToString() != "")
                 {
-                    DMPercent = KursRow["Ele"].ToString().Split('/');
+                    DMPercent = KursRow["NVR"].ToString().Split('/');
                     CanCalc = true;
                 }
             }

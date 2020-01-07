@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
-
+using Saving_Accelerator_Tool.Klasy.SummaryDetails.View;
 
 namespace Saving_Accelerator_Tool
 {
@@ -173,44 +173,14 @@ namespace Saving_Accelerator_Tool
             pb_SummDet_Show.Click += new EventHandler(pb_SummDet_Show_Click);
             gb_Show.Controls.Add(pb_SummDet_Show);
 
-            //
-            GroupBox gb_ShowAction = new GroupBox
-            {
-                Location = new Point(310, 5),
-                Name = "gb_ShowAction",
-                Size = new Size(1510, 970),
-                TabStop = false,
-                Text = "",
-            };
-            tab_Summary.Controls.Add(gb_ShowAction);
-
-            Label lab_SummNewAction = new Label
-            {
-                AutoSize = true,
-                Location = new Point(10, 20),
-                Font = new Font("Microsoft Sans Serif", 15.75F, ((FontStyle)((FontStyle.Bold | FontStyle.Italic))), GraphicsUnit.Point, ((byte)(238))),
-                Name = "lab_SummNewAction",
-                Size = new Size(71, 13),
-                Text = "Current Acton:",
-            };
-            gb_ShowAction.Controls.Add(lab_SummNewAction);
-
-            Label lab_SummCarryover = new Label
-            {
-                AutoSize = true,
-                Location = new Point(10, 480),
-                Font = new Font("Microsoft Sans Serif", 15.75F, ((FontStyle)((FontStyle.Bold | FontStyle.Italic))), GraphicsUnit.Point, ((byte)(238))),
-                Name = "lab_SummCarryover",
-                Size = new Size(71, 13),
-                Text = "CarryOver:",
-            };
-            gb_ShowAction.Controls.Add(lab_SummCarryover);
-
             //Dodanie Idea lub active Action
             Active_Idea_CheckBox(gb_Show, "1");
 
-            //Generowanie DataGridView dla danych Current year action and Carry over 
-            GeneretedCurrentAction_CarryOver_DataGridView();
+            //Dodanie Pozytywne i Negatywne 
+            Positive_Negative_ChecBox(gb_Show, "1");
+
+            //Generowanie nowych SummaryDetails
+            _ = new SDTableView(tab_Summary);
 
             //Generowanie GrupBoxa dla zatwierdzania akcji Dla menagerów.
             ReportingForm(gb_Controls);
@@ -219,6 +189,8 @@ namespace Saving_Accelerator_Tool
             PC_Raport(gb_Show);
 
         }
+
+        
 
         private void Tab_Summary_Comp()
         {
@@ -384,6 +356,9 @@ namespace Saving_Accelerator_Tool
             //Dodanie Idea lub active Action
             Active_Idea_CheckBox(gb_Show, "2");
 
+            //Dodanie Pozytywne i Negatywne 
+            Positive_Negative_ChecBox(gb_Show, "2");
+
             //Generowanie 3 tablic na new action, Carry over i ECCC
             GeneretedSumCurrentAction_CarryOver_DataGridView();
 
@@ -535,7 +510,7 @@ namespace Saving_Accelerator_Tool
         {
             CheckBox Active = new CheckBox
             {
-                Location = new Point(50, 220),
+                Location = new Point(30, 220),
                 Size = new Size(100, 20),
                 AutoSize = true,
                 Name = "CB_Active" + counter,
@@ -556,6 +531,33 @@ namespace Saving_Accelerator_Tool
             };
             Idea.CheckedChanged += new EventHandler(Idea_CheckedChange);
             gb_Show.Controls.Add(Idea);
+        }
+
+        private void Positive_Negative_ChecBox(GroupBox gb_Show, string counter)
+        {
+            CheckBox Positive = new CheckBox
+            {
+                Location = new Point(30, 250),
+                Size = new Size(100, 20),
+                AutoSize = true,
+                Name = "CB_Positive" + counter,
+                Text = "Positive Action",
+                Checked = true,
+            };
+            Positive.CheckedChanged += new EventHandler(Positive_CheckedChange);
+            gb_Show.Controls.Add(Positive);
+
+            CheckBox Negative = new CheckBox
+            {
+                Location = new Point(140, 250),
+                Size = new Size(100, 20),
+                AutoSize = true,
+                Name = "CB_Negative" + counter,
+                Text = "Negative Action",
+                Checked = true,
+            };
+            Negative.CheckedChanged += new EventHandler(Negative_CheckedChange);
+            gb_Show.Controls.Add(Negative);
         }
 
         private void ChartFilters(GroupBox gb_ShowActionSum)
