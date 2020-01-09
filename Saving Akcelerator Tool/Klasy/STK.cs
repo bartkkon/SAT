@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 
 namespace Saving_Accelerator_Tool
@@ -75,10 +72,10 @@ namespace Saving_Accelerator_Tool
 
             ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
 
-            if(STKTable.Columns.Contains(Year.ToString()))
+            if (STKTable.Columns.Contains(Year.ToString()))
             {
                 DialogResult Results = MessageBox.Show("Dane STK na rok " + Year.ToString() + " istnieją!. Czy zamienić je ?", "Uwaga", MessageBoxButtons.YesNo);
-                if(Results == DialogResult.Yes)
+                if (Results == DialogResult.Yes)
                 {
                     STKTable.Columns.Remove(Year.ToString());
                     STKTable.Columns.Remove("STK/" + Year.ToString());
@@ -105,7 +102,7 @@ namespace Saving_Accelerator_Tool
 
             ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
 
-            if(STKTable.Columns.Contains(Year.ToString()))
+            if (STKTable.Columns.Contains(Year.ToString()))
             {
                 STKTable.Columns.Remove(Year.ToString());
                 STKTable.Columns.Remove("STK/" + Year.ToString());
@@ -222,7 +219,7 @@ namespace Saving_Accelerator_Tool
                                 }
                                 FoundRow[Year.ToString()] = day + "/" + month + "/" + Year.ToString();
                             }
-                            if(FoundRow["IDCO"].ToString() != IDCO)
+                            if (FoundRow["IDCO"].ToString() != IDCO)
                             {
                                 FoundRow["IDCO"] = IDCO;
                             }
@@ -232,7 +229,6 @@ namespace Saving_Accelerator_Tool
                             //Dodać kolumne z nowym rokiem i dopisać wartość
                             STKTable.Columns.Add(new DataColumn(Year.ToString()));
                             STKTable.Columns.Add(new DataColumn("STK/" + Year));
-                            FoundRow[Year] = STK.ToString();
 
                             if (Day < 10)
                             {
@@ -250,11 +246,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 month = Month.ToString();
                             }
-                            FoundRow["STK/" + Year] = day + "/" + month + "/" + Year.ToString();
+                            FoundRow[Year.ToString()] = day + "/" + month + "/" + Year.ToString();
+                            FoundRow["STK/" + Year] = STK.ToString();
                         }
                     }
                 }
-
                 ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
             }
         }
