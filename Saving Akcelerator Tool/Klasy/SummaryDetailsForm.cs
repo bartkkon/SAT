@@ -12,9 +12,9 @@ namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsForm : SummaryDetailsFormHendler
     {
-        MainProgram mainProgram;
-        SummaryDetails summaryDetails;
-        DataRow Person;
+        private readonly MainProgram mainProgram;
+        private readonly SummaryDetails summaryDetails;
+        private readonly DataRow Person;
 
         public SummaryDetailsForm(MainProgram mainProgram, DataRow Person, SummaryDetails summaryDetails, Data_Import data_Import) : base(mainProgram, summaryDetails, Person, data_Import)
         {
@@ -60,7 +60,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Level 1",
                 UseVisualStyleBackColor = true
             };
-            cb_Level1.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level1.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level1);
 
             CheckBox cb_Level2 = new CheckBox
@@ -74,7 +74,7 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true,
                 Enabled = false,
             };
-            cb_Level2.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level2.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level2);
 
             CheckBox cb_Level3 = new CheckBox
@@ -88,7 +88,7 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true,
                 Enabled = false,
             };
-            cb_Level3.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level3.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level3);
 
             Label lab_SummDetYear = new Label
@@ -170,7 +170,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Show",
                 UseVisualStyleBackColor = true,
             };
-            pb_SummDet_Show.Click += new EventHandler(pb_SummDet_Show_Click);
+            pb_SummDet_Show.Click += new EventHandler(Pb_SummDet_Show_Click);
             gb_Show.Controls.Add(pb_SummDet_Show);
 
             //Dodanie Idea lub active Action
@@ -227,7 +227,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Level 1",
                 UseVisualStyleBackColor = true
             };
-            cb_Level1.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level1.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level1);
 
             CheckBox cb_Level2 = new CheckBox
@@ -241,7 +241,7 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true,
                 Enabled = false,
             };
-            cb_Level2.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level2.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level2);
 
             CheckBox cb_Level3 = new CheckBox
@@ -255,7 +255,7 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true,
                 Enabled = false,
             };
-            cb_Level3.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level3.CheckedChanged += Cb_LevelChange_CheckedChanged;
             gb_Show.Controls.Add(cb_Level3);
 
             Label lab_SummDetYear = new Label
@@ -340,7 +340,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Show",
                 UseVisualStyleBackColor = true,
             };
-            pb_SummDet_Show.Click += new System.EventHandler(pb_SummDet_Show_Click);
+            pb_SummDet_Show.Click += new System.EventHandler(Pb_SummDet_Show_Click);
             gb_Show.Controls.Add(pb_SummDet_Show);
 
             GroupBox gb_ShowActionSum = new GroupBox
@@ -415,7 +415,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_EleApp.Click += new System.EventHandler(pb_SummDet_Approve_Click);
+                    pb_SummDet_EleApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_EleApp);
                     summaryDetails.SummaryDetails_CheckifCanReporting("Electronic", "false");
                 }
@@ -431,7 +431,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_MechApp.Click += new System.EventHandler(pb_SummDet_Approve_Click);
+                    pb_SummDet_MechApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_MechApp);
                     summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
                 }
@@ -447,7 +447,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_NVRApp.Click += new System.EventHandler(pb_SummDet_Approve_Click);
+                    pb_SummDet_NVRApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_NVRApp);
                     summaryDetails.SummaryDetails_CheckifCanReporting("NVR", "false");
                 }
@@ -463,7 +463,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_PCApp.Click += new System.EventHandler(pb_SummDet_Approve_Click);
+                    pb_SummDet_PCApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_PCApp);
 
                     Button pb_SummDet_EleRej = new Button
@@ -475,7 +475,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_EleRej.Click += new System.EventHandler(pb_SummDet_Rejected_Click);
+                    pb_SummDet_EleRej.Click += new System.EventHandler(Pb_SummDet_Rejected_Click);
                     gb_Approve.Controls.Add(pb_SummDet_EleRej);
 
                     Button pb_SummDet_MechRej = new Button
@@ -487,7 +487,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_MechRej.Click += new System.EventHandler(pb_SummDet_Rejected_Click);
+                    pb_SummDet_MechRej.Click += new System.EventHandler(Pb_SummDet_Rejected_Click);
                     gb_Approve.Controls.Add(pb_SummDet_MechRej);
 
                     Button pb_SummDet_NVRRej = new Button
@@ -499,7 +499,7 @@ namespace Saving_Accelerator_Tool
                         UseVisualStyleBackColor = true,
                         Enabled = false,
                     };
-                    pb_SummDet_NVRRej.Click += new System.EventHandler(pb_SummDet_Rejected_Click);
+                    pb_SummDet_NVRRej.Click += new System.EventHandler(Pb_SummDet_Rejected_Click);
                     gb_Approve.Controls.Add(pb_SummDet_NVRRej);
                     summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
                 }

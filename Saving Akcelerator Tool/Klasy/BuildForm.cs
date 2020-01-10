@@ -14,21 +14,14 @@ namespace Saving_Accelerator_Tool
 {
     class BuildForm
     {
-        Action action;
-        MainProgram mainProgram;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
+
+        private DataRow Person;
+
 
         public void Tab_Control_Add(DataTable Access, MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData)
         {
             Person = Access.Rows[0];
-            this.action = action;
-            this.mainProgram = mainProgram;
-            this.summaryDetails = summaryDetails;
-            this.admin = admin;
-            this.ImportData = ImportData;
+
             Users User = Users.Singleton();
             
             // 
@@ -48,7 +41,7 @@ namespace Saving_Accelerator_Tool
                 tab_Action.UseVisualStyleBackColor = true;
 
                 //Tab_Action_Comp();
-                ActionForm actionForm = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                _ = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
                 action.Action_NoChangeInAction();
             }
             // 
@@ -117,7 +110,7 @@ namespace Saving_Accelerator_Tool
 
                 mainProgram.TabControl.Controls.Add(tab_STK);
 
-                Tab_STK_Comp(Person, mainProgram);
+                Tab_STK_Comp();
             }
             // 
             // tab_Quantity
@@ -136,7 +129,7 @@ namespace Saving_Accelerator_Tool
 
                 mainProgram.TabControl.Controls.Add(tab_Quantity);
 
-                Tab_Quantity_Comp(Person, mainProgram);
+                Tab_Quantity_Comp();
             }
             // 
             // tab_Admin
@@ -156,7 +149,7 @@ namespace Saving_Accelerator_Tool
 
                 mainProgram.TabControl.Controls.Add(tab_Admin);
 
-                AdminForm adminForm = new AdminForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                _ = new AdminForm(mainProgram, action, admin, ImportData);
 
                 TabPage tab_AdminAction = new TabPage
                 {
@@ -170,18 +163,18 @@ namespace Saving_Accelerator_Tool
 
                 mainProgram.TabControl.Controls.Add(tab_AdminAction);
 
-                ModifiActionForm modifiActionForm = new ModifiActionForm(mainProgram, tab_AdminAction, ImportData);
+                _ = new ModifiActionForm(mainProgram, tab_AdminAction, ImportData);
                 //Tab_Admin_Comp(Person, mainProgram);
                 
             }
         }
 
-        private void Tab_STK_Comp(DataRow Person, MainProgram mainProgram)
+        private void Tab_STK_Comp()
         {
 
         }
 
-        private void Tab_Quantity_Comp(DataRow Person, MainProgram mainProgram)
+        private void Tab_Quantity_Comp()
         {
 
         }

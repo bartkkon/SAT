@@ -179,7 +179,7 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
             DataTable SumPNC = new DataTable();
             DataTable ActualAllRow;
             DataRow Actual;
-            string Name;
+            //string Name;
 
             if (Estymacja)
                 _Import.Load_TxtToDataTable2(ref SumPNC, "SumPNCBU");

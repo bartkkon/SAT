@@ -9,7 +9,7 @@ namespace Saving_Accelerator_Tool
 {
     class PNC
     {
-        Data_Import ImportData;
+        //private readonly Data_Import ImportData;
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool> { };
         private readonly Dictionary<string, string> IDCOTabela = new Dictionary<string, string> { };
         private readonly Dictionary<string, int> Month = new Dictionary<string, int>()
@@ -28,10 +28,10 @@ namespace Saving_Accelerator_Tool
             {"December",12},
         };
 
-        public PNC(Data_Import ImportData, Dictionary<string, bool> Preferencje)
+        public PNC(Dictionary<string, bool> Preferencje)
         {
             this.Preferencje = Preferencje;
-            this.ImportData = ImportData;
+            //this.ImportData = ImportData;
         }
 
         public void PrepareANCSpec(DataRow ActionRow, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
@@ -55,12 +55,12 @@ namespace Saving_Accelerator_Tool
 
             if (Preferencje["Minimum"] )
             {
-                AddMinimum(ref RowtoAdd, ActionRow, MonthEnd, CarryOver, Status, IDCO);
+                AddMinimum(ref RowtoAdd, ActionRow, MonthEnd, CarryOver, IDCO);
                 Devision.Rows.Add(RowtoAdd);
             }
             else if (Preferencje["Medium"] || Preferencje["Maximum"])
             {
-                AddMediumMaximum(ref RowtoAdd, ActionRow, ref Devision, MonthEnd, CarryOver, Status);
+                AddMediumMaximum(ref RowtoAdd, ActionRow, ref Devision, MonthEnd, CarryOver);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Saving_Accelerator_Tool
             return IDCO;
         }
 
-        private void AddMinimum(ref DataRow RowtoAdd, DataRow ActionRow, int MonthEnd, bool CarryOver, string Status, string[] IDCO)
+        private void AddMinimum(ref DataRow RowtoAdd, DataRow ActionRow, int MonthEnd, bool CarryOver, string[] IDCO)
         {
             int Monthstart = Month[ActionRow["StartMonth"].ToString()];
             decimal YearAction;
@@ -258,7 +258,7 @@ namespace Saving_Accelerator_Tool
                 {
                     if (RowtoAdd["Q" + counter.ToString()].ToString() != "")
                     {
-                        sum = sum + double.Parse(RowtoAdd["Q" + counter.ToString()].ToString());
+                        sum += double.Parse(RowtoAdd["Q" + counter.ToString()].ToString());
                     }
                 }
                 RowtoAdd["Q13"] = sum;
@@ -345,7 +345,7 @@ namespace Saving_Accelerator_Tool
                 {
                     if (RowtoAdd["S" + counter.ToString()].ToString() != "")
                     {
-                        sum = sum + double.Parse(RowtoAdd["S" + counter.ToString()].ToString());
+                        sum += double.Parse(RowtoAdd["S" + counter.ToString()].ToString());
                     }
                 }
                 RowtoAdd["S13"] = sum;
@@ -432,14 +432,14 @@ namespace Saving_Accelerator_Tool
                 {
                     if (RowtoAdd["E" + counter.ToString()].ToString() != "")
                     {
-                        sum = sum + double.Parse(RowtoAdd["E" + counter.ToString()].ToString());
+                        sum += double.Parse(RowtoAdd["E" + counter.ToString()].ToString());
                     }
                 }
                 RowtoAdd["E13"] = sum;
             }
         }
 
-        private void AddMediumMaximum(ref DataRow RowtoAdd, DataRow Rewizion, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
+        private void AddMediumMaximum(ref DataRow RowtoAdd, DataRow Rewizion, ref DataTable Devision, int MonthEnd, bool CarryOver)
         {
             int Monthstart = Month[Rewizion["StartMonth"].ToString()];
             decimal YearAction;
@@ -455,11 +455,7 @@ namespace Saving_Accelerator_Tool
             string[] OLDSTK;
             string[] NEWSTK;
             string[] Delta;
-            string[] Next;
-            //string[] Calc;
             string[] PNC;
-            bool NewtoCalc = false;
-            decimal[] Quantity = new decimal[12];
             string over = "";
             int Start = 1;
             int Finish = 0;
@@ -512,30 +508,29 @@ namespace Saving_Accelerator_Tool
             NewANC = Rewizion["New ANC"].ToString().Split('|');
             OLDSTK = Rewizion["Old STK"].ToString().Split('|');
             NEWSTK = Rewizion["New STK"].ToString().Split('|');
-            Next = Rewizion["Next"].ToString().Split('|');
 
             if (YearAction == DateTime.Now.Year)
             {
                 if (Monthstart < MonthEnd)
                 {
                     Delta = Rewizion["Delta"].ToString().Split('|');
-                    NewtoCalc = true;
+                    //NewtoCalc = true;
                 }
                 else
                 {
                     Delta = Rewizion["STKCal"].ToString().Split('|');
-                    NewtoCalc = false;
+//NewtoCalc = false;
                 }
             }
             else if (YearAction < DateTime.Now.Year)
             {
                 Delta = Rewizion["Delta"].ToString().Split('|');
-                NewtoCalc = true;
+                //NewtoCalc = true;
             }
             else
             {
                 Delta = Rewizion["STKCal"].ToString().Split('|');
-                NewtoCalc = false;
+                //NewtoCalc = false;
             }
             if (Preferencje["ECCC"])
             {
@@ -596,7 +591,7 @@ namespace Saving_Accelerator_Tool
                 {
                     if (RowtoAdd["E" + counter.ToString()].ToString() != "")
                     {
-                        sum = sum + double.Parse(RowtoAdd["E" + counter.ToString()].ToString());
+                        sum += double.Parse(RowtoAdd["E" + counter.ToString()].ToString());
                     }
                 }
                 RowtoAdd["E13"] = sum;
@@ -697,7 +692,7 @@ namespace Saving_Accelerator_Tool
                         for (int counter2 = 1; counter2 <= 12; counter2++)
                         {
                             if (PNCRow["Q" + counter2.ToString()].ToString() != "")
-                                sum = sum + double.Parse(PNCRow["Q" + counter2.ToString()].ToString());
+                                sum += double.Parse(PNCRow["Q" + counter2.ToString()].ToString());
                         }
                         PNCRow["Q13"] = sum;
                         sum = 0;
@@ -707,10 +702,9 @@ namespace Saving_Accelerator_Tool
                         for (int counter2 = 1; counter2 <= 12; counter2++)
                         {
                             if (PNCRow["S" + counter2.ToString()].ToString() != "")
-                                sum = sum + double.Parse(PNCRow["S" + counter2.ToString()].ToString());
+                                sum += double.Parse(PNCRow["S" + counter2.ToString()].ToString());
                         }
-                        PNCRow["S13"] = sum;
-                        sum = 0;
+                        PNCRow["S13"] = sum;;
                     }
                     Devision.Rows.Add(PNCRow);
                 }
@@ -727,7 +721,7 @@ namespace Saving_Accelerator_Tool
             {
                 if (HelpRow != "")
                 {
-                    DeltaSum = DeltaSum + double.Parse(HelpRow);
+                    DeltaSum += double.Parse(HelpRow);
                 }
             }
 

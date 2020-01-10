@@ -36,8 +36,8 @@ namespace Saving_Accelerator_Tool
         };
 
 
-        MainProgram mainProgram;
-        Data_Import data_Import;
+        private readonly MainProgram mainProgram;
+        private readonly Data_Import data_Import;
 
         public CalculationMass(MainProgram mainProgram, Data_Import data_Import, string Revision)
         {
@@ -57,10 +57,10 @@ namespace Saving_Accelerator_Tool
 
         private void MassCalculation(string Revision, int MonthCalc)
         {
-            DataTable ActionList = new DataTable();
-            DataTable ANCQ = new DataTable();
-            DataTable PNCQ = new DataTable();
-            DataTable ECCCQ = new DataTable();
+            DataTable ActionList;
+            DataTable ANCQ;
+            DataTable PNCQ;
+            DataTable ECCCQ;
             decimal Year;
 
             if (Revision != "USE")
@@ -430,7 +430,7 @@ namespace Saving_Accelerator_Tool
                     {
                         Results = Results + Row[counter].ToString() + "|";
                     }
-                    Results = Results + "/";
+                    Results += "/";
                 }
             }
 
@@ -457,9 +457,9 @@ namespace Saving_Accelerator_Tool
             decimal SavingSum = 0;
             decimal ECCCSum = 0;
             bool ECCCCalc = false;
-            DataRow QuantityBase = null;
-            DataRow QuantityBaseNext = null;
-            DataTable QuantityPerANC = new DataTable();
+            DataRow QuantityBase;
+            DataRow QuantityBaseNext;
+            DataTable QuantityPerANC;
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
@@ -519,17 +519,17 @@ namespace Saving_Accelerator_Tool
                         }
                     }
 
-                    Quantity = Quantity * PercentQuantity;
+                    Quantity *= PercentQuantity;
                     Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                    QuantitySum = QuantitySum + Quantity;
+                    QuantitySum += Quantity;
                     Saving = decimal.Parse(Delta[counter].ToString()) * Quantity;
                     Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                    SavingSum = SavingSum + Saving;
+                    SavingSum += Saving;
 
                     if (ECCCCalc)
                     {
                         ECCC = Quantity * ECCCSek * ECCCSekCost;
-                        ECCCSum = ECCCSum + ECCC;
+                        ECCCSum += ECCC;
                     }
 
                     QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
@@ -558,28 +558,24 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
-                    Quantity = Quantity + QuantityNext;
+                    Quantity += QuantityNext;
                     Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                    Quantity = Quantity * PercentQuantity;
-                    QuantitySum = QuantitySum + Quantity;
+                    Quantity *= PercentQuantity;
+                    QuantitySum += Quantity;
                     Saving = decimal.Parse(Delta[counter].ToString()) * Quantity;
                     Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                    SavingSum = SavingSum + Saving;
+                    SavingSum += Saving;
 
                     if (ECCCCalc)
                     {
                         ECCC = Quantity * ECCCSek * ECCCSekCost;
-                        ECCCSum = ECCCSum + ECCC;
+                        ECCCSum += ECCC;
                     }
 
                     QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
                 }
-                QuantityBase = null;
-                QuantityBaseNext = null;
                 QuantityNext = 0;
                 Quantity = 0;
-                Saving = 0;
-                ECCC = 0;
             }
 
             QuantitySum = Math.Round(QuantitySum, MidpointRounding.AwayFromZero);
@@ -620,7 +616,7 @@ namespace Saving_Accelerator_Tool
             decimal PercentQuantity;
             decimal Quantity = 0;
             decimal DeltaSum = 0;
-            decimal Saving = 0;
+            decimal Saving;
             decimal ECCC;
             decimal ECCCSek = 0;
             decimal ECCCSekCost = 0;
@@ -630,8 +626,8 @@ namespace Saving_Accelerator_Tool
             bool ECCCCalc = false;
             bool Mass = true;
             DataRow QuantityBase;
-            DataTable QuantityPerANC = new DataTable();
-            DataTable QuantityMass = new DataTable();
+            DataTable QuantityPerANC;
+            DataTable QuantityMass;
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
@@ -678,7 +674,7 @@ namespace Saving_Accelerator_Tool
             for (int counter = 0; counter < Delta.Length; counter++)
             {
                 if (Delta[counter].ToString() != "")
-                    DeltaSum = DeltaSum + decimal.Parse(Delta[counter].ToString());
+                    DeltaSum += decimal.Parse(Delta[counter].ToString());
             }
 
             CalcBy = ActionRow["Calc"].ToString().Split('|');
@@ -700,13 +696,13 @@ namespace Saving_Accelerator_Tool
                         if (ECCCCalc)
                         {
                             ECCC = Quantity * ECCCSek * ECCCSekCost;
-                            ECCCSum = ECCCSum + ECCC;
+                            ECCCSum += ECCC;
                         }
                         Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                        QuantitySum = QuantitySum + Quantity;
+                        QuantitySum += Quantity;
                         Saving = Quantity * DeltaSum;
                         Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                        SavingSum = SavingSum + Saving;
+                        SavingSum += Saving;
                         QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
                     }
                     else
@@ -722,25 +718,24 @@ namespace Saving_Accelerator_Tool
                         if (QuantityBase != null)
                         {
                             if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
-                                Quantity = Quantity + (decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString()) * PercentQuantity);
+                                Quantity += (decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString()) * PercentQuantity);
                         }
 
                         if (ECCCCalc)
                         {
                             ECCC = Quantity * ECCCSek * ECCCSekCost;
-                            ECCCSum = ECCCSum + ECCC;
+                            ECCCSum += ECCC;
                         }
 
                         Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                        QuantitySum = QuantitySum + Quantity;
+                        QuantitySum += Quantity;
                         Saving = Quantity * DeltaSum;
                         Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                        SavingSum = SavingSum + Saving;
+                        SavingSum += Saving;
 
                         QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
                     }
                     Quantity = 0;
-                    Saving = 0;
                 }
             }
             if (Mass)
@@ -764,12 +759,12 @@ namespace Saving_Accelerator_Tool
                         QuantitySum += Quantity;
                         Saving = Quantity * DeltaSum;
                         Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                        SavingSum = SavingSum + Saving;
+                        SavingSum += Saving;
 
                         if (ECCCCalc)
                         {
                             ECCC = Quantity * ECCCSek * ECCCSekCost;
-                            ECCCSum = ECCCSum + ECCC;
+                            ECCCSum += ECCC;
                         }
 
                         QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, CalcMassOne, Quantity, Saving, Month);
@@ -817,8 +812,8 @@ namespace Saving_Accelerator_Tool
             string[] ECCCTable;
             string[] CalcBy;
             decimal PercentQuantity;
-            decimal Quantity = 0;
-            decimal Saving = 0;
+            decimal Quantity;
+            decimal Saving;
             decimal DeltaSum = 0;
             decimal ECCC;
             decimal ECCCSek = 0;
@@ -828,7 +823,7 @@ namespace Saving_Accelerator_Tool
             decimal ECCCSum = 0;
             bool ECCCCalc = false;
             DataRow QuantityBase;
-            DataTable QuantityPerANC = new DataTable();
+            DataTable QuantityPerANC;
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
@@ -872,7 +867,7 @@ namespace Saving_Accelerator_Tool
             for (int counter = 0; counter < Delta.Length; counter++)
             {
                 if (Delta[counter].ToString() != "")
-                    DeltaSum = DeltaSum + decimal.Parse(Delta[counter].ToString());
+                    DeltaSum += decimal.Parse(Delta[counter].ToString());
             }
 
             CalcBy = ActionRow["PNC"].ToString().Split('|');
@@ -887,17 +882,17 @@ namespace Saving_Accelerator_Tool
                         if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
                         {
                             Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString());
-                            Quantity = Quantity * PercentQuantity;
+                            Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                            QuantitySum = QuantitySum + Quantity;
+                            QuantitySum += Quantity;
                             Saving = Quantity * DeltaSum;
                             Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                            SavingSum = SavingSum + Saving;
+                            SavingSum += Saving;
 
                             if (ECCCCalc)
                             {
                                 ECCC = Quantity * ECCCSek * ECCCSekCost;
-                                ECCCSum = ECCCSum + ECCC;
+                                ECCCSum += ECCC;
                             }
 
                             QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
@@ -913,25 +908,23 @@ namespace Saving_Accelerator_Tool
                         if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
                         {
                             Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString());
-                            Quantity = Quantity * PercentQuantity;
+                            Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                            QuantitySum = QuantitySum + Quantity;
+                            QuantitySum += Quantity;
                             Saving = Quantity * DeltaSum;
                             Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                            SavingSum = SavingSum + Saving;
+                            SavingSum += Saving;
 
                             if (ECCCCalc)
                             {
                                 ECCC = Quantity * ECCCSek * ECCCSekCost;
-                                ECCCSum = ECCCSum + ECCC;
+                                ECCCSum += ECCC;
                             }
 
                             QuantityPerANC = AddValueToPerANC_PNC(QuantityPerANC, ANCCalc[counter].ToString(), Quantity, Saving, Month);
                         }
                     }
                 }
-                Quantity = 0;
-                Saving = 0;
             }
 
             QuantitySum = Math.Round(QuantitySum, MidpointRounding.AwayFromZero);
@@ -973,8 +966,8 @@ namespace Saving_Accelerator_Tool
             string[] CalcBy;
             string[] ECCCTemp = null;
             decimal PercentQuantity;
-            decimal Quantity = 0;
-            decimal Saving = 0;
+            decimal Quantity;
+            decimal Saving;
             decimal ECCC;
             decimal ECCCSek = 0;
             decimal ECCCSekCost = 0;
@@ -985,7 +978,7 @@ namespace Saving_Accelerator_Tool
             bool EstymacjaDelta = false;
             bool ECCCEstym = false;
             DataRow QuantityBase;
-            DataTable QuantityPerANC = new DataTable();
+            DataTable QuantityPerANC;
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
@@ -1049,20 +1042,20 @@ namespace Saving_Accelerator_Tool
                         if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
                         {
                             Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString());
-                            Quantity = Quantity * PercentQuantity;
+                            Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                            QuantitySum = QuantitySum + Quantity;
+                            QuantitySum += Quantity;
                             if (EstymacjaDelta)
                             {
                                 Saving = Quantity * DeltaEst;
                                 Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                                SavingSum = SavingSum + Saving;
+                                SavingSum += Saving;
                             }
                             else
                             {
                                 Saving = Quantity * decimal.Parse(Delta[counter].ToString());
                                 Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                                SavingSum = SavingSum + Saving;
+                                SavingSum += Saving;
                             }
 
                             if (ECCCCalc)
@@ -1070,12 +1063,12 @@ namespace Saving_Accelerator_Tool
                                 if (ECCCEstym)
                                 {
                                     ECCC = Quantity * ECCCSek * ECCCSekCost;
-                                    ECCCSum = ECCCSum + ECCC;
+                                    ECCCSum += ECCC;
                                 }
                                 else
                                 {
                                     ECCC = Quantity * decimal.Parse(ECCCTemp[counter].ToString()) * ECCCSekCost;
-                                    ECCCSum = ECCCSum + ECCC;
+                                    ECCCSum += ECCC;
                                 }
                             }
 
@@ -1093,19 +1086,19 @@ namespace Saving_Accelerator_Tool
                         {
                             Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString());
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
-                            Quantity = Quantity * PercentQuantity;
-                            QuantitySum = QuantitySum + Quantity;
+                            Quantity *= PercentQuantity;
+                            QuantitySum += Quantity;
                             if (EstymacjaDelta)
                             {
                                 Saving = Quantity * DeltaEst;
                                 Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                                SavingSum = SavingSum + Saving;
+                                SavingSum += Saving;
                             }
                             else
                             {
                                 Saving = Quantity * decimal.Parse(Delta[counter].ToString());
                                 Saving = Math.Round(Saving, 4, MidpointRounding.AwayFromZero);
-                                SavingSum = SavingSum + Saving;
+                                SavingSum += Saving;
                             }
 
                             if (ECCCCalc)
@@ -1113,12 +1106,12 @@ namespace Saving_Accelerator_Tool
                                 if (ECCCEstym)
                                 {
                                     ECCC = Quantity * ECCCSek * ECCCSekCost;
-                                    ECCCSum = ECCCSum + ECCC;
+                                    ECCCSum += ECCC;
                                 }
                                 else
                                 {
                                     ECCC = Quantity * decimal.Parse(ECCCTemp[counter].ToString()) * ECCCSekCost;
-                                    ECCCSum = ECCCSum + ECCC;
+                                    ECCCSum += ECCC;
                                 }
                             }
 
@@ -1126,8 +1119,6 @@ namespace Saving_Accelerator_Tool
                         }
                     }
                 }
-                Quantity = 0;
-                Saving = 0;
             }
 
             QuantitySum = Math.Round(QuantitySum, MidpointRounding.AwayFromZero);
@@ -1160,7 +1151,7 @@ namespace Saving_Accelerator_Tool
         private DataTable LoadQuantityACNSpecMass(string Revision, decimal YearToCalc)
         {
             DataTable Quantity = new DataTable();
-            DataTable QuantityFinal = new DataTable();
+            DataTable QuantityFinal;
             string link;
 
             if (Revision == "USE")
@@ -1174,7 +1165,6 @@ namespace Saving_Accelerator_Tool
 
             data_Import.Load_TxtToDataTable(ref Quantity, link);
 
-            QuantityFinal = Quantity.Clone();
             QuantityFinal = Quantity.Copy();
 
             foreach (DataColumn column in Quantity.Columns)
@@ -1200,7 +1190,7 @@ namespace Saving_Accelerator_Tool
             {
                 if (Row[counter].ToString() != "")
                 {
-                    Sum = Sum + decimal.Parse(Row[counter].ToString());
+                    Sum += decimal.Parse(Row[counter].ToString());
                 }
             }
             if (Sum != 0)
