@@ -7,7 +7,7 @@ using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Drawing;
-
+using Saving_Accelerator_Tool.Klasy.Raporty;
 
 namespace Saving_Accelerator_Tool
 {
@@ -84,6 +84,12 @@ namespace Saving_Accelerator_Tool
             double[] MechanicC = new double[13];
             double[] NVRA = new double[13];
             double[] NVRC = new double[13];
+            double[] ElectronicARev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] ElectronicCRev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] MechanicARev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] MechanicCRev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] NVRARev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] NVRCRev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int ColumnForSavings = 0;
             string Link;
             int MonthA = 0;
@@ -97,7 +103,7 @@ namespace Saving_Accelerator_Tool
             Link = ImportData.Load_Link("History");
             ImportData.Load_TxtToDataTable(ref History, Link);
 
-            for (int counter = 12; counter > 1; counter--)
+            for (int counter = 12; counter >= 1; counter--)
             {
                 if (FrozenRow[counter.ToString()].ToString() == "Approve")
                 {
@@ -319,19 +325,105 @@ namespace Saving_Accelerator_Tool
                 int StartAdding = 8;
 
                 ColoringSum(MultiSum, StartAdding, "BU");
-                SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
+                if(Preferencje["BU"])
+                    SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
+                else
+                {
+                    if(FrozenRow["BU"].ToString() == "Approve")
+                    {
+                        if(Preferencje["Electronic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "BU", ref ElectronicARev, ref ElectronicCRev, "Electronic");
+                        }
+                        if(Preferencje["Mechanic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "BU", ref MechanicARev, ref MechanicCRev, "Mechanic");
+                        }
+                        if(Preferencje["NVR"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "BU", ref NVRARev, ref NVRCRev, "NVR");
+                        }
+                        SumActualRewizion(MultiSum, StartAdding + 2, ElectronicARev, ElectronicCRev, MechanicARev, MechanicCRev, NVRARev, NVRCRev);
+                    }
+                }
 
                 StartAdding += 7;
                 ColoringSum(MultiSum, StartAdding, "EA1");
+                if (Preferencje["EA1"])
+                    SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
+                else
+                {
+                    if (FrozenRow["EA1"].ToString() == "Approve")
+                    {
+                        if (Preferencje["Electronic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA1", ref ElectronicARev, ref ElectronicCRev, "Electronic");
+                        }
+                        if (Preferencje["Mechanic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA1", ref MechanicARev, ref MechanicCRev, "Mechanic");
+                        }
+                        if (Preferencje["NVR"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA1", ref NVRARev, ref NVRCRev, "NVR");
+                        }
+                        SumActualRewizion(MultiSum, StartAdding + 2, ElectronicARev, ElectronicCRev, MechanicARev, MechanicCRev, NVRARev, NVRCRev);
+                    }
+                }
 
                 StartAdding += 7;
                 ColoringSum(MultiSum, StartAdding, "EA2");
+                if (Preferencje["EA2"])
+                    SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
+                else
+                {
+                    if (FrozenRow["EA2"].ToString() == "Approve")
+                    {
+                        if (Preferencje["Electronic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA2", ref ElectronicARev, ref ElectronicCRev, "Electronic");
+                        }
+                        if (Preferencje["Mechanic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA2", ref MechanicARev, ref MechanicCRev, "Mechanic");
+                        }
+                        if (Preferencje["NVR"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA2", ref NVRARev, ref NVRCRev, "NVR");
+                        }
+                        SumActualRewizion(MultiSum, StartAdding + 2, ElectronicARev, ElectronicCRev, MechanicARev, MechanicCRev, NVRARev, NVRCRev);
+                    }
+                }
+
 
                 StartAdding += 7;
                 ColoringSum(MultiSum, StartAdding, "EA3");
+                if (Preferencje["EA3"])
+                    SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
+                else
+                {
+                    if (FrozenRow["EA3"].ToString() == "Approve")
+                    {
+                        if (Preferencje["Electronic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA3", ref ElectronicARev, ref ElectronicCRev, "Electronic");
+                        }
+                        if (Preferencje["Mechanic"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA3", ref MechanicARev, ref MechanicCRev, "Mechanic");
+                        }
+                        if (Preferencje["NVR"])
+                        {
+                            _ = new SumRewizion_Raport(History, Year, "EA3", ref NVRARev, ref NVRCRev, "NVR");
+                        }
+                        SumActualRewizion(MultiSum, StartAdding + 2, ElectronicARev, ElectronicCRev, MechanicARev, MechanicCRev, NVRARev, NVRCRev);
+                    }
+                }
 
                 StartAdding += 7;
                 ColoringSum(MultiSum, StartAdding, "ACTUAL");
+                if (Preferencje["Actual"])
+                    SumActualRewizion(MultiSum, StartAdding + 2, ElectronicA, ElectronicC, MechanicA, MechanicC, NVRA, NVRC);
             }
 
             Remove_Empty_Sheet EmptySheet = new Remove_Empty_Sheet();

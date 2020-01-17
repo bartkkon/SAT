@@ -1022,7 +1022,7 @@ namespace Saving_Accelerator_Tool
 
             CalcAction = Action.Clone();
 
-            for (int counter = 12; counter > 1; counter--)
+            for (int counter = 12; counter >= 1; counter--)
             {
                 if (FrozenRow[counter.ToString()].ToString() == "Approve")
                 {
