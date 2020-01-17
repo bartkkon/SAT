@@ -207,6 +207,7 @@ namespace Saving_Accelerator_Tool
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
         }
 
         private void ActivatorAction()
@@ -217,6 +218,7 @@ namespace Saving_Accelerator_Tool
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = true;
         }
 
         private void TargetsSave()
