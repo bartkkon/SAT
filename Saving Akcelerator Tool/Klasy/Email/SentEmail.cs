@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace ToolshopApp
+namespace Saving_Accelerator_Tool.Klasy.Email
 {
     class SentEmail
     {

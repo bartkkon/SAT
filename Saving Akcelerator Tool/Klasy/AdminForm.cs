@@ -77,6 +77,8 @@ namespace Saving_Accelerator_Tool
             //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
             Admin_CloneDataBase();
 
+            Admin_EmailButtonTest();
+
             Button pb_Admin_SaveCalcRev = new Button
             {
                 Location = new Point(100, 80),
@@ -87,6 +89,19 @@ namespace Saving_Accelerator_Tool
             };
             pb_Admin_SaveCalcRev.Click += new EventHandler(pb_AdminSaveCalcRev_Click);
             tab_Admin.Controls.Add(pb_Admin_SaveCalcRev);
+        }
+
+        private void Admin_EmailButtonTest()
+        {
+            Button Email = new Button
+            {
+                Location = new Point(1000, 500),
+                Size = new Size(80, 30),
+                Name = "pb_SentMail",
+                Text = "Sent Mail",
+            };
+            Email.Click += new EventHandler(SentEmailTest_Clikc);
+            tab_Admin.Controls.Add(Email);
         }
 
         private void Admin_Targets()

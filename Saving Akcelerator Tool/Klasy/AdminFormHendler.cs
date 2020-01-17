@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using Saving_Accelerator_Tool.SumPNC;
+using Saving_Accelerator_Tool.Klasy.Email;
 
 namespace Saving_Accelerator_Tool
 {
@@ -28,6 +29,11 @@ namespace Saving_Accelerator_Tool
             this.ImportData = ImportData;
             this.Person = Person;
 
+        }
+
+        public void SentEmailTest_Clikc(object sender, EventArgs e)
+        {
+            SentEmail.Instance.Sent_Email("konrad.bartkowiak@electrolux.com", "Test", "Testujemy!!!!!!!!!!!!!!!!!");
         }
 
         public void pb_Admin_AddColumn_Click(object sender, EventArgs e)
