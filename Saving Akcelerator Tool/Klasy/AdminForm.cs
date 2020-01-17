@@ -78,12 +78,10 @@ namespace Saving_Accelerator_Tool
             //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
             Admin_CloneDataBase();
 
-<<<<<<< HEAD
             //Wszystkie nowe rzeczy dodawana w nowy sposób
             _ = new AdminTabGenerator(tab_Admin);
-=======
+
             Admin_EmailButtonTest();
->>>>>>> Email
 
             Button pb_Admin_SaveCalcRev = new Button
             {
