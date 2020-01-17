@@ -12,7 +12,7 @@ namespace Saving_Accelerator_Tool
     public class Data_Import
     {
         private static Data_Import instance;
-        private string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
+        private readonly string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
 
 
         public Data_Import()
@@ -82,7 +82,7 @@ namespace Saving_Accelerator_Tool
 
         public void Load_TxtToDataTableYear(ref DataTable Table, string Link, decimal Year)
         {
-            DataTable Table2 = new DataTable();
+            DataTable Table2;
 
             Load_File(ref Table, Link);
 
@@ -104,7 +104,7 @@ namespace Saving_Accelerator_Tool
             Table = Table2.Clone();
         }
 
-        public DataTable Load_Access(string What)
+        public DataTable Load_Access()
         {
             //string Link = @"I:\CAD\Work\bartkkon\EC_Akcelerator_Data\Access\Access.txt";
             string Link;
@@ -112,7 +112,7 @@ namespace Saving_Accelerator_Tool
             string User;
             DataTable dataTable = new DataTable();
             DataTable dataTable2;
-            DataRow FoundRow = null;
+            DataRow FoundRow;
 
             Link = Load_Link("Access");
 
@@ -182,32 +182,8 @@ namespace Saving_Accelerator_Tool
             }
             else
             {
-                return Link = "";
+                return "";
             }
-        }
-
-        private void Log(string Insider)
-        {
-            string Year = DateTime.Now.ToString("yyyy");
-            string Month = DateTime.Now.ToString("MM");
-            string Day = DateTime.Now.ToString("dd");
-            string Hour = DateTime.Now.ToString("hh");
-            string Minute = DateTime.Now.ToString("mm");
-            string Secund = DateTime.Now.ToString("ss");
-            //string encoding = ",";
-            string Link = @"I:\CAD\Work\bartkkon\EC_Akcelerator_Data\Logi\Log_" + Year + Month + Day + ".txt";
-            string Description;
-
-
-            Description = Year + Month + Day + "_" + Hour + Minute + Secund + "__" + Insider + ",";
-
-            //Description2 = Description;
-            //using (System.IO.StreamWriter file = new System.IO.StreamWriter(Link))
-            //{
-            //    file.a
-            //}
-
-            //File.AppendAllLines(Link, );
         }
 
         private void Load_File(ref DataTable Table, string Link)

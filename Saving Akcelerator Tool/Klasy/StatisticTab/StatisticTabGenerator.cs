@@ -12,11 +12,25 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab
     {
         private TabPage _StatisticTab;
 
-        public StatisticTabGenerator(TabPage StatisticTab)
+        public StatisticTabGenerator()
         {
-            _StatisticTab = StatisticTab;
-
+            TabCreate();
             StatisticViewGenerator();
+        }
+
+        private void TabCreate()
+        {
+            TabPage tab_Statistics = new TabPage
+            {
+                Location = new System.Drawing.Point(4, 22),
+                Name = "tab_Statistic",
+                Size = new System.Drawing.Size(1826, 877),
+                TabIndex = 3,
+                Text = "Statistics",
+                UseVisualStyleBackColor = true
+            };
+            MainProgram.Self.TabControl.Controls.Add(tab_Statistics);
+            _StatisticTab = tab_Statistics;
         }
 
         private void StatisticViewGenerator()

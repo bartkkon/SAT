@@ -12,31 +12,27 @@ namespace Saving_Accelerator_Tool
 {
      public class ActionFormHendler
     {
-        MainProgram mainProgram;
-        Action action;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
+        private readonly MainProgram mainProgram;
+        private readonly Action action;
+        private readonly DataRow Person;
+        private readonly Data_Import ImportData;
 
-        public ActionFormHendler(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person)
+        public ActionFormHendler(MainProgram mainProgram, Action action, Data_Import ImportData, DataRow Person)
         {
             this.mainProgram = mainProgram;
             this.mainProgram = mainProgram;
             this.action = action;
-            this.summaryDetails = summaryDetails;
-            this.admin = admin;
             this.ImportData = ImportData;
             this.Person = Person;
         }
 
-        public void cb_ECCCSpec_CheckedChanged(object sender, EventArgs e)
+        public void Cb_ECCCSpec_CheckedChanged(object sender, EventArgs e)
         {
             //((NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First()).Enabled = !((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First()).Checked;
             //((NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First()).Value = 0;
         }
 
-        public void cb_Installation_CheckedChanged(object sender, EventArgs e)
+        public void Cb_Installation_CheckedChanged(object sender, EventArgs e)
         {
             //Sprawdza jakie są wciśnięte ComboBoxy dla wybranych Instalacji + logika ich klikania i odklikiwania
 
@@ -47,12 +43,12 @@ namespace Saving_Accelerator_Tool
             CheckBox cb_BU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_BU", true).First();
             CheckBox cb_FSBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_FSBU", true).First();
 
-            cb_InstallAll.CheckedChanged -= cb_Installation_CheckedChanged;
-            cb_FS.CheckedChanged -= cb_Installation_CheckedChanged;
-            cb_FI.CheckedChanged -= cb_Installation_CheckedChanged;
-            cb_BI.CheckedChanged -= cb_Installation_CheckedChanged;
-            cb_BU.CheckedChanged -= cb_Installation_CheckedChanged;
-            cb_FSBU.CheckedChanged -= cb_Installation_CheckedChanged;
+            cb_InstallAll.CheckedChanged -= Cb_Installation_CheckedChanged;
+            cb_FS.CheckedChanged -= Cb_Installation_CheckedChanged;
+            cb_FI.CheckedChanged -= Cb_Installation_CheckedChanged;
+            cb_BI.CheckedChanged -= Cb_Installation_CheckedChanged;
+            cb_BU.CheckedChanged -= Cb_Installation_CheckedChanged;
+            cb_FSBU.CheckedChanged -= Cb_Installation_CheckedChanged;
 
             if ((sender as CheckBox).Name == "cb_InstallAll")
             {
@@ -87,16 +83,16 @@ namespace Saving_Accelerator_Tool
 
             action.Action_ChangeInAction();
 
-            cb_InstallAll.CheckedChanged += cb_Installation_CheckedChanged;
-            cb_FS.CheckedChanged += cb_Installation_CheckedChanged;
-            cb_FI.CheckedChanged += cb_Installation_CheckedChanged;
-            cb_BI.CheckedChanged += cb_Installation_CheckedChanged;
-            cb_BU.CheckedChanged += cb_Installation_CheckedChanged;
-            cb_FSBU.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_InstallAll.CheckedChanged += Cb_Installation_CheckedChanged;
+            cb_FS.CheckedChanged += Cb_Installation_CheckedChanged;
+            cb_FI.CheckedChanged += Cb_Installation_CheckedChanged;
+            cb_BI.CheckedChanged += Cb_Installation_CheckedChanged;
+            cb_BU.CheckedChanged += Cb_Installation_CheckedChanged;
+            cb_FSBU.CheckedChanged += Cb_Installation_CheckedChanged;
 
         }
 
-        public void pb_Curren_Carry_Click(object sender, EventArgs e)
+        public void Pb_Curren_Carry_Click(object sender, EventArgs e)
         {
             Button pb_CurrentYear = (Button)mainProgram.TabControl.Controls.Find("pb_CurrentYear", true).First();
             Button pb_CarryOver = (Button)mainProgram.TabControl.Controls.Find("pb_CarryOver", true).First();
@@ -118,7 +114,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void tb_PNCEStymation_TextChanged(object sender, EventArgs e)
+        public void Tb_PNCEStymation_TextChanged(object sender, EventArgs e)
         {
             string[] Estyma;
             TextBox tb_Estymacja = sender as TextBox;
@@ -128,7 +124,7 @@ namespace Saving_Accelerator_Tool
             Regex GoodChar2 = new Regex("^[0-9,]*$");
             string CharToCheck;
 
-            tb_Estymacja.TextChanged -= tb_PNCEStymation_TextChanged;
+            tb_Estymacja.TextChanged -= Tb_PNCEStymation_TextChanged;
 
             if (CursorPosition < 0)
             {
@@ -180,10 +176,10 @@ namespace Saving_Accelerator_Tool
 
             action.Action_ChangeInAction();
             action.Action_CalcNeed();
-            tb_Estymacja.TextChanged += tb_PNCEStymation_TextChanged;
+            tb_Estymacja.TextChanged += Tb_PNCEStymation_TextChanged;
         }
 
-        public void tb_PNCEstimation_Leave(object sender, EventArgs e)
+        public void Tb_PNCEstimation_Leave(object sender, EventArgs e)
         {
             TextBox PNCEstimation = sender as TextBox;
             decimal Convert = 0;
@@ -213,7 +209,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void tree_Action_AfterSelect(object sender, TreeViewEventArgs e)
+        public void Tree_Action_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
 
@@ -249,14 +245,14 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_SavingCalc_Click(object sender, EventArgs e)
+        public void Pb_SavingCalc_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             action.Action_SavingCalculation();
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_PNC_Click(object sender, EventArgs e)
+        public void Pb_PNC_Click(object sender, EventArgs e)
         {
             Form AddData = new AddData("Proszę podać liste PNC", "PNC", mainProgram, ImportData);
             int DG_RowsCountStart = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
@@ -270,7 +266,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_PNCSpec_Click(object sender, EventArgs e)
+        public void Pb_PNCSpec_Click(object sender, EventArgs e)
         {
             Form AddData = new AddData("Proszę podać liste PNC", "PNCSpec", mainProgram, ImportData);
             int DG_RowsCountStart = ((DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
@@ -284,12 +280,12 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_Save_Click(object sender, EventArgs e)
+        public void Pb_Save_Click(object sender, EventArgs e)
         {
             action.Action_Save(mainProgram, Person);
         }
 
-        public void pb_RefreshSTK_Click(object sender, EventArgs e)
+        public void Pb_RefreshSTK_Click(object sender, EventArgs e)
         {
             if (action.Action_CheckANCLenght())
             {
@@ -298,12 +294,12 @@ namespace Saving_Accelerator_Tool
             action.Action_RefreshSTK();
         }
 
-        public void but_TreeRefresh_Click(object sender, EventArgs e)
+        public void But_TreeRefresh_Click(object sender, EventArgs e)
         {
             action.Action_TreeRefresh(Person);
         }
 
-        public void cb_ECCC_CheckedChanged(object sender, EventArgs e)
+        public void Cb_ECCC_CheckedChanged(object sender, EventArgs e)
         {
             ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First()).Enabled = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First()).Checked;
             ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCCSpec", true).First()).Enabled = ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First()).Checked;
@@ -311,32 +307,32 @@ namespace Saving_Accelerator_Tool
             action.Action_ChangeInAction();
         }
 
-        public void pb_SaveDraft_Click(object sender, EventArgs e)
+        public void Pb_SaveDraft_Click(object sender, EventArgs e)
         {
 
         }
 
-        public void cb_Active_CheckedChanged(object sender, EventArgs e)
+        public void Cb_Active_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_Idea = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Idea", true).First();
 
-            cb_Idea.CheckedChanged -= cb_Idea_CheckedChanged;
+            cb_Idea.CheckedChanged -= Cb_Idea_CheckedChanged;
             cb_Idea.Checked = false;
             action.Action_ChangeInAction();
-            cb_Idea.CheckedChanged += cb_Idea_CheckedChanged;
+            cb_Idea.CheckedChanged += Cb_Idea_CheckedChanged;
         }
 
-        public void cb_Idea_CheckedChanged(object sender, EventArgs e)
+        public void Cb_Idea_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_Active = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Active", true).First();
 
-            cb_Active.CheckedChanged -= cb_Active_CheckedChanged;
+            cb_Active.CheckedChanged -= Cb_Active_CheckedChanged;
             cb_Active.Checked = false;
             action.Action_ChangeInAction();
-            cb_Active.CheckedChanged += cb_Active_CheckedChanged;
+            cb_Active.CheckedChanged += Cb_Active_CheckedChanged;
         }
 
-        public void cb_Calc_CheckedChanged(object sender, EventArgs e)
+        public void Cb_Calc_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_CalcANC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcANC", true).First();
             CheckBox cb_CalcANCby = (CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcANCby", true).First();
@@ -354,11 +350,11 @@ namespace Saving_Accelerator_Tool
             NumericUpDown num_ECCC = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First();
             GroupBox Mass = (GroupBox)mainProgram.TabControl.Controls.Find("gb_MassCalc", true).First();
 
-            cb_CalcANC.CheckedChanged -= cb_Calc_CheckedChanged;
-            cb_CalcANCby.CheckedChanged -= cb_Calc_CheckedChanged;
-            cb_CalcPNC.CheckedChanged -= cb_Calc_CheckedChanged;
-            cb_CalcPNCSpec.CheckedChanged -= cb_Calc_CheckedChanged;
-            cb_ECCCSpec.CheckedChanged -= cb_Calc_CheckedChanged;
+            cb_CalcANC.CheckedChanged -= Cb_Calc_CheckedChanged;
+            cb_CalcANCby.CheckedChanged -= Cb_Calc_CheckedChanged;
+            cb_CalcPNC.CheckedChanged -= Cb_Calc_CheckedChanged;
+            cb_CalcPNCSpec.CheckedChanged -= Cb_Calc_CheckedChanged;
+            cb_ECCCSpec.CheckedChanged -= Cb_Calc_CheckedChanged;
 
             if ((sender as CheckBox).Text == "ANC")
             {
@@ -459,26 +455,26 @@ namespace Saving_Accelerator_Tool
 
             action.Action_ChangeInAction();
 
-            cb_CalcANC.CheckedChanged += cb_Calc_CheckedChanged;
-            cb_CalcANCby.CheckedChanged += cb_Calc_CheckedChanged;
-            cb_CalcPNC.CheckedChanged += cb_Calc_CheckedChanged;
-            cb_CalcPNCSpec.CheckedChanged += cb_Calc_CheckedChanged;
-            cb_ECCCSpec.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_CalcANC.CheckedChanged += Cb_Calc_CheckedChanged;
+            cb_CalcANCby.CheckedChanged += Cb_Calc_CheckedChanged;
+            cb_CalcPNC.CheckedChanged += Cb_Calc_CheckedChanged;
+            cb_CalcPNCSpec.CheckedChanged += Cb_Calc_CheckedChanged;
+            cb_ECCCSpec.CheckedChanged += Cb_Calc_CheckedChanged;
         }
 
-        public void but_Action_NewAction_Click(object sender, EventArgs e)
+        public void But_Action_NewAction_Click(object sender, EventArgs e)
         {
             ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Enabled = true;
             action.Action_NewAction(mainProgram, Person);
         }
 
-        public void pb_Plus_Click(object sender, EventArgs e)
+        public void Pb_Plus_Click(object sender, EventArgs e)
         {
             action.Action_AddANC();
             action.Action_ChangeInAction();
         }
 
-        public void pb_Minus_Click(object sender, EventArgs e)
+        public void Pb_Minus_Click(object sender, EventArgs e)
         {
             action.Action_RemoveANC();
             action.Action_ChangeInAction();
@@ -511,7 +507,7 @@ namespace Saving_Accelerator_Tool
 
         public void IDCO_Click(object sender, EventArgs e)
         {
-            Dictionary<string, string> IDCODictionaty = new Dictionary<string, string>();
+            Dictionary<string, string> IDCODictionaty;
             int ANCChangeNumber;
 
             IDCODictionaty = action.Action_IDCODictionary();
@@ -583,32 +579,32 @@ namespace Saving_Accelerator_Tool
             Idea.CheckedChanged += Active_Idea_CheckedChange;
         }
 
-        public void combo_Devision_SelectedIndexChange(object sender, EventArgs e)
+        public void Combo_Devision_SelectedIndexChange(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
 
-        public void num_YearAction_ValueChanged(object sender, EventArgs e)
+        public void Num_YearAction_ValueChanged(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
 
-        public void combox_Month_SelectedIndexChange(object sender, EventArgs e)
+        public void Combox_Month_SelectedIndexChange(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
 
-        public void combox_Leader_SelectedIndexChanged(object sender, EventArgs e)
+        public void Combox_Leader_SelectedIndexChanged(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
 
-        public void combox_Factory_SelectedIndexChanged(object sender, EventArgs e)
+        public void Combox_Factory_SelectedIndexChanged(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
 
-        public void cb_Platform_CheckedChanged(object sender, EventArgs e)
+        public void Cb_Platform_CheckedChanged(object sender, EventArgs e)
         {
             action.Action_ChangeInAction();
         }
@@ -616,11 +612,11 @@ namespace Saving_Accelerator_Tool
         public void SavePNC_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SavePNC Save = new SavePNC();
+            _ = new SavePNC();
             Cursor.Current = Cursors.Default;
         }
 
-        public void cb_Mass_DMD_CheckedChange(object sender, EventArgs e)
+        public void Cb_Mass_DMD_CheckedChange(object sender, EventArgs e)
         {
             if ((sender as CheckBox).Checked)
             {
@@ -634,7 +630,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void cb_Mass_D45_CheckedChange(object sender, EventArgs e)
+        public void Cb_Mass_D45_CheckedChange(object sender, EventArgs e)
         {
             if ((sender as CheckBox).Checked)
             {
@@ -648,7 +644,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void cb_Mass_All_CheckedChange(object sender, EventArgs e)
+        public void Cb_Mass_All_CheckedChange(object sender, EventArgs e)
         {
             CheckBox DMD = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD", true).First();
             CheckBox D45 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45", true).First();

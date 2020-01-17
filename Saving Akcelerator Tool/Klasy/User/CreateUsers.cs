@@ -26,6 +26,7 @@ namespace Saving_Accelerator_Tool.Klasy.User
             NewUser.QuantityTab = bool.Parse(Person["tab_Quantity"].ToString());
             NewUser.AdminTab = bool.Parse(Person["tab_Admin"].ToString());
             NewUser.StatisticTab = bool.Parse(Person["tab_Statistic"].ToString());
+            NewUser.PlatformTab = bool.Parse(Person["tab_Platform"].ToString());
 
             //Ustawienia dla Action
             NewUser.Action = Person["Action"].ToString();

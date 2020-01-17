@@ -9,6 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.ComponentModel;
 using Saving_Accelerator_Tool.Klasy.User;
 using Saving_Accelerator_Tool.Klasy.StatisticTab;
+using Saving_Accelerator_Tool.Klasy.Platform;
 
 namespace Saving_Accelerator_Tool
 {
@@ -81,17 +82,15 @@ namespace Saving_Accelerator_Tool
             //
             if(User.StatisticTab)
             {
-                TabPage tab_Statistics = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_Statistic",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 3,
-                    Text = "Statistics",
-                    UseVisualStyleBackColor = true
-                };
-                mainProgram.TabControl.Controls.Add(tab_Statistics);
-                _ = new StatisticTabGenerator(tab_Statistics);
+                _ = new StatisticTabGenerator();
+            }
+
+            //
+            // Tab Platform Savings - dane statystyczne
+            //
+            if (User.PlatformTab)
+            {
+                _ = new PlatformTabGenerator();
             }
             // 
             // tab_STK
@@ -103,7 +102,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_STK",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 4,
+                    TabIndex = 5,
                     Text = "STK3",
                     UseVisualStyleBackColor = true
                 };
@@ -122,7 +121,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Quantity",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 5,
+                    TabIndex = 6,
                     Text = "Quantity",
                     UseVisualStyleBackColor = true
                 };
@@ -142,7 +141,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Admin",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 6,
+                    TabIndex = 7,
                     Text = "Administration ",
                     UseVisualStyleBackColor = true
                 };
@@ -156,7 +155,7 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_AdminAction",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 7,
+                    TabIndex = 8,
                     Text = "Action Admin",
                     UseVisualStyleBackColor = true,
                 };

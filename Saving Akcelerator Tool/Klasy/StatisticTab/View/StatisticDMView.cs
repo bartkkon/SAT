@@ -11,7 +11,7 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
 {
     public class StatisticDMView : StatisticDMHandler
     {
-        private TabPage _StatisticTab;
+        private readonly TabPage _StatisticTab;
         private GroupBox _DMGroupBox;
         public StatisticDMView(TabPage StatisticTab)
         {
@@ -20,6 +20,20 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
             GroupBoxCreate();
             DMTables();
             ExchangeRate();
+        }
+
+        private void GroupBoxCreate()
+        {
+            GroupBox gb_DM = new GroupBox
+            {
+                Location = new Point(205, 5),
+                Size = new Size(550, 160),
+                Text = "Direct Material [PLN]:",
+                Name = "Gb_StatisticDM",
+                TabStop = false,
+            };
+            _StatisticTab.Controls.Add(gb_DM);
+            _DMGroupBox = gb_DM;
         }
 
         private void ExchangeRate()
@@ -37,20 +51,6 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
             Exchange.SelectedIndex = 0;
             Exchange.SelectedIndexChanged += new EventHandler(Exchange_SelectedItemChange);
             _DMGroupBox.Controls.Add(Exchange);
-        }
-
-        private void GroupBoxCreate()
-        {
-            GroupBox gb_DM = new GroupBox
-            {
-                Location = new Point(205, 5),
-                Size = new Size(550, 160),
-                Text = "Direct Material [PLN]:",
-                Name = "Gb_StatisticDM",
-                TabStop = false,
-            };
-            _StatisticTab.Controls.Add(gb_DM);
-            _DMGroupBox = gb_DM;
         }
 
         private void DMTables()

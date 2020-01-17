@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
+using Saving_Accelerator_Tool.Klasy.AdmnTab;
 
 namespace Saving_Accelerator_Tool
 {
@@ -76,6 +77,9 @@ namespace Saving_Accelerator_Tool
 
             //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
             Admin_CloneDataBase();
+
+            //Wszystkie nowe rzeczy dodawana w nowy sposób
+            _ = new AdminTabGenerator(tab_Admin);
 
             Button pb_Admin_SaveCalcRev = new Button
             {
@@ -877,7 +881,7 @@ namespace Saving_Accelerator_Tool
             0}),
                 Name = "pb_Admin_STKYearToClear",
                 Size = new Size(78, 20),
-                Value = DateTime.Now.Year + 1, 
+                Value = DateTime.Now.Year + 1,
             };
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
 
@@ -1180,7 +1184,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_AccessRefresh.Click += new System.EventHandler(Pb_Admin_AccessRefresh_Click);
+            pb_Admin_AccessRefresh.Click += new EventHandler(Pb_Admin_AccessRefresh_Click);
             gb_AdminAccess.Controls.Add(pb_Admin_AccessRefresh);
 
             ComboBox combox_AdminAccess = new ComboBox
@@ -1320,6 +1324,18 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true
             };
             gb_AdminAccess.Controls.Add(cb_AdminTabStatistic);
+
+            CheckBox cb_AdminTabPlatform = new CheckBox
+            {
+                AutoSize = true,
+                Location = new Point(100, 180),
+                Name = "cb_AdminTabPlatform",
+                Size = new Size(80, 17),
+                TabIndex = 0,
+                Text = "Platform",
+                UseVisualStyleBackColor = true
+            };
+            gb_AdminAccess.Controls.Add(cb_AdminTabPlatform);
 
             CheckBox cb_AdminTabSummary = new CheckBox
             {
@@ -1949,7 +1965,7 @@ namespace Saving_Accelerator_Tool
             };
             gb_SumPNC.Controls.Add(num_Admin_SumPNC_Month);
 
-            if(DateTime.Now.Month == 1)
+            if (DateTime.Now.Month == 1)
             {
                 num_Admin_SumPNC_Year.Value = DateTime.Now.Year - 1;
                 num_Admin_SumPNC_Month.Value = 12;
@@ -2007,12 +2023,12 @@ namespace Saving_Accelerator_Tool
             gb_SumPNC.Controls.Add(but_Admin_SumPNC_Revision);
         }
 
-        private void  Admin_CloneDataBase ()
+        private void Admin_CloneDataBase()
         {
             GroupBox gb_ColneDataBase = new GroupBox
             {
-                Location = new Point(630,515),
-                Size = new Size(200,60),
+                Location = new Point(630, 515),
+                Size = new Size(200, 60),
                 Text = "Clone Data Base",
                 Name = "gb_CloneDataBase",
             };
