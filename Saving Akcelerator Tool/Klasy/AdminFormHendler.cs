@@ -31,10 +31,19 @@ namespace Saving_Accelerator_Tool
 
         }
 
-
         public void Pb_Admin_AddColumn_Click(object sender, EventArgs e)
         {
+            TextBox tb_AdminAddColumn = (TextBox)mainProgram.Controls.Find("tb_AdminAddColumn", true).First();
 
+            if (tb_AdminAddColumn.Text == "")
+            {
+                MessageBox.Show("Brak nazwy nowej kolumny", "Uwaga !!!!");
+            }
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                action.Action_AddColumn();
+                Cursor.Current = Cursors.Default;
+            }
         }
 
         public void SentEmailTest_Clikc(object sender, EventArgs e)
