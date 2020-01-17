@@ -104,7 +104,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Klasy\AdmnTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdmnTab\Framework\IDBLoadDataBase.cs" />
     <Compile Include="Klasy\AdmnTab\Handlers\IDBHandler.cs" />
@@ -127,9 +126,7 @@
     <Compile Include="Klasy\Platform\View\OptionView.cs" />
     <Compile Include="Klasy\Platform\View\PNCTreeView.cs" />
     <Compile Include="Klasy\Platform\View\SpecificationView.cs" />
-=======
     <Compile Include="Klasy\Email\SentEmail.cs" />
->>>>>>> Email
     <Compile Include="Klasy\Raporty\ANCSpec.cs" />
     <Compile Include="Klasy\Raporty\ANC.cs" />
     <Compile Include="Klasy\History.cs" />
