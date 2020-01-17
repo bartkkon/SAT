@@ -6,35 +6,36 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
+using Saving_Accelerator_Tool.Klasy.AdmnTab;
 
 namespace Saving_Accelerator_Tool
 {
     class AdminForm : AdminFormHendler
     {
-        MainProgram mainProgram;
-        Action action;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
-        TabPage tab_Admin;
+        //private readonly MainProgram mainProgram;
+        //private readonly Action action;
+        //private readonly Admin admin;
+        //private readonly DataRow Person;
+        //private readonly SummaryDetails summaryDetails;
+        //private readonly Data_Import ImportData;
+        private readonly TabPage tab_Admin;
 
-        public AdminForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person) : base(mainProgram, action, summaryDetails, admin, ImportData, Person)
+        public AdminForm(MainProgram mainProgram, Action action, Admin admin, Data_Import ImportData) : base(mainProgram, action, admin, ImportData)
         {
-            this.mainProgram = mainProgram;
-            this.action = action;
-            this.summaryDetails = summaryDetails;
-            this.admin = admin;
-            this.ImportData = ImportData;
-            this.Person = Person;
+            //this.mainProgram = mainProgram;
+            //this.action = action;
+            //this.summaryDetails = summaryDetails;
+            //this.admin = admin;
+            //this.ImportData = ImportData;
+            //this.Person = Person;
+
+            tab_Admin = (TabPage)mainProgram.TabControl.Controls.Find("tab_Admin", false).First();
 
             Tab_Admin_Comp();
         }
 
         private void Tab_Admin_Comp()
         {
-            tab_Admin = (TabPage)mainProgram.TabControl.Controls.Find("tab_Admin", false).First();
-
             //Dodaw2anie Ilości na każdą rewizje budżetu
             Admin_Group_AddQperRev_Change();
 
@@ -77,6 +78,11 @@ namespace Saving_Accelerator_Tool
             //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
             Admin_CloneDataBase();
 
+            //Wszystkie nowe rzeczy dodawana w nowy sposób
+            _ = new AdminTabGenerator(tab_Admin);
+
+            Admin_EmailButtonTest();
+
             Button pb_Admin_SaveCalcRev = new Button
             {
                 Location = new Point(100, 80),
@@ -85,8 +91,21 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveCalcRev.Click += new EventHandler(pb_AdminSaveCalcRev_Click);
+            pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
             tab_Admin.Controls.Add(pb_Admin_SaveCalcRev);
+        }
+
+        private void Admin_EmailButtonTest()
+        {
+            Button Email = new Button
+            {
+                Location = new Point(1000, 500),
+                Size = new Size(80, 30),
+                Name = "pb_SentMail",
+                Text = "Sent Mail",
+            };
+            Email.Click += new EventHandler(SentEmailTest_Clikc);
+            tab_Admin.Controls.Add(Email);
         }
 
         private void Admin_Targets()
@@ -173,7 +192,7 @@ namespace Saving_Accelerator_Tool
             Comb_AdminTargetsRewizja.Items.Add("EA4");
             Gb_AdminTargets.Controls.Add(Comb_AdminTargetsRewizja);
             Comb_AdminTargetsRewizja.SelectedIndex = 0;
-            Comb_AdminTargetsRewizja.SelectedIndexChanged += new EventHandler(comb_AdminTargetsComboBoxChange_SelectedItemChange);
+            Comb_AdminTargetsRewizja.SelectedIndexChanged += new EventHandler(Comb_AdminTargetsComboBoxChange_SelectedItemChange);
 
             Label Lab_AdminTargetsDM = new Label
             {
@@ -387,7 +406,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(90, 25),
                 Text = "Add Column",
             };
-            pb_AdminAddColum.Click += new System.EventHandler(pb_Admin_AddColumn_Click);
+            pb_AdminAddColum.Click += new System.EventHandler(Pb_Admin_AddColumn_Click);
             gb_AdminAddColumn.Controls.Add(pb_AdminAddColum);
         }
 
@@ -414,7 +433,7 @@ namespace Saving_Accelerator_Tool
                 Text = "BU",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminBU.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminBU.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminBU);
 
             CheckBox cb_AdminEA1 = new CheckBox
@@ -427,7 +446,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA1",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminEA1.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA1.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminEA1);
 
             CheckBox cb_AdminEA2 = new CheckBox
@@ -440,7 +459,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA2",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminEA2.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA2.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminEA2);
 
             CheckBox cb_AdminEA3 = new CheckBox
@@ -453,7 +472,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA3",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminEA3.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA3.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminEA3);
 
             CheckBox cb_AdminPNC = new CheckBox
@@ -467,7 +486,7 @@ namespace Saving_Accelerator_Tool
                 Text = "PNC",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminPNC.CheckedChanged += cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminPNC.CheckedChanged += Cb_ChangeANC_PNC_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminPNC);
 
             CheckBox cb_AdminANC = new CheckBox
@@ -480,7 +499,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ANC",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminANC.CheckedChanged += cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminANC.CheckedChanged += Cb_ChangeANC_PNC_CheckedChanged;
             gb_AdminNewQuantity.Controls.Add(cb_AdminANC);
 
             NumericUpDown num_YearQuantity = new NumericUpDown
@@ -510,7 +529,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Add",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveQuantity.Click += new System.EventHandler(pb_AdminSaveQuantity_Click);
+            pb_Admin_SaveQuantity.Click += new System.EventHandler(Pb_AdminSaveQuantity_Click);
             gb_AdminNewQuantity.Controls.Add(pb_Admin_SaveQuantity);
         }
 
@@ -537,7 +556,7 @@ namespace Saving_Accelerator_Tool
                 Text = "BU",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminCalcBU.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminCalcBU.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminCalcBU.Controls.Add(cb_AdminCalcBU);
 
             CheckBox cb_AdminCalcEA1 = new CheckBox
@@ -550,7 +569,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA1",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminCalcEA1.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminCalcEA1.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminCalcBU.Controls.Add(cb_AdminCalcEA1);
 
             CheckBox cb_AdminCalcEA2 = new CheckBox
@@ -563,7 +582,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA2",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminCalcEA2.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminCalcEA2.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminCalcBU.Controls.Add(cb_AdminCalcEA2);
 
             CheckBox cb_AdminCalcEA3 = new CheckBox
@@ -576,7 +595,7 @@ namespace Saving_Accelerator_Tool
                 Text = "EA3",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminCalcEA3.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminCalcEA3.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
             gb_AdminCalcBU.Controls.Add(cb_AdminCalcEA3);
 
             NumericUpDown num_QuantityCalcRev = new NumericUpDown
@@ -606,7 +625,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc New",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveCalcRevNew.Click += new EventHandler(pb_AdminSaveCalcRevNew_Click);
+            pb_Admin_SaveCalcRevNew.Click += new EventHandler(Pb_AdminSaveCalcRevNew_Click);
             gb_AdminCalcBU.Controls.Add(pb_Admin_SaveCalcRevNew);
 
             Button pb_Admin_SaveCalcRev = new Button
@@ -617,7 +636,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveCalcRev.Click += new EventHandler(pb_AdminSaveCalcRev_Click);
+            pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
             gb_AdminCalcBU.Controls.Add(pb_Admin_SaveCalcRev);
         }
 
@@ -691,7 +710,7 @@ namespace Saving_Accelerator_Tool
             if (DateTime.Today.Month == 1)
             {
                 num_QuantityMonth.Value = 12;
-                num_YearQuantityMonth.Value = num_YearQuantityMonth.Value - 1;
+                num_YearQuantityMonth.Value -= 1;
             }
             else
             {
@@ -710,7 +729,7 @@ namespace Saving_Accelerator_Tool
                 Text = "PNC",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminPNCMonth.CheckedChanged += cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminPNCMonth.CheckedChanged += Cb_ChangeANC_PNCMonth_CheckedChanged;
             gb_AdminNewQuantityMonth.Controls.Add(cb_AdminPNCMonth);
 
             CheckBox cb_AdminANCMonth = new CheckBox
@@ -723,7 +742,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ANC",
                 UseVisualStyleBackColor = true
             };
-            cb_AdminANCMonth.CheckedChanged += cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminANCMonth.CheckedChanged += Cb_ChangeANC_PNCMonth_CheckedChanged;
             gb_AdminNewQuantityMonth.Controls.Add(cb_AdminANCMonth);
 
             Button pb_Admin_SaveQuantityMonth = new Button
@@ -734,7 +753,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Add",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveQuantityMonth.Click += new System.EventHandler(pb_AdminSaveQuantityMonth_Click);
+            pb_Admin_SaveQuantityMonth.Click += new System.EventHandler(Pb_AdminSaveQuantityMonth_Click);
             gb_AdminNewQuantityMonth.Controls.Add(pb_Admin_SaveQuantityMonth);
         }
 
@@ -808,7 +827,7 @@ namespace Saving_Accelerator_Tool
             if (DateTime.Today.Month == 1)
             {
                 num_MonthCalc.Value = 12;
-                num_YearCalc.Value = num_YearCalc.Value - 1;
+                num_YearCalc.Value -= 1;
             }
             else
             {
@@ -824,7 +843,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc New",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_SaveCalcMonthNew.Click += new EventHandler(pb_AdminSaveCalcMonthNew_Click);
+            pb_Admin_SaveCalcMonthNew.Click += new EventHandler(Pb_AdminSaveCalcMonthNew_Click);
             gb_AdminCalcMonth.Controls.Add(pb_Admin_SaveCalcMonthNew);
 
             Button pb_Admin_CalcMonth = new Button
@@ -835,7 +854,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_CalcMonth.Click += new EventHandler(pb_AdminCalcMonth_Click);
+            pb_Admin_CalcMonth.Click += new EventHandler(Pb_AdminCalcMonth_Click);
             gb_AdminCalcMonth.Controls.Add(pb_Admin_CalcMonth);
         }
 
@@ -859,7 +878,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Update STK",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_UpdateSTK.Click += new EventHandler(pb_Admin_UpdateSTK_Click);
+            pb_Admin_UpdateSTK.Click += new EventHandler(Pb_Admin_UpdateSTK_Click);
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_UpdateSTK);
 
             NumericUpDown pb_Admin_STKYearToClear = new NumericUpDown
@@ -877,7 +896,7 @@ namespace Saving_Accelerator_Tool
             0}),
                 Name = "pb_Admin_STKYearToClear",
                 Size = new Size(78, 20),
-                Value = DateTime.Now.Year + 1, 
+                Value = DateTime.Now.Year + 1,
             };
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
 
@@ -889,7 +908,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Clear Year",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_YearClear.Click += new EventHandler(pb_Admin_YearClear_Click);
+            pb_Admin_YearClear.Click += new EventHandler(Pb_Admin_YearClear_Click);
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_YearClear);
 
             Button pb_Admin_ManualUpdate = new Button
@@ -900,7 +919,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Manual Update",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_ManualUpdate.Click += new EventHandler(pb_Admin_ManualUpdate_Click);
+            pb_Admin_ManualUpdate.Click += new EventHandler(Pb_Admin_ManualUpdate_Click);
             gb_AdminUpdateSTK.Controls.Add(pb_Admin_ManualUpdate);
         }
 
@@ -927,7 +946,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Qunatity",
                 UseVisualStyleBackColor = true,
             };
-            cb_quantity.CheckedChanged += cb_DataGridEnable_CheckedChanged;
+            cb_quantity.CheckedChanged += Cb_DataGridEnable_CheckedChanged;
             gb_EnableDataGrid.Controls.Add(cb_quantity);
 
             CheckBox cb_Saving = new CheckBox
@@ -941,7 +960,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Saving",
                 UseVisualStyleBackColor = true,
             };
-            cb_Saving.CheckedChanged += cb_DataGridEnable_CheckedChanged;
+            cb_Saving.CheckedChanged += Cb_DataGridEnable_CheckedChanged;
             gb_EnableDataGrid.Controls.Add(cb_Saving);
 
             CheckBox cb_ECCCtab = new CheckBox
@@ -955,7 +974,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ECCC",
                 UseVisualStyleBackColor = true,
             };
-            cb_ECCCtab.CheckedChanged += cb_DataGridEnable_CheckedChanged;
+            cb_ECCCtab.CheckedChanged += Cb_DataGridEnable_CheckedChanged;
             gb_EnableDataGrid.Controls.Add(cb_ECCCtab);
         }
 
@@ -1001,7 +1020,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_FrozenRefresh.Click += new System.EventHandler(pb_Admin_FrozenRefresh_Click);
+            pb_Admin_FrozenRefresh.Click += new System.EventHandler(Pb_Admin_FrozenRefresh_Click);
             gb_AdminFrozen.Controls.Add(pb_Admin_FrozenRefresh);
 
             Button pb_Admin_FrozenSave = new Button
@@ -1012,7 +1031,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Save",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_FrozenSave.Click += new System.EventHandler(pb_Admin_FrozenSave_Click);
+            pb_Admin_FrozenSave.Click += new System.EventHandler(Pb_Admin_FrozenSave_Click);
             gb_AdminFrozen.Controls.Add(pb_Admin_FrozenSave);
         }
 
@@ -1055,7 +1074,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(78, 20),
                 Value = DateTime.Today.Year
             };
-            num_AdminValueYear.ValueChanged += pb_Admin_ValueRefresh_Click;
+            num_AdminValueYear.ValueChanged += Pb_Admin_ValueRefresh_Click;
             gb_AdminValue.Controls.Add(num_AdminValueYear);
 
             Label lab_AdminECCC = new Label
@@ -1074,7 +1093,7 @@ namespace Saving_Accelerator_Tool
                 Name = "tb_AdminECCC",
                 Size = new Size(70, 20),
             };
-            TB_AdminECCC.TextChanged += new EventHandler(tb_Value_TextChange);
+            TB_AdminECCC.TextChanged += new EventHandler(Tb_Value_TextChange);
             gb_AdminValue.Controls.Add(TB_AdminECCC);
 
             Label lab_AdminEuro = new Label
@@ -1094,7 +1113,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(70, 20),
 
             };
-            TB_AdminEuro.TextChanged += new EventHandler(tb_Value_TextChange);
+            TB_AdminEuro.TextChanged += new EventHandler(Tb_Value_TextChange);
             gb_AdminValue.Controls.Add(TB_AdminEuro);
 
             Label lab_AdminDolars = new Label
@@ -1114,7 +1133,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(70, 20),
 
             };
-            TB_AdminDolars.TextChanged += new EventHandler(tb_Value_TextChange);
+            TB_AdminDolars.TextChanged += new EventHandler(Tb_Value_TextChange);
             gb_AdminValue.Controls.Add(TB_AdminDolars);
 
             Label lab_AdminSEK = new Label
@@ -1134,7 +1153,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(70, 20),
 
             };
-            TB_AdminSek.TextChanged += new EventHandler(tb_Value_TextChange);
+            TB_AdminSek.TextChanged += new EventHandler(Tb_Value_TextChange);
             gb_AdminValue.Controls.Add(TB_AdminSek);
 
             Button pb_Admin_ValueRefresh = new Button
@@ -1145,7 +1164,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_ValueRefresh.Click += new System.EventHandler(pb_Admin_ValueRefresh_Click);
+            pb_Admin_ValueRefresh.Click += new System.EventHandler(Pb_Admin_ValueRefresh_Click);
             gb_AdminValue.Controls.Add(pb_Admin_ValueRefresh);
 
             Button pb_Admin_ValueSave = new Button
@@ -1156,7 +1175,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Save",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_ValueSave.Click += new System.EventHandler(pb_Admin_ValueSave_Click);
+            pb_Admin_ValueSave.Click += new System.EventHandler(Pb_Admin_ValueSave_Click);
             gb_AdminValue.Controls.Add(pb_Admin_ValueSave);
         }
 
@@ -1180,7 +1199,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_AccessRefresh.Click += new System.EventHandler(pb_Admin_AccessRefresh_Click);
+            pb_Admin_AccessRefresh.Click += new EventHandler(Pb_Admin_AccessRefresh_Click);
             gb_AdminAccess.Controls.Add(pb_Admin_AccessRefresh);
 
             ComboBox combox_AdminAccess = new ComboBox
@@ -1190,7 +1209,7 @@ namespace Saving_Accelerator_Tool
                 Name = "comBox_AdminAccess",
                 Size = new Size(90, 21),
             };
-            combox_AdminAccess.SelectedIndexChanged += new EventHandler(combox_AdminAccess_SelectedIndexChanged);
+            combox_AdminAccess.SelectedIndexChanged += new EventHandler(Combox_AdminAccess_SelectedIndexChanged);
             gb_AdminAccess.Controls.Add(combox_AdminAccess);
 
             Label Lab_AdminAccessFullName = new Label
@@ -1257,7 +1276,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Developer",
                 UseVisualStyleBackColor = true,
             };
-            radbut_AdminDevelop.CheckedChanged += new EventHandler(radBut_AdminDev_Vie_CheckCange);
+            radbut_AdminDevelop.CheckedChanged += new EventHandler(RadBut_AdminDev_Vie_CheckCange);
             gb_AdminAccess.Controls.Add(radbut_AdminDevelop);
 
             RadioButton radbut_AdminViewer = new RadioButton
@@ -1270,7 +1289,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Viwer",
                 UseVisualStyleBackColor = true,
             };
-            radbut_AdminViewer.CheckedChanged += new EventHandler(radBut_AdminDev_Vie_CheckCange);
+            radbut_AdminViewer.CheckedChanged += new EventHandler(RadBut_AdminDev_Vie_CheckCange);
             gb_AdminAccess.Controls.Add(radbut_AdminViewer);
 
             CheckBox cb_AdminElectronic = new CheckBox
@@ -1320,6 +1339,18 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true
             };
             gb_AdminAccess.Controls.Add(cb_AdminTabStatistic);
+
+            CheckBox cb_AdminTabPlatform = new CheckBox
+            {
+                AutoSize = true,
+                Location = new Point(100, 180),
+                Name = "cb_AdminTabPlatform",
+                Size = new Size(80, 17),
+                TabIndex = 0,
+                Text = "Platform",
+                UseVisualStyleBackColor = true
+            };
+            gb_AdminAccess.Controls.Add(cb_AdminTabPlatform);
 
             CheckBox cb_AdminTabSummary = new CheckBox
             {
@@ -1435,7 +1466,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Save",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_AccessSave.Click += new System.EventHandler(pb_Admin_AccessSave_Click);
+            pb_Admin_AccessSave.Click += new System.EventHandler(Pb_Admin_AccessSave_Click);
             gb_AdminAccess.Controls.Add(pb_Admin_AccessSave);
 
             Label lab_Admin_NewAccount = new Label
@@ -1464,7 +1495,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Add New Account",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_AddNewAccount.Click += new System.EventHandler(pb_Admin_AddNewAccount_Click);
+            pb_Admin_AddNewAccount.Click += new System.EventHandler(Pb_Admin_AddNewAccount_Click);
             gb_AdminAccess.Controls.Add(pb_Admin_AddNewAccount);
 
             Button pb_Admin_DeleteAccount = new Button
@@ -1475,7 +1506,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Delete Account",
                 UseVisualStyleBackColor = true,
             };
-            pb_Admin_DeleteAccount.Click += new System.EventHandler(pb_Admin_DeleteAccount_Click);
+            pb_Admin_DeleteAccount.Click += new System.EventHandler(Pb_Admin_DeleteAccount_Click);
             gb_AdminAccess.Controls.Add(pb_Admin_DeleteAccount);
         }
 
@@ -1949,7 +1980,7 @@ namespace Saving_Accelerator_Tool
             };
             gb_SumPNC.Controls.Add(num_Admin_SumPNC_Month);
 
-            if(DateTime.Now.Month == 1)
+            if (DateTime.Now.Month == 1)
             {
                 num_Admin_SumPNC_Year.Value = DateTime.Now.Year - 1;
                 num_Admin_SumPNC_Month.Value = 12;
@@ -1968,7 +1999,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc",
                 UseVisualStyleBackColor = true,
             };
-            but_Admin_SumPNC_Month.Click += new EventHandler(pb_Admin_SumPNC_Month_Click);
+            but_Admin_SumPNC_Month.Click += new EventHandler(Pb_Admin_SumPNC_Month_Click);
             gb_SumPNC.Controls.Add(but_Admin_SumPNC_Month);
 
 
@@ -2003,16 +2034,16 @@ namespace Saving_Accelerator_Tool
                 Text = "Revision",
                 UseVisualStyleBackColor = true,
             };
-            but_Admin_SumPNC_Revision.Click += new EventHandler(pb_Admin_SumPNC_Revision_Click);
+            but_Admin_SumPNC_Revision.Click += new EventHandler(Pb_Admin_SumPNC_Revision_Click);
             gb_SumPNC.Controls.Add(but_Admin_SumPNC_Revision);
         }
 
-        private void  Admin_CloneDataBase ()
+        private void Admin_CloneDataBase()
         {
             GroupBox gb_ColneDataBase = new GroupBox
             {
-                Location = new Point(630,515),
-                Size = new Size(200,60),
+                Location = new Point(630, 515),
+                Size = new Size(200, 60),
                 Text = "Clone Data Base",
                 Name = "gb_CloneDataBase",
             };
@@ -2025,7 +2056,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Clone Data Base",
                 Name = "pb_CloneBase",
             };
-            pb_CloneBase.Click += new EventHandler(pb_CloneBase_Click);
+            pb_CloneBase.Click += new EventHandler(Pb_CloneBase_Click);
             gb_ColneDataBase.Controls.Add(pb_CloneBase);
         }
     }

@@ -41,5 +41,7 @@ namespace Saving_Accelerator_Tool.Klasy.User
         public bool PCApprove { get; set; }
 
         public bool StatisticTab { get; set; }
+
+        public bool PlatformTab { get; set; }
     }
 }

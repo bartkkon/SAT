@@ -6,28 +6,49 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using Saving_Accelerator_Tool.SumPNC;
+using Saving_Accelerator_Tool.Klasy.Email;
 
 namespace Saving_Accelerator_Tool
 {
     class AdminFormHendler
     {
-        MainProgram mainProgram;
-        Action action;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
+        private readonly MainProgram mainProgram;
+        private readonly Action action;
+        private readonly Admin admin;
+        //private readonly DataRow Person;
+        //private readonly SummaryDetails summaryDetails;
+        private readonly Data_Import ImportData;
         //TabPage tab_Admin;
 
-        public AdminFormHendler(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person)
+        public AdminFormHendler(MainProgram mainProgram, Action action, Admin admin, Data_Import ImportData)
         {
             this.mainProgram = mainProgram;
             this.action = action;
-            this.summaryDetails = summaryDetails;
+            //this.summaryDetails = summaryDetails;
             this.admin = admin;
             this.ImportData = ImportData;
-            this.Person = Person;
+            //this.Person = Person;
 
+        }
+
+        public void Pb_Admin_AddColumn_Click(object sender, EventArgs e)
+        {
+            TextBox tb_AdminAddColumn = (TextBox)mainProgram.Controls.Find("tb_AdminAddColumn", true).First();
+
+            if (tb_AdminAddColumn.Text == "")
+            {
+                MessageBox.Show("Brak nazwy nowej kolumny", "Uwaga !!!!");
+            }
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                action.Action_AddColumn();
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        public void SentEmailTest_Clikc(object sender, EventArgs e)
+        {
+            SentEmail.Instance.Sent_Email("konrad.bartkowiak@electrolux.com", "Test", "Testujemy!!!!!!!!!!!!!!!!!");
         }
 
         public void pb_Admin_AddColumn_Click(object sender, EventArgs e)
@@ -165,7 +186,7 @@ namespace Saving_Accelerator_Tool
             ChangeText.TextChanged += Tb_AdminTargets_TextChange;
         }
 
-        public void pb_AdminSaveCalcRev_Click(object sender, EventArgs e)
+        public void Pb_AdminSaveCalcRev_Click(object sender, EventArgs e)
         {
             CheckBox cb_AdminBU2 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcBU", true).First();
             CheckBox cb_AdminEA12 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA1", true).First();
@@ -189,52 +210,52 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_Admin_DeleteAccount_Click(object sender, EventArgs e)
+        public void Pb_Admin_DeleteAccount_Click(object sender, EventArgs e)
         {
             admin.Admin_DeleteAccount();
         }
 
-        public void combox_AdminAccess_SelectedIndexChanged(object sender, EventArgs e)
+        public void Combox_AdminAccess_SelectedIndexChanged(object sender, EventArgs e)
         {
             admin.Admin_LoadAccess();
         }
 
-        public void pb_Admin_AddNewAccount_Click(object sender, EventArgs e)
+        public void Pb_Admin_AddNewAccount_Click(object sender, EventArgs e)
         {
             admin.Admin_AddNewAccount();
         }
 
-        public void pb_Admin_AccessSave_Click(object sender, EventArgs e)
+        public void Pb_Admin_AccessSave_Click(object sender, EventArgs e)
         {
             admin.Admin_AccessSave();
         }
 
-        public void pb_Admin_AccessRefresh_Click(object sender, EventArgs e)
+        public void Pb_Admin_AccessRefresh_Click(object sender, EventArgs e)
         {
             admin.Admin_AccessRefresh();
         }
 
-        public void pb_Admin_ValueSave_Click(object sender, EventArgs e)
+        public void Pb_Admin_ValueSave_Click(object sender, EventArgs e)
         {
             admin.Admin_ValueSaveData();
         }
 
-        public void pb_Admin_ValueRefresh_Click(object sender, EventArgs e)
+        public void Pb_Admin_ValueRefresh_Click(object sender, EventArgs e)
         {
             admin.Admin_ValueRefreshData();
         }
 
-        public void pb_Admin_FrozenRefresh_Click(object sender, EventArgs e)
+        public void Pb_Admin_FrozenRefresh_Click(object sender, EventArgs e)
         {
             admin.Admin_FrezenRefreshData();
         }
 
-        public void pb_Admin_FrozenSave_Click(object sender, EventArgs e)
+        public void Pb_Admin_FrozenSave_Click(object sender, EventArgs e)
         {
             admin.Admin_FrozenSaveData();
         }
 
-        public void cb_DataGridEnable_CheckedChanged(object sender, EventArgs e)
+        public void Cb_DataGridEnable_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Text == "Qunatity")
             {
@@ -283,7 +304,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_Admin_UpdateSTK_Click(object sender, EventArgs e)
+        public void Pb_Admin_UpdateSTK_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             STK UpdateSTK = new STK(mainProgram, ImportData);
@@ -291,7 +312,7 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
         
-        public void pb_AdminSaveQuantityMonth_Click(object sender, EventArgs e)
+        public void Pb_AdminSaveQuantityMonth_Click(object sender, EventArgs e)
         {
             NumericUpDown num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
             NumericUpDown num_Month = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
@@ -310,13 +331,13 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void cb_ChangeANC_PNCMonth_CheckedChanged(object sender, EventArgs e)
+        public void Cb_ChangeANC_PNCMonth_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_AdminPNC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminPNCMonth", true).First();
             CheckBox cb_AdminANC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminANCMonth", true).First();
 
-            cb_AdminANC.CheckedChanged -= cb_ChangeANC_PNCMonth_CheckedChanged;
-            cb_AdminPNC.CheckedChanged -= cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminANC.CheckedChanged -= Cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminPNC.CheckedChanged -= Cb_ChangeANC_PNCMonth_CheckedChanged;
 
             if ((sender as CheckBox).Text == "PNC")
             {
@@ -327,11 +348,11 @@ namespace Saving_Accelerator_Tool
                 cb_AdminPNC.Checked = false;
             }
 
-            cb_AdminANC.CheckedChanged += cb_ChangeANC_PNCMonth_CheckedChanged;
-            cb_AdminPNC.CheckedChanged += cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminANC.CheckedChanged += Cb_ChangeANC_PNCMonth_CheckedChanged;
+            cb_AdminPNC.CheckedChanged += Cb_ChangeANC_PNCMonth_CheckedChanged;
         }
 
-        public void cb_ChangeRewision_CheckedChanged(object sender, EventArgs e)
+        public void Cb_ChangeRewision_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_AdminBU = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminBU", true).First();
             CheckBox cb_AdminEA1 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminEA1", true).First();
@@ -342,14 +363,14 @@ namespace Saving_Accelerator_Tool
             CheckBox cb_AdminEA22 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA2", true).First();
             CheckBox cb_AdminEA32 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA3", true).First();
 
-            cb_AdminBU.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA1.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA2.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA3.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminBU2.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA12.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA22.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA32.CheckedChanged -= cb_ChangeRewision_CheckedChanged;
+            cb_AdminBU.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA1.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA2.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA3.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminBU2.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA12.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA22.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA32.CheckedChanged -= Cb_ChangeRewision_CheckedChanged;
 
             if ((sender as CheckBox).Text == "BU")
             {
@@ -395,23 +416,23 @@ namespace Saving_Accelerator_Tool
                 cb_AdminEA22.Checked = false;
                 cb_AdminEA32.Checked = true;
             }
-            cb_AdminBU.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA1.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA2.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA3.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminBU2.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA12.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA22.CheckedChanged += cb_ChangeRewision_CheckedChanged;
-            cb_AdminEA32.CheckedChanged += cb_ChangeRewision_CheckedChanged;
+            cb_AdminBU.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA1.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA2.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA3.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminBU2.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA12.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA22.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
+            cb_AdminEA32.CheckedChanged += Cb_ChangeRewision_CheckedChanged;
         }
 
-        public void cb_ChangeANC_PNC_CheckedChanged(object sender, EventArgs e)
+        public void Cb_ChangeANC_PNC_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_AdminPNC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminPNC", true).First();
             CheckBox cb_AdminANC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminANC", true).First();
 
-            cb_AdminPNC.CheckedChanged -= cb_ChangeANC_PNC_CheckedChanged;
-            cb_AdminANC.CheckedChanged -= cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminPNC.CheckedChanged -= Cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminANC.CheckedChanged -= Cb_ChangeANC_PNC_CheckedChanged;
 
             if ((sender as CheckBox).Text == "PNC")
             {
@@ -423,17 +444,17 @@ namespace Saving_Accelerator_Tool
                 cb_AdminPNC.Checked = false;
                 cb_AdminANC.Checked = true;
             }
-            cb_AdminPNC.CheckedChanged += cb_ChangeANC_PNC_CheckedChanged;
-            cb_AdminANC.CheckedChanged += cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminPNC.CheckedChanged += Cb_ChangeANC_PNC_CheckedChanged;
+            cb_AdminANC.CheckedChanged += Cb_ChangeANC_PNC_CheckedChanged;
         }
 
-        public void radBut_AdminDev_Vie_CheckCange(object sender, EventArgs e)
+        public void RadBut_AdminDev_Vie_CheckCange(object sender, EventArgs e)
         {
             RadioButton radbut_AdminDevelop = (RadioButton)mainProgram.TabControl.Controls.Find("radbut_AdminDevelop", true).First();
             RadioButton radbut_AdminViewer = (RadioButton)mainProgram.TabControl.Controls.Find("radbut_AdminViwer", true).First();
 
-            radbut_AdminDevelop.CheckedChanged -= radBut_AdminDev_Vie_CheckCange;
-            radbut_AdminViewer.CheckedChanged -= radBut_AdminDev_Vie_CheckCange;
+            radbut_AdminDevelop.CheckedChanged -= RadBut_AdminDev_Vie_CheckCange;
+            radbut_AdminViewer.CheckedChanged -= RadBut_AdminDev_Vie_CheckCange;
 
             if ((sender as RadioButton).Text == "Developer")
             {
@@ -446,26 +467,26 @@ namespace Saving_Accelerator_Tool
                 radbut_AdminViewer.Checked = true;
             }
 
-            radbut_AdminDevelop.CheckedChanged += radBut_AdminDev_Vie_CheckCange;
-            radbut_AdminViewer.CheckedChanged += radBut_AdminDev_Vie_CheckCange;
+            radbut_AdminDevelop.CheckedChanged += RadBut_AdminDev_Vie_CheckCange;
+            radbut_AdminViewer.CheckedChanged += RadBut_AdminDev_Vie_CheckCange;
         }
 
-        public void tb_Value_TextChange(object sender, EventArgs e)
+        public void Tb_Value_TextChange(object sender, EventArgs e)
         {
             admin.Admin_Value_TextChange(sender as TextBox);
         }
 
-        public void radBut_AdminFrozen_EnableDisable_CheckCange(object sender, EventArgs e)
+        public void RadBut_AdminFrozen_EnableDisable_CheckCange(object sender, EventArgs e)
         {
 
         }
 
-        public void pb_AdminCalcMonth_Click(object sender, EventArgs e)
+        public void Pb_AdminCalcMonth_Click(object sender, EventArgs e)
         {
             action.Action_CalcMonth();
         }
 
-        public void pb_AdminSaveQuantity_Click(object sender, EventArgs e)
+        public void Pb_AdminSaveQuantity_Click(object sender, EventArgs e)
         {
             CheckBox cb_AdminPNC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminPNC", true).First();
             CheckBox cb_AdminANC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminANC", true).First();
@@ -515,7 +536,7 @@ namespace Saving_Accelerator_Tool
             admin.Admin_DeactivatorAction();
         }
 
-        public void pb_AdminSaveCalcRevNew_Click(object sender, EventArgs e)
+        public void Pb_AdminSaveCalcRevNew_Click(object sender, EventArgs e)
         {
             string Rewizion = "";
             Cursor.Current = Cursors.WaitCursor;
@@ -535,22 +556,22 @@ namespace Saving_Accelerator_Tool
 
             if (Rewizion != "")
             {
-                CalculationMass Mass = new CalculationMass(mainProgram, ImportData, Rewizion);
+                _ = new CalculationMass(mainProgram, ImportData, Rewizion);
             }
 
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_AdminSaveCalcMonthNew_Click(object sender, EventArgs e)
+        public void Pb_AdminSaveCalcMonthNew_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             NumericUpDown Month = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_MonthCalc", true).First();
 
-            CalculationMass Mass = new CalculationMass(mainProgram, ImportData, int.Parse(Month.Value.ToString()));
+            _ = new CalculationMass(mainProgram, ImportData, int.Parse(Month.Value.ToString()));
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_Admin_YearClear_Click(object sender, EventArgs e)
+        public void Pb_Admin_YearClear_Click(object sender, EventArgs e)
         {
             decimal Year;
 
@@ -566,7 +587,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_Admin_ManualUpdate_Click(object sender, EventArgs e)
+        public void Pb_Admin_ManualUpdate_Click(object sender, EventArgs e)
         {
             decimal Year;
 
@@ -582,14 +603,14 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void comb_AdminTargetsComboBoxChange_SelectedItemChange(object sender, EventArgs e)
+        public void Comb_AdminTargetsComboBoxChange_SelectedItemChange(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             admin.Admin_TargetChangeRewizion();
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_Admin_SumPNC_Month_Click(object sender, EventArgs e)
+        public void Pb_Admin_SumPNC_Month_Click(object sender, EventArgs e)
         {
             decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Year", true).First()).Value;
             decimal Month = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Month", true).First()).Value;
@@ -600,7 +621,7 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_Admin_SumPNC_Revision_Click(object sender, EventArgs e)
+        public void Pb_Admin_SumPNC_Revision_Click(object sender, EventArgs e)
         {
             decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_SumPNC_Year", true).First()).Value;
             string Rev = ((ComboBox)mainProgram.TabControl.Controls.Find("comb_Admin_SumPNC_Rev", true).First()).SelectedItem.ToString();
@@ -611,7 +632,7 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void pb_CloneBase_Click(object sender, EventArgs e)
+        public void Pb_CloneBase_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             admin.Admin_CloneDataBase();

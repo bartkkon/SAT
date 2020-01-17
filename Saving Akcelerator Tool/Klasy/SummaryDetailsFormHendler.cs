@@ -12,11 +12,11 @@ namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsFormHendler
     {
-        MainProgram mainProgram;
-        SummaryDetails summaryDetails;
-        Data_Import data_Import;
-        DataRow Person;
-        Charts charts;
+        private readonly MainProgram mainProgram;
+        private readonly SummaryDetails summaryDetails;
+        private readonly Data_Import data_Import;
+        private readonly DataRow Person;
+        private readonly Charts charts;
 
         public SummaryDetailsFormHendler(MainProgram mainProgram, SummaryDetails summaryDetails, DataRow Person, Data_Import data_Import)
         {
@@ -27,7 +27,7 @@ namespace Saving_Accelerator_Tool
             charts = new Charts(mainProgram);
         }
 
-        public void pb_SummDet_Approve_Click(object sender, EventArgs e)
+        public void Pb_SummDet_Approve_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
@@ -40,7 +40,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_SummDet_Rejected_Click(object sender, EventArgs e)
+        public void Pb_SummDet_Rejected_Click(object sender, EventArgs e)
         {
             DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
             if (Result == DialogResult.Yes)
@@ -53,7 +53,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void pb_SummDet_Show_Click(object sender, EventArgs e)
+        public void Pb_SummDet_Show_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             summaryDetails.SummaryDetails_Show(Person);
@@ -73,7 +73,7 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void cb_LevelChange_CheckedChanged(object sender, EventArgs e)
+        public void Cb_LevelChange_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb_Level1 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level1", true).First();
             CheckBox cb_Level2 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level2", true).First();
@@ -82,12 +82,12 @@ namespace Saving_Accelerator_Tool
             CheckBox cb_Level2Sum = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level2Sum", true).First();
             CheckBox cb_Level3Sum = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level3Sum", true).First();
 
-            cb_Level1.CheckedChanged -= cb_LevelChange_CheckedChanged;
-            cb_Level2.CheckedChanged -= cb_LevelChange_CheckedChanged;
-            cb_Level3.CheckedChanged -= cb_LevelChange_CheckedChanged;
-            cb_Level1Sum.CheckedChanged -= cb_LevelChange_CheckedChanged;
-            cb_Level2Sum.CheckedChanged -= cb_LevelChange_CheckedChanged;
-            cb_Level3Sum.CheckedChanged -= cb_LevelChange_CheckedChanged;
+            cb_Level1.CheckedChanged -= Cb_LevelChange_CheckedChanged;
+            cb_Level2.CheckedChanged -= Cb_LevelChange_CheckedChanged;
+            cb_Level3.CheckedChanged -= Cb_LevelChange_CheckedChanged;
+            cb_Level1Sum.CheckedChanged -= Cb_LevelChange_CheckedChanged;
+            cb_Level2Sum.CheckedChanged -= Cb_LevelChange_CheckedChanged;
+            cb_Level3Sum.CheckedChanged -= Cb_LevelChange_CheckedChanged;
 
             if ((sender as CheckBox).Text == "Level 1")
             {
@@ -117,12 +117,12 @@ namespace Saving_Accelerator_Tool
                 cb_Level3Sum.Checked = true;
             }
 
-            cb_Level1.CheckedChanged += cb_LevelChange_CheckedChanged;
-            cb_Level2.CheckedChanged += cb_LevelChange_CheckedChanged;
-            cb_Level3.CheckedChanged += cb_LevelChange_CheckedChanged;
-            cb_Level1Sum.CheckedChanged += cb_LevelChange_CheckedChanged;
-            cb_Level2Sum.CheckedChanged += cb_LevelChange_CheckedChanged;
-            cb_Level3Sum.CheckedChanged += cb_LevelChange_CheckedChanged;
+            cb_Level1.CheckedChanged += Cb_LevelChange_CheckedChanged;
+            cb_Level2.CheckedChanged += Cb_LevelChange_CheckedChanged;
+            cb_Level3.CheckedChanged += Cb_LevelChange_CheckedChanged;
+            cb_Level1Sum.CheckedChanged += Cb_LevelChange_CheckedChanged;
+            cb_Level2Sum.CheckedChanged += Cb_LevelChange_CheckedChanged;
+            cb_Level3Sum.CheckedChanged += Cb_LevelChange_CheckedChanged;
         }
 
         public void Pb_SummDet_ReportingRefresh_Click(object sender, EventArgs e)

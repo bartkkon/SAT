@@ -87,7 +87,7 @@ namespace Saving_Accelerator_Tool
             DataRow Row = null;
             int Column;
             int Column2 = 0;
-            bool WithSTK = false;
+            //bool WithSTK = false;
             CheckBox ECCC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_ECCCSpec", true).First();
 
 
@@ -342,12 +342,12 @@ namespace Saving_Accelerator_Tool
 
             FileName = FileName.Replace("/", "_");
 
-            FileName = FileName + "_" + DateTime.Today.Year.ToString();
-            FileName = FileName + DateTime.Today.Month.ToString();
-            FileName = FileName + DateTime.Today.Day.ToString();
-            FileName = FileName + DateTime.Now.Hour.ToString();
-            FileName = FileName + DateTime.Now.Minute.ToString();
-            FileName = FileName + DateTime.Now.Second.ToString();
+            FileName += "_" + DateTime.Today.Year.ToString();
+            FileName += DateTime.Today.Month.ToString();
+            FileName += DateTime.Today.Day.ToString();
+            FileName += DateTime.Now.Hour.ToString();
+            FileName += DateTime.Now.Minute.ToString();
+            FileName += DateTime.Now.Second.ToString();
 
             return FileName;
         }

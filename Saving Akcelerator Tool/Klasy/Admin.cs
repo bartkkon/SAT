@@ -595,6 +595,15 @@ namespace Saving_Accelerator_Tool
                 ((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabStatistic", true).First()).Checked = false;
             }
 
+            if (FoundAccess["tab_Platform"].ToString() == "true")
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabPlatform", true).First()).Checked = true;
+            }
+            else
+            {
+                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabPlatform", true).First()).Checked = false;
+            }
+
             if (FoundAccess["tab_STK"].ToString() == "true")
             {
                 ((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabSTK", true).First()).Checked = true;
@@ -790,6 +799,15 @@ namespace Saving_Accelerator_Tool
                 else
                 {
                     FoundRow["tab_Statistic"] = "false";
+                }
+
+                if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabPlatform", true).First()).Checked)
+                {
+                    FoundRow["tab_Platform"] = "true";
+                }
+                else
+                {
+                    FoundRow["tab_Platform"] = "false";
                 }
 
                 if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminTabSTK", true).First()).Checked)

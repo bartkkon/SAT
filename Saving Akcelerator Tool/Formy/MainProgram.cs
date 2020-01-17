@@ -15,15 +15,14 @@ namespace Saving_Accelerator_Tool
 {
     public partial class MainProgram : Form
     {
-        Data_Import data_Import;
-        BuildForm buildForm = new BuildForm();
-        Action action;
-        DataTable Access = new DataTable();
-        SummaryDetails summaryDetails;
-        Admin admin;
+        private readonly Data_Import data_Import;
+        private readonly BuildForm buildForm = new BuildForm();
+        private readonly Action action;
+        private readonly DataTable  Access = new DataTable();
+        private readonly SummaryDetails summaryDetails;
+        private readonly Admin admin;
         public static MainProgram Self;
 
-        //Wprowadzam zmny dla HotFixa
 
         public MainProgram()
         {
@@ -36,8 +35,11 @@ namespace Saving_Accelerator_Tool
                     Environment.Exit(0);
                 }
 
+                //Widocznoś Maina dla Wszystkich.
+                Self = this;
+
                 //Pobranie danych z bazy dla dostępów osób logujących się do programy
-                Access = data_Import.Load_Access("Access");
+                Access = data_Import.Load_Access();
                 //Tworzenie Użytkowanika
                 CreateUsers NewUsers = new CreateUsers(Access);
                 //Inicjalizowanie programu
@@ -63,7 +65,7 @@ namespace Saving_Accelerator_Tool
                     string Link = data_Import.CheckLink();
                     toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
                 }
-                Self = this;
+                
 
             }
             catch (Exception ex)

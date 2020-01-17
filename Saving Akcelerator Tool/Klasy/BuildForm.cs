@@ -9,26 +9,20 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.ComponentModel;
 using Saving_Accelerator_Tool.Klasy.User;
 using Saving_Accelerator_Tool.Klasy.StatisticTab;
+using Saving_Accelerator_Tool.Klasy.Platform;
 
 namespace Saving_Accelerator_Tool
 {
     class BuildForm
     {
-        Action action;
-        MainProgram mainProgram;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
+
+        private DataRow Person;
+
 
         public void Tab_Control_Add(DataTable Access, MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData)
         {
             Person = Access.Rows[0];
-            this.action = action;
-            this.mainProgram = mainProgram;
-            this.summaryDetails = summaryDetails;
-            this.admin = admin;
-            this.ImportData = ImportData;
+
             Users User = Users.Singleton();
             
             // 
@@ -48,7 +42,7 @@ namespace Saving_Accelerator_Tool
                 tab_Action.UseVisualStyleBackColor = true;
 
                 //Tab_Action_Comp();
-                ActionForm actionForm = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                _ = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
                 action.Action_NoChangeInAction();
             }
             // 
@@ -88,17 +82,15 @@ namespace Saving_Accelerator_Tool
             //
             if(User.StatisticTab)
             {
-                TabPage tab_Statistics = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_Statistic",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 3,
-                    Text = "Statistics",
-                    UseVisualStyleBackColor = true
-                };
-                mainProgram.TabControl.Controls.Add(tab_Statistics);
-                _ = new StatisticTabGenerator(tab_Statistics);
+                _ = new StatisticTabGenerator();
+            }
+
+            //
+            // Tab Platform Savings - dane statystyczne
+            //
+            if (User.PlatformTab)
+            {
+                _ = new PlatformTabGenerator();
             }
             // 
             // tab_STK
@@ -110,14 +102,14 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_STK",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 4,
+                    TabIndex = 5,
                     Text = "STK3",
                     UseVisualStyleBackColor = true
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_STK);
 
-                Tab_STK_Comp(Person, mainProgram);
+                Tab_STK_Comp();
             }
             // 
             // tab_Quantity
@@ -129,14 +121,14 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Quantity",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 5,
+                    TabIndex = 6,
                     Text = "Quantity",
                     UseVisualStyleBackColor = true
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_Quantity);
 
-                Tab_Quantity_Comp(Person, mainProgram);
+                Tab_Quantity_Comp();
             }
             // 
             // tab_Admin
@@ -149,39 +141,39 @@ namespace Saving_Accelerator_Tool
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_Admin",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 6,
+                    TabIndex = 7,
                     Text = "Administration ",
                     UseVisualStyleBackColor = true
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_Admin);
 
-                AdminForm adminForm = new AdminForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                _ = new AdminForm(mainProgram, action, admin, ImportData);
 
                 TabPage tab_AdminAction = new TabPage
                 {
                     Location = new System.Drawing.Point(4, 22),
                     Name = "tab_AdminAction",
                     Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 7,
+                    TabIndex = 8,
                     Text = "Action Admin",
                     UseVisualStyleBackColor = true,
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_AdminAction);
 
-                ModifiActionForm modifiActionForm = new ModifiActionForm(mainProgram, tab_AdminAction, ImportData);
+                _ = new ModifiActionForm(mainProgram, tab_AdminAction, ImportData);
                 //Tab_Admin_Comp(Person, mainProgram);
                 
             }
         }
 
-        private void Tab_STK_Comp(DataRow Person, MainProgram mainProgram)
+        private void Tab_STK_Comp()
         {
 
         }
 
-        private void Tab_Quantity_Comp(DataRow Person, MainProgram mainProgram)
+        private void Tab_Quantity_Comp()
         {
 
         }

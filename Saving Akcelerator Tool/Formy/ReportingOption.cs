@@ -209,7 +209,7 @@ namespace Saving_Accelerator_Tool
             groupBox.Controls.Add(NVR);
 
             DataTable Access = new DataTable();
-            Access = ImportData.Load_Access("Access");
+            Access = ImportData.Load_Access();
             DataRow Person = Access.Rows[0];
 
             if(Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")

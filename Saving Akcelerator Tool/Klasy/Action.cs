@@ -13,31 +13,31 @@ namespace Saving_Accelerator_Tool
 {
     public class Action 
     {
-        int ANCChangeNumber = 0;
-        string link;
-        string linkSTK;
-        string LinkFrozen;
-        string LinkANC;
-        string LinkPNC;
-        string LinkANCMonth;
-        string LinkPNCMonth;
-        string LinkECCC;
-        bool ChangeANC = true; //Ustawia się gdy Zostało zmienione ANC (old new), Resetuje się gdy jest przeliczone STK
-        bool SavingCalc = false; // Ustawia się gdy zostało przeliczone STK, Resetuje się gdy zrobiony jest calc dla akcji
-        bool IfanyChange = false; //Jeśli jakaś akcja była zrobiona w wyświetlanej akcji, zmienia się na true. Jeśli będziesz próbował przejść do innej akcji zapyta czy chesz zapisać zmiany
-        bool NewActionCreate = false;
+        private int ANCChangeNumber = 0;
+        private readonly string link;
+        private readonly string linkSTK;
+        private readonly string LinkFrozen;
+        private readonly string LinkANC;
+        private readonly string LinkPNC;
+        private readonly string LinkANCMonth;
+        private readonly string LinkPNCMonth;
+        private readonly string LinkECCC;
+        private bool ChangeANC = true; //Ustawia się gdy Zostało zmienione ANC (old new), Resetuje się gdy jest przeliczone STK
+        private bool SavingCalc = false; // Ustawia się gdy zostało przeliczone STK, Resetuje się gdy zrobiony jest calc dla akcji
+        private bool IfanyChange = false; //Jeśli jakaś akcja była zrobiona w wyświetlanej akcji, zmienia się na true. Jeśli będziesz próbował przejść do innej akcji zapyta czy chesz zapisać zmiany
+        private bool NewActionCreate = false;
 
-        DataTable USE = new DataTable();
-        DataTable BU = new DataTable();
-        DataTable EA1 = new DataTable();
-        DataTable EA2 = new DataTable();
-        DataTable EA3 = new DataTable();
+        private DataTable USE = new DataTable();
+        private DataTable BU = new DataTable();
+        private DataTable EA1 = new DataTable();
+        private DataTable EA2 = new DataTable();
+        private DataTable EA3 = new DataTable();
 
         //Słownik z IDCO
-        Dictionary<string, string> IDCODictionary = new Dictionary<string, string>();
+        private Dictionary<string, string> IDCODictionary = new Dictionary<string, string>();
 
-        Data_Import ImportData;
-        MainProgram mainProgram;
+        private readonly Data_Import ImportData;
+        private readonly MainProgram mainProgram;
 
         public Action(MainProgram mainProgram, Data_Import ImportData)
         {
@@ -347,7 +347,7 @@ namespace Saving_Accelerator_Tool
             DataTable PNC = new DataTable();
             DataTable ECCCKurs = new DataTable();
             DataRow FoundRow;
-            DataRow FoundRow2 = null;
+            DataRow FoundRow2;
             DataRow FoundRowECCC;
 
             decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityCalcRev", true).First()).Value;
@@ -359,7 +359,7 @@ namespace Saving_Accelerator_Tool
             int Month;
             int RevStart = 0;
             int RevEnd = 0;
-            int WhenFinish = 13;
+            int WhenFinish;
             int SumUse = 0;
 
             ImportData.Load_TxtToDataTable(ref Action, link);
@@ -465,7 +465,7 @@ namespace Saving_Accelerator_Tool
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                     }
                                 }
@@ -518,11 +518,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Calc1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(Calc1[counter].ToString());
-                                Saving = Saving + decimal.Parse(Calc2[counter].ToString());
+                                Quantity += decimal.Parse(Calc1[counter].ToString());
+                                Saving += decimal.Parse(Calc2[counter].ToString());
                                 if (Calc3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(Calc3[counter].ToString());
+                                    ECCC += decimal.Parse(Calc3[counter].ToString());
                                 }
                             }
                         }
@@ -535,11 +535,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (CalcUSE1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(CalcUSE1[counter].ToString());
-                                Saving = Saving + decimal.Parse(CalcUSE2[counter].ToString());
+                                Quantity +=  decimal.Parse(CalcUSE1[counter].ToString());
+                                Saving += decimal.Parse(CalcUSE2[counter].ToString());
                                 if (CalcUSE3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(CalcUSE3[counter].ToString());
+                                    ECCC += decimal.Parse(CalcUSE3[counter].ToString());
                                 }
                             }
                         }
@@ -601,18 +601,18 @@ namespace Saving_Accelerator_Tool
                                     {
                                         if (FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                         {
-                                            Quantity = Quantity + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                            Quantity += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
                                             for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                             {
-                                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                             }
-                                            Saving = Saving + (Quantity * DeltaSaving);
+                                            Saving += (Quantity * DeltaSaving);
 
 
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                     }
@@ -623,17 +623,17 @@ namespace Saving_Accelerator_Tool
 
                                         if (FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                         {
-                                            Quantity = Quantity + (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                            Quantity += (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
                                             for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                             {
-                                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                             }
-                                            Saving = Saving + (Quantity * DeltaSaving);
+                                            Saving += (Quantity * DeltaSaving);
 
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow2[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                     }
@@ -671,11 +671,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Calc1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(Calc1[counter].ToString());
-                                Saving = Saving + decimal.Parse(Calc2[counter].ToString());
+                                Quantity += decimal.Parse(Calc1[counter].ToString());
+                                Saving += decimal.Parse(Calc2[counter].ToString());
                                 if (Calc3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(Calc3[counter].ToString());
+                                    ECCC += decimal.Parse(Calc3[counter].ToString());
                                 }
                             }
                         }
@@ -688,11 +688,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (CalcUSE1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(CalcUSE1[counter].ToString());
-                                Saving = Saving + decimal.Parse(CalcUSE2[counter].ToString());
+                                Quantity += decimal.Parse(CalcUSE1[counter].ToString());
+                                Saving += decimal.Parse(CalcUSE2[counter].ToString());
                                 if (CalcUSE3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(CalcUSE3[counter].ToString());
+                                    ECCC += decimal.Parse(CalcUSE3[counter].ToString());
                                 }
                             }
                         }
@@ -737,7 +737,7 @@ namespace Saving_Accelerator_Tool
 
                         for (int counter = 0; counter < Delta.Length - 1; counter++)
                         {
-                            DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter].ToString());
+                            DeltaSaving += decimal.Parse(Delta[counter].ToString());
                         }
 
                         Calc1 = ActionRow["Calc" + What + "Quantity" + Carry].ToString().Split('/');
@@ -753,7 +753,7 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                        Quantity += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
                                     }
                                 }
                             }
@@ -783,11 +783,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Calc1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(Calc1[counter].ToString());
-                                Saving = Saving + decimal.Parse(Calc2[counter].ToString());
+                                Quantity += decimal.Parse(Calc1[counter].ToString());
+                                Saving += decimal.Parse(Calc2[counter].ToString());
                                 if (Calc3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(Calc3[counter].ToString());
+                                    ECCC += decimal.Parse(Calc3[counter].ToString());
                                 }
                             }
 
@@ -801,11 +801,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (CalcUSE1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(CalcUSE1[counter].ToString());
-                                Saving = Saving + decimal.Parse(CalcUSE2[counter].ToString());
+                                Quantity += decimal.Parse(CalcUSE1[counter].ToString());
+                                Saving += decimal.Parse(CalcUSE2[counter].ToString());
                                 if (CalcUSE3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(CalcUSE3[counter].ToString());
+                                    ECCC += decimal.Parse(CalcUSE3[counter].ToString());
                                 }
                             }
                         }
@@ -865,20 +865,20 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
+                                        Quantity += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
                                         if (Month > RevEnd)
                                         {
-                                            Saving = Saving + ((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[0].ToString()));
+                                            Saving +=((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[0].ToString()));
                                         }
                                         else
                                         {
-                                            Saving = Saving + ((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[counter].ToString()));
+                                            Saving += ((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[counter].ToString()));
                                         }
 
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                     }
                                 }
@@ -903,11 +903,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Calc1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(Calc1[counter].ToString());
-                                Saving = Saving + decimal.Parse(Calc2[counter].ToString());
+                                Quantity += decimal.Parse(Calc1[counter].ToString());
+                                Saving += decimal.Parse(Calc2[counter].ToString());
                                 if (Calc3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(Calc3[counter].ToString());
+                                    ECCC += decimal.Parse(Calc3[counter].ToString());
                                 }
                             }
 
@@ -921,11 +921,11 @@ namespace Saving_Accelerator_Tool
                         {
                             if (CalcUSE1[counter].ToString() != "")
                             {
-                                Quantity = Quantity + decimal.Parse(CalcUSE1[counter].ToString());
-                                Saving = Saving + decimal.Parse(CalcUSE2[counter].ToString());
+                                Quantity += decimal.Parse(CalcUSE1[counter].ToString());
+                                Saving += decimal.Parse(CalcUSE2[counter].ToString());
                                 if (CalcUSE3[counter].ToString() != "")
                                 {
-                                    ECCC = ECCC + decimal.Parse(CalcUSE3[counter].ToString());
+                                    ECCC += decimal.Parse(CalcUSE3[counter].ToString());
                                 }
                             }
                         }
@@ -1156,7 +1156,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private string SavePerANC_PNC( string Rewision, bool CarryOver)
+        private string SavePerANC_PNC( string Rewision)
         {
             string Save = "";
 
@@ -1170,7 +1170,7 @@ namespace Saving_Accelerator_Tool
                         {
                             Save = Save + Row[counter].ToString() + "|";
                         }
-                        Save = Save + "/";
+                        Save += "/";
                     }
                     return Save;
                 }
@@ -1185,7 +1185,7 @@ namespace Saving_Accelerator_Tool
                         {
                             Save = Save + Row[counter].ToString() + "|";
                         }
-                        Save = Save + "/";
+                        Save += "/";
                     }
                     return Save;
                 }
@@ -1200,7 +1200,7 @@ namespace Saving_Accelerator_Tool
                         {
                             Save = Save + Row[counter].ToString() + "|";
                         }
-                        Save = Save + "/";
+                        Save += "/";
                     }
                     return Save;
                 }
@@ -1215,7 +1215,7 @@ namespace Saving_Accelerator_Tool
                         {
                             Save = Save + Row[counter].ToString() + "|";
                         }
-                        Save = Save + "/";
+                        Save += "/";
                     }
                     return Save;
                 }
@@ -1230,7 +1230,7 @@ namespace Saving_Accelerator_Tool
                         {
                             Save = Save + Row[counter].ToString() + "|";
                         }
-                        Save = Save + "/";
+                        Save += "/";
                     }
                     return Save;
                 }
@@ -1245,7 +1245,7 @@ namespace Saving_Accelerator_Tool
             DataTable PNC = new DataTable();
             DataTable ECCCKurs = new DataTable();
             DataRow FoundRow;
-            DataRow FoundRow2 = null;
+            DataRow FoundRow2;
             DataRow FoundRowECCC;
             DataRow ResultsRow = null;
             decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearCalc", true).First()).Value;
@@ -1303,30 +1303,30 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                        DeltaCost = DeltaCost + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        DeltaCost += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
                                         
-                                        Saving = Saving + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        Saving += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
 
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                     }
                                     if (Next[counter] != "")
                                     {
                                         if (FoundRow2 != null)
                                         {
-                                            Quantity = Quantity + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                            Saving = Saving + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                            DeltaCost = DeltaCost + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                            QuantityANC = QuantityANC + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Quantity += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Saving += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                            DeltaCost += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                            QuantityANC += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                     }
@@ -1381,11 +1381,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -1418,7 +1418,7 @@ namespace Saving_Accelerator_Tool
                             QuantityANC = 0;
                             DeltaCost = 0;
 
-                            ActionRow["PerUSE"] = SavePerANC_PNC("USE", false);
+                            ActionRow["PerUSE"] = SavePerANC_PNC("USE");
                         }
                         if (help == "ANCSpec")
                         {
@@ -1436,34 +1436,34 @@ namespace Saving_Accelerator_Tool
                                     {
                                         if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                         {
-                                            Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                             for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                             {
-                                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                             }
-                                            Saving = Saving + (Quantity * DeltaSaving);
+                                            Saving += (Quantity * DeltaSaving);
 
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                         if (Next[counter] != "")
                                         {
                                             if (FoundRow2 != null)
                                             {
-                                                Quantity = Quantity + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                                Quantity += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                                 for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                                 {
-                                                    DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                    DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                                 }
-                                                Saving = Saving + (Quantity * DeltaSaving);
+                                                Saving += (Quantity * DeltaSaving);
 
                                                 if (ActionRow["ECCC"].ToString() != "")
                                                 {
                                                     FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                    ECCC = ECCC + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                    ECCC += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                                 }
                                             }
                                         }
@@ -1514,11 +1514,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -1551,7 +1551,7 @@ namespace Saving_Accelerator_Tool
                             QuantityANC = 0;
                             DeltaCost = 0;
 
-                            ActionRow["PerUSE"] = SavePerANC_PNC("USE", false);
+                            ActionRow["PerUSE"] = SavePerANC_PNC("USE");
                         }
                         if (help == "PNC")
                         {
@@ -1559,7 +1559,7 @@ namespace Saving_Accelerator_Tool
                             Delta = ActionRow["Delta"].ToString().Split('|');
                             for (int counter = 0; counter < Delta.Length - 1; counter++)
                             {
-                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter].ToString());
+                                DeltaSaving += decimal.Parse(Delta[counter].ToString());
                             }
 
                             for (int counter = 0; counter < Calc.Length - 1; counter++)
@@ -1569,7 +1569,7 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                     }
 
@@ -1622,11 +1622,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC +=decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -1659,7 +1659,7 @@ namespace Saving_Accelerator_Tool
                             QuantityANC = 0;
                             DeltaCost = 0;
 
-                            ActionRow["PerUSE"] = SavePerANC_PNC("USE", false);
+                            ActionRow["PerUSE"] = SavePerANC_PNC("USE");
                         }
                         if (help == "PNCSpec")
                         {
@@ -1672,14 +1672,14 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                        Saving = Saving + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        Saving += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
                                         DeltaCost = (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                         if (USE != null)
                                         {
@@ -1724,11 +1724,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -1760,7 +1760,7 @@ namespace Saving_Accelerator_Tool
                             ECCC = 0;
                             QuantityANC = 0;
                             DeltaCost = 0;
-                            ActionRow["PerUSE"] = SavePerANC_PNC("USE", false);
+                            ActionRow["PerUSE"] = SavePerANC_PNC("USE");
                         }
                     }
 
@@ -1798,29 +1798,29 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                        DeltaCost = DeltaCost + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                        Saving = Saving + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        DeltaCost += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        Saving += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
 
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                     }
                                     if (Next[counter] != "")
                                     {
                                         if (FoundRow2 != null)
                                         {
-                                            Quantity = Quantity + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                            Saving = Saving + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                            DeltaCost = DeltaCost + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                            QuantityANC = QuantityANC + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Quantity += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Saving += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                            DeltaCost += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                            QuantityANC += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                     }
@@ -1875,11 +1875,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
                             }
@@ -1912,7 +1912,7 @@ namespace Saving_Accelerator_Tool
                             QuantityANC = 0;
                             DeltaCost = 0;
 
-                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE", true);
+                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
                         if(help == "ANCSpec")
                         {
@@ -1930,34 +1930,34 @@ namespace Saving_Accelerator_Tool
                                     {
                                         if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                         {
-                                            Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                            Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                             for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                             {
-                                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                             }
-                                            Saving = Saving + (Quantity * DeltaSaving);
+                                            Saving += (Quantity * DeltaSaving);
 
                                             if (ActionRow["ECCC"].ToString() != "")
                                             {
                                                 FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                             }
                                         }
                                         if (Next[counter] != "")
                                         {
                                             if (FoundRow2 != null)
                                             {
-                                                Quantity = Quantity + decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                                Quantity += decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                                 for (int counter3 = 0; counter3 < Delta.Length - 1; counter3++)
                                                 {
-                                                    DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter3].ToString());
+                                                    DeltaSaving += decimal.Parse(Delta[counter3].ToString());
                                                 }
-                                                Saving = Saving + (Quantity * DeltaSaving);
+                                                Saving += (Quantity * DeltaSaving);
 
                                                 if (ActionRow["ECCC"].ToString() != "")
                                                 {
                                                     FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                                    ECCC = ECCC + (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                                    ECCC += (decimal.Parse(FoundRow2[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                                 }
                                             }
                                         }
@@ -2008,11 +2008,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -2045,7 +2045,7 @@ namespace Saving_Accelerator_Tool
                             QuantityANC = 0;
                             DeltaCost = 0;
 
-                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE", true);
+                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
                         if (help == "PNC")
                         {
@@ -2053,7 +2053,7 @@ namespace Saving_Accelerator_Tool
                             Delta = ActionRow["Delta"].ToString().Split('|');
                             for (int counter = 0; counter < Delta.Length - 1; counter++)
                             {
-                                DeltaSaving = DeltaSaving + decimal.Parse(Delta[counter].ToString());
+                                DeltaSaving += decimal.Parse(Delta[counter].ToString());
                             }
 
                             for (int counter = 0; counter < Calc.Length - 1; counter++)
@@ -2063,7 +2063,7 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
 
                                         if (USE != null)
@@ -2116,11 +2116,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
                             }
@@ -2152,7 +2152,7 @@ namespace Saving_Accelerator_Tool
                             ECCC = 0;
                             QuantityANC = 0;
                             DeltaCost =0;
-                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE", true);
+                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
                         if (help == "PNCSpec")
                         {
@@ -2165,14 +2165,14 @@ namespace Saving_Accelerator_Tool
                                 {
                                     if (FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString() != "")
                                     {
-                                        Quantity = Quantity + decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
+                                        Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
-                                        Saving = Saving + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
+                                        Saving += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
                                         DeltaCost = (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
                                         if (ActionRow["ECCC"].ToString() != "")
                                         {
                                             FoundRowECCC = ECCCKurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
-                                            ECCC = ECCC + (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
+                                            ECCC += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(ActionRow["ECCC"].ToString()) * decimal.Parse(FoundRowECCC["ECCC"].ToString()));
                                         }
                                         if (USE != null)
                                         {
@@ -2218,11 +2218,11 @@ namespace Saving_Accelerator_Tool
                             {
                                 if (Calc[counter].ToString() != "")
                                 {
-                                    Quantity = Quantity + decimal.Parse(Calc[counter].ToString());
-                                    Saving = Saving + decimal.Parse(Calc1[counter].ToString());
+                                    Quantity += decimal.Parse(Calc[counter].ToString());
+                                    Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC = ECCC + decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -2254,7 +2254,7 @@ namespace Saving_Accelerator_Tool
                             ECCC = 0;
                             QuantityANC = 0;
                             DeltaCost = 0;
-                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE", true);
+                            ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
                     }
 
@@ -2413,55 +2413,6 @@ namespace Saving_Accelerator_Tool
             return MonthCount;
         }
 
-        private int WhatMonth()
-        {
-            int Month;
-            switch (((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Text)
-            {
-                case "January":
-                    Month = 0;
-                    break;
-                case "Febuary":
-                    Month = 1;
-                    break;
-                case "March":
-                    Month = 2;
-                    break;
-                case "April":
-                    Month = 3;
-                    break;
-                case "May":
-                    Month = 4;
-                    break;
-                case "June":
-                    Month = 5;
-                    break;
-                case "July":
-                    Month = 6;
-                    break;
-                case "August":
-                    Month = 7;
-                    break;
-                case "September":
-                    Month = 8;
-                    break;
-                case "October":
-                    Month = 9;
-                    break;
-                case "November":
-                    Month = 10;
-                    break;
-                case "December":
-                    Month = 11;
-                    break;
-                default:
-                    Month = 0;
-                    break;
-            }
-
-            return Month;
-        }
-
         private void RefreshEstymation2(TextBox ToCheck)
         {
             string Name;
@@ -2575,7 +2526,7 @@ namespace Saving_Accelerator_Tool
 
             for (int counter = 1; counter <= Number; counter++)
             {
-                Sum = Sum + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("Lab_Calc" + counter.ToString(), true).First()).Text);
+                Sum += decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("Lab_Calc" + counter.ToString(), true).First()).Text);
             }
             Lab_CalcSum.Text = (Math.Round(Sum, 4, MidpointRounding.AwayFromZero)).ToString();
 
@@ -2757,9 +2708,9 @@ namespace Saving_Accelerator_Tool
             string Status;
 
             NumericUpDown nNum_ActionYear = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First();
-            CheckBox ncb_ActionActive = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionActive", true).First();
-            CheckBox ncb_ActionCompleted = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionCompleted", true).First();
-            CheckBox ncb_ActionDraft = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionDraft", true).First();
+            //CheckBox ncb_ActionActive = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionActive", true).First();
+            //CheckBox ncb_ActionCompleted = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionCompleted", true).First();
+            //CheckBox ncb_ActionDraft = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionDraft", true).First();
             TreeView ntree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
             ComboBox ComBox_Leader = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_FilterBy", true).First();
 
@@ -2783,29 +2734,41 @@ namespace Saving_Accelerator_Tool
 
             if (Persona["ActionEle"].ToString() == "true")
             {
-                TreeNode Electronic = new TreeNode("Electronic");
-                Electronic.Name = "Electronic";
+                TreeNode Electronic = new TreeNode("Electronic")
+                {
+                    Name = "Electronic"
+                };
                 ntree_Action.Nodes.Add(Electronic);
-                TreeNode ElectronicCarry = new TreeNode("Electronic Carry Over");
-                ElectronicCarry.Name = "Electronic Carry Over";
+                TreeNode ElectronicCarry = new TreeNode("Electronic Carry Over")
+                {
+                    Name = "Electronic Carry Over"
+                };
                 ntree_Action.Nodes.Add(ElectronicCarry);
             }
             if (Persona["ActionMech"].ToString() == "true")
             {
-                TreeNode Mechanic = new TreeNode("Mechanic");
-                Mechanic.Name = "Mechanic";
+                TreeNode Mechanic = new TreeNode("Mechanic")
+                {
+                    Name = "Mechanic"
+                };
                 ntree_Action.Nodes.Add(Mechanic);
-                TreeNode MechanicCarry = new TreeNode("Mechanic Carry Over");
-                MechanicCarry.Name = "Mechanic Carry Over";
+                TreeNode MechanicCarry = new TreeNode("Mechanic Carry Over")
+                {
+                    Name = "Mechanic Carry Over"
+                };
                 ntree_Action.Nodes.Add(MechanicCarry);
             }
             if (Persona["ActionNVR"].ToString() == "true")
             {
-                TreeNode NVR = new TreeNode("NVR");
-                NVR.Name = "NVR";
+                TreeNode NVR = new TreeNode("NVR")
+                {
+                    Name = "NVR"
+                };
                 ntree_Action.Nodes.Add(NVR);
-                TreeNode NVRCarry = new TreeNode("NVR Carry Over");
-                NVRCarry.Name = "NVR Carry Over";
+                TreeNode NVRCarry = new TreeNode("NVR Carry Over")
+                {
+                    Name = "NVR Carry Over"
+                };
                 ntree_Action.Nodes.Add(NVRCarry);
             }
 
@@ -3121,7 +3084,7 @@ namespace Saving_Accelerator_Tool
                 Text = "",
                 UseVisualStyleBackColor = true
             };
-            cb_ANCby.CheckedChanged += cb_ANCby_CheckedChanged;
+            cb_ANCby.CheckedChanged += Cb_ANCby_CheckedChanged;
             gb_ANCby.Controls.Add(cb_ANCby);
         }
 
@@ -3129,7 +3092,6 @@ namespace Saving_Accelerator_Tool
         {
             GroupBox gb_ANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First();
             GroupBox gb_STK = (GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First();
-            GroupBox gb_Calc = (GroupBox)mainProgram.TabControl.Controls.Find("gb_Calc", true).First();
             GroupBox gb_NextANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_NextANC", true).First();
             GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
 
@@ -3180,22 +3142,6 @@ namespace Saving_Accelerator_Tool
 
             CheckBox nCB_ANCby = (CheckBox)gb_ANCby.Controls.Find("cb_ANCby" + ANCChangeNumber.ToString(), false).First();
             gb_ANCby.Controls.Remove(nCB_ANCby);
-        }
-
-        private void STKDelta_CheckColor()
-        {
-            for (int counter = 1; counter <= ANCChangeNumber; counter++)
-            {
-                Label nLab_Delta = (Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First();
-                if (decimal.Parse(nLab_Delta.Text) > 0)
-                {
-                    nLab_Delta.ForeColor = Color.Green;
-                }
-                if (decimal.Parse(nLab_Delta.Text) < 0)
-                {
-                    nLab_Delta.ForeColor = Color.Red;
-                }
-            }
         }
 
         private bool CheckANCLength()
@@ -3402,7 +3348,7 @@ namespace Saving_Accelerator_Tool
         }
 
         //Przerwanie od sprawdzenia czy został wybrany tylko jeden checkbox dla ANCby
-        private void cb_ANCby_CheckedChanged(object sender, EventArgs e)
+        private void Cb_ANCby_CheckedChanged(object sender, EventArgs e)
         {
             bool Status = false;
             CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First();

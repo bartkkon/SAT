@@ -104,6 +104,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Klasy\AdmnTab\AdminTabGenerator.cs" />
+    <Compile Include="Klasy\AdmnTab\Framework\IDBLoadDataBase.cs" />
+    <Compile Include="Klasy\AdmnTab\Handlers\IDBHandler.cs" />
+    <Compile Include="Klasy\AdmnTab\View\IDBView.cs" />
+    <Compile Include="Klasy\Platform\AddPNC\Platform_AddPNC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Klasy\Platform\AddPNC\Platform_AddPNC.Designer.cs">
+      <DependentUpon>Platform_AddPNC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\Platform\AddPNC\View\AddPNCView.cs" />
+    <Compile Include="Klasy\Platform\Framework\LoadPNC.cs" />
+    <Compile Include="Klasy\Platform\Framework\LoadProjects.cs" />
+    <Compile Include="Klasy\Platform\Framework\LoadSpecificPNC.cs" />
+    <Compile Include="Klasy\Platform\Handlers\ButtonHandler.cs" />
+    <Compile Include="Klasy\Platform\Handlers\OptionHandler.cs" />
+    <Compile Include="Klasy\Platform\Handlers\PNCTreeHandler.cs" />
+    <Compile Include="Klasy\Platform\PlatformTabGenerator.cs" />
+    <Compile Include="Klasy\Platform\View\ButtonView.cs" />
+    <Compile Include="Klasy\Platform\View\OptionView.cs" />
+    <Compile Include="Klasy\Platform\View\PNCTreeView.cs" />
+    <Compile Include="Klasy\Platform\View\SpecificationView.cs" />
     <Compile Include="Klasy\Email\SentEmail.cs" />
     <Compile Include="Klasy\Raporty\ANCSpec.cs" />
     <Compile Include="Klasy\Raporty\ANC.cs" />
@@ -195,6 +217,9 @@
     <EmbeddedResource Include="Formy\MainProgram.resx">
       <DependentUpon>MainProgram.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\Platform\AddPNC\Platform_AddPNC.resx">
+      <DependentUpon>Platform_AddPNC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -237,6 +262,9 @@
     <Content Include="bitcoin-512.ico" />
     <Content Include="bitcoun-512Green.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Klasy\Platform\AddPNC\Framework\" />
+    <Folder Include="Klasy\Platform\AddPNC\Handlers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

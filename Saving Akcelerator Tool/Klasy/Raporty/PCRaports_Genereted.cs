@@ -12,8 +12,8 @@ namespace Saving_Accelerator_Tool
 {
     class PCRaports_Genereted
     {
-        MainProgram mainProgram;
-        Data_Import data_Import;
+        private readonly MainProgram mainProgram;
+        private readonly Data_Import data_Import;
 
         private readonly Dictionary<string, int> MonthStart = new Dictionary<string, int>()
         {
@@ -48,10 +48,10 @@ namespace Saving_Accelerator_Tool
         public void Genereted_PCRaport()
         {
             System.Data.DataTable ActionList = new System.Data.DataTable();
-            System.Data.DataTable NewActionPozitive = new System.Data.DataTable();
-            System.Data.DataTable NewActionNegative = new System.Data.DataTable();
-            System.Data.DataTable NewActionPozitiveFinish = new System.Data.DataTable();
-            System.Data.DataTable NewActionNegativeFinish = new System.Data.DataTable();
+            System.Data.DataTable NewActionPozitive;
+            System.Data.DataTable NewActionNegative ;
+            System.Data.DataTable NewActionPozitiveFinish;
+            System.Data.DataTable NewActionNegativeFinish;
             string Link;
             Worksheet worksheet;
 
@@ -114,19 +114,19 @@ namespace Saving_Accelerator_Tool
 
         private System.Data.DataTable Load_Table(System.Data.DataTable ActionList, string Year, string Pozitive)
         {
-            System.Data.DataTable Lista = new System.Data.DataTable();
+            System.Data.DataTable Lista;
             System.Data.DataTable Frozen = new System.Data.DataTable();
             System.Data.DataTable Kurs = new System.Data.DataTable();
             System.Data.DataTable ANC = new System.Data.DataTable();
             System.Data.DataTable PNC = new System.Data.DataTable();
-            DataRow YearFrozen;
-            string Rewizja = "";
+            //DataRow YearFrozen;
+            //string Rewizja = "";
             string Link;
-            bool BU = false;
-            bool EA1 = false;
-            bool EA2 = false;
-            bool EA3 = false;
-            decimal KursEuro;
+            //bool BU = false;
+            //bool EA1 = false;
+            //bool EA2 = false;
+            //bool EA3 = false;
+            //decimal KursEuro;
 
             Lista = ActionList.Clone();
 
@@ -142,30 +142,30 @@ namespace Saving_Accelerator_Tool
             Link = data_Import.Load_Link("PNC");
             data_Import.Load_TxtToDataTable(ref PNC, Link);
 
-            YearFrozen = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
+            //YearFrozen = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault();
 
-            if (YearFrozen["EA3"].ToString() == "Approve" || YearFrozen["EA3"].ToString() == "Open")
-            {
-                Rewizja = "EA3";
-                EA3 = true;
-            }
-            else if (YearFrozen["EA2"].ToString() == "Approve" || YearFrozen["EA2"].ToString() == "Open")
-            {
-                Rewizja = "EA2";
-                EA2 = true;
-            }
-            else if (YearFrozen["EA1"].ToString() == "Approve" || YearFrozen["EA1"].ToString() == "Open")
-            {
-                Rewizja = "EA1";
-                EA1 = true;
-            }
-            else if (YearFrozen["BU"].ToString() == "Approve" || YearFrozen["BU"].ToString() == "Open")
-            {
-                Rewizja = "BU";
-                BU = true;
-            }
+            //if (YearFrozen["EA3"].ToString() == "Approve" || YearFrozen["EA3"].ToString() == "Open")
+            //{
+            //    Rewizja = "EA3";
+            //    EA3 = true;
+            //}
+            //else if (YearFrozen["EA2"].ToString() == "Approve" || YearFrozen["EA2"].ToString() == "Open")
+            //{
+            //    Rewizja = "EA2";
+            //    EA2 = true;
+            //}
+            //else if (YearFrozen["EA1"].ToString() == "Approve" || YearFrozen["EA1"].ToString() == "Open")
+            //{
+            //    Rewizja = "EA1";
+            //    EA1 = true;
+            //}
+            //else if (YearFrozen["BU"].ToString() == "Approve" || YearFrozen["BU"].ToString() == "Open")
+            //{
+            //    Rewizja = "BU";
+            //    BU = true;
+            //}
 
-            KursEuro = decimal.Parse((Kurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault())["EURO"].ToString());
+            //KursEuro = decimal.Parse((Kurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault())["EURO"].ToString());
 
             System.Windows.Forms.CheckBox Active = (System.Windows.Forms.CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First();
             System.Windows.Forms.CheckBox Idea = (System.Windows.Forms.CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First();

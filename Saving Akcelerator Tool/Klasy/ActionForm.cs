@@ -18,7 +18,7 @@ namespace Saving_Accelerator_Tool
         SummaryDetails summaryDetails;
         Data_Import ImportData;
 
-        public ActionForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person) : base(mainProgram, action, summaryDetails, admin, ImportData, Person)
+        public ActionForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person) : base(mainProgram, action, ImportData, Person)
         {
             this.mainProgram = mainProgram;
             this.action = action;
@@ -92,7 +92,7 @@ namespace Saving_Accelerator_Tool
                     Text = "New Action",
                     UseVisualStyleBackColor = true
                 };
-                Action_NewAction.Click += new EventHandler(but_Action_NewAction_Click);
+                Action_NewAction.Click += new EventHandler(But_Action_NewAction_Click);
                 panelLeftOption.Controls.Add(Action_NewAction);
             }
 
@@ -241,7 +241,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true
             };
-            button_Refresh.Click += new EventHandler(but_TreeRefresh_Click);
+            button_Refresh.Click += new EventHandler(But_TreeRefresh_Click);
             panelLeftTree.Controls.Add(button_Refresh);
 
             //Drzewo Akcji 
@@ -254,7 +254,7 @@ namespace Saving_Accelerator_Tool
                 TabIndex = 0,
                 HideSelection = false,
             };
-            treeView_Action.AfterSelect += new TreeViewEventHandler(tree_Action_AfterSelect);
+            treeView_Action.AfterSelect += new TreeViewEventHandler(Tree_Action_AfterSelect);
             panelLeftTree.Controls.Add(treeView_Action);
         }
 
@@ -332,7 +332,7 @@ namespace Saving_Accelerator_Tool
                 Text = "All",
                 UseVisualStyleBackColor = true
             };
-            cb_InstallAll.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_InstallAll.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_InstallAll);
 
             CheckBox cb_FI = new CheckBox
@@ -344,7 +344,7 @@ namespace Saving_Accelerator_Tool
                 Text = "FI",
                 UseVisualStyleBackColor = true
             };
-            cb_FI.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_FI.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_FI);
 
             CheckBox cb_FS = new CheckBox
@@ -356,7 +356,7 @@ namespace Saving_Accelerator_Tool
                 Text = "FS",
                 UseVisualStyleBackColor = true
             };
-            cb_FS.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_FS.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_FS);
 
             CheckBox cb_BI = new CheckBox
@@ -368,7 +368,7 @@ namespace Saving_Accelerator_Tool
                 Text = "BI",
                 UseVisualStyleBackColor = true
             };
-            cb_BI.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_BI.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_BI);
 
             CheckBox cb_BU = new CheckBox
@@ -380,7 +380,7 @@ namespace Saving_Accelerator_Tool
                 Text = "BU",
                 UseVisualStyleBackColor = true
             };
-            cb_BU.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_BU.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_BU);
 
             CheckBox cb_FSBU = new CheckBox
@@ -392,7 +392,7 @@ namespace Saving_Accelerator_Tool
                 Text = "FSBU",
                 UseVisualStyleBackColor = true
             };
-            cb_FSBU.CheckedChanged += cb_Installation_CheckedChanged;
+            cb_FSBU.CheckedChanged += Cb_Installation_CheckedChanged;
             gb_Installation.Controls.Add(cb_FSBU);
         }
 
@@ -417,7 +417,7 @@ namespace Saving_Accelerator_Tool
                 Text = "DMD",
                 UseVisualStyleBackColor = true
             };
-            cb_DMD.CheckedChanged += new EventHandler(cb_Platform_CheckedChanged);
+            cb_DMD.CheckedChanged += new EventHandler(Cb_Platform_CheckedChanged);
             gb_Platform.Controls.Add(cb_DMD);
 
             CheckBox cb_D45 = new CheckBox
@@ -510,7 +510,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Save",
                 UseVisualStyleBackColor = true,
             };
-            pb_Save.Click += new System.EventHandler(pb_Save_Click);
+            pb_Save.Click += new System.EventHandler(Pb_Save_Click);
             Action_GroupBox.Controls.Add(pb_Save);
 
             Button pb_SaveDraft = new Button
@@ -522,7 +522,7 @@ namespace Saving_Accelerator_Tool
                 UseVisualStyleBackColor = true,
                 Enabled = false,
             };
-            pb_SaveDraft.Click += new System.EventHandler(pb_SaveDraft_Click);
+            pb_SaveDraft.Click += new System.EventHandler(Pb_SaveDraft_Click);
             Action_GroupBox.Controls.Add(pb_SaveDraft);
         }
 
@@ -546,7 +546,7 @@ namespace Saving_Accelerator_Tool
                 Text = "+",
                 UseVisualStyleBackColor = true,
             };
-            pb_Plus.Click += new System.EventHandler(pb_Plus_Click);
+            pb_Plus.Click += new System.EventHandler(Pb_Plus_Click);
             gb_ANC.Controls.Add(pb_Plus);
 
             Button pb_Minus = new Button
@@ -557,7 +557,7 @@ namespace Saving_Accelerator_Tool
                 Text = "-",
                 UseVisualStyleBackColor = true,
             };
-            pb_Minus.Click += new System.EventHandler(pb_Minus_Click);
+            pb_Minus.Click += new System.EventHandler(Pb_Minus_Click);
             gb_ANC.Controls.Add(pb_Minus);
 
             Label lab_OLDANC = new Label
@@ -707,7 +707,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Refresh",
                 UseVisualStyleBackColor = true,
             };
-            pb_RefreshSTK.Click += new EventHandler(pb_RefreshSTK_Click);
+            pb_RefreshSTK.Click += new EventHandler(Pb_RefreshSTK_Click);
             gb_STK.Controls.Add(pb_RefreshSTK);
         }
 
@@ -815,7 +815,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(20, 20),
                 Text = "All",
             };
-            cb_Mass_All.CheckedChanged += new EventHandler(cb_Mass_All_CheckedChange);
+            cb_Mass_All.CheckedChanged += new EventHandler(Cb_Mass_All_CheckedChange);
             gb_MassCalc.Controls.Add(cb_Mass_All);
 
             CheckBox cb_Mass_DMD = new CheckBox
@@ -826,7 +826,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(20, 20),
                 Text = "DMD",
             };
-            cb_Mass_DMD.CheckedChanged += new EventHandler(cb_Mass_DMD_CheckedChange);
+            cb_Mass_DMD.CheckedChanged += new EventHandler(Cb_Mass_DMD_CheckedChange);
             gb_MassCalc.Controls.Add(cb_Mass_DMD);
 
             CheckBox cb_Mass_D45 = new CheckBox
@@ -837,7 +837,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(20, 20),
                 Text = "D45",
             };
-            cb_Mass_D45.CheckedChanged += new EventHandler(cb_Mass_D45_CheckedChange);
+            cb_Mass_D45.CheckedChanged += new EventHandler(Cb_Mass_D45_CheckedChange);
             gb_MassCalc.Controls.Add(cb_Mass_D45);
 
             Label lab_DMD = new Label
@@ -964,7 +964,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ANC",
                 UseVisualStyleBackColor = true
             };
-            cb_CalcANC.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_CalcANC.CheckedChanged += Cb_Calc_CheckedChanged;
             gb_CalcBy.Controls.Add(cb_CalcANC);
 
             CheckBox cb_CalcANCby = new CheckBox
@@ -978,7 +978,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ANC Special",
                 UseVisualStyleBackColor = true
             };
-            cb_CalcANCby.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_CalcANCby.CheckedChanged += Cb_Calc_CheckedChanged;
             gb_CalcBy.Controls.Add(cb_CalcANCby);
 
             CheckBox cb_CalcPNC = new CheckBox
@@ -990,7 +990,7 @@ namespace Saving_Accelerator_Tool
                 Text = "PNC",
                 UseVisualStyleBackColor = true
             };
-            cb_CalcPNC.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_CalcPNC.CheckedChanged += Cb_Calc_CheckedChanged;
             gb_CalcBy.Controls.Add(cb_CalcPNC);
 
             CheckBox cb_CalcPNCSpec = new CheckBox
@@ -1002,7 +1002,7 @@ namespace Saving_Accelerator_Tool
                 Text = "PNC Special",
                 UseVisualStyleBackColor = true
             };
-            cb_CalcPNCSpec.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_CalcPNCSpec.CheckedChanged += Cb_Calc_CheckedChanged;
             gb_CalcBy.Controls.Add(cb_CalcPNCSpec);
 
             Button pb_PNC = new Button
@@ -1014,7 +1014,7 @@ namespace Saving_Accelerator_Tool
                 Enabled = false,
                 UseVisualStyleBackColor = true,
             };
-            pb_PNC.Click += new System.EventHandler(pb_PNC_Click);
+            pb_PNC.Click += new System.EventHandler(Pb_PNC_Click);
             gb_CalcBy.Controls.Add(pb_PNC);
 
             Button pb_PNCSpec = new Button
@@ -1027,7 +1027,7 @@ namespace Saving_Accelerator_Tool
                 Enabled = false,
                 UseVisualStyleBackColor = true,
             };
-            pb_PNCSpec.Click += new System.EventHandler(pb_PNCSpec_Click);
+            pb_PNCSpec.Click += new System.EventHandler(Pb_PNCSpec_Click);
             gb_CalcBy.Controls.Add(pb_PNCSpec);
         }
 
@@ -1053,7 +1053,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Active",
                 UseVisualStyleBackColor = true
             };
-            cb_Active.CheckedChanged += cb_Active_CheckedChanged;
+            cb_Active.CheckedChanged += Cb_Active_CheckedChanged;
             gb_State.Controls.Add(cb_Active);
 
             CheckBox cb_Idea = new CheckBox
@@ -1065,7 +1065,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Idea",
                 UseVisualStyleBackColor = true
             };
-            cb_Idea.CheckedChanged += cb_Idea_CheckedChanged;
+            cb_Idea.CheckedChanged += Cb_Idea_CheckedChanged;
             gb_State.Controls.Add(cb_Idea);
 
             Label lab_opis = new Label
@@ -1099,7 +1099,7 @@ namespace Saving_Accelerator_Tool
                 combox_Devision.Items.Add("NVR");
             }
             combox_Devision.SelectedIndex = 0;
-            combox_Devision.SelectedIndexChanged += new EventHandler(combo_Devision_SelectedIndexChange);
+            combox_Devision.SelectedIndexChanged += new EventHandler(Combo_Devision_SelectedIndexChange);
             gb_State.Controls.Add(combox_Devision);
 
             Label leb_YearAction = new Label
@@ -1129,7 +1129,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(78, 20),
                 Value = DateTime.Today.Year
             };
-            num_YearAction.ValueChanged += new EventHandler(num_YearAction_ValueChanged);
+            num_YearAction.ValueChanged += new EventHandler(Num_YearAction_ValueChanged);
             gb_State.Controls.Add(num_YearAction);
 
             Label leb_MonthAction = new Label
@@ -1151,7 +1151,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Wybierz Miesiąc",
             };
             combox_Month.Items.AddRange(new object[] { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            combox_Month.SelectedIndexChanged += new EventHandler(combox_Month_SelectedIndexChange);
+            combox_Month.SelectedIndexChanged += new EventHandler(Combox_Month_SelectedIndexChange);
             gb_State.Controls.Add(combox_Month);
 
             Label lab_Leader = new Label
@@ -1171,7 +1171,7 @@ namespace Saving_Accelerator_Tool
                 Name = "comBox_Leader",
                 Size = new Size(140, 21),
             };
-            combox_Leader.SelectedIndexChanged += new EventHandler(combox_Leader_SelectedIndexChanged);
+            combox_Leader.SelectedIndexChanged += new EventHandler(Combox_Leader_SelectedIndexChanged);
             gb_State.Controls.Add(combox_Leader);
 
             Label lab_Factory = new Label
@@ -1193,7 +1193,7 @@ namespace Saving_Accelerator_Tool
             };
             combox_Factory.Items.AddRange(new object[] { "PLV", "ZM" });
             combox_Factory.SelectedIndex = 0;
-            combox_Factory.SelectedIndexChanged += new EventHandler(combox_Factory_SelectedIndexChanged);
+            combox_Factory.SelectedIndexChanged += new EventHandler(Combox_Factory_SelectedIndexChanged);
             gb_State.Controls.Add(combox_Factory);
 
             //Dodanie osób z których można wybierać jako liderów akcji
@@ -1231,7 +1231,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Calc",
                 UseVisualStyleBackColor = true,
             };
-            pb_SavingCalc.Click += new System.EventHandler(pb_SavingCalc_Click);
+            pb_SavingCalc.Click += new System.EventHandler(Pb_SavingCalc_Click);
             gb_CalcFinal.Controls.Add(pb_SavingCalc);
 
             Button pb_CurrentYear = new Button
@@ -1242,7 +1242,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Start Year",
                 BackColor = Color.LightBlue,
             };
-            pb_CurrentYear.Click += new System.EventHandler(pb_Curren_Carry_Click);
+            pb_CurrentYear.Click += new System.EventHandler(Pb_Curren_Carry_Click);
             gb_CalcFinal.Controls.Add(pb_CurrentYear);
 
             Button pb_CarryOver = new Button
@@ -1253,7 +1253,7 @@ namespace Saving_Accelerator_Tool
                 Text = "Carry Over",
                 UseVisualStyleBackColor = true,
             };
-            pb_CarryOver.Click += new System.EventHandler(pb_Curren_Carry_Click);
+            pb_CarryOver.Click += new System.EventHandler(Pb_Curren_Carry_Click);
             gb_CalcFinal.Controls.Add(pb_CarryOver);
 
             DataGridView dg_Saving = new DataGridView
@@ -1342,7 +1342,7 @@ namespace Saving_Accelerator_Tool
                 Text = "ECCC",
                 UseVisualStyleBackColor = true
             };
-            cb_ECCC.CheckedChanged += cb_ECCC_CheckedChanged;
+            cb_ECCC.CheckedChanged += Cb_ECCC_CheckedChanged;
             gb_ECCC.Controls.Add(cb_ECCC);
 
             CheckBox cb_ECCSpec = new CheckBox
@@ -1356,7 +1356,7 @@ namespace Saving_Accelerator_Tool
                 Visible = false,
                 Enabled = false,
             };
-            cb_ECCSpec.CheckedChanged += cb_Calc_CheckedChanged;
+            cb_ECCSpec.CheckedChanged += Cb_Calc_CheckedChanged;
             gb_ECCC.Controls.Add(cb_ECCSpec);
 
             NumericUpDown num_ECCC = new NumericUpDown
@@ -1417,8 +1417,8 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(60, 20),
                 MaxLength = 10,
             };
-            nTB_EstymacjaPNC.TextChanged += new EventHandler(tb_PNCEStymation_TextChanged);
-            nTB_EstymacjaPNC.Leave += new EventHandler(tb_PNCEstimation_Leave);
+            nTB_EstymacjaPNC.TextChanged += new EventHandler(Tb_PNCEStymation_TextChanged);
+            nTB_EstymacjaPNC.Leave += new EventHandler(Tb_PNCEstimation_Leave);
             gb_PNCEsty.Controls.Add(nTB_EstymacjaPNC);
         }
 

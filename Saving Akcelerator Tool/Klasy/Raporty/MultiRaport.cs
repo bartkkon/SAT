@@ -72,9 +72,8 @@ namespace Saving_Accelerator_Tool
             DataTable ElectronicCarry = new DataTable();
             DataTable MechanicalCarry = new DataTable();
             DataTable NVRCarry = new DataTable();
-            DataTable Action = new DataTable();
             DataRow[] ActionRewizion = null;
-            DataTable ActionR = new DataTable();
+            DataTable ActionR;
             DataTable History = new DataTable();
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
@@ -306,7 +305,6 @@ namespace Saving_Accelerator_Tool
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Aesthetics", NVRA, ColumnForSavings);
                         Start = AddTableToWorksheet2(NVRActual, MultiAction, Start, ColumnUse);
-                        Start += 2;
                     }
                 }
             }
@@ -629,130 +627,130 @@ namespace Saving_Accelerator_Tool
 
         }
 
-        private void SummAllRewizion(Excel.Worksheet MultiSum, DataRow[] ActionApprove, DataTable ElectronicA, DataTable ElectronicC, DataTable MechanicA, DataTable MechanicC, DataTable NVRA, DataTable NVRC)
-        {
-            DataTable BU = new DataTable();
-            DataTable EA1 = new DataTable();
-            DataTable EA2 = new DataTable();
-            DataTable EA3 = new DataTable();
-            DataTable Actual = new DataTable();
-            DataTable Action = new DataTable();
-            DataRow FinalRow;
-            DataTable Kurs = new DataTable();
-            DataRow KursEuro;
-            string Link;
-            double Euro = 0;
+        //private void SummAllRewizion(Excel.Worksheet MultiSum, DataRow[] ActionApprove, DataTable ElectronicA, DataTable ElectronicC, DataTable MechanicA, DataTable MechanicC, DataTable NVRA, DataTable NVRC)
+        //{
+        //    DataTable BU = new DataTable();
+        //    DataTable EA1 = new DataTable();
+        //    DataTable EA2 = new DataTable();
+        //    DataTable EA3 = new DataTable();
+        //    DataTable Actual = new DataTable();
+        //    DataTable Action = new DataTable();
+        //    DataRow FinalRow;
+        //    DataTable Kurs = new DataTable();
+        //    DataRow KursEuro;
+        //    string Link;
+        //    double Euro = 0;
 
 
-            AddColumnToSum(ref BU);
-            AddColumnToSum(ref EA1);
-            AddColumnToSum(ref EA2);
-            AddColumnToSum(ref EA3);
-            AddColumnToSum(ref Actual);
+        //    AddColumnToSum(ref BU);
+        //    AddColumnToSum(ref EA1);
+        //    AddColumnToSum(ref EA2);
+        //    AddColumnToSum(ref EA3);
+        //    AddColumnToSum(ref Actual);
 
-            foreach (DataRow Row in ActionApprove)
-            {
-                if (Akcje.ContainsKey(Row["Name"].ToString()))
-                {
-                    if (Akcje[Row["Name"].ToString()])
-                    {
-                        string[] BUActual = Row["CalcBUSaving"].ToString().Split('/');
-                        string[] EA1Actual = Row["CalcEA1Saving"].ToString().Split('/');
-                        string[] EA2Actual = Row["CalcEA2Saving"].ToString().Split('/');
-                        string[] EA3Actual = Row["CalcEA3Saving"].ToString().Split('/');
-                        string[] USEActual = Row["CalcUSESaving"].ToString().Split('/');
+        //    foreach (DataRow Row in ActionApprove)
+        //    {
+        //        if (Akcje.ContainsKey(Row["Name"].ToString()))
+        //        {
+        //            if (Akcje[Row["Name"].ToString()])
+        //            {
+        //                string[] BUActual = Row["CalcBUSaving"].ToString().Split('/');
+        //                string[] EA1Actual = Row["CalcEA1Saving"].ToString().Split('/');
+        //                string[] EA2Actual = Row["CalcEA2Saving"].ToString().Split('/');
+        //                string[] EA3Actual = Row["CalcEA3Saving"].ToString().Split('/');
+        //                string[] USEActual = Row["CalcUSESaving"].ToString().Split('/');
 
-                        string[] BUCarry = Row["CalcBUSavingCarry"].ToString().Split('/');
-                        string[] EA1Carry = Row["CalcEA1SavingCarry"].ToString().Split('/');
-                        string[] EA2Carry = Row["CalcEA2SavingCarry"].ToString().Split('/');
-                        string[] EA3Carry = Row["CalcEA3SavingCarry"].ToString().Split('/');
-                        string[] USECarry = Row["CalcUSESavingCarry"].ToString().Split('/');
+        //                string[] BUCarry = Row["CalcBUSavingCarry"].ToString().Split('/');
+        //                string[] EA1Carry = Row["CalcEA1SavingCarry"].ToString().Split('/');
+        //                string[] EA2Carry = Row["CalcEA2SavingCarry"].ToString().Split('/');
+        //                string[] EA3Carry = Row["CalcEA3SavingCarry"].ToString().Split('/');
+        //                string[] USECarry = Row["CalcUSESavingCarry"].ToString().Split('/');
 
-                        for (int counter = 0; counter < 13; counter++)
-                        {
-                            if (BUCarry[counter].ToString() != "")
-                            {
-                                FinalRow = BU.Rows[0];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(BUCarry[counter].ToString());
-                            }
-                            if (BUActual[counter].ToString() != "")
-                            {
-                                FinalRow = BU.Rows[1];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(BUActual[counter].ToString());
-                            }
-                            if (EA1Carry[counter].ToString() != "")
-                            {
-                                FinalRow = EA1.Rows[0];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA1Carry[counter].ToString());
-                            }
-                            if (EA1Actual[counter].ToString() != "")
-                            {
-                                FinalRow = EA1.Rows[1];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA1Actual[counter].ToString());
-                            }
-                            if (EA2Carry[counter].ToString() != "")
-                            {
-                                FinalRow = EA2.Rows[0];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA2Carry[counter].ToString());
-                            }
-                            if (EA2Actual[counter].ToString() != "")
-                            {
-                                FinalRow = EA2.Rows[1];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA2Actual[counter].ToString());
-                            }
-                            if (EA3Carry[counter].ToString() != "")
-                            {
-                                FinalRow = EA3.Rows[0];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA3Carry[counter].ToString());
-                            }
-                            if (EA3Actual[counter].ToString() != "")
-                            {
-                                FinalRow = EA3.Rows[1];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA3Actual[counter].ToString());
-                            }
-                            if (USECarry[counter].ToString() != "")
-                            {
-                                FinalRow = Actual.Rows[0];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(USECarry[counter].ToString());
-                            }
-                            if (USEActual[counter].ToString() != "")
-                            {
-                                FinalRow = Actual.Rows[1];
-                                FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(USEActual[counter].ToString());
-                            }
-                        }
-                    }
-                }
-            }
-            Link = ImportData.Load_Link("Kurs");
-            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+        //                for (int counter = 0; counter < 13; counter++)
+        //                {
+        //                    if (BUCarry[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = BU.Rows[0];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(BUCarry[counter].ToString());
+        //                    }
+        //                    if (BUActual[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = BU.Rows[1];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(BUActual[counter].ToString());
+        //                    }
+        //                    if (EA1Carry[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA1.Rows[0];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA1Carry[counter].ToString());
+        //                    }
+        //                    if (EA1Actual[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA1.Rows[1];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA1Actual[counter].ToString());
+        //                    }
+        //                    if (EA2Carry[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA2.Rows[0];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA2Carry[counter].ToString());
+        //                    }
+        //                    if (EA2Actual[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA2.Rows[1];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA2Actual[counter].ToString());
+        //                    }
+        //                    if (EA3Carry[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA3.Rows[0];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA3Carry[counter].ToString());
+        //                    }
+        //                    if (EA3Actual[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = EA3.Rows[1];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(EA3Actual[counter].ToString());
+        //                    }
+        //                    if (USECarry[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = Actual.Rows[0];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(USECarry[counter].ToString());
+        //                    }
+        //                    if (USEActual[counter].ToString() != "")
+        //                    {
+        //                        FinalRow = Actual.Rows[1];
+        //                        FinalRow[counter] = double.Parse(FinalRow[counter].ToString()) + double.Parse(USEActual[counter].ToString());
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    Link = ImportData.Load_Link("Kurs");
+        //    ImportData.Load_TxtToDataTable(ref Kurs, Link);
 
-            KursEuro = Kurs.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
-            if (KursEuro != null)
-                Euro = double.Parse(KursEuro["EURO"].ToString());
+        //    KursEuro = Kurs.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+        //    if (KursEuro != null)
+        //        Euro = double.Parse(KursEuro["EURO"].ToString());
 
 
-            SumRewizionTable(ref BU, Euro);
-            SumRewizionTable(ref EA1, Euro);
-            SumRewizionTable(ref EA2, Euro);
-            SumRewizionTable(ref EA3, Euro);
-            SumRewizionTable(ref Actual, Euro);
-            Excel.Range CellStart = MultiSum.Cells[10, 3];
-            Excel.Range CellFinish = MultiSum.Cells[10, 16];
-            MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[0].ItemArray.Select(x => x.ToString()).ToArray();
-            CellStart = MultiSum.Cells[11, 3];
-            CellFinish = MultiSum.Cells[11, 16];
-            MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[1].ItemArray.Select(x => x.ToString()).ToArray();
-            CellStart = MultiSum.Cells[12, 3];
-            CellFinish = MultiSum.Cells[12, 16];
-            MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[2].ItemArray.Select(x => x.ToString()).ToArray();
+        //    SumRewizionTable(ref BU, Euro);
+        //    SumRewizionTable(ref EA1, Euro);
+        //    SumRewizionTable(ref EA2, Euro);
+        //    SumRewizionTable(ref EA3, Euro);
+        //    SumRewizionTable(ref Actual, Euro);
+        //    Excel.Range CellStart = MultiSum.Cells[10, 3];
+        //    Excel.Range CellFinish = MultiSum.Cells[10, 16];
+        //    MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[0].ItemArray.Select(x => x.ToString()).ToArray();
+        //    CellStart = MultiSum.Cells[11, 3];
+        //    CellFinish = MultiSum.Cells[11, 16];
+        //    MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[1].ItemArray.Select(x => x.ToString()).ToArray();
+        //    CellStart = MultiSum.Cells[12, 3];
+        //    CellFinish = MultiSum.Cells[12, 16];
+        //    MultiSum.Range[CellStart, CellFinish].Value2 = BU.Rows[2].ItemArray.Select(x => x.ToString()).ToArray();
 
-        }
+        //}
 
-        private void AddSumtoWorkaheet(Excel.Worksheet ActionSum, DataTable BU, DataTable EA1, DataTable EA2, DataTable EA3, DataTable Actual)
-        {
-            string[,] Information = new string[4, 15] { { "", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "TOT", "TOT [€]" }, { "ECI CO", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, { "ECI NA", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, { "ECI TOTAL", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, };
-        }
+        //private void AddSumtoWorkaheet(Excel.Worksheet ActionSum, DataTable BU, DataTable EA1, DataTable EA2, DataTable EA3, DataTable Actual)
+        //{
+        //    string[,] Information = new string[4, 15] { { "", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "TOT", "TOT [€]" }, { "ECI CO", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, { "ECI NA", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, { "ECI TOTAL", "", "", "", "", "", "", "", "", "", "", "", "", "", "" }, };
+        //}
 
 
         private void SumRewizionTable(ref DataTable Rewision, double Euro)
@@ -916,7 +914,7 @@ namespace Saving_Accelerator_Tool
         private void GroupingAction(Excel.Worksheet MultiAction, DataTable Table, int Start)
         {
             int ActionRowStart = 0;
-            int ActionRowFinish = 0;
+            int ActionRowFinish;
             bool First = true;
 
             foreach (DataRow Row in Table.Rows)
@@ -1137,12 +1135,12 @@ namespace Saving_Accelerator_Tool
             }
             else if (ActionRow["Calculate"].ToString() == "PNC")
             {
-                PNC _PNC = new PNC(ImportData, Preferencje);
+                PNC _PNC = new PNC(Preferencje);
                 _PNC.PrepareANCSpec(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
             else if (ActionRow["Calculate"].ToString() == "PNCSpec")
             {
-                PNCSpec _PNCSpec = new PNCSpec(ImportData, Preferencje);
+                PNCSpec _PNCSpec = new PNCSpec(Preferencje);
                 _PNCSpec.PrepareANCSpec(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
 
