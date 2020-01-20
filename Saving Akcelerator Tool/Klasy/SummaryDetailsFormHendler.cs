@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework;
+using Saving_Accelerator_Tool.Klasy.Email;
 
 namespace Saving_Accelerator_Tool
 {

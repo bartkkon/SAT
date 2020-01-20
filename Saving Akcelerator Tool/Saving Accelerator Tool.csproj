@@ -107,7 +107,10 @@
     <Compile Include="Klasy\AdmnTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdmnTab\Framework\IDBLoadDataBase.cs" />
     <Compile Include="Klasy\AdmnTab\Handlers\IDBHandler.cs" />
+    <Compile Include="Klasy\AdmnTab\Handlers\STKUpdateHandlers.cs" />
     <Compile Include="Klasy\AdmnTab\View\IDBView.cs" />
+    <Compile Include="Klasy\AdmnTab\View\STKUpdate.cs" />
+    <Compile Include="Klasy\Email\SentTo.cs" />
     <Compile Include="Klasy\Platform\AddPNC\Platform_AddPNC.cs">
       <SubType>Form</SubType>
     </Compile>

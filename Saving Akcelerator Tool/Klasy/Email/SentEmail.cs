@@ -14,9 +14,11 @@ namespace Saving_Accelerator_Tool.Klasy.Email
     {
         private static SentEmail _interface;
         private static object syncRoot = new object();
+        private readonly string AdminList;
 
         private SentEmail()
         {
+            AdminList = new SentTo().SentToAdmin();
         }
 
         public void Sent_Email(string MailTo, string Topic, string Body)
@@ -49,9 +51,9 @@ namespace Saving_Accelerator_Tool.Klasy.Email
                 SmtpClient SmtpServer = new SmtpClient("10.26.10.85", 25);
                 mail.From = new MailAddress("SavingAcceleratorTool@electrolux.com");
                 mail.To.Add(MailTo);
+                mail.CC.Add(AdminList);
                 mail.Subject = project;
                 mail.Body = status;
-
 
                 SmtpServer.Credentials = new System.Net.NetworkCredential("SavingAcceleratorTool@electrolux.com", "");
                 SmtpServer.EnableSsl = false;

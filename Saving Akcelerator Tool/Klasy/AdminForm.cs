@@ -7,6 +7,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.AdmnTab;
+using Saving_Accelerator_Tool.Klasy.AdmnTab.View;
 
 namespace Saving_Accelerator_Tool
 {
@@ -49,7 +50,8 @@ namespace Saving_Accelerator_Tool
             Admin_Group_CalcEveryMonth_Change();
 
             //Update STK
-            Admin_Group_STK_Change();
+            //Admin_Group_STK_Change();
+            _ = new STKUpdate(tab_Admin);
 
             //Odblokowanie DatagridView dla qunatity/Savings/ECCC
             Admin_Group_EnableDGV_Change();
@@ -858,70 +860,70 @@ namespace Saving_Accelerator_Tool
             gb_AdminCalcMonth.Controls.Add(pb_Admin_CalcMonth);
         }
 
-        private void Admin_Group_STK_Change()
-        {
-            GroupBox gb_AdminUpdateSTK = new GroupBox
-            {
-                Location = new Point(425, 515),
-                Name = "gb_AdminUpdateSTK",
-                Size = new Size(200, 160),
-                TabStop = false,
-                Text = "Update STK",
-            };
-            tab_Admin.Controls.Add(gb_AdminUpdateSTK);
+        //private void Admin_Group_STK_Change()
+        //{
+        //    GroupBox gb_AdminUpdateSTK = new GroupBox
+        //    {
+        //        Location = new Point(425, 515),
+        //        Name = "gb_AdminUpdateSTK",
+        //        Size = new Size(200, 160),
+        //        TabStop = false,
+        //        Text = "Update STK",
+        //    };
+        //    tab_Admin.Controls.Add(gb_AdminUpdateSTK);
 
-            Button pb_Admin_UpdateSTK = new Button
-            {
-                Location = new Point(60, 25),
-                Name = "pb_Admin_UpdateSTK",
-                Size = new Size(80, 25),
-                Text = "Update STK",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_UpdateSTK.Click += new EventHandler(Pb_Admin_UpdateSTK_Click);
-            gb_AdminUpdateSTK.Controls.Add(pb_Admin_UpdateSTK);
+        //    Button pb_Admin_UpdateSTK = new Button
+        //    {
+        //        Location = new Point(60, 25),
+        //        Name = "pb_Admin_UpdateSTK",
+        //        Size = new Size(80, 25),
+        //        Text = "Update STK",
+        //        UseVisualStyleBackColor = true,
+        //    };
+        //    pb_Admin_UpdateSTK.Click += new EventHandler(Pb_Admin_UpdateSTK_Click);
+        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_UpdateSTK);
 
-            NumericUpDown pb_Admin_STKYearToClear = new NumericUpDown
-            {
-                Location = new Point(10, 64),
-                Maximum = new decimal(new int[] {
-            2100,
-            0,
-            0,
-            0}),
-                Minimum = new decimal(new int[] {
-            2018,
-            0,
-            0,
-            0}),
-                Name = "pb_Admin_STKYearToClear",
-                Size = new Size(78, 20),
-                Value = DateTime.Now.Year + 1,
-            };
-            gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
+        //    NumericUpDown pb_Admin_STKYearToClear = new NumericUpDown
+        //    {
+        //        Location = new Point(10, 64),
+        //        Maximum = new decimal(new int[] {
+        //    2100,
+        //    0,
+        //    0,
+        //    0}),
+        //        Minimum = new decimal(new int[] {
+        //    2018,
+        //    0,
+        //    0,
+        //    0}),
+        //        Name = "pb_Admin_STKYearToClear",
+        //        Size = new Size(78, 20),
+        //        Value = DateTime.Now.Year + 1,
+        //    };
+        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
 
-            Button pb_Admin_YearClear = new Button
-            {
-                Location = new Point(95, 60),
-                Name = "pb_Admin_YearClear",
-                Size = new Size(80, 25),
-                Text = "Clear Year",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_YearClear.Click += new EventHandler(Pb_Admin_YearClear_Click);
-            gb_AdminUpdateSTK.Controls.Add(pb_Admin_YearClear);
+        //    Button pb_Admin_YearClear = new Button
+        //    {
+        //        Location = new Point(95, 60),
+        //        Name = "pb_Admin_YearClear",
+        //        Size = new Size(80, 25),
+        //        Text = "Clear Year",
+        //        UseVisualStyleBackColor = true,
+        //    };
+        //    pb_Admin_YearClear.Click += new EventHandler(Pb_Admin_YearClear_Click);
+        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_YearClear);
 
-            Button pb_Admin_ManualUpdate = new Button
-            {
-                Location = new Point(45, 95),
-                Name = "pb_Admin_ManualUpdate",
-                Size = new Size(130, 25),
-                Text = "Manual Update",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_ManualUpdate.Click += new EventHandler(Pb_Admin_ManualUpdate_Click);
-            gb_AdminUpdateSTK.Controls.Add(pb_Admin_ManualUpdate);
-        }
+        //    Button pb_Admin_ManualUpdate = new Button
+        //    {
+        //        Location = new Point(45, 95),
+        //        Name = "pb_Admin_ManualUpdate",
+        //        Size = new Size(130, 25),
+        //        Text = "Manual Update",
+        //        UseVisualStyleBackColor = true,
+        //    };
+        //    pb_Admin_ManualUpdate.Click += new EventHandler(Pb_Admin_ManualUpdate_Click);
+        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_ManualUpdate);
+        //}
 
         private void Admin_Group_EnableDGV_Change()
         {
