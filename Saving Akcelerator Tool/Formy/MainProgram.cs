@@ -46,7 +46,7 @@ namespace Saving_Accelerator_Tool
                 InitializeComponent();
                 action = new Action(this, data_Import);
                 admin = new Admin(this, data_Import);
-                summaryDetails = new SummaryDetails(this, data_Import);
+                summaryDetails = new SummaryDetails();
 
                 //Budowanie Formsa w zależności od uprawnień
                 buildForm.Tab_Control_Add(Access, this, action, summaryDetails, admin, data_Import);

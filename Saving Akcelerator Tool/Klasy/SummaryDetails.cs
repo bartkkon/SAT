@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
+using Saving_Accelerator_Tool.Klasy.Email;
 
 namespace Saving_Accelerator_Tool
 {
     public class SummaryDetails
     {
-        Data_Import ImportData;
-        MainProgram mainProgram;
-        string LinkAction;
-        string LinkFrozen;
+        private readonly Data_Import ImportData;
 
-        public SummaryDetails(MainProgram mainProgram, Data_Import ImportData)
+        private readonly string LinkAction;
+        private readonly string LinkFrozen;
+
+        public SummaryDetails()
         {
-            this.mainProgram = mainProgram;
-            this.ImportData = ImportData;
+            ImportData = Data_Import.Singleton();
             LinkAction = ImportData.Load_Link("Action");
             LinkFrozen = ImportData.Load_Link("Frozen");
         }
@@ -29,7 +29,7 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.WaitCursor;
             if (Devision == "Product Care Approve")
             {
-                History history = new History(mainProgram, ImportData);
+                History history = new History();
                 history.HistorySave();
             }
             ReportApprove(Devision);
@@ -46,16 +46,16 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void SummaryDetails_Show(DataRow Person)
+        public void SummaryDetails_Show()
         {
-            ShowCurrentAction(Person);
+            ShowCurrentAction();
         }
 
         public void SummaryDetails_DataGridDifference()
         {
-            DataGridDifference((DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First());
-            DataGridDifference((DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First());
-            DataGridDifference((DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First());
+            DataGridDifference((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First());
+            DataGridDifference((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First());
+            DataGridDifference((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First());
         }
 
         public void SummaryDetails_CheckifCanReporting(string Devision, string PC)
@@ -85,7 +85,7 @@ namespace Saving_Accelerator_Tool
 
             DataTable Frozen = new DataTable();
             DataRow FrozenYear;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
             if (Devision != "Product Care Approve")
             {
@@ -120,9 +120,9 @@ namespace Saving_Accelerator_Tool
 
         private void DataGridDifferenceClear()
         {
-            DataGridView DG_ToClearCurrent = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
-            DataGridView DG_ToClearCarry = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
-            DataGridView DG_ToCearECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            DataGridView DG_ToClearCurrent = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView DG_ToClearCarry = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            DataGridView DG_ToCearECCC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
             for (int counter = 0; counter < 12; counter++)
             {
                 DG_ToClearCurrent.Rows[5].Cells[counter].Value = null;
@@ -139,7 +139,7 @@ namespace Saving_Accelerator_Tool
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
             Control[] App;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
             bool ToApprove = false;
             int ToApproveFull = 0;
 
@@ -196,15 +196,15 @@ namespace Saving_Accelerator_Tool
             {
                 if (FrozenRow["EleApp"].ToString() == "Close")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = true;
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = true;
 
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -212,14 +212,14 @@ namespace Saving_Accelerator_Tool
                 }
                 else if (FrozenRow["EleApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -230,14 +230,14 @@ namespace Saving_Accelerator_Tool
             {
                 if (FrozenRow["MechApp"].ToString() == "Close")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -245,14 +245,14 @@ namespace Saving_Accelerator_Tool
                 }
                 else if (FrozenRow["MechApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -263,14 +263,14 @@ namespace Saving_Accelerator_Tool
             {
                 if (FrozenRow["NVRApp"].ToString() == "Close")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -278,14 +278,14 @@ namespace Saving_Accelerator_Tool
                 }
                 else if (FrozenRow["NVRApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
                     }
-                    App = null;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -294,7 +294,7 @@ namespace Saving_Accelerator_Tool
             }
             if (PC == "true")
             {
-                App = mainProgram.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+                App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
                 for (int counter = 0; counter < App.Length; counter++)
                 {
                     App[counter].Enabled = false;
@@ -305,8 +305,8 @@ namespace Saving_Accelerator_Tool
             {
                 if (FrozenRow["EleApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -315,8 +315,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -324,8 +324,8 @@ namespace Saving_Accelerator_Tool
                 }
                 if (FrozenRow["MechApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -334,8 +334,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -343,8 +343,8 @@ namespace Saving_Accelerator_Tool
                 }
                 if (FrozenRow["NVRApp"].ToString() == "Approve")
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -353,8 +353,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -362,8 +362,8 @@ namespace Saving_Accelerator_Tool
                 }
                 if (ToApproveFull == 3)
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = true;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = true;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = true;
@@ -371,8 +371,8 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    //((Button)mainProgram.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = false;
-                    App = mainProgram.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = false;
+                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
                     for (int counter = 0; counter < App.Length; counter++)
                     {
                         App[counter].Enabled = false;
@@ -385,24 +385,34 @@ namespace Saving_Accelerator_Tool
         {
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            string MailTo;
+            string ToReject;
 
             ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
+
+            ToReject = WhatIsToApprove(FrozenRow);
 
             if (FrozenRow != null)
             {
                 if (Devision == "Electronic Rejected")
                 {
                     FrozenRow["EleApp"] = "Close";
+                    MailTo = new SentTo(true, false, false, false).SentToList();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
                 }
                 if (Devision == "Mechanic Rejected")
                 {
                     FrozenRow["MechApp"] = "Close";
+                    MailTo = new SentTo(false, true, false, false).SentToList();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
                 }
                 if (Devision == "NVR Rejected")
                 {
                     FrozenRow["NVRApp"] = "Close";
+                    MailTo = new SentTo(false, false, true, false).SentToList();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
                 }
             }
             ImportData.Save_DataTableToTXT(ref Frozen, LinkFrozen);
@@ -412,69 +422,99 @@ namespace Saving_Accelerator_Tool
         {
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            string MailTo;
+            string ToApprove;
 
             ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
-            if (FrozenRow != null)
+            ToApprove = WhatIsToApprove(FrozenRow);
+
+            if (FrozenRow != null && ToApprove != string.Empty)
             {
                 if (Devision == "Electronic Approve")
                 {
                     FrozenRow["EleApp"] = "Approve";
+                    MailTo = new SentTo().SentToAdmin();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToApprove));
+                    CheckIfAllDevisionApprove(FrozenRow, ToApprove);
                 }
                 if (Devision == "Mechanic Approve")
                 {
                     FrozenRow["MechApp"] = "Approve";
+                    MailTo = new SentTo().SentToAdmin();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToApprove));
+                    CheckIfAllDevisionApprove(FrozenRow, ToApprove);
                 }
                 if (Devision == "NVR Approve")
                 {
                     FrozenRow["NVRApp"] = "Approve";
+                    MailTo = new SentTo().SentToAdmin();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToApprove));
+                    CheckIfAllDevisionApprove(FrozenRow, ToApprove);
                 }
                 if (Devision == "Product Care Approve")
                 {
                     FrozenRow["EleApp"] = "Close";
                     FrozenRow["MechApp"] = "Close";
                     FrozenRow["NVRApp"] = "Close";
-                    if (FrozenRow["BU"].ToString() == "Open")
-                    {
-                        FrozenRow["BU"] = "Approve";
-                    }
-                    if (FrozenRow["EA1"].ToString() == "Open")
-                    {
-                        FrozenRow["EA1"] = "Approve";
-                    }
-                    if (FrozenRow["EA2"].ToString() == "Open")
-                    {
-                        FrozenRow["EA2"] = "Approve";
-                    }
-                    if (FrozenRow["EA3"].ToString() == "Open")
-                    {
-                        FrozenRow["EA3"] = "Approve";
-                    }
-                    for (int counter = 1; counter <= 12; counter++)
-                    {
-                        if (FrozenRow[counter.ToString()].ToString() == "Open")
-                        {
-                            FrozenRow[counter.ToString()] = "Approve";
-                        }
-                    }
+                    FrozenRow[ToApprove] = "Approve";
                 }
             }
             ImportData.Save_DataTableToTXT(ref Frozen, LinkFrozen);
         }
 
-        private void ShowCurrentAction(DataRow Person)
+        private string WhatIsToApprove(DataRow frozenRow)
+        {
+
+            if (frozenRow["BU"].ToString() == "Open")
+            {
+                return "BU";
+            }
+            if (frozenRow["EA1"].ToString() == "Open")
+            {
+                return "EA1";
+            }
+            if (frozenRow["EA2"].ToString() == "Open")
+            {
+                return "EA2";
+            }
+            if (frozenRow["EA3"].ToString() == "Open")
+            {
+                return "EA3";
+            }
+            for (int counter = 1; counter <= 12; counter++)
+            {
+                if (frozenRow[counter.ToString()].ToString() == "Open")
+                {
+                    return counter.ToString();
+                }
+            }
+
+            return string.Empty;
+        }
+
+        private void CheckIfAllDevisionApprove(DataRow frozenRow, string ToApprove)
+        {
+            if(frozenRow["EleApp"].ToString() == "Approve" && frozenRow["MechApp"].ToString() == "Approve" && frozenRow["NVRApp"].ToString() == "Approve")
+            {
+                string MailTo = new SentTo(false, false, false, true).SentToList();
+                SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_AllDevision_Topic(), new MailInfo().RaportApprove_AllDevison_Body(ToApprove));
+            }
+        }
+
+        private void ShowCurrentAction()
         {
             DataTable Action = new DataTable();
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
-            //DataGridView dg_CurrentAction = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CurrentAction", true).First();
-            //DataGridView dg_CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOver", true).First();
-            ComboBox Leader = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetLeader", true).First();
-            ComboBox Devision = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetDevision", true).First();
-            CheckBox Active = (CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First();
-            CheckBox Idea = (CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First();
+            //DataGridView dg_CurrentAction = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CurrentAction", true).First();
+            //DataGridView dg_CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOver", true).First();
+            ComboBox Leader = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetLeader", true).First();
+            ComboBox Devision = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetDevision", true).First();
+            CheckBox Active = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First();
+            CheckBox Idea = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea1", true).First();
             CheckBox Positive = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First();
             CheckBox Negative = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First();
 
@@ -495,7 +535,7 @@ namespace Saving_Accelerator_Tool
                         {
                             if (Leader.Text == "All")
                             {
-                                if(Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
+                                if (Positive.Checked && ActionRow["+ czy -"].ToString() == "Pozytywna")
                                     ShowLoadActionSum(ActionRow, "");
                                 else if (Negative.Checked && ActionRow["+ czy -"].ToString() == "Negatywna")
                                     ShowLoadActionSum(ActionRow, "");
@@ -649,17 +689,17 @@ namespace Saving_Accelerator_Tool
 
         private void AddZerotoDataGridView()
         {
-            DataGridView Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
 
             for (int table = 0; table < 3; table++)
             {
                 if (table == 1)
                 {
-                    Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+                    Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
                 }
                 if (table == 2)
                 {
-                    Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+                    Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
                 }
 
                 for (int row = 0; row < 5; row++)
@@ -674,17 +714,17 @@ namespace Saving_Accelerator_Tool
 
         private void IfZerotoDataGridView()
         {
-            DataGridView Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
 
             for (int table = 0; table < 3; table++)
             {
                 if (table == 1)
                 {
-                    Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+                    Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
                 }
                 if (table == 2)
                 {
-                    Tabela = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+                    Tabela = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
                 }
 
                 for (int row = 0; row < 5; row++)
@@ -709,14 +749,14 @@ namespace Saving_Accelerator_Tool
 
             if (CarryOver == "")
             {
-                Action = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
+                Action = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
             }
             else
             {
-                Action = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+                Action = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
             }
 
-            ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            ECCC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
 
             ActionUse = (ActionRow["CalcUSESaving" + CarryOver].ToString()).Split('/');
             ECCCSum = (ActionRow["CalcUSEECCC" + CarryOver].ToString()).Split('/');
@@ -814,9 +854,9 @@ namespace Saving_Accelerator_Tool
             DataGridView CarryOver;
             DataGridView ECCC;
 
-            Actual = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
-            CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
-            ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            Actual = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
+            CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            ECCC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
 
             for (int counter = 0; counter < 12; counter++)
             {
@@ -870,8 +910,8 @@ namespace Saving_Accelerator_Tool
 
         private void DataGridDifference(DataGridView DataGridSum)
         {
-            decimal Use = 0;
-            decimal Rew = 0;
+            decimal Use;
+            decimal Rew;
             int Rewizja = 4;
 
             for (int counter = 0; counter < 12; counter++)
@@ -927,15 +967,15 @@ namespace Saving_Accelerator_Tool
         {
             string Link;
             DataTable Kurs = new DataTable();
-            DataRow KursRow = null;
+            DataRow KursRow;
 
-            DataGridView Actual = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
-            DataGridView CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
-            DataGridView ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
-            DataGridView ActualPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumActual", true).First();
-            DataGridView CarryOverPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumCarryOver", true).First();
-            DataGridView ECCCPlan = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSumECCC", true).First();
-            NumericUpDown Num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
+            DataGridView Actual = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            DataGridView ECCC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            DataGridView ActualPlan = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSumActual", true).First();
+            DataGridView CarryOverPlan = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSumCarryOver", true).First();
+            DataGridView ECCCPlan = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSumECCC", true).First();
+            NumericUpDown Num_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
 
             Link = ImportData.Load_Link("Kurs");
             ImportData.Load_TxtToDataTable(ref Kurs, Link);
@@ -955,11 +995,11 @@ namespace Saving_Accelerator_Tool
         {
             string Link;
             DataTable Kurs = new DataTable();
-            DataRow KursRow = null;
+            DataRow KursRow;
 
 
-            DataGridView Summ = (DataGridView)mainProgram.TabControl.Controls.Find("DVG_SumPlan", true).First();
-            NumericUpDown Num_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
+            DataGridView Summ = (DataGridView)MainProgram.Self.TabControl.Controls.Find("DVG_SumPlan", true).First();
+            NumericUpDown Num_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
 
             Link = ImportData.Load_Link("Kurs");
             ImportData.Load_TxtToDataTable(ref Kurs, Link);
@@ -1033,13 +1073,13 @@ namespace Saving_Accelerator_Tool
                         }
                         else if (ActualDec < 0 && Rew > 0)
                         {
-                            Rew = Rew - ActualDec;
+                            Rew -= ActualDec;
                             PercentValue = (Rew / ActualDec) * 100;
                         }
                         Percent.Rows[counter].Cells[0].Value = Math.Round(PercentValue, 2, MidpointRounding.AwayFromZero);
                         if (DMexist)
                         {
-                            if (DM[4-counter].ToString() != "")
+                            if (DM[4 - counter].ToString() != "")
                             {
                                 DMRew = decimal.Parse(DM[4 - counter].ToString());
                                 Percent.Rows[counter].Cells[1].Value = Math.Round((ActualDec / DMRew) * 100, 4, MidpointRounding.AwayFromZero);
@@ -1077,21 +1117,21 @@ namespace Saving_Accelerator_Tool
         private decimal SumPlanTable(int Row)
         {
             decimal Sum = 0;
-            DataGridView Actual = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
-            DataGridView CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
-            DataGridView ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            DataGridView Actual = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSum", true).First();
+            DataGridView CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOverSum", true).First();
+            DataGridView ECCC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First();
 
             if (Actual.Rows[Row].Cells["Sum"].Value != null && Actual.Rows[Row].Cells["Sum"].Value.ToString() != "")
             {
-                Sum = Sum + decimal.Parse(Actual.Rows[Row].Cells["Sum"].Value.ToString());
+                Sum += decimal.Parse(Actual.Rows[Row].Cells["Sum"].Value.ToString());
             }
             if (CarryOver.Rows[Row].Cells["Sum"].Value != null && CarryOver.Rows[Row].Cells["Sum"].Value.ToString() != "")
             {
-                Sum = Sum + decimal.Parse(CarryOver.Rows[Row].Cells["Sum"].Value.ToString());
+                Sum += decimal.Parse(CarryOver.Rows[Row].Cells["Sum"].Value.ToString());
             }
             if (ECCC.Rows[Row].Cells["Sum"].Value != null && ECCC.Rows[Row].Cells["Sum"].Value.ToString() != "")
             {
-                Sum = Sum + decimal.Parse(ECCC.Rows[Row].Cells["Sum"].Value.ToString());
+                Sum += decimal.Parse(ECCC.Rows[Row].Cells["Sum"].Value.ToString());
             }
 
             return Sum;
@@ -1101,7 +1141,7 @@ namespace Saving_Accelerator_Tool
         private void PercentWykonania(DataGridView Summ)
         {
             decimal Rew;
-            decimal Actual = 0;
+            decimal Actual;
             decimal Percent = 0;
 
             if (Summ.Rows[0].Cells[0].Value != null && Summ.Rows[0].Cells[0].Value.ToString() != "")
@@ -1127,9 +1167,9 @@ namespace Saving_Accelerator_Tool
                             Rew = Actual - Rew;
                             Percent = (Rew / Actual) * 100;
                         }
-                        else if (Actual < 0 && Rew>0)
+                        else if (Actual < 0 && Rew > 0)
                         {
-                            Rew = Rew-Actual;
+                            Rew -= Actual;
                             Percent = (Rew / Actual) * 100;
                         }
 
@@ -1140,47 +1180,6 @@ namespace Saving_Accelerator_Tool
                             Summ.Rows[counter].Cells[1].Style.ForeColor = Color.Red;
                     }
                 }
-
-                //if (Summ.Rows[1].Cells[0].Value != null && Summ.Rows[1].Cells[0].Value.ToString() != "")
-                //{
-                //    Rew = decimal.Parse(Summ.Rows[1].Cells[0].Value.ToString());
-                //    Percent = (Actual / Rew) * 100;
-                //    Summ.Rows[1].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
-                //    if (Percent >= 100)
-                //        Summ.Rows[1].Cells[1].Style.ForeColor = Color.Green;
-                //    else
-                //        Summ.Rows[1].Cells[1].Style.ForeColor = Color.Red;
-                //}
-                //if (Summ.Rows[2].Cells[0].Value != null && Summ.Rows[2].Cells[0].Value.ToString() != "")
-                //{
-                //    Rew = decimal.Parse(Summ.Rows[1].Cells[0].Value.ToString());
-                //    Percent = (Actual / Rew) * 100;
-                //    Summ.Rows[2].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
-                //    if (Percent >= 100)
-                //        Summ.Rows[2].Cells[1].Style.ForeColor = Color.Green;
-                //    else
-                //        Summ.Rows[2].Cells[1].Style.ForeColor = Color.Red;
-                //}
-                //if (Summ.Rows[3].Cells[0].Value != null && Summ.Rows[3].Cells[0].Value.ToString() != "")
-                //{
-                //    Rew = decimal.Parse(Summ.Rows[3].Cells[0].Value.ToString());
-                //    Percent = (Actual / Rew) * 100;
-                //    Summ.Rows[3].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
-                //    if (Percent >= 100)
-                //        Summ.Rows[3].Cells[1].Style.ForeColor = Color.Green;
-                //    else
-                //        Summ.Rows[3].Cells[1].Style.ForeColor = Color.Red;
-                //}
-                //if (Summ.Rows[4].Cells[0].Value != null && Summ.Rows[4].Cells[0].Value.ToString() != "")
-                //{
-                //    Rew = decimal.Parse(Summ.Rows[4].Cells[0].Value.ToString());
-                //    Percent = (Actual / Rew) * 100;
-                //    Summ.Rows[4].Cells[1].Value = Math.Round(Percent, 2, MidpointRounding.AwayFromZero);
-                //    if (Percent >= 100)
-                //        Summ.Rows[4].Cells[1].Style.ForeColor = Color.Green;
-                //    else
-                //        Summ.Rows[4].Cells[1].Style.ForeColor = Color.Red;
-                //}
             }
         }
 
@@ -1247,7 +1246,7 @@ namespace Saving_Accelerator_Tool
             decimal Percent;
             decimal DMRew;
 
-            ComboBox Devision = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDevision", true).First();
+            ComboBox Devision = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDevision", true).First();
 
             if (Devision.SelectedItem.ToString() == "All")
             {

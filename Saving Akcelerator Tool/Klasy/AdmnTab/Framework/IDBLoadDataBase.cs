@@ -80,8 +80,6 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
         /// <param name="worksheet">Zrzut z IDB</param>
         private void ReadTableToDataTable(Worksheet worksheet)
         {
-            var File = string.Empty;
-
             Range xlRange = worksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;

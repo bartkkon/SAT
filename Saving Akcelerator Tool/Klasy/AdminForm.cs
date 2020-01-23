@@ -13,12 +13,6 @@ namespace Saving_Accelerator_Tool
 {
     class AdminForm : AdminFormHendler
     {
-        //private readonly MainProgram mainProgram;
-        //private readonly Action action;
-        //private readonly Admin admin;
-        //private readonly DataRow Person;
-        //private readonly SummaryDetails summaryDetails;
-        //private readonly Data_Import ImportData;
         private readonly TabPage tab_Admin;
 
         public AdminForm(MainProgram mainProgram, Action action, Admin admin, Data_Import ImportData) : base(mainProgram, action, admin, ImportData)
@@ -859,71 +853,6 @@ namespace Saving_Accelerator_Tool
             pb_Admin_CalcMonth.Click += new EventHandler(Pb_AdminCalcMonth_Click);
             gb_AdminCalcMonth.Controls.Add(pb_Admin_CalcMonth);
         }
-
-        //private void Admin_Group_STK_Change()
-        //{
-        //    GroupBox gb_AdminUpdateSTK = new GroupBox
-        //    {
-        //        Location = new Point(425, 515),
-        //        Name = "gb_AdminUpdateSTK",
-        //        Size = new Size(200, 160),
-        //        TabStop = false,
-        //        Text = "Update STK",
-        //    };
-        //    tab_Admin.Controls.Add(gb_AdminUpdateSTK);
-
-        //    Button pb_Admin_UpdateSTK = new Button
-        //    {
-        //        Location = new Point(60, 25),
-        //        Name = "pb_Admin_UpdateSTK",
-        //        Size = new Size(80, 25),
-        //        Text = "Update STK",
-        //        UseVisualStyleBackColor = true,
-        //    };
-        //    pb_Admin_UpdateSTK.Click += new EventHandler(Pb_Admin_UpdateSTK_Click);
-        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_UpdateSTK);
-
-        //    NumericUpDown pb_Admin_STKYearToClear = new NumericUpDown
-        //    {
-        //        Location = new Point(10, 64),
-        //        Maximum = new decimal(new int[] {
-        //    2100,
-        //    0,
-        //    0,
-        //    0}),
-        //        Minimum = new decimal(new int[] {
-        //    2018,
-        //    0,
-        //    0,
-        //    0}),
-        //        Name = "pb_Admin_STKYearToClear",
-        //        Size = new Size(78, 20),
-        //        Value = DateTime.Now.Year + 1,
-        //    };
-        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_STKYearToClear);
-
-        //    Button pb_Admin_YearClear = new Button
-        //    {
-        //        Location = new Point(95, 60),
-        //        Name = "pb_Admin_YearClear",
-        //        Size = new Size(80, 25),
-        //        Text = "Clear Year",
-        //        UseVisualStyleBackColor = true,
-        //    };
-        //    pb_Admin_YearClear.Click += new EventHandler(Pb_Admin_YearClear_Click);
-        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_YearClear);
-
-        //    Button pb_Admin_ManualUpdate = new Button
-        //    {
-        //        Location = new Point(45, 95),
-        //        Name = "pb_Admin_ManualUpdate",
-        //        Size = new Size(130, 25),
-        //        Text = "Manual Update",
-        //        UseVisualStyleBackColor = true,
-        //    };
-        //    pb_Admin_ManualUpdate.Click += new EventHandler(Pb_Admin_ManualUpdate_Click);
-        //    gb_AdminUpdateSTK.Controls.Add(pb_Admin_ManualUpdate);
-        //}
 
         private void Admin_Group_EnableDGV_Change()
         {

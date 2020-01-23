@@ -63,21 +63,23 @@ namespace Saving_Accelerator_Tool.Klasy.Email
 
         public string SentToAdmin()
         {
-            string PersonList = "";
-            DataTable Access = new DataTable();
+            string PersonList;
+            //DataTable Access = new DataTable();
 
-            _Import.Load_TxtToDataTable2(ref Access, "Access");
+            //_Import.Load_TxtToDataTable2(ref Access, "Access");
 
-            foreach (DataRow Person in Access.Rows)
-            {
-                if (Person["Role"].ToString() == "Admin")
-                {
-                    PersonList += Person["Mail"].ToString() + ",";
-                }
-            }
+            //foreach (DataRow Person in Access.Rows)
+            //{
+            //    if (Person["Role"].ToString() == "Admin")
+            //    {
+            //        PersonList += Person["Mail"].ToString() + ",";
+            //    }
+            //}
 
-            if (PersonList.Length > 0)
-                PersonList = PersonList.Substring(0, PersonList.Length - 1);
+            //if (PersonList.Length > 0)
+            //    PersonList = PersonList.Substring(0, PersonList.Length - 1);
+
+            PersonList = "konrad.bartkowiak@electrolux.com";
 
             return PersonList;
         }
