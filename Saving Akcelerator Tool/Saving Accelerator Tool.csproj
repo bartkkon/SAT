@@ -111,26 +111,37 @@
     <Compile Include="Formy\Special_Massage.Designer.cs">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdmnTab\AdminTabGenerator.cs" />
-    <Compile Include="Klasy\AdmnTab\Framework\AutoUpdateSTK.cs" />
-    <Compile Include="Klasy\AdmnTab\Framework\IDBLoadDataBase.cs" />
-    <Compile Include="Klasy\AdmnTab\Handlers\IDBHandler.cs" />
-    <Compile Include="Klasy\AdmnTab\Handlers\STKUpdateHandlers.cs" />
-    <Compile Include="Klasy\AdmnTab\Mail\SendMailInfo.cs" />
-    <Compile Include="Klasy\AdmnTab\View\AutoUpdateSTKView.cs">
+    <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Access\LoadPerson.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Access\NewAccount.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Access\SaveAccess.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\AutoUpdateSTK.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\IDBLoadDataBase.cs" />
+    <Compile Include="Klasy\AdminTab\Handlers\IDBHandler.cs" />
+    <Compile Include="Klasy\AdminTab\Handlers\STKUpdateHandlers.cs" />
+    <Compile Include="Klasy\AdminTab\Mail\SendMailInfo.cs" />
+    <Compile Include="Klasy\AdminTab\View\AddPersonView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Klasy\AdmnTab\View\AutoUpdateSTKView.Designer.cs">
+    <Compile Include="Klasy\AdminTab\View\AddPersonView.Designer.cs">
+      <DependentUpon>AddPersonView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AutoUpdateSTKView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AutoUpdateSTKView.Designer.cs">
       <DependentUpon>AutoUpdateSTKView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdmnTab\View\IDBView.cs" />
-    <Compile Include="Klasy\AdmnTab\View\SendMailView.cs">
+    <Compile Include="Klasy\AdminTab\View\IDBView.cs" />
+    <Compile Include="Klasy\AdminTab\View\SendMailView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Klasy\AdmnTab\View\SendMailView.Designer.cs">
+    <Compile Include="Klasy\AdminTab\View\SendMailView.Designer.cs">
       <DependentUpon>SendMailView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdmnTab\View\STKUpdate.cs" />
+    <Compile Include="Klasy\AdminTab\View\STKUpdate.cs" />
     <Compile Include="Klasy\Email\MailInfo.cs" />
     <Compile Include="Klasy\Email\SentTo.cs" />
     <Compile Include="Klasy\Platform\AddPNC\Platform_AddPNC.cs">
@@ -245,10 +256,13 @@
     <EmbeddedResource Include="Formy\Special_Massage.resx">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\AdmnTab\View\AutoUpdateSTKView.resx">
+    <EmbeddedResource Include="Klasy\AdminTab\View\AddPersonView.resx">
+      <DependentUpon>AddPersonView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\AutoUpdateSTKView.resx">
       <DependentUpon>AutoUpdateSTKView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\AdmnTab\View\SendMailView.resx">
+    <EmbeddedResource Include="Klasy\AdminTab\View\SendMailView.resx">
       <DependentUpon>SendMailView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\Platform\AddPNC\Platform_AddPNC.resx">

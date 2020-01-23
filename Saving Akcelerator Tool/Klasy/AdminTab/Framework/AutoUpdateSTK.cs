@@ -13,7 +13,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
         private readonly Data_Import _Import;
         private DataTable _STK;
         private readonly decimal Year;
-        private Dictionary<string, decimal> _STKActionList = new Dictionary<string, decimal>();
+        private readonly Dictionary<string, decimal> _STKActionList = new Dictionary<string, decimal>();
 
         public AutoUpdateSTK()
         {

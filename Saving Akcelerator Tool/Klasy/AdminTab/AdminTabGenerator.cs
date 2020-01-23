@@ -1,4 +1,5 @@
-﻿using Saving_Accelerator_Tool.Klasy.AdmnTab.View;
+﻿using Saving_Accelerator_Tool.Klasy.AdminTab.View;
+using Saving_Accelerator_Tool.Klasy.AdmnTab.View;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,6 +37,12 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab
                 Location = new Point(425, 680)
             };
             _adminTab.Controls.Add(AutoSTK);
+
+            AddPersonView AccessView = new AddPersonView
+            {
+                Location = new Point(425, 15)
+            };
+            _adminTab.Controls.Add(AccessView);
         }
     }
 }

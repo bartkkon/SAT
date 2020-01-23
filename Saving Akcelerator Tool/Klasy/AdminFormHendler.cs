@@ -22,11 +22,8 @@ namespace Saving_Accelerator_Tool
         {
             this.mainProgram = mainProgram;
             this.action = action;
-            //this.summaryDetails = summaryDetails;
             this.admin = admin;
             this.ImportData = ImportData;
-            //this.Person = Person;
-
         }
 
         public void Pb_Admin_AddColumn_Click(object sender, EventArgs e)
@@ -191,31 +188,6 @@ namespace Saving_Accelerator_Tool
             {
                 action.Action_CalcRev("EA3");
             }
-        }
-
-        public void Pb_Admin_DeleteAccount_Click(object sender, EventArgs e)
-        {
-            admin.Admin_DeleteAccount();
-        }
-
-        public void Combox_AdminAccess_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            admin.Admin_LoadAccess();
-        }
-
-        public void Pb_Admin_AddNewAccount_Click(object sender, EventArgs e)
-        {
-            admin.Admin_AddNewAccount();
-        }
-
-        public void Pb_Admin_AccessSave_Click(object sender, EventArgs e)
-        {
-            admin.Admin_AccessSave();
-        }
-
-        public void Pb_Admin_AccessRefresh_Click(object sender, EventArgs e)
-        {
-            admin.Admin_AccessRefresh();
         }
 
         public void Pb_Admin_ValueSave_Click(object sender, EventArgs e)
