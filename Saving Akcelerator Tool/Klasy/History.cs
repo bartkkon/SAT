@@ -10,23 +10,21 @@ namespace Saving_Accelerator_Tool
 {
     class History
     {
-        MainProgram mainProgram;
-        Data_Import data_Import;
+        private readonly Data_Import data_Import;
 
-        public History(MainProgram mainProgram, Data_Import data_Import)
+        public History()
         {
-            this.mainProgram = mainProgram;
-            this.data_Import = data_Import;
+
+            data_Import = Data_Import.Singleton();
         }
 
         public void HistorySave()
         {
-            DataTable Action = new DataTable();
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
             string Link;
 
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
             Link = data_Import.Load_Link("Frozen");
             data_Import.Load_TxtToDataTable(ref Frozen, Link);

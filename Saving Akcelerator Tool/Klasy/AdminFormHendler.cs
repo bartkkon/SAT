@@ -15,10 +15,8 @@ namespace Saving_Accelerator_Tool
         private readonly MainProgram mainProgram;
         private readonly Action action;
         private readonly Admin admin;
-        //private readonly DataRow Person;
-        //private readonly SummaryDetails summaryDetails;
         private readonly Data_Import ImportData;
-        //TabPage tab_Admin;
+
 
         public AdminFormHendler(MainProgram mainProgram, Action action, Admin admin, Data_Import ImportData)
         {
@@ -49,21 +47,6 @@ namespace Saving_Accelerator_Tool
         public void SentEmailTest_Clikc(object sender, EventArgs e)
         {
             SentEmail.Instance.Sent_Email("konrad.bartkowiak@electrolux.com", "Test", "Testujemy!!!!!!!!!!!!!!!!!");
-        }
-
-        public void pb_Admin_AddColumn_Click(object sender, EventArgs e)
-        {
-            TextBox tb_AdminAddColumn = (TextBox)mainProgram.Controls.Find("tb_AdminAddColumn", true).First();
-
-            if (tb_AdminAddColumn.Text == "")
-            {
-                MessageBox.Show("Brak nazwy nowej kolumny", "Uwaga !!!!");
-            }
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                action.Action_AddColumn();
-                Cursor.Current = Cursors.Default;
-            }
         }
 
         public void Pb_AdminTargets_Save_Click(object sender, EventArgs e)
@@ -302,14 +285,6 @@ namespace Saving_Accelerator_Tool
                     dg_ECCC.ReadOnly = false;
                 }
             }
-        }
-
-        public void Pb_Admin_UpdateSTK_Click(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            STK UpdateSTK = new STK(mainProgram, ImportData);
-            UpdateSTK.STK_LoadNewSTK();
-            Cursor.Current = Cursors.Default;
         }
         
         public void Pb_AdminSaveQuantityMonth_Click(object sender, EventArgs e)
@@ -569,38 +544,6 @@ namespace Saving_Accelerator_Tool
 
             _ = new CalculationMass(mainProgram, ImportData, int.Parse(Month.Value.ToString()));
             Cursor.Current = Cursors.Default;
-        }
-
-        public void Pb_Admin_YearClear_Click(object sender, EventArgs e)
-        {
-            decimal Year;
-
-            Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("pb_Admin_STKYearToClear", true).First()).Value;
-
-            DialogResult Results = MessageBox.Show("Zostanie Usunięty Rok: " + Year.ToString() + "  Jesteś tego pewny?", "Uwaga!!", MessageBoxButtons.OKCancel);
-            if (Results == DialogResult.OK)
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK(mainProgram, ImportData);
-                _STK.STK_ClearYear(Year);
-                Cursor.Current = Cursors.Default;
-            }
-        }
-
-        public void Pb_Admin_ManualUpdate_Click(object sender, EventArgs e)
-        {
-            decimal Year;
-
-            Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("pb_Admin_STKYearToClear", true).First()).Value;
-
-            DialogResult Results = MessageBox.Show("Czy chcesz dodać STK amnualnie na rok: " + Year.ToString() + "  Jesteś tego pewny?", "Uwaga!!", MessageBoxButtons.OKCancel);
-            if (Results == DialogResult.OK)
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK(mainProgram, ImportData);
-                _STK.STK_ManualUpdateFromFile(Year);
-                Cursor.Current = Cursors.Default;
-            }
         }
 
         public void Comb_AdminTargetsComboBoxChange_SelectedItemChange(object sender, EventArgs e)

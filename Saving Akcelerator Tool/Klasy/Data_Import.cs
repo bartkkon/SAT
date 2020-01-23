@@ -13,16 +13,18 @@ namespace Saving_Accelerator_Tool
     {
         private static Data_Import instance;
         private readonly string Link_Access = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\Links.txt";
-
+        public static bool FinalBase;
 
         public Data_Import()
         {
+            FinalBase = true;
             if (Environment.UserName.ToString() == "BartkKon")
             {
                 DialogResult Results = MessageBox.Show("Czy chcesz zmienić baze danych na Testową?", "Czy baza danych testowa?", MessageBoxButtons.YesNo);
                 if (Results == DialogResult.Yes)
                 {
                     Link_Access = @"C:\Moje\EC_Accelerator_Data\Links.txt";
+                    FinalBase = false;
                 }
             }
         }
@@ -160,6 +162,10 @@ namespace Saving_Accelerator_Tool
         public void Save_DataTableToTXT(ref DataTable Table, string Link)
         {
             Save_File(ref Table, Link);
+        }
+        public void Save_DataTableToTXT2(ref DataTable Table, string Where)
+        {
+            Save_File(ref Table, Load_Link(Where));
         }
 
         public void Create_Log()

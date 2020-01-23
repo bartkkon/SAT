@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework;
+using Saving_Accelerator_Tool.Klasy.Email;
 
 namespace Saving_Accelerator_Tool
 {
@@ -56,7 +57,7 @@ namespace Saving_Accelerator_Tool
         public void Pb_SummDet_Show_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            summaryDetails.SummaryDetails_Show(Person);
+            summaryDetails.SummaryDetails_Show();
             _ = new SDTableLoad();
             charts.ChartSummary();
             summaryDetails.SummaryDetails_DataGridDifferenceClear();
