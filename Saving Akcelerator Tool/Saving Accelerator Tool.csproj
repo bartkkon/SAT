@@ -111,6 +111,8 @@
     <Compile Include="Formy\Special_Massage.Designer.cs">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Klasy\Action\Framework\Activation_Action.cs" />
+    <Compile Include="Klasy\Action\Framework\Deactivation_Action.cs" />
     <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
