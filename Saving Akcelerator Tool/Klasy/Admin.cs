@@ -11,18 +11,9 @@ namespace Saving_Accelerator_Tool
 {
     public class Admin
     {
-        private readonly MainProgram mainProgram;
-        private readonly Data_Import ImportData;
-
-        private readonly string LinkFrozen;
-        private readonly string LinkKurs;
-
-        public Admin(MainProgram mainProgram, Data_Import ImportData)
+        public Admin()
         {
-            this.mainProgram = mainProgram;
-            this.ImportData = ImportData;
-            LinkFrozen = ImportData.Load_Link("Frozen");
-            LinkKurs = ImportData.Load_Link("Kurs");
+
         }
 
         public void Admin_FrozenSaveData()
@@ -162,23 +153,23 @@ namespace Saving_Accelerator_Tool
 
         private void DeactivatorAction()
         {
-            ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = false;
-            ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
+            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = false;
+            ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = false;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = false;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
             ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
         }
 
         private void ActivatorAction()
         {
-            ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = true;
-            ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
+            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = true;
+            ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = true;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = true;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
             ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = true;
         }
 
@@ -187,9 +178,9 @@ namespace Saving_Accelerator_Tool
             DataTable Targets = new DataTable();
             DataRow TargetsRow;
 
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
 
-            ImportData.Load_TxtToDataTable(ref Targets, LinkKurs);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
 
             TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
             if (TargetsRow != null)
@@ -205,45 +196,45 @@ namespace Saving_Accelerator_Tool
                 string MechSum = "";
                 string NVRSum = "";
 
-                if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 0)
+                if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 0)
                 {
-                    DM[0] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
-                    PC[0] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                    Ele[0] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                    Mech[0] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                    NVR[0] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                    DM[0] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
+                    PC[0] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                    Ele[0] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                    Mech[0] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                    NVR[0] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 1)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 1)
                 {
-                    DM[1] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
-                    PC[1] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                    Ele[1] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                    Mech[1] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                    NVR[1] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                    DM[1] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
+                    PC[1] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                    Ele[1] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                    Mech[1] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                    NVR[1] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 2)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 2)
                 {
-                    DM[2] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
-                    PC[2] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                    Ele[2] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                    Mech[2] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                    NVR[2] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                    DM[2] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
+                    PC[2] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                    Ele[2] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                    Mech[2] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                    NVR[2] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 3)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 3)
                 {
-                    DM[3] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
-                    PC[3] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                    Ele[3] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                    Mech[3] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                    NVR[3] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                    DM[3] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
+                    PC[3] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                    Ele[3] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                    Mech[3] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                    NVR[3] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 4)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 4)
                 {
-                    DM[4] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
-                    PC[4] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                    Ele[4] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                    Mech[4] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                    NVR[4] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                    DM[4] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "");
+                    PC[4] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                    Ele[4] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                    Mech[4] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                    NVR[4] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
                 }
 
                 for (int counter= 0; counter<=4; counter++)
@@ -263,49 +254,49 @@ namespace Saving_Accelerator_Tool
             else
             {
                 TargetsRow = Targets.NewRow();
-                TargetsRow["PC"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
-                TargetsRow["Ele"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
-                TargetsRow["Mech"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
-                TargetsRow["NVR"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
-                if(((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 0)
+                TargetsRow["PC"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "");
+                TargetsRow["Ele"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "");
+                TargetsRow["Mech"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "");
+                TargetsRow["NVR"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "");
+                if(((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 0)
                 {
-                    TargetsRow["DM"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "/////";
-                    TargetsRow["PC"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "/////";
-                    TargetsRow["Ele"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "/////";
-                    TargetsRow["Mech"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "/////";
-                    TargetsRow["NVR"] = ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "/////";
+                    TargetsRow["DM"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "/////";
+                    TargetsRow["PC"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "/////";
+                    TargetsRow["Ele"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "/////";
+                    TargetsRow["Mech"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "/////";
+                    TargetsRow["NVR"] = ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "/////";
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 1)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 1)
                 {
-                    TargetsRow["DM"] = "/" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "////";
-                    TargetsRow["PC"] = "/" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "////";
-                    TargetsRow["Ele"] = "/" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "////";
-                    TargetsRow["Mech"] = "/" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "////";
-                    TargetsRow["NVR"] = "/" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "////";
+                    TargetsRow["DM"] = "/" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "////";
+                    TargetsRow["PC"] = "/" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "////";
+                    TargetsRow["Ele"] = "/" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "////";
+                    TargetsRow["Mech"] = "/" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "////";
+                    TargetsRow["NVR"] = "/" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "////";
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 2)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 2)
                 {
-                    TargetsRow["DM"] = "//" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "///";
-                    TargetsRow["PC"] = "//" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "///";
-                    TargetsRow["Ele"] = "//" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "///";
-                    TargetsRow["Mech"] = "//" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "///";
-                    TargetsRow["NVR"] = "//" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "///";
+                    TargetsRow["DM"] = "//" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "///";
+                    TargetsRow["PC"] = "//" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "///";
+                    TargetsRow["Ele"] = "//" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "///";
+                    TargetsRow["Mech"] = "//" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "///";
+                    TargetsRow["NVR"] = "//" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "///";
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 3)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 3)
                 {
-                    TargetsRow["DM"] = "///" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "//";
-                    TargetsRow["PC"] = "///" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "//";
-                    TargetsRow["Ele"] = "///" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "//";
-                    TargetsRow["Mech"] = "///" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "//";
-                    TargetsRow["NVR"] = "///" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "//";
+                    TargetsRow["DM"] = "///" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "//";
+                    TargetsRow["PC"] = "///" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "//";
+                    TargetsRow["Ele"] = "///" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "//";
+                    TargetsRow["Mech"] = "///" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "//";
+                    TargetsRow["NVR"] = "///" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "//";
                 }
-                else if (((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 4)
+                else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex == 4)
                 {
-                    TargetsRow["DM"] = "////" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "/";
-                    TargetsRow["PC"] = "////" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "/";
-                    TargetsRow["Ele"] = "////" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "/";
-                    TargetsRow["Mech"] = "////" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "/";
-                    TargetsRow["NVR"] = "////" + ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "/";
+                    TargetsRow["DM"] = "////" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text.Replace(" ", "") + "/";
+                    TargetsRow["PC"] = "////" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text.Replace(" ", "") + "/";
+                    TargetsRow["Ele"] = "////" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text.Replace(" ", "") + "/";
+                    TargetsRow["Mech"] = "////" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text.Replace(" ", "") + "/";
+                    TargetsRow["NVR"] = "////" + ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text.Replace(" ", "") + "/";
                 }
                 else
                 {
@@ -317,7 +308,7 @@ namespace Saving_Accelerator_Tool
                 }
                 Targets.Rows.Add(TargetsRow);
             }
-            ImportData.Save_DataTableToTXT(ref Targets, LinkKurs);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Targets, "Kurs");
         }
 
         private void TargetOpen()
@@ -325,9 +316,9 @@ namespace Saving_Accelerator_Tool
             DataTable Targets = new DataTable();
             DataRow TargetsRow;
 
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
 
-            ImportData.Load_TxtToDataTable(ref Targets, LinkKurs);
+            Data_Import.Singleton().Load_TxtToDataTable(ref Targets, "Kurs");
 
             TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
             if(TargetsRow != null)
@@ -340,68 +331,68 @@ namespace Saving_Accelerator_Tool
 
                 if (DM[4] != "")
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 4;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[4];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[4];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[4];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[4];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[4];
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 4;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[4];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[4];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[4];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[4];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[4];
                 }
                 if (DM[3] != "")
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 3;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[3];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[3];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[3];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[3];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[3];
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 3;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[3];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[3];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[3];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[3];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[3];
                 }
                 else if (DM[2] != "")
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 2;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[2];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[2];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[2];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[2];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[2];
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 2;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[2];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[2];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[2];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[2];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[2];
                 }
                 else if (DM[1] != "")
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 1;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[1];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[1];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[1];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[1];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[1];
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 1;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[1];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[1];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[1];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[1];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[1];
                 }
                 else if (DM[0] != "")
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[0];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[0];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[0];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[0];
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[0];
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[0];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[0];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[0];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[0];
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[0];
                 }
                 else
                 {
-                    ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
-                    ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
+                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
+                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
                 }
 
             }
             else
             {
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
-                ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
+                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
                 TargetsSave();
             }
         }
@@ -410,15 +401,15 @@ namespace Saving_Accelerator_Tool
         {
             DataTable Targets = new DataTable();
             DataRow TargetsRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
-            int SelectedIndex = ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
+            int SelectedIndex = ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex;
 
-            ImportData.Load_TxtToDataTable(ref Targets, LinkKurs);
-            ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
-            ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
-            ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
-            ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
-            ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
 
             TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
             if (TargetsRow != null)
@@ -429,11 +420,11 @@ namespace Saving_Accelerator_Tool
                 string[] Mech = (TargetsRow["Mech"].ToString()).Split('/');
                 string[] NVR = (TargetsRow["NVR"].ToString()).Split('/');
 
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[SelectedIndex];
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[SelectedIndex];
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[SelectedIndex];
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[SelectedIndex];
-                ((TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[SelectedIndex];
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[SelectedIndex];
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[SelectedIndex];
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[SelectedIndex];
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[SelectedIndex];
+                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[SelectedIndex];
             }
         }
 
@@ -463,13 +454,13 @@ namespace Saving_Accelerator_Tool
             DataTable Value = new DataTable();
             DataRow NewRow;
             DataRow FoundRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_ValueYear", true).First()).Value;
-            TextBox tb_AdminECCC = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminECCC", true).First();
-            TextBox tb_AdminEuro = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminEuro", true).First();
-            TextBox tb_AdminDolars = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminDolars", true).First();
-            TextBox tb_AdminSEK = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminSEK", true).First();
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_ValueYear", true).First()).Value;
+            TextBox tb_AdminECCC = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminECCC", true).First();
+            TextBox tb_AdminEuro = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminEuro", true).First();
+            TextBox tb_AdminDolars = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminDolars", true).First();
+            TextBox tb_AdminSEK = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminSEK", true).First();
 
-            ImportData.Load_TxtToDataTable(ref Value, LinkKurs);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Value, "Kurs");
 
             NewRow = Value.NewRow();
 
@@ -489,20 +480,20 @@ namespace Saving_Accelerator_Tool
                 FoundRow.ItemArray = NewRow.ItemArray.Clone() as object[];
             }
 
-            ImportData.Save_DataTableToTXT(ref Value, LinkKurs);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Value, "Kurs");
         }
 
         private void ValueRefreshData()
         {
             DataTable Value = new DataTable();
             DataRow FoundRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_ValueYear", true).First()).Value;
-            TextBox tb_AdminECCC = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminECCC", true).First();
-            TextBox tb_AdminEuro = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminEuro", true).First();
-            TextBox tb_AdminDolars = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminDolars", true).First();
-            TextBox tb_AdminSEK = (TextBox)mainProgram.TabControl.Controls.Find("tb_AdminSEK", true).First();
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_ValueYear", true).First()).Value;
+            TextBox tb_AdminECCC = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminECCC", true).First();
+            TextBox tb_AdminEuro = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminEuro", true).First();
+            TextBox tb_AdminDolars = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminDolars", true).First();
+            TextBox tb_AdminSEK = (TextBox)MainProgram.Self.TabControl.Controls.Find("tb_AdminSEK", true).First();
 
-            ImportData.Load_TxtToDataTable(ref Value, LinkKurs);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Value, "Kurs");
 
             FoundRow = Value.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
 
@@ -525,9 +516,9 @@ namespace Saving_Accelerator_Tool
             DataTable Frozen = new DataTable();
             DataRow NewRow;
             DataRow FoundRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_FrozenYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_FrozenYear", true).First()).Value;
 
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Forzen");
 
             NewRow = Frozen.NewRow();
 
@@ -540,7 +531,7 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    ComboBox ComboBoxFrozen = (ComboBox)mainProgram.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First();
+                    ComboBox ComboBoxFrozen = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First();
                     NewRow[column.ColumnName] = ComboBoxFrozen.GetItemText(ComboBoxFrozen.SelectedItem);
                 }
             }
@@ -555,16 +546,16 @@ namespace Saving_Accelerator_Tool
                 FoundRow.ItemArray = NewRow.ItemArray.Clone() as object[];
             }
 
-            ImportData.Save_DataTableToTXT(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Forzen");
         }
 
         private void FrozenRefreshData()
         {
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
-            decimal Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_FrozenYear", true).First()).Value;
+            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_FrozenYear", true).First()).Value;
 
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Forzen");
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
 
@@ -581,19 +572,19 @@ namespace Saving_Accelerator_Tool
                     {
                         if (FrozenRow[column.ColumnName].ToString() == "Close")
                         {
-                            ((ComboBox)mainProgram.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 0;
+                            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 0;
                         }
                         else if (FrozenRow[column.ColumnName].ToString() == "Open")
                         {
-                            ((ComboBox)mainProgram.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 1;
+                            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 1;
                         }
                         else if (FrozenRow[column.ColumnName].ToString() == "Approve")
                         {
-                            ((ComboBox)mainProgram.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 2;
+                            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 2;
                         }
                         else
                         {
-                            ((ComboBox)mainProgram.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 0;
+                            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Combo_Admin" + column.ColumnName, true).First()).SelectedIndex = 0;
                         }
                     }
                 }

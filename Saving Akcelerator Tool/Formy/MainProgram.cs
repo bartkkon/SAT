@@ -45,7 +45,7 @@ namespace Saving_Accelerator_Tool
                 //Inicjalizowanie programu
                 InitializeComponent();
                 action = new Action(this, data_Import);
-                admin = new Admin(this, data_Import);
+                admin = new Admin();
                 summaryDetails = new SummaryDetails();
 
                 //Budowanie Formsa w zależności od uprawnień
