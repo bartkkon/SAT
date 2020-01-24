@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
+using Saving_Accelerator_Tool.Klasy.Action.Framework;
 
 namespace Saving_Accelerator_Tool
 {
@@ -153,24 +154,12 @@ namespace Saving_Accelerator_Tool
 
         private void DeactivatorAction()
         {
-            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = false;
-            ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = false;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = false;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
+            _ = new Deactivation_Action(-1);
         }
 
         private void ActivatorAction()
         {
-            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = true;
-            ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = true;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = true;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
-            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = true;
+            _ = new Activation_Action(-1);
         }
 
         private void TargetsSave()

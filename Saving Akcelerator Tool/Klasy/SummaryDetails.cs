@@ -1232,6 +1232,13 @@ namespace Saving_Accelerator_Tool
                         Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
                         Summ.Rows[1].Cells[2].Value = Percent;
                     }
+                    if (DM[4].ToString() != "")
+                    {
+                        DMValue = decimal.Parse(DM[4].ToString());
+                        Percent = (Actual / DMValue) * 100;
+                        Percent = Math.Round(Percent, 4, MidpointRounding.AwayFromZero);
+                        Summ.Rows[0].Cells[2].Value = Percent;
+                    }
                 }
             }
         }
@@ -1324,6 +1331,15 @@ namespace Saving_Accelerator_Tool
                     Summ.Rows[1].Cells[3].Value = Target;
                     Summ.Rows[1].Cells[4].Value = Percent;
                 }
+                if (DMPercent[4].ToString() != "" && DMValue[4].ToString() != "")
+                {
+                    Percent = decimal.Parse(DMPercent[4].ToString());
+                    DMRew = decimal.Parse(DMValue[4].ToString());
+                    Target = DMRew * (Percent / 100);
+                    Target = Math.Round(Target, 0, MidpointRounding.AwayFromZero);
+                    Summ.Rows[0].Cells[3].Value = Target;
+                    Summ.Rows[0].Cells[4].Value = Percent;
+                }
             }
         }
 
@@ -1332,7 +1348,7 @@ namespace Saving_Accelerator_Tool
         {
             decimal Delivery;
             decimal Plan;
-            for (int counter = 1; counter <= 4; counter++)
+            for (int counter = 0; counter <= 4; counter++)
             {
                 if (Summ.Rows[counter].Cells[3].Value != null && Summ.Rows[counter].Cells[3].Value.ToString() != "")
                 {

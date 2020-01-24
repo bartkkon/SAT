@@ -6,33 +6,24 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
+using Saving_Accelerator_Tool.Klasy.User;
 
 namespace Saving_Accelerator_Tool
 {
     class ActionForm : ActionFormHendler
     {
-        MainProgram mainProgram;
-        Action action;
-        Admin admin;
-        DataRow Person;
-        SummaryDetails summaryDetails;
-        Data_Import ImportData;
+        private readonly Action action;
 
-        public ActionForm(MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData, DataRow Person) : base(mainProgram, action, ImportData, Person)
+        public ActionForm(Action action) : base(action)
         {
-            this.mainProgram = mainProgram;
             this.action = action;
-            this.summaryDetails = summaryDetails;
-            this.admin = admin;
-            this.ImportData = ImportData;
-            this.Person = Person;
 
             Tab_Action_Comp();
         }
 
         private void Tab_Action_Comp()
         {
-            TabPage ntab_Action = (TabPage)mainProgram.TabControl.Controls.Find("tab_Action", false).First();
+            TabPage ntab_Action = (TabPage)MainProgram.Self.TabControl.Controls.Find("tab_Action", false).First();
 
             //Panels 
             //Panel Left na drzewo akcji i opcje akcji
@@ -81,7 +72,7 @@ namespace Saving_Accelerator_Tool
             //Opcje do wyboru ackcji - komponenty do tego
             Action_Group_MainFilter(panelLeftOption);
 
-            if (Person["Action"].ToString() == "Developer")
+            if (Users.Singleton().Action == "Developer")
             {
                 Button Action_NewAction = new Button
                 {
@@ -111,10 +102,10 @@ namespace Saving_Accelerator_Tool
             };
             panelAction.Controls.Add(Action_groupBox);
 
-            action.Action_AddList(Person);
+            action.Action_AddList();
 
             //ładowanie form na akcje 
-            Load_ActionForm(Action_groupBox, mainProgram, Person);
+            Load_ActionForm(Action_groupBox);
 
 
         }
@@ -258,7 +249,7 @@ namespace Saving_Accelerator_Tool
             panelLeftTree.Controls.Add(treeView_Action);
         }
 
-        private void Load_ActionForm(GroupBox Action_GroupBox, MainProgram mainProgram, DataRow Person)
+        private void Load_ActionForm(GroupBox Action_GroupBox)
         {
             //Nazwa akcji / Description / Przyciski Zapisywania akcji plus Draft 
             Action_Group_Name_Change(Action_GroupBox);
@@ -307,8 +298,6 @@ namespace Saving_Accelerator_Tool
 
             //ładowanie specjalnych przycisków
             Load_SpecialButton(Action_GroupBox);
-
-
         }
 
         private void Action_Group_Installation_Change(GroupBox Action_GroupBox)
@@ -1086,15 +1075,15 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(90, 21),
             };
 
-            if (Person["ActionEle"].ToString() == "true")
+            if (Users.Singleton().ActionEle)
             {
                 combox_Devision.Items.Add("Electronic");
             }
-            if (Person["ActionMech"].ToString() == "true")
+            if (Users.Singleton().ActionMech)
             {
                 combox_Devision.Items.Add("Mechanic");
             }
-            if (Person["ActionNVR"].ToString() == "true")
+            if (Users.Singleton().ActionNVR)
             {
                 combox_Devision.Items.Add("NVR");
             }
@@ -1424,29 +1413,28 @@ namespace Saving_Accelerator_Tool
 
         private void Add_People_To_Combobox(ComboBox combox_Leader, bool All)
         {
-            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "MechMenager" || Person["Role"].ToString() == "EleMenager" || Person["Role"].ToString() == "NVRMenager" || Person["Role"].ToString() == "PCMenager")
+            if (Users.Singleton().Role == "Admin" || Users.Singleton().Role == "MechMenager" || Users.Singleton().Role == "EleMenager" || Users.Singleton().Role == "NVRMenager" || Users.Singleton().Role == "PCMenager")
             {
                 DataTable Access = new DataTable();
-                string LinkAccess = ImportData.Load_Link("Access");
-                ImportData.Load_TxtToDataTable(ref Access, LinkAccess);
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Access, "Access");
 
                 if (All)
                 {
                     combox_Leader.Items.Add("All");
                 }
 
-                combox_Leader.Items.Add(Person["FullName"].ToString());
+                combox_Leader.Items.Add(Users.Singleton().Name);
                 combox_Leader.SelectedIndex = 0;
 
                 foreach (DataRow AccessRow in Access.Rows)
                 {
-                    if (AccessRow["Name"].ToString() != Person["Name"].ToString())
+                    if (AccessRow["Name"].ToString() != Users.Singleton().Name)
                     {
-                        if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
+                        if (Users.Singleton().Role == "Admin" || Users.Singleton().Role == "PCMenager")
                         {
                             combox_Leader.Items.Add(AccessRow["FullName"].ToString());
                         }
-                        else if (Person["Role"].ToString() == "EleMenager")
+                        else if (Users.Singleton().Role == "EleMenager")
                         {
                             if (AccessRow["ActionEle"].ToString() == "true")
                             {
@@ -1454,7 +1442,7 @@ namespace Saving_Accelerator_Tool
                                     combox_Leader.Items.Add(AccessRow["FullName"].ToString());
                             }
                         }
-                        else if (Person["Role"].ToString() == "MechMenager")
+                        else if (Users.Singleton().Role == "MechMenager")
                         {
                             if (AccessRow["ActionMech"].ToString() == "true")
                             {
@@ -1464,7 +1452,7 @@ namespace Saving_Accelerator_Tool
                                
                             }
                         }
-                        else if (Person["Role"].ToString() == "NVRMenager")
+                        else if (Users.Singleton().Role == "NVRMenager")
                         {
                             if (AccessRow["ActionNVR"].ToString() == "true")
                             {
@@ -1478,7 +1466,7 @@ namespace Saving_Accelerator_Tool
             }
             else
             {
-                combox_Leader.Items.Add(Person["FullName"].ToString());
+                combox_Leader.Items.Add(Users.Singleton().Name);
                 combox_Leader.SelectedIndex = 0;
             }
         }

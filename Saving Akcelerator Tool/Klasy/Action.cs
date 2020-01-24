@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Klasy.Action.Framework;
 
 namespace Saving_Accelerator_Tool
 {
@@ -100,10 +102,10 @@ namespace Saving_Accelerator_Tool
         public void Action_SavingCalculation()
         {
             //SavingCalculation();
-            if(NewActionCreate)
+            if (NewActionCreate)
             {
-                if(USE.Columns.Count != 13)
-                CreateColumnPerANC("USE");
+                if (USE.Columns.Count != 13)
+                    CreateColumnPerANC("USE");
                 if (BU.Columns.Count != 13)
                     CreateColumnPerANC("BU");
                 if (EA1.Columns.Count != 11)
@@ -119,11 +121,11 @@ namespace Saving_Accelerator_Tool
             ChangeCalcProtector(false);
         }
 
-        public void Action_AddList(DataRow Persona)
+        public void Action_AddList()
         {
             TreeView tree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
 
-            AddList(Persona);
+            AddList();
             tree_Action.ExpandAll();
         }
 
@@ -149,34 +151,34 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void Action_NewAction(MainProgram mainProgram, DataRow Person)
+        public void Action_NewAction()
         {
             if (IfanyChange)
             {
                 DialogResult Results = MessageBox.Show("Do you want save change ? ", "Save ? ", MessageBoxButtons.YesNo);
-                if(Results == DialogResult.Yes)
+                if (Results == DialogResult.Yes)
                 {
-                    Action_Save(mainProgram, Person);
-                    NewAction(mainProgram);
+                    Action_Save();
+                    NewAction(MainProgram.Self);
                     ChangeActionBlocker();
                     NewActionCreate = true;
                 }
-                else if(Results == DialogResult.No)
+                else if (Results == DialogResult.No)
                 {
-                    NewAction(mainProgram);
+                    NewAction(MainProgram.Self);
                     ChangeActionBlocker();
                     NewActionCreate = true;
                 }
             }
             else
             {
-                NewAction(mainProgram);
+                NewAction(MainProgram.Self);
                 ChangeActionBlocker();
                 NewActionCreate = true;
             }
         }
 
-        public void Action_Save(MainProgram mainProgram, DataRow Person)
+        public void Action_Save()
         {
             Cursor.Current = Cursors.WaitCursor;
             if (CheckBeforeSave())
@@ -187,9 +189,9 @@ namespace Saving_Accelerator_Tool
             else
             {
                 //SaveAction(mainProgram);
-                SaveAction Save = new SaveAction(mainProgram, ImportData, ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
+                SaveAction Save = new SaveAction(MainProgram.Self, ImportData, ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
                 Save.Save(NewActionCreate, IDCODictionary);
-                TreeRefresh(Person);
+                TreeRefresh();
                 Action_NoChangeInAction();
                 Cursor.Current = Cursors.Default;
             }
@@ -198,7 +200,6 @@ namespace Saving_Accelerator_Tool
         public void Action_RefreshSTK()
         {
             Cursor.Current = Cursors.WaitCursor;
-            //RefreshSTK();
             STKCalculation STK = new STKCalculation(mainProgram, ImportData, ANCChangeNumber);
             STK.STKRefresh();
             IDCODictionary = STK.GetIDCO();
@@ -210,10 +211,10 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void Action_TreeRefresh(DataRow Person)
+        public void Action_TreeRefresh()
         {
             Cursor.Current = Cursors.WaitCursor;
-            TreeRefresh(Person);
+            TreeRefresh();
             Cursor.Current = Cursors.Default;
         }
 
@@ -535,7 +536,7 @@ namespace Saving_Accelerator_Tool
                         {
                             if (CalcUSE1[counter].ToString() != "")
                             {
-                                Quantity +=  decimal.Parse(CalcUSE1[counter].ToString());
+                                Quantity += decimal.Parse(CalcUSE1[counter].ToString());
                                 Saving += decimal.Parse(CalcUSE2[counter].ToString());
                                 if (CalcUSE3[counter].ToString() != "")
                                 {
@@ -868,7 +869,7 @@ namespace Saving_Accelerator_Tool
                                         Quantity += (decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent);
                                         if (Month > RevEnd)
                                         {
-                                            Saving +=((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[0].ToString()));
+                                            Saving += ((decimal.Parse(FoundRow[What + "/" + counter2.ToString() + "/" + Year.ToString()].ToString()) * Percent) * decimal.Parse(Delta[0].ToString()));
                                         }
                                         else
                                         {
@@ -1156,7 +1157,7 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private string SavePerANC_PNC( string Rewision)
+        private string SavePerANC_PNC(string Rewision)
         {
             string Save = "";
 
@@ -1306,7 +1307,7 @@ namespace Saving_Accelerator_Tool
                                         Quantity += decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         QuantityANC = decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString());
                                         DeltaCost += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
-                                        
+
                                         Saving += (decimal.Parse(FoundRow[MonthCalc.ToString() + "/" + Year.ToString()].ToString()) * decimal.Parse(Delta[counter].ToString()));
 
                                         if (ActionRow["ECCC"].ToString() != "")
@@ -1626,7 +1627,7 @@ namespace Saving_Accelerator_Tool
                                     Saving += decimal.Parse(Calc1[counter].ToString());
                                     if (Calc2[counter].ToString() != "")
                                     {
-                                        ECCC +=decimal.Parse(Calc2[counter].ToString());
+                                        ECCC += decimal.Parse(Calc2[counter].ToString());
                                     }
                                 }
 
@@ -1824,7 +1825,7 @@ namespace Saving_Accelerator_Tool
                                             }
                                         }
                                     }
-                                    
+
                                     if (USE != null)
                                     {
                                         if (Calc[counter].ToString() != "")
@@ -1914,7 +1915,7 @@ namespace Saving_Accelerator_Tool
 
                             ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
-                        if(help == "ANCSpec")
+                        if (help == "ANCSpec")
                         {
                             Calc = ActionRow["New ANC"].ToString().Split('|');
                             Delta = ActionRow["Delta"].ToString().Split('|');
@@ -2151,7 +2152,7 @@ namespace Saving_Accelerator_Tool
                             Saving = 0;
                             ECCC = 0;
                             QuantityANC = 0;
-                            DeltaCost =0;
+                            DeltaCost = 0;
                             ActionRow["PerUSECarry"] = SavePerANC_PNC("USE");
                         }
                         if (help == "PNCSpec")
@@ -2413,7 +2414,7 @@ namespace Saving_Accelerator_Tool
             return MonthCount;
         }
 
-        private void RefreshEstymation2(TextBox ToCheck)
+        public void RefreshEstymation2(TextBox ToCheck)
         {
             string Name;
             int Number;
@@ -2552,12 +2553,12 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private void TreeRefresh(DataRow Person)
+        private void TreeRefresh()
         {
             TreeView tree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
 
             tree_Action.Nodes.Clear();
-            AddList(Person);
+            AddList();
             tree_Action.ExpandAll();
         }
 
@@ -2627,7 +2628,7 @@ namespace Saving_Accelerator_Tool
 
         public void AddValueANC(int counter, string ANCOld, string ANCNew, string STKold, string STKNew, string Delta, string STKEst, string Percent, string STKCal, string Next, string OldQ, string NewQ)
         {
-            
+
             TextBox nTB_OLDANC = (TextBox)mainProgram.TabControl.Controls.Find("TB_OldANC" + counter.ToString(), true).First();
             nTB_OLDANC.Text = ANCOld;
 
@@ -2648,7 +2649,7 @@ namespace Saving_Accelerator_Tool
 
             Label nLab_Delta = (Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First();
             nLab_Delta.Text = Delta;
-            if(Delta == "")
+            if (Delta == "")
                 Delta = "0"
                     ;
             decimal DeltaDecimal = decimal.Parse(Delta);
@@ -2701,16 +2702,13 @@ namespace Saving_Accelerator_Tool
             //STK_Sum(mainProgram, counter);
         }
 
-        private void AddList(DataRow Persona)
+        private void AddList()
         {
             DataTable ActionList = new DataTable();
             string Leader;
             string Status;
 
             NumericUpDown nNum_ActionYear = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First();
-            //CheckBox ncb_ActionActive = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionActive", true).First();
-            //CheckBox ncb_ActionCompleted = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionCompleted", true).First();
-            //CheckBox ncb_ActionDraft = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionDraft", true).First();
             TreeView ntree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
             ComboBox ComBox_Leader = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_FilterBy", true).First();
 
@@ -2718,7 +2716,6 @@ namespace Saving_Accelerator_Tool
             ntree_Action.Nodes.Clear();
 
             decimal Year = nNum_ActionYear.Value;
-            //string[] ActionName;
 
             ImportData.Load_TxtToDataTable(ref ActionList, link);
 
@@ -2732,7 +2729,7 @@ namespace Saving_Accelerator_Tool
             }
 
 
-            if (Persona["ActionEle"].ToString() == "true")
+            if (Users.Singleton().ActionEle)
             {
                 TreeNode Electronic = new TreeNode("Electronic")
                 {
@@ -2745,7 +2742,7 @@ namespace Saving_Accelerator_Tool
                 };
                 ntree_Action.Nodes.Add(ElectronicCarry);
             }
-            if (Persona["ActionMech"].ToString() == "true")
+            if (Users.Singleton().ActionMech)
             {
                 TreeNode Mechanic = new TreeNode("Mechanic")
                 {
@@ -2758,7 +2755,7 @@ namespace Saving_Accelerator_Tool
                 };
                 ntree_Action.Nodes.Add(MechanicCarry);
             }
-            if (Persona["ActionNVR"].ToString() == "true")
+            if (Users.Singleton().ActionNVR)
             {
                 TreeNode NVR = new TreeNode("NVR")
                 {
@@ -2774,7 +2771,7 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataRow Row in ActionList.Rows)
             {
-                if (Persona["ActionEle"].ToString() == "true")
+                if (Users.Singleton().ActionEle)
                 {
                     if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
                     {
@@ -2809,7 +2806,7 @@ namespace Saving_Accelerator_Tool
                         }
                     }
                 }
-                if (Persona["ActionMech"].ToString() == "true")
+                if (Users.Singleton().ActionMech)
                 {
                     if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
                     {
@@ -2844,7 +2841,7 @@ namespace Saving_Accelerator_Tool
                         }
                     }
                 }
-                if (Persona["ActionNVR"].ToString() == "true")
+                if (Users.Singleton().ActionNVR)
                 {
                     if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
                     {
@@ -3256,38 +3253,15 @@ namespace Saving_Accelerator_Tool
 
         private void ActiveAction()
         {
-            ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = true;
-            ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = true;
-            //((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = true;
-            for (int counter = 1; counter <= ANCChangeNumber; counter++)
-            {
-                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Estymacja" + counter.ToString(), true).First()).Enabled = true;
-                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Percent" + counter.ToString(), true).First()).Enabled = true;
-            }
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = true;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = true;
+            _ = new Activation_Action(ANCChangeNumber);
         }
 
         private void BlockAction()
         {
-            ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Enabled = false;
-            ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ECCC", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_PNCEsty", true).First()).Enabled = false;
-            //((GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First()).Enabled = false;
-            //((Button)mainProgram.TabControl.Controls.Find("pb_RefreshSTK", true).First()).Enabled = true;
-            for (int counter = 1; counter <= ANCChangeNumber; counter++)
-            {
-                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Estymacja" + counter.ToString(), true).First()).Enabled = false;
-                ((TextBox)mainProgram.TabControl.Controls.Find("TB_Percent" + counter.ToString(), true).First()).Enabled = false;
-            }
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First()).Enabled = false;
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First()).Enabled = false;
+            _ = new Deactivation_Action(ANCChangeNumber);
         }
 
-        
+
 
         //Przerwania
 
@@ -3357,7 +3331,7 @@ namespace Saving_Accelerator_Tool
             {
                 CheckBox ANCby = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + counter.ToString(), true).First();
 
-                if(ANCby.Checked)
+                if (ANCby.Checked)
                 {
                     Status = true;
                     All.Checked = false;
@@ -3369,7 +3343,7 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
-            if(!Status)
+            if (!Status)
             {
                 All.Enabled = true;
                 Mass_DMD_D45_Enabled(true, "DMD");
@@ -3471,7 +3445,9 @@ namespace Saving_Accelerator_Tool
                 Quantity.Focus();
                 Quantity.SelectionStart = CursorPosition;
             }
+            ChangeANCProtector(true);
             Action_ChangeInAction();
+
         }
 
         //Przerwanie które sprawdza czy po wyjściu z Quantity nie ma pustego pola

@@ -42,7 +42,7 @@ namespace Saving_Accelerator_Tool
                 tab_Action.UseVisualStyleBackColor = true;
 
                 //Tab_Action_Comp();
-                _ = new ActionForm(mainProgram, action, summaryDetails, admin, ImportData, Person);
+                _ = new ActionForm(action);
                 action.Action_NoChangeInAction();
             }
             // 
