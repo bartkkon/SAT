@@ -69,7 +69,7 @@ namespace Saving_Accelerator_Tool
             this.pb_AddData_Close.TabIndex = 2;
             this.pb_AddData_Close.Text = "OK";
             this.pb_AddData_Close.UseVisualStyleBackColor = true;
-            this.pb_AddData_Close.Click += new System.EventHandler(this.pb_AddData_Close_Click);
+            this.pb_AddData_Close.Click += new System.EventHandler(this.Pb_AddData_Close_Click);
             // 
             // panel1
             // 

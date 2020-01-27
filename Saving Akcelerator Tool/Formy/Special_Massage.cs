@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Klasy.Email;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,6 +41,11 @@ namespace Saving_Accelerator_Tool.Formy
                 System.Windows.Forms.MessageBox.Show("Body can't be Empty!");
                 return;
             }
+
+            string MailTo = new SentTo(_Electronic, _Mechanic, _NVR, _PC).SentToList();
+            SentEmail.Instance.Sent_Email(MailTo, tb_AdminSpecialMassage_Subject.Text, tb_AdminSpecialMassage_Body.Text);
+
+            this.Close();
         }
     }
 }

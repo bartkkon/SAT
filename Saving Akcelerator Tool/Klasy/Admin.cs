@@ -307,7 +307,7 @@ namespace Saving_Accelerator_Tool
 
             decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("Num_AdminTargetsYear", true).First()).Value;
 
-            Data_Import.Singleton().Load_TxtToDataTable(ref Targets, "Kurs");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
 
             TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
             if(TargetsRow != null)

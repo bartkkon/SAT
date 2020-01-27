@@ -13,7 +13,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Handlers
         public void Pb_Admin_UpdateSTK_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            STK UpdateSTK = new STK(MainProgram.Self, Data_Import.Singleton());
+            STK UpdateSTK = new STK();
             UpdateSTK.STK_LoadNewSTK();
             Cursor.Current = Cursors.Default;
         }
@@ -28,7 +28,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Handlers
             if (Results == DialogResult.OK)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK(MainProgram.Self, Data_Import.Singleton());
+                STK _STK = new STK();
                 _STK.STK_ClearYear(Year);
                 Cursor.Current = Cursors.Default;
             }
@@ -44,7 +44,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Handlers
             if (Results == DialogResult.OK)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK(MainProgram.Self, Data_Import.Singleton());
+                STK _STK = new STK();
                 _STK.STK_ManualUpdateFromFile(Year);
                 Cursor.Current = Cursors.Default;
             }

@@ -248,7 +248,7 @@ namespace Saving_Accelerator_Tool
 
         public void Pb_PNC_Click(object sender, EventArgs e)
         {
-            Form AddData = new AddData("Proszę podać liste PNC", "PNC", MainProgram.Self, Data_Import.Singleton());
+            Form AddData = new AddData("Proszę podać liste PNC", "PNC");
             int DG_RowsCountStart = ((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
 
             AddData.ShowDialog();
@@ -262,7 +262,7 @@ namespace Saving_Accelerator_Tool
 
         public void Pb_PNCSpec_Click(object sender, EventArgs e)
         {
-            Form AddData = new AddData("Proszę podać liste PNC", "PNCSpec", MainProgram.Self, Data_Import.Singleton());
+            Form AddData = new AddData("Proszę podać liste PNC", "PNCSpec");
             int DG_RowsCountStart = ((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First()).Rows.Count;
 
             AddData.ShowDialog();

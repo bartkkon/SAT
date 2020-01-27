@@ -13,26 +13,14 @@ namespace Saving_Accelerator_Tool
 {
     public partial class AddData : Form
     {
-        MainProgram mainProgram;
-        Data_Import data_Import;
-        string Jak;
-        string LinkANC;
-        string LinkPNC;
-        string LinkANCMonth;
-        string LinkPNCMonth;
-        string LinkSTK;
-        decimal Year;
+        private readonly string Jak;
+        private readonly decimal Year;
 
-        public AddData(string text, string What, MainProgram mainProgram, Data_Import dataImport)
+        public AddData(string text, string What)
         {
             InitializeComponent();
             lab_AddData_Text.Text = text;
-            this.mainProgram = mainProgram;
-            data_Import = dataImport;
-            LinkANC = data_Import.Load_Link("ANC");
-            LinkPNC = data_Import.Load_Link("PNC");
-            LinkANCMonth = data_Import.Load_Link("ANCMonth");
-            LinkPNCMonth = data_Import.Load_Link("PNCMonth");
+
             Jak = What;
 
             if (Jak == "PNCSpec")
@@ -41,31 +29,28 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public AddData(string text, decimal Year, MainProgram mainProgram, Data_Import dataImport)
+        public AddData(string text, decimal Year)
         {
             InitializeComponent();
             lab_AddData_Text.Text = text;
-            this.mainProgram = mainProgram;
-            data_Import = dataImport;
             this.Year = Year;
 
-            LinkSTK = data_Import.Load_Link("STK");
             this.Show();
 
             Button Close = (Button)this.Controls.Find("pb_AddData_Close", true).First();
-            Close.Click -= pb_AddData_Close_Click;
-            Close.Click += pb_AddData_STK_Close_Click;
+            Close.Click -= Pb_AddData_Close_Click;
+            Close.Click += Pb_AddData_STK_Close_Click;
         }
 
 
-        private void pb_AddData_STK_Close_Click(object sender, EventArgs e)
+        private void Pb_AddData_STK_Close_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             string[] Row = tb_AddData_Data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             DataTable STK = new DataTable();
             DataRow STKRow;
 
-            data_Import.Load_TxtToDataTable(ref STK, LinkSTK);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref STK, "STK");
 
             foreach(string SingleRow in Row)
             {
@@ -90,12 +75,12 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
-            data_Import.Save_DataTableToTXT(ref STK, LinkSTK);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref STK, "STK");
             this.Close();
             Cursor.Current = Cursors.Default;
         }
 
-        private void pb_AddData_Close_Click(object sender, EventArgs e)
+        private void Pb_AddData_Close_Click(object sender, EventArgs e)
         {
             //Action action = new Action();
             Cursor.Current = Cursors.WaitCursor;
@@ -107,7 +92,7 @@ namespace Saving_Accelerator_Tool
                 if (Jak == "PNC")
                 {
 
-                    DataGridView dg_PNC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
+                    DataGridView dg_PNC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
 
                     if(dg_PNC.Rows.Count>1)
                     {
@@ -161,7 +146,7 @@ namespace Saving_Accelerator_Tool
                 }
                 if (Jak == "PNCSpec")
                 {
-                    DataGridView dg_PNC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
+                    DataGridView dg_PNC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
 
                     if (dg_PNC.Rows.Count > 1)
                     {
@@ -275,9 +260,9 @@ namespace Saving_Accelerator_Tool
             }
             if (Jak == "BU" || Jak == "EA1" || Jak == "EA2" || Jak == "EA3")
             {
-                NumericUpDown Admin_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearQuantity", true).First();
-                CheckBox cb_AdminPNC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminPNC", true).First();
-                CheckBox cb_AdminANC = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminANC", true).First();
+                NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearQuantity", true).First();
+                CheckBox cb_AdminPNC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminPNC", true).First();
+                CheckBox cb_AdminANC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminANC", true).First();
                 DataTable Baza = new DataTable();
                 DataRow FoundRow;
 
@@ -285,11 +270,11 @@ namespace Saving_Accelerator_Tool
 
                 if (cb_AdminANC.Checked)
                 {
-                    data_Import.Load_TxtToDataTable(ref Baza, LinkANC);
+                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "ANC");
                 }
                 if (cb_AdminPNC.Checked)
                 {
-                    data_Import.Load_TxtToDataTable(ref Baza, LinkPNC);
+                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "PNC");
                 }
                 switch (Jak)
                 {
@@ -306,7 +291,6 @@ namespace Saving_Accelerator_Tool
                         ile = 9;
                         break;
                     default:
-                        ile = 0;
                         return;
                 }
 
@@ -362,11 +346,11 @@ namespace Saving_Accelerator_Tool
                 }
                 if (cb_AdminANC.Checked)
                 {
-                    data_Import.Save_DataTableToTXT(ref Baza, LinkANC);
+                    Data_Import.Singleton().Save_DataTableToTXT2(ref Baza, "ANC");
                 }
                 if (cb_AdminPNC.Checked)
                 {
-                    data_Import.Save_DataTableToTXT(ref Baza, LinkPNC);
+                    Data_Import.Singleton().Save_DataTableToTXT(ref Baza, "PNC");
                 }
                 this.Close();
                 Cursor.Current = Cursors.Default;
@@ -374,8 +358,8 @@ namespace Saving_Accelerator_Tool
             }
             if (Jak == "AddMonthANC" || Jak == "AddMonthPNC")
             {
-                NumericUpDown Admin_Year = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
-                NumericUpDown Admin_Month = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
+                NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
+                NumericUpDown Admin_Month = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
                 DataTable Quantity = new DataTable();
                 DataRow FoundRow;
                 string Miesiac = Admin_Month.Value.ToString() + "/" + Admin_Year.Value.ToString();
@@ -383,11 +367,11 @@ namespace Saving_Accelerator_Tool
 
                 if (Jak == "AddMonthANC")
                 {
-                    data_Import.Load_TxtToDataTable(ref Quantity, LinkANCMonth);
+                    Data_Import.Singleton().Load_TxtToDataTable(ref Quantity, "ANCMonth");
                 }
                 if(Jak == "AddMonthPNC")
                 {
-                    data_Import.Load_TxtToDataTable(ref Quantity, LinkPNCMonth);
+                    Data_Import.Singleton().Load_TxtToDataTable(ref Quantity, "PNCMonth");
                 }
 
                 if (Quantity.Columns.Contains(Miesiac))
@@ -425,11 +409,11 @@ namespace Saving_Accelerator_Tool
                 }
                 if (Jak == "AddMonthANC")
                 {
-                    data_Import.Save_DataTableToTXT(ref Quantity, LinkANCMonth);
+                    Data_Import.Singleton().Save_DataTableToTXT(ref Quantity, "ANCMonth");
                 }
                 if (Jak == "AddMonthPNC")
                 {
-                    data_Import.Save_DataTableToTXT(ref Quantity, LinkPNCMonth);
+                    Data_Import.Singleton().Save_DataTableToTXT(ref Quantity, "PNCMonth");
                 }
                 this.Close();
                 Cursor.Current = Cursors.Default;
@@ -441,15 +425,16 @@ namespace Saving_Accelerator_Tool
         {
             string Template = @"\\PLWS4031\Project\CAD\Work\bartkkon\EC_Accelerator_Data\PNCSpec_Template.xlsm";
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                FileName = "PNCSpec_Template",
+                DefaultExt = "Xlsm",
+                Filter = "Excel Files (*.xlsm)|*xlsm",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
-            saveFileDialog.FileName = "PNCSpec_Template";
-            saveFileDialog.DefaultExt = "Xlsm";
-            saveFileDialog.Filter = "Excel Files (*.xlsm)|*xlsm";
-            saveFileDialog.FilterIndex = 1;
-            saveFileDialog.RestoreDirectory = true;
-
-            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 File.Copy(Template, saveFileDialog.FileName);
             }

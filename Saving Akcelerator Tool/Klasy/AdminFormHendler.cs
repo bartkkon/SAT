@@ -268,12 +268,12 @@ namespace Saving_Accelerator_Tool
 
             if (cb_ANC.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste " + cb_ANC.Text + " dla " + num_Month.Value.ToString() + "/" + num_Year.Value.ToString(), "AddMonthANC", mainProgram, ImportData);
+                Form AddData = new AddData("Proszę podać liste " + cb_ANC.Text + " dla " + num_Month.Value.ToString() + "/" + num_Year.Value.ToString(), "AddMonthANC");
                 AddData.Show();
             }
             if (cb_PNC.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste " + cb_PNC.Text + " dla " + num_Month.Value.ToString() + "/" + num_Year.Value.ToString(), "AddMonthPNC", mainProgram, ImportData);
+                Form AddData = new AddData("Proszę podać liste " + cb_PNC.Text + " dla " + num_Month.Value.ToString() + "/" + num_Year.Value.ToString(), "AddMonthPNC");
                 AddData.Show();
             }
         }
@@ -463,12 +463,12 @@ namespace Saving_Accelerator_Tool
             //admin.Admin_QuantityAddBudget((sender as CheckBox).Text);
             if (cb_AdminPNC.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste " + cb_AdminPNC.Text, What, mainProgram, ImportData);
+                Form AddData = new AddData("Proszę podać liste " + cb_AdminPNC.Text, What);
                 AddData.Show();
             }
             if (cb_AdminANC.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste " + cb_AdminANC.Text, What, mainProgram, ImportData);
+                Form AddData = new AddData("Proszę podać liste " + cb_AdminANC.Text, What);
                 AddData.Show();
             }
         }

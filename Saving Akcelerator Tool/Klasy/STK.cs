@@ -9,17 +9,10 @@ namespace Saving_Accelerator_Tool
 {
     class STK
     {
-        MainProgram form;
-        Data_Import ImportData;
-        string link;
-        string LinkBaza;
-
-        public STK(MainProgram mainProgram, Data_Import ImportData)
+        private readonly string link;
+        public STK()
         {
-            form = mainProgram;
-            this.ImportData = ImportData;
-            link = ImportData.Load_Link("STK");
-            LinkBaza = link;
+            link = Data_Import.Singleton().Load_Link("STK");
         }
 
         public void STK_LoadFile()
@@ -27,7 +20,7 @@ namespace Saving_Accelerator_Tool
             if (File.Exists(link))
             {
                 DataTable Table = new DataTable();
-                ImportData.Load_TxtToDataTable(ref Table, link);
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "STK");
             }
             else
             {
@@ -70,7 +63,7 @@ namespace Saving_Accelerator_Tool
         {
             DataTable STKTable = new DataTable();
 
-            ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref STKTable, "STK");
 
             if (STKTable.Columns.Contains(Year.ToString()))
             {
@@ -89,9 +82,8 @@ namespace Saving_Accelerator_Tool
             STKTable.Columns.Add(Year.ToString());
             STKTable.Columns.Add("STK/" + Year.ToString());
 
-            ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
-
-            AddData Data = new AddData("Sprowadz dane dla STK", Year, form, ImportData);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref STKTable, "STK");
+            _ = new AddData("Sprowadz dane dla STK", Year);
             //Data.Show();
 
         }
@@ -100,14 +92,14 @@ namespace Saving_Accelerator_Tool
         {
             DataTable STKTable = new DataTable();
 
-            ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref STKTable, "STK");
 
             if (STKTable.Columns.Contains(Year.ToString()))
             {
                 STKTable.Columns.Remove(Year.ToString());
                 STKTable.Columns.Remove("STK/" + Year.ToString());
 
-                ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
+                Data_Import.Singleton().Save_DataTableToTXT2(ref STKTable, "STK");
             }
 
         }
@@ -126,8 +118,8 @@ namespace Saving_Accelerator_Tool
             string month;
             string IDCO;
 
-            ImportData.Load_TxtToDataTable(ref STKTable, LinkBaza);
-
+            Data_Import.Singleton().Load_TxtToDataTable2(ref STKTable, "STK");
+            
             if (linkFile == "0")
             {
                 MessageBox.Show("Plik nie był generowany od ponad miesiąca!");
@@ -251,7 +243,7 @@ namespace Saving_Accelerator_Tool
                         }
                     }
                 }
-                ImportData.Save_DataTableToTXT(ref STKTable, LinkBaza);
+                Data_Import.Singleton().Save_DataTableToTXT2(ref STKTable, "STK");
             }
         }
 
@@ -271,7 +263,7 @@ namespace Saving_Accelerator_Tool
             {
                 for (int counter = 1; counter < 31; counter++)
                 {
-                    day = day - 1;
+                    day -= 1;
                     CheckDateSTK(ref year, ref month, ref day);
                     linkFile = GeneratedLinkSTK(year, month, day);
                     if (File.Exists(linkFile))
@@ -279,7 +271,7 @@ namespace Saving_Accelerator_Tool
                         return linkFile;
                     }
                 }
-                return linkFile = "0";
+                return "0";
             }
         }
 
@@ -287,11 +279,11 @@ namespace Saving_Accelerator_Tool
         {
             if (day == 0)
             {
-                month = month - 1;
+                month -= 1;
                 if (month == 0)
                 {
                     month = 12;
-                    year = year - 1;
+                    year -= 1;
                 }
                 if (month % 2 == 0)
                 {
