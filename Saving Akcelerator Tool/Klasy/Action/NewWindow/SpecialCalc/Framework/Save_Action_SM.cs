@@ -70,6 +70,7 @@ namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc.Framework
                     SumSavings = Row["CalcUSESaving"].ToString().Split('/');
                     Row["CalcUseQuantity"] = "";
                     Row["CalcUSESaving"] = "";
+                    Row["CalcUSEECCC"] = "";
 
 
                     //Sumowanie wszystkiego do wyświetlania w akcji

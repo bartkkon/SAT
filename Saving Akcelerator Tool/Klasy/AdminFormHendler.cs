@@ -161,30 +161,6 @@ namespace Saving_Accelerator_Tool
             ChangeText.TextChanged += Tb_AdminTargets_TextChange;
         }
 
-        public void Pb_AdminSaveCalcRev_Click(object sender, EventArgs e)
-        {
-            CheckBox cb_AdminBU2 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcBU", true).First();
-            CheckBox cb_AdminEA12 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA1", true).First();
-            CheckBox cb_AdminEA22 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA2", true).First();
-            CheckBox cb_AdminEA32 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_AdminCalcEA3", true).First();
-            if (cb_AdminBU2.Checked)
-            {
-                action.Action_CalcRev("BU");
-            }
-            if (cb_AdminEA12.Checked)
-            {
-                action.Action_CalcRev("EA1");
-            }
-            if (cb_AdminEA22.Checked)
-            {
-                action.Action_CalcRev("EA2");
-            }
-            if (cb_AdminEA32.Checked)
-            {
-                action.Action_CalcRev("EA3");
-            }
-        }
-
         public void Pb_Admin_ValueSave_Click(object sender, EventArgs e)
         {
             admin.Admin_ValueSaveData();
@@ -416,16 +392,6 @@ namespace Saving_Accelerator_Tool
         public void Tb_Value_TextChange(object sender, EventArgs e)
         {
             admin.Admin_Value_TextChange(sender as TextBox);
-        }
-
-        public void RadBut_AdminFrozen_EnableDisable_CheckCange(object sender, EventArgs e)
-        {
-
-        }
-
-        public void Pb_AdminCalcMonth_Click(object sender, EventArgs e)
-        {
-            action.Action_CalcMonth();
         }
 
         public void Pb_AdminSaveQuantity_Click(object sender, EventArgs e)

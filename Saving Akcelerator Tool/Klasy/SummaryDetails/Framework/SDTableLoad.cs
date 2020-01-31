@@ -46,25 +46,25 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             Revision = WhatRevisionApprove(Year);
 
             //Tworzenie kluczy
-            Klucz = CreateKey(Active.Checked, Idea.Checked, Year, Leader.Text, Devision.Text, Positive.Checked, Negative. Checked);
+            Klucz = CreateKey(Active.Checked, Idea.Checked, Year, Leader.Text, Devision.Text, Positive.Checked, Negative.Checked);
 
             foreach (DataRow ActionRow in Actions.Rows)
             {
 
-                ActionKey = CreateActionKey(ActionRow, Active.Checked, Idea.Checked, Devision.Text, Leader.Text, Positive.Checked, Negative.Checked);
+                ActionKey = CreateActionKey(ActionRow, Active.Checked, Idea.Checked, Devision.Text, Leader.Text, Positive.Checked, Negative.Checked, Year);
 
-                if (Klucz[0] == ActionKey || Klucz[1] == ActionKey)
+                if (Klucz[0] == ActionKey || Klucz[1] == ActionKey || Klucz[2] == ActionKey)
                 {
                     LoadActionSD(ActionRow, false, Savings.Checked, Quantity.Checked, ECCC.Checked, StartMonth, Revision);
                 }
-                else if (Klucz[2] == ActionKey)
+                else if (Klucz[3] == ActionKey)
                 {
                     LoadActionSD(ActionRow, true, Savings.Checked, Quantity.Checked, ECCC.Checked, StartMonth, Revision);
                 }
             }
 
             DataGridView Table = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_CarryOverAction", true).First();
-            Table.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214); 
+            Table.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
             Table.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
             Table.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
 
@@ -78,7 +78,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
         {
             DataGridView Table;
             DataGridViewCellStyle Style = new DataGridViewCellStyle();
-            
+
             int TableRowIndex;
             string Carry;
             int ChangeCalc;
@@ -147,7 +147,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 AddValuetoTable(actionRow, Table.Rows[TableRowIndex], ChangeCalc, "ECCC", Carry, Revision, Style);
             }
 
-            
+
         }
 
         private void RowFormat(DataGridViewRow Row, int v)
@@ -157,7 +157,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             {
                 Row.DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
             }
-            else if(v==3)
+            else if (v == 3)
             {
                 Row.DefaultCellStyle.BackColor = Color.FromArgb(248, 203, 173);
             }
@@ -175,7 +175,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                     AddAction.Cells[counter.ToString()].Value = decimal.Parse(Actual[counter - 1]);
                     AddAction.Cells[counter.ToString()].Style = Style;
                 }
-                    
+
             }
             for (int counter = Change + 1; counter < 13; counter++)
             {
@@ -189,9 +189,9 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
         private void SumRow(DataGridViewRow addAction, DataGridViewCellStyle style)
         {
             decimal Suma = 0;
-            for(int counter = 1; counter<=12; counter++)
+            for (int counter = 1; counter <= 12; counter++)
             {
-                if(addAction.Cells[counter.ToString()].Value != null )
+                if (addAction.Cells[counter.ToString()].Value != null)
                 {
                     Suma += decimal.Parse(addAction.Cells[counter.ToString()].Value.ToString());
                 }
@@ -200,7 +200,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             {
                 addAction.Cells["Sum"].Value = Suma;
                 addAction.Cells["Sum"].Style = style;
-                
+
             }
         }
 
@@ -268,7 +268,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                         StartMonth = counter;
                     }
                 }
-                if(StartMonth == -5 && Year == DateTime.UtcNow.Year)
+                if (StartMonth == -5 && Year == DateTime.UtcNow.Year)
                 {
                     StartMonth = -1;
                 }
@@ -286,29 +286,33 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             // 2. Czy jest Active czy Idea (Jak obie to All)
             // 3. Z jakiej devizji ma być akcja (Jak wszystkie to All)
             // 4. Kto jest liderem (Jak wszyscy to All) 
-            string[] Key = new string[3];
+            string[] Key = new string[4];
 
             Key[0] = Year.ToString() + "/";
             Key[1] = "BU/" + Year.ToString() + "/";
-            Key[2] = (Year - 1).ToString() + "/";
+            Key[2] = "SA/" + Year.ToString() + "/";
+            Key[3] = (Year - 1).ToString() + "/";
 
             if (Active && Idea)
             {
                 Key[0] += "All/";
                 Key[1] += "All/";
                 Key[2] += "All/";
+                Key[3] += "All/";
             }
             else if (Active)
             {
                 Key[0] += "Active/";
                 Key[1] += "Active/";
                 Key[2] += "Active/";
+                Key[3] += "Active/";
             }
             else if (Idea)
             {
                 Key[0] += "Idea/";
                 Key[1] += "Idea/";
                 Key[2] += "Idea/";
+                Key[3] += "Idea/";
             }
 
             if (Devision == "All")
@@ -316,12 +320,14 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 Key[0] += "All/";
                 Key[1] += "All/";
                 Key[2] += "All/";
+                Key[3] += "All/";
             }
             else
             {
                 Key[0] += Devision + "/";
                 Key[1] += Devision + "/";
                 Key[2] += Devision + "/";
+                Key[3] += Devision + "/";
             }
 
             if (Leader == "All")
@@ -329,40 +335,45 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 Key[0] += "All/";
                 Key[1] += "All/";
                 Key[2] += "All/";
+                Key[3] += "All/";
             }
             else
             {
                 Key[0] += Leader + "/";
                 Key[1] += Leader + "/";
                 Key[2] += Leader + "/";
+                Key[3] += Leader + "/";
             }
 
-            if(Positive && Negative)
+            if (Positive && Negative)
             {
                 Key[0] += "All/";
                 Key[1] += "All/";
                 Key[2] += "All/";
+                Key[3] += "All/";
             }
             else
             {
-                if(Positive)
+                if (Positive)
                 {
                     Key[0] += "Pozytywna/";
                     Key[1] += "Pozytywna/";
                     Key[2] += "Pozytywna/";
+                    Key[3] += "Pozytywna/";
                 }
-                else if(Negative)
+                else if (Negative)
                 {
                     Key[0] += "Negatywna/";
                     Key[1] += "Negatywna/";
                     Key[2] += "Negatywna/";
+                    Key[3] += "Negatywna/";
                 }
             }
 
             return Key;
         }
 
-        private string CreateActionKey(DataRow ActionRow, bool Active, bool Idea, string Devision, string Leader, bool Positive, bool Negative)
+        private string CreateActionKey(DataRow ActionRow, bool Active, bool Idea, string Devision, string Leader, bool Positive, bool Negative, decimal Year)
         {
             //Budowanie klucza do odczytu czy daną akcje wyświetlić czy nie
             //Klucz słada się nastęująco:
@@ -372,15 +383,12 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             // 4. Kto jest liderem (Jak wszyscy to All) 
             string ActionKey;
 
-            if (ActionRow["StartYear"].ToString().Length == 4 )
-                ActionKey = ActionRow["StartYear"].ToString() + "/";
-            else
-                ActionKey = ActionRow["StartYear"].ToString().Remove(0,3) + "/";
+            ActionKey = ActionRow["StartYear"].ToString() + "/";
 
             if (Active && Idea)
                 ActionKey += "All/";
             else
-                ActionKey += ActionRow["Status"].ToString() +"/";
+                ActionKey += ActionRow["Status"].ToString() + "/";
 
             if (Devision == "All")
                 ActionKey += "All/";
@@ -396,6 +404,15 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 ActionKey += "All/";
             else
                 ActionKey += ActionRow["+ czy -"].ToString() + "/";
+
+            //Jeśli akcja w poprzednim roku rozpoczeła się w Styczniu to w bierzącym roku akcja nie jest już Carry Over.
+            if (ActionRow["StartYear"].ToString() == (Year - 1).ToString())
+            {
+                if (ActionRow["StartMonth"].ToString() == "January")
+                {
+                    ActionKey = "NO";
+                }
+            }
 
             return ActionKey;
         }

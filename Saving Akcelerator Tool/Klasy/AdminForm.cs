@@ -591,25 +591,14 @@ namespace Saving_Accelerator_Tool
 
             Button pb_Admin_SaveCalcRevNew = new Button
             {
-                Location = new Point(100, 55),
+                Location = new Point(100, 80),
                 Name = "pb_Admin_SaveCalcRevNew",
                 Size = new Size(80, 20),
-                Text = "Calc New",
+                Text = "Calc Rev",
                 UseVisualStyleBackColor = true,
             };
             pb_Admin_SaveCalcRevNew.Click += new EventHandler(Pb_AdminSaveCalcRevNew_Click);
             gb_AdminCalcBU.Controls.Add(pb_Admin_SaveCalcRevNew);
-
-            Button pb_Admin_SaveCalcRev = new Button
-            {
-                Location = new Point(100, 80),
-                Name = "pb_Admin_SaveCalcRev",
-                Size = new Size(60, 20),
-                Text = "Calc",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
-            gb_AdminCalcBU.Controls.Add(pb_Admin_SaveCalcRev);
         }
 
         private void Admin_Group_AddQperMonth_Change()
@@ -812,22 +801,11 @@ namespace Saving_Accelerator_Tool
                 Location = new Point(100, 80),
                 Name = "pb_Admin_SaveCalcMonthNew",
                 Size = new Size(80, 20),
-                Text = "Calc New",
+                Text = "Calc Month",
                 UseVisualStyleBackColor = true,
             };
             pb_Admin_SaveCalcMonthNew.Click += new EventHandler(Pb_AdminSaveCalcMonthNew_Click);
             gb_AdminCalcMonth.Controls.Add(pb_Admin_SaveCalcMonthNew);
-
-            Button pb_Admin_CalcMonth = new Button
-            {
-                Location = new Point(30, 80),
-                Name = "pb_Admin_Calc",
-                Size = new Size(60, 20),
-                Text = "Calc",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_CalcMonth.Click += new EventHandler(Pb_AdminCalcMonth_Click);
-            gb_AdminCalcMonth.Controls.Add(pb_Admin_CalcMonth);
         }
 
         private void Admin_Group_EnableDGV_Change()

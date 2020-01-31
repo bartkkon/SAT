@@ -40,38 +40,38 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.Framework.Access
                 else if (((ComboBox)MainProgram.Self.TabControl.Controls.Find("Cb_AdminAccessMenager", true).First()).Text == "Admin")
                     FoundRow["Role"] = "Admin";
 
-                FoundRow["tab_Action"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabAction", true).First()).Checked.ToString();
+                FoundRow["tab_Action"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabAction", true).First()).Checked.ToString().ToLower();
 
                 if (((RadioButton)MainProgram.Self.TabControl.Controls.Find("radbut_AdminViwer", true).First()).Checked)
                     FoundRow["Action"] = "View";
                 else if(((RadioButton)MainProgram.Self.TabControl.Controls.Find("radbut_AdminDevelop", true).First()).Checked)
                     FoundRow["Action"] = "Developer";
 
-                FoundRow["ActionEle"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminElectronic", true).First()).Checked.ToString();
+                FoundRow["ActionEle"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminElectronic", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["ActionMech"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminMechanic", true).First()).Checked.ToString();
+                FoundRow["ActionMech"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminMechanic", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["ActionNVR"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminNVR", true).First()).Checked.ToString();
+                FoundRow["ActionNVR"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminNVR", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_Summary"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabSummary", true).First()).Checked.ToString();
+                FoundRow["tab_Summary"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabSummary", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_Statistic"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabStatistic", true).First()).Checked.ToString();
+                FoundRow["tab_Statistic"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabStatistic", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_Platform"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabPlatform", true).First()).Checked.ToString();
+                FoundRow["tab_Platform"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabPlatform", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_STK"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabSTK", true).First()).Checked.ToString();
+                FoundRow["tab_STK"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabSTK", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_Quantity"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabQuantity", true).First()).Checked.ToString();
+                FoundRow["tab_Quantity"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabQuantity", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["tab_Admin"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabAdmin", true).First()).Checked.ToString();
+                FoundRow["tab_Admin"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabAdmin", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["EleApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapEle", true).First()).Checked.ToString();
+                FoundRow["EleApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapEle", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["MechApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapMech", true).First()).Checked.ToString();
+                FoundRow["MechApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapMech", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["NVRApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapNVR", true).First()).Checked.ToString();
+                FoundRow["NVRApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapNVR", true).First()).Checked.ToString().ToLower();
 
-                FoundRow["PCApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapPC", true).First()).Checked.ToString();
+                FoundRow["PCApprove"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Admin_RapPC", true).First()).Checked.ToString().ToLower();
             }
             else
             {

@@ -188,8 +188,6 @@ namespace Saving_Accelerator_Tool
 
         }
 
-        
-
         private void Tab_Summary_Comp()
         {
             TabPage tab_Summary = (TabPage)MainProgram.Self.TabControl.Controls.Find("tab_SummaryS", true).First();

@@ -144,7 +144,7 @@ namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc
 
             if (StartYear.Length != 4)
             {
-                StartYear = StartYear.Remove(3, 3);
+                StartYear = StartYear.Remove(0, 3);
             }
 
             Data_Import.Singleton().Load_TxtToDataTable2(ref AllKursy, "Kurs");
@@ -339,7 +339,17 @@ namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc
                 {
                     PNC = Dgv_Action["PNC", Row].Value.ToString();
                     Savings = decimal.Parse(Dgv_Action["Saving", Row].Value.ToString());
-                    DataRow FoundRow = _Quantity.Select(string.Format("PNC LIKE '%{0}%'", PNC)).First();
+                    DataRow FoundRow = _Quantity.Select(string.Format("PNC LIKE '%{0}%'", PNC)).FirstOrDefault();
+                    if(FoundRow == null)
+                    {
+                        DataRow NewRow = _Quantity.NewRow();
+                        NewRow["PNC"] = PNC;
+                        _Quantity.Rows.Add(NewRow);
+                        NewRow = _Savings.NewRow();
+                        NewRow["PNC"] = PNC;
+                        _Savings.Rows.Add(NewRow);
+                        FoundRow = _Quantity.Select(string.Format("PNC LIKE '%{0}%'", PNC)).FirstOrDefault();
+                    }
                     FoundRow[(Column - 2).ToString()] = Dgv_Action[Column, Row].Value;
                     FoundRow = _Savings.Select(string.Format("PNC LIKE '%{0}%'", PNC)).First();
                     FoundRow[(Column - 2).ToString()] = (decimal.Parse(Dgv_Action[Column, Row].Value.ToString()) * Savings);
