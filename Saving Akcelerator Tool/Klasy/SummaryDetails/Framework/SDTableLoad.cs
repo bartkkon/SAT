@@ -11,12 +11,8 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
 {
     public class SDTableLoad
     {
-        Data_Import _Import;
-
         public SDTableLoad()
         {
-            _Import = Data_Import.Singleton();
-
             LoadToTable();
         }
 
@@ -44,7 +40,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             Actual.Rows.Clear();
             CarryOver.Rows.Clear();
 
-            _Import.Load_TxtToDataTable2(ref Actions, "Action");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Actions, "Action");
 
             StartMonth = WhatCanBePresented(Year);
             Revision = WhatRevisionApprove(Year);
@@ -84,7 +80,6 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             DataGridViewCellStyle Style = new DataGridViewCellStyle();
             
             int TableRowIndex;
-            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
             string Carry;
             int ChangeCalc;
             bool AddRow = false;
@@ -215,7 +210,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             DataRow FrozenYear;
             string Revision = "";
 
-            _Import.Load_TxtToDataTable2(ref Frozen, "Frozen");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
             FrozenYear = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
             if (Year < DateTime.UtcNow.Year)
@@ -253,7 +248,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             DataTable Frozen = new DataTable();
             DataRow FrozenYear;
 
-            _Import.Load_TxtToDataTable2(ref Frozen, "Frozen");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
 
             if (Year < DateTime.UtcNow.Year)
             {
@@ -377,7 +372,10 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             // 4. Kto jest liderem (Jak wszyscy to All) 
             string ActionKey;
 
-            ActionKey = ActionRow["StartYear"].ToString() + "/";
+            if (ActionRow["StartYear"].ToString().Length == 4 )
+                ActionKey = ActionRow["StartYear"].ToString() + "/";
+            else
+                ActionKey = ActionRow["StartYear"].ToString().Remove(0,3) + "/";
 
             if (Active && Idea)
                 ActionKey += "All/";

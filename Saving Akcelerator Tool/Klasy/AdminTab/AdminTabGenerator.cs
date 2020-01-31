@@ -26,18 +26,21 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab
             //Ładowanie do bazy zrzutu z IDB;
             _ = new IDBView(_adminTab);
 
+            //Wysyłanie Maili z Admina;
             SendMailView SendMail = new SendMailView
             {
-                Location = new Point(1140, 90)
+                Location = new Point(1135, 85)
             };
             _adminTab.Controls.Add(SendMail);
 
+            //Automatyczne przliczaie STK w akcjach Z tenego roku
             AutoUpdateSTKView AutoSTK = new AutoUpdateSTKView
             {
                 Location = new Point(425, 680)
             };
             _adminTab.Controls.Add(AutoSTK);
 
+            //Dodawania konta lub zmiany jego praw
             AddPersonView AccessView = new AddPersonView
             {
                 Location = new Point(425, 15)

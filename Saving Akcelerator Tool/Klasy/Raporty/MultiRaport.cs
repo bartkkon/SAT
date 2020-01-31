@@ -13,8 +13,6 @@ namespace Saving_Accelerator_Tool
 {
     class MultiRaport
     {
-        private readonly Data_Import ImportData;
-        private readonly MainProgram mainProgram;
         private readonly decimal Year;
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool> { };
         private readonly Dictionary<string, bool> Akcje = new Dictionary<string, bool> { };
@@ -51,10 +49,8 @@ namespace Saving_Accelerator_Tool
         };
 
 
-        public MultiRaport(MainProgram mainProgram, Data_Import ImportData, Dictionary<string, bool> Akcje, Dictionary<string, bool> Preferencje, decimal Year)
+        public MultiRaport(Dictionary<string, bool> Akcje, Dictionary<string, bool> Preferencje, decimal Year)
         {
-            this.mainProgram = mainProgram;
-            this.ImportData = ImportData;
             this.Preferencje = Preferencje;
             this.Akcje = Akcje;
             this.Year = Year;
@@ -90,17 +86,14 @@ namespace Saving_Accelerator_Tool
             double[] NVRARev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             double[] NVRCRev = new double[13] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int ColumnForSavings = 0;
-            string Link;
             int MonthA = 0;
             string Rew = "";
             int Start = 4;
 
-            Link = ImportData.Load_Link("Frozen");
-            ImportData.Load_TxtToDataTable(ref Frozen, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
-            Link = ImportData.Load_Link("History");
-            ImportData.Load_TxtToDataTable(ref History, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref History, "History");
 
             for (int counter = 12; counter >= 1; counter--)
             {
@@ -304,7 +297,7 @@ namespace Saving_Accelerator_Tool
                     if (Preferencje["NVR"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Aesthetics", NVRA, ColumnForSavings);
-                        Start = AddTableToWorksheet2(NVRActual, MultiAction, Start, ColumnUse);
+                        _ = AddTableToWorksheet2(NVRActual, MultiAction, Start, ColumnUse);
                     }
                 }
             }
@@ -427,7 +420,7 @@ namespace Saving_Accelerator_Tool
             Remove_Empty_Sheet EmptySheet = new Remove_Empty_Sheet();
             EmptySheet.Remove_Empty(Raport, RaportWorkBook);
 
-            Save_Excel_WorkBook Save = new Save_Excel_WorkBook(mainProgram);
+            Save_Excel_WorkBook Save = new Save_Excel_WorkBook(MainProgram.Self);
             Save.Save_WorkBook(Raport, RaportWorkBook);
 
         }
@@ -441,7 +434,6 @@ namespace Saving_Accelerator_Tool
             double[] Actual = new double[14];
             double[] Carry = new double[14];
             double[] Suma = new double[14];
-            string Link;
             double Euro = 0;
             DataTable Kurs = new DataTable();
             DataRow KursEuro;
@@ -453,8 +445,7 @@ namespace Saving_Accelerator_Tool
                 Suma[counter] = Actual[counter] + Carry[counter];
             }
 
-            Link = ImportData.Load_Link("Kurs");
-            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Kurs, "Kurs");
 
             KursEuro = Kurs.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
             if (KursEuro != null)
@@ -1072,9 +1063,9 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
-                    if (Actual && !Preferencje["Actual"])
+                    if (Actual)
                     {
-                        if (ActionRow["StartYear"].ToString() == "BU/" + Year.ToString())
+                        if (ActionRow["StartYear"].ToString() == "BU/" + Year.ToString() || ActionRow["StartYear"].ToString() == "SA/" + Year.ToString())
                         {
                             if (Preferencje[Devision] && ActionRow["Group"].ToString() == Devision)
                             {
@@ -1125,12 +1116,12 @@ namespace Saving_Accelerator_Tool
         {
             if (ActionRow["Calculate"].ToString() == "ANC")
             {
-                ANC _ANC = new ANC(ImportData, Preferencje);
+                ANC _ANC = new ANC(Data_Import.Singleton(), Preferencje);
                 _ANC.PrepareANC(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
             else if (ActionRow["Calculate"].ToString() == "ANCSpec")
             {
-                ANCSpec _ANCSpec = new ANCSpec(ImportData, Preferencje);
+                ANCSpec _ANCSpec = new ANCSpec(Data_Import.Singleton(), Preferencje);
                 _ANCSpec.PrepareANCSpec(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
             else if (ActionRow["Calculate"].ToString() == "PNC")

@@ -8,6 +8,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc;
 
 namespace Saving_Accelerator_Tool
 {
@@ -372,6 +373,10 @@ namespace Saving_Accelerator_Tool
                     num_ECCC.Enabled = true;
                 else
                     num_ECCC.Enabled = false;
+                if (Users.Singleton().Role == "Admin")
+                {
+                    ((Button)MainProgram.Self.TabControl.Controls.Find("PB_SpecialCalc", true).First()).Visible = false;
+                }
 
             }
             if ((sender as CheckBox).Text == "ANC Special")
@@ -396,6 +401,10 @@ namespace Saving_Accelerator_Tool
                     num_ECCC.Enabled = true;
                 else
                     num_ECCC.Enabled = false;
+                if (Users.Singleton().Role == "Admin")
+                {
+                    ((Button)MainProgram.Self.TabControl.Controls.Find("PB_SpecialCalc", true).First()).Visible = false;
+                }
 
             }
             if ((sender as CheckBox).Text == "PNC")
@@ -418,6 +427,10 @@ namespace Saving_Accelerator_Tool
                     num_ECCC.Enabled = true;
                 else
                     num_ECCC.Enabled = false;
+                if (Users.Singleton().Role == "Admin")
+                {
+                    ((Button)MainProgram.Self.TabControl.Controls.Find("PB_SpecialCalc", true).First()).Visible =false;
+                }
 
             }
             if ((sender as CheckBox).Text == "PNC Special")
@@ -439,6 +452,10 @@ namespace Saving_Accelerator_Tool
                 if (cb_ECCC.Checked && !cb_ECCCSpec.Checked)
                 {
                     num_ECCC.Enabled = true;
+                }
+                if(Users.Singleton().Role == "Admin")
+                {
+                    ((Button)MainProgram.Self.TabControl.Controls.Find("PB_SpecialCalc", true).First()).Visible = true;
                 }
             }
 
@@ -689,6 +706,12 @@ namespace Saving_Accelerator_Tool
             FI.Checked = Status;
             BI.Checked = Status;
             FSBU.Checked = Status;
+        }
+
+        public void Pb_SpecialCalc_Click(object sender, EventArgs e)
+        {
+            SpecialCalcAction SpecialCalc = new SpecialCalcAction();
+            SpecialCalc.ShowDialog();
         }
     }
 }

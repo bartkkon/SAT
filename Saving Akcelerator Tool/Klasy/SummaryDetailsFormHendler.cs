@@ -13,19 +13,15 @@ namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsFormHendler
     {
-        private readonly MainProgram mainProgram;
         private readonly SummaryDetails summaryDetails;
-        private readonly Data_Import data_Import;
         private readonly DataRow Person;
         private readonly Charts charts;
 
-        public SummaryDetailsFormHendler(MainProgram mainProgram, SummaryDetails summaryDetails, DataRow Person, Data_Import data_Import)
+        public SummaryDetailsFormHendler(SummaryDetails summaryDetails, DataRow Person)
         {
-            this.mainProgram = mainProgram;
             this.summaryDetails = summaryDetails;
             this.Person = Person;
-            this.data_Import = data_Import;
-            charts = new Charts(mainProgram);
+            charts = new Charts(MainProgram.Self);
         }
 
         public void Pb_SummDet_Approve_Click(object sender, EventArgs e)
@@ -76,12 +72,12 @@ namespace Saving_Accelerator_Tool
 
         public void Cb_LevelChange_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox cb_Level1 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level1", true).First();
-            CheckBox cb_Level2 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level2", true).First();
-            CheckBox cb_Level3 = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level3", true).First();
-            CheckBox cb_Level1Sum = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level1Sum", true).First();
-            CheckBox cb_Level2Sum = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level2Sum", true).First();
-            CheckBox cb_Level3Sum = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Level3Sum", true).First();
+            CheckBox cb_Level1 = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level1", true).First();
+            CheckBox cb_Level2 = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level2", true).First();
+            CheckBox cb_Level3 = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level3", true).First();
+            CheckBox cb_Level1Sum = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level1Sum", true).First();
+            CheckBox cb_Level2Sum = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level2Sum", true).First();
+            CheckBox cb_Level3Sum = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Level3Sum", true).First();
 
             cb_Level1.CheckedChanged -= Cb_LevelChange_CheckedChanged;
             cb_Level2.CheckedChanged -= Cb_LevelChange_CheckedChanged;
@@ -148,7 +144,7 @@ namespace Saving_Accelerator_Tool
 
         public void GeneretedSumCurrentAction_CarryOver_DataGridView()
         {
-            GroupBox gb_ShowActionSum = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ShowActionSum", true).First();
+            GroupBox gb_ShowActionSum = (GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ShowActionSum", true).First();
 
             Label lab_CurrentActionSum = new Label
             {
@@ -227,11 +223,11 @@ namespace Saving_Accelerator_Tool
         {
             if ((sender as ComboBox).Name == "Comb_SummDevision")
             {
-                ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetDevision", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
+                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetDevision", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
             }
             else if ((sender as ComboBox).Name == "Comb_SummDetDevision")
             {
-                ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDevision", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
+                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDevision", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
             }
         }
 
@@ -239,11 +235,11 @@ namespace Saving_Accelerator_Tool
         {
             if ((sender as ComboBox).Name == "Comb_SummLeader")
             {
-                ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetLeader", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
+                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetLeader", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
             }
             else if ((sender as ComboBox).Name == "Comb_SummDetLeader")
             {
-                ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummLeader", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
+                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummLeader", true).First()).SelectedIndex = (sender as ComboBox).SelectedIndex;
             }
         }
 
@@ -251,11 +247,11 @@ namespace Saving_Accelerator_Tool
         {
             if((sender as NumericUpDown).Name == "num_SummaryDetailYear")
             {
-                ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First()).Value = (sender as NumericUpDown).Value;
+                ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First()).Value = (sender as NumericUpDown).Value;
             }
             else if((sender as NumericUpDown).Name == "num_SummaryDetailYearSum")
             {
-                ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value = (sender as NumericUpDown).Value;
+                ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value = (sender as NumericUpDown).Value;
             }
         }
 
@@ -263,92 +259,87 @@ namespace Saving_Accelerator_Tool
         {
             CheckBox ToCheck = sender as CheckBox;
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First()).CheckedChanged -= Active_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active2", true).First()).CheckedChanged -= Active_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First()).CheckedChanged -= Active_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active2", true).First()).CheckedChanged -= Active_CheckedChange;
 
             if (ToCheck.Name == "CB_Active1")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active2", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active2", true).First()).Checked = ToCheck.Checked;
             }
             else
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First()).Checked = ToCheck.Checked;
             }
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active1", true).First()).CheckedChanged += Active_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Active2", true).First()).CheckedChanged += Active_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First()).CheckedChanged += Active_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active2", true).First()).CheckedChanged += Active_CheckedChange;
         }
 
         public void Idea_CheckedChange(object sender, EventArgs e)
         {
             CheckBox ToCheck = sender as CheckBox;
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First()).CheckedChanged -= Idea_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea2", true).First()).CheckedChanged -= Idea_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea1", true).First()).CheckedChanged -= Idea_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea2", true).First()).CheckedChanged -= Idea_CheckedChange;
 
             if (ToCheck.Name == "CB_Idea1")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea2", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea2", true).First()).Checked = ToCheck.Checked;
             }
             else
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea1", true).First()).Checked = ToCheck.Checked;
             }
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea1", true).First()).CheckedChanged += Idea_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Idea2", true).First()).CheckedChanged += Idea_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea1", true).First()).CheckedChanged += Idea_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea2", true).First()).CheckedChanged += Idea_CheckedChange;
         }
 
         public void Positive_CheckedChange(object sender, EventArgs e)
         {
             CheckBox ToCheck = sender as CheckBox;
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged -= Positive_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged -= Positive_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged -= Positive_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged -= Positive_CheckedChange;
 
             if (ToCheck.Name == "CB_Positive1")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive2", true).First()).Checked = ToCheck.Checked;
             }
             else
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First()).Checked = ToCheck.Checked;
             }
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged += Positive_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged += Positive_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First()).CheckedChanged += Positive_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive2", true).First()).CheckedChanged += Positive_CheckedChange;
         }
 
         public void Negative_CheckedChange(object sender, EventArgs e)
         {
             CheckBox ToCheck = sender as CheckBox;
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged -= Negative_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged -= Negative_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged -= Negative_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged -= Negative_CheckedChange;
 
             if (ToCheck.Name == "CB_Negative1")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative2", true).First()).Checked = ToCheck.Checked;
             }
             else
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).Checked = ToCheck.Checked;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First()).Checked = ToCheck.Checked;
             }
 
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged += Negative_CheckedChange;
-            ((CheckBox)mainProgram.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged += Negative_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First()).CheckedChanged += Negative_CheckedChange;
+            ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged += Negative_CheckedChange;
         }
 
         public void PCRaport_Click(object sender, EventArgs e)
         {
-            //Cursor.Current = Cursors.WaitCursor;
-            //PCRaports_Genereted genereted = new PCRaports_Genereted(mainProgram, data_Import);
-            //genereted.Genereted_PCRaport();
-            //Cursor.Current = Cursors.Default;
+            NumericUpDown YearToCalc = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
 
-            NumericUpDown YearToCalc = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
-
-            ReportingOption Report = new ReportingOption(mainProgram, data_Import, YearToCalc.Value);
+            ReportingOption Report = new ReportingOption(YearToCalc.Value);
             Report.ShowDialog();
         }
 

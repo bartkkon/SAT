@@ -12,19 +12,17 @@ namespace Saving_Accelerator_Tool
 {
     public partial class ReportingOption : Form
     {
-        Data_Import ImportData;
-        MainProgram mainProgram;
+        //Data_Import ImportData;
+        // MainProgram mainProgram;
 
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool>();
         private readonly Dictionary<string, bool> AkcjeApprove = new Dictionary<string, bool>();
 
         decimal Year;
 
-        public ReportingOption(MainProgram mainProgram, Data_Import ImportData, decimal YearToAdd)
+        public ReportingOption(decimal YearToAdd)
         {
             InitializeComponent();
-            this.mainProgram = mainProgram;
-            this.ImportData = ImportData;
 
             this.Name = "Choose your Report";
             TopSummary();
@@ -208,11 +206,11 @@ namespace Saving_Accelerator_Tool
             };
             groupBox.Controls.Add(NVR);
 
-            DataTable Access = new DataTable();
-            Access = ImportData.Load_Access();
+            DataTable Access;
+            Access = Data_Import.Singleton().Load_Access();
             DataRow Person = Access.Rows[0];
 
-            if(Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
+            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
             {
                 Electronic.Checked = true;
                 Electronic.Visible = true;
@@ -221,24 +219,24 @@ namespace Saving_Accelerator_Tool
                 Mechanic.Checked = true;
                 Mechanic.Visible = true;
             }
-            else if(Person["Role"].ToString() == "EleMenager")
+            else if (Person["Role"].ToString() == "EleMenager")
             {
                 Electronic.Checked = true;
                 Electronic.Visible = true;
             }
-            else if(Person["Role"].ToString() == "MechMenager")
+            else if (Person["Role"].ToString() == "MechMenager")
             {
                 Mechanic.Checked = true;
                 Mechanic.Visible = true;
             }
-            else if(Person["Role"].ToString() == "NVRMenager")
+            else if (Person["Role"].ToString() == "NVRMenager")
             {
                 NVR.Checked = true;
                 NVR.Visible = true;
             }
 
             //Person = Access.Select(string.Format(""))
-                
+
         }
 
         //Jakie akcje mają być brane do kalkulacji Avtive czy Idea
@@ -743,200 +741,46 @@ namespace Saving_Accelerator_Tool
         {
             Year = ((NumericUpDown)this.Controls.Find("Num_Year", true).First()).Value;
 
-            if (((CheckBox)this.Controls.Find("ActionYear", true).First()).Checked)
-                Preferencje.Add("Current Action", true);
-            else
-                Preferencje.Add("Current Action", false);
+            Preferencje.Add("Current Action", ((CheckBox)this.Controls.Find("ActionYear", true).First()).Checked);
+            Preferencje.Add("Carry Action", ((CheckBox)this.Controls.Find("CarryOver", true).First()).Checked);
+            Preferencje.Add("Electronic", ((CheckBox)this.Controls.Find("CB_Electronic", true).First()).Checked);
+            Preferencje.Add("Mechanic", ((CheckBox)this.Controls.Find("CB_Mechanic", true).First()).Checked);
+            Preferencje.Add("NVR", ((CheckBox)this.Controls.Find("CB_NVR", true).First()).Checked);
+            Preferencje.Add("Active", ((CheckBox)this.Controls.Find("CB_Active", true).First()).Checked);
+            Preferencje.Add("Idea", ((CheckBox)this.Controls.Find("CB_Idea", true).First()).Checked);
+            Preferencje.Add("Positive", ((CheckBox)this.Controls.Find("CB_Positive", true).First()).Checked);
+            Preferencje.Add("Negative", ((CheckBox)this.Controls.Find("CB_Negative", true).First()).Checked);
+            Preferencje.Add("WS Action", ((CheckBox)this.Controls.Find("CB_ActionList", true).First()).Checked);
+            Preferencje.Add("WS Summ", ((CheckBox)this.Controls.Find("CB_SummaryList", true).First()).Checked);
+            Preferencje.Add("Minimum", ((CheckBox)this.Controls.Find("CB_Minimum", true).First()).Checked);
+            Preferencje.Add("Medium", ((CheckBox)this.Controls.Find("CB_Medium", true).First()).Checked);
+            Preferencje.Add("Maximum", ((CheckBox)this.Controls.Find("CB_Maximum", true).First()).Checked);
+            Preferencje.Add("Actual", ((CheckBox)this.Controls.Find("CB_Actual", true).First()).Checked);
+            Preferencje.Add("BU", ((CheckBox)this.Controls.Find("CB_CalcBU", true).First()).Checked);
+            Preferencje.Add("EA1", ((CheckBox)this.Controls.Find("CB_CalcEA1", true).First()).Checked);
+            Preferencje.Add("EA2", ((CheckBox)this.Controls.Find("CB_CalcEA2", true).First()).Checked);
+            Preferencje.Add("EA3", ((CheckBox)this.Controls.Find("CB_CalcEA3", true).First()).Checked);
+            Preferencje.Add("Description", ((CheckBox)this.Controls.Find("CB_Description", true).First()).Checked);
+            Preferencje.Add("Status", ((CheckBox)this.Controls.Find("CB_Status", true).First()).Checked);
+            Preferencje.Add("Platform", ((CheckBox)this.Controls.Find("CB_Platform", true).First()).Checked);
+            Preferencje.Add("Old ANC", ((CheckBox)this.Controls.Find("CB_OldANC", true).First()).Checked);
+            Preferencje.Add("ANC Old", ((CheckBox)this.Controls.Find("CB_ANCOLD", true).First()).Checked);
+            Preferencje.Add("Old IDCO", ((CheckBox)this.Controls.Find("CB_IDCOOLD", true).First()).Checked);
+            Preferencje.Add("Old STK", ((CheckBox)this.Controls.Find("CB_STKOLD", true).First()).Checked);
+            Preferencje.Add("New ANC", ((CheckBox)this.Controls.Find("CB_NewANC", true).First()).Checked);
+            Preferencje.Add("ANC New", ((CheckBox)this.Controls.Find("CB_ANCNEW", true).First()).Checked);
+            Preferencje.Add("New IDCO", ((CheckBox)this.Controls.Find("CB_IDCONEW", true).First()).Checked);
+            Preferencje.Add("New STK", ((CheckBox)this.Controls.Find("CB_STKNEW", true).First()).Checked);
+            Preferencje.Add("Delta", ((CheckBox)this.Controls.Find("CB_Delta", true).First()).Checked);
+            Preferencje.Add("Quantity", ((CheckBox)this.Controls.Find("CB_Quantity", true).First()).Checked);
+            Preferencje.Add("Savings", ((CheckBox)this.Controls.Find("CB_Savings", true).First()).Checked);
+            Preferencje.Add("ECCC", ((CheckBox)this.Controls.Find("CB_ECCC", true).First()).Checked);
+            Preferencje.Add("Sum USE", ((CheckBox)this.Controls.Find("CB_USE", true).First()).Checked);
+            Preferencje.Add("Sum BU", ((CheckBox)this.Controls.Find("CB_BU", true).First()).Checked);
+            Preferencje.Add("Sum EA1", ((CheckBox)this.Controls.Find("CB_EA1", true).First()).Checked);
+            Preferencje.Add("Sum EA2", ((CheckBox)this.Controls.Find("CB_EA2", true).First()).Checked);
+            Preferencje.Add("Sum EA3", ((CheckBox)this.Controls.Find("CB_EA3", true).First()).Checked);
 
-            if (((CheckBox)this.Controls.Find("CarryOver", true).First()).Checked)
-                Preferencje.Add("Carry Action", true);
-            else
-                Preferencje.Add("Carry Action", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Electronic", true).First()).Checked)
-                Preferencje.Add("Electronic", true);
-            else
-                Preferencje.Add("Electronic", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Mechanic", true).First()).Checked)
-                Preferencje.Add("Mechanic", true);
-            else
-                Preferencje.Add("Mechanic", false);
-
-            if (((CheckBox)this.Controls.Find("CB_NVR", true).First()).Checked)
-                Preferencje.Add("NVR", true);
-            else
-                Preferencje.Add("NVR", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Active", true).First()).Checked)
-                Preferencje.Add("Active", true);
-            else
-                Preferencje.Add("Active", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Idea", true).First()).Checked)
-                Preferencje.Add("Idea", true);
-            else
-                Preferencje.Add("Idea", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Positive", true).First()).Checked)
-                Preferencje.Add("Positive", true);
-            else
-                Preferencje.Add("Positive", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Negative", true).First()).Checked)
-                Preferencje.Add("Negative", true);
-            else
-                Preferencje.Add("Negative", false);
-
-            if (((CheckBox)this.Controls.Find("CB_ActionList", true).First()).Checked)
-                Preferencje.Add("WS Action", true);
-            else
-                Preferencje.Add("WS Action", false);
-
-            if (((CheckBox)this.Controls.Find("CB_SummaryList", true).First()).Checked)
-                Preferencje.Add("WS Summ", true);
-            else
-                Preferencje.Add("WS Summ", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Minimum", true).First()).Checked)
-                Preferencje.Add("Minimum", true);
-            else
-                Preferencje.Add("Minimum", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Medium", true).First()).Checked)
-                Preferencje.Add("Medium", true);
-            else
-                Preferencje.Add("Medium", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Maximum", true).First()).Checked)
-                Preferencje.Add("Maximum", true);
-            else
-                Preferencje.Add("Maximum", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Actual", true).First()).Checked)
-                Preferencje.Add("Actual", true);
-            else
-                Preferencje.Add("Actual", false);
-
-            if (((CheckBox)this.Controls.Find("CB_CalcBU", true).First()).Checked)
-                Preferencje.Add("BU", true);
-            else
-                Preferencje.Add("BU", false);
-
-            if (((CheckBox)this.Controls.Find("CB_CalcEA1", true).First()).Checked)
-                Preferencje.Add("EA1", true);
-            else
-                Preferencje.Add("EA1", false);
-
-            if (((CheckBox)this.Controls.Find("CB_CalcEA2", true).First()).Checked)
-                Preferencje.Add("EA2", true);
-            else
-                Preferencje.Add("EA2", false);
-
-            if (((CheckBox)this.Controls.Find("CB_CalcEA3", true).First()).Checked)
-                Preferencje.Add("EA3", true);
-            else
-                Preferencje.Add("EA3", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Description", true).First()).Checked)
-                Preferencje.Add("Description", true);
-            else
-                Preferencje.Add("Description", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Status", true).First()).Checked)
-                Preferencje.Add("Status", true);
-            else
-                Preferencje.Add("Status", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Platform", true).First()).Checked)
-                Preferencje.Add("Platform", true);
-            else
-                Preferencje.Add("Platform", false);
-
-            if (((CheckBox)this.Controls.Find("CB_OldANC", true).First()).Checked)
-                Preferencje.Add("Old ANC", true);
-            else
-                Preferencje.Add("Old ANC", false);
-
-            if (((CheckBox)this.Controls.Find("CB_ANCOLD", true).First()).Checked)
-                Preferencje.Add("ANC Old", true);
-            else
-                Preferencje.Add("ANC Old", false);
-
-            if (((CheckBox)this.Controls.Find("CB_IDCOOLD", true).First()).Checked)
-                Preferencje.Add("Old IDCO", true);
-            else
-                Preferencje.Add("Old IDCO", false);
-
-            if (((CheckBox)this.Controls.Find("CB_STKOLD", true).First()).Checked)
-                Preferencje.Add("Old STK", true);
-            else
-                Preferencje.Add("Old STK", false);
-
-            if (((CheckBox)this.Controls.Find("CB_NewANC", true).First()).Checked)
-                Preferencje.Add("New ANC", true);
-            else
-                Preferencje.Add("New ANC", false);
-
-            if (((CheckBox)this.Controls.Find("CB_ANCNEW", true).First()).Checked)
-                Preferencje.Add("ANC New", true);
-            else
-                Preferencje.Add("ANC New", false);
-
-            if (((CheckBox)this.Controls.Find("CB_IDCONEW", true).First()).Checked)
-                Preferencje.Add("New IDCO", true);
-            else
-                Preferencje.Add("New IDCO", false);
-
-            if (((CheckBox)this.Controls.Find("CB_STKNEW", true).First()).Checked)
-                Preferencje.Add("New STK", true);
-            else
-                Preferencje.Add("New STK", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Delta", true).First()).Checked)
-                Preferencje.Add("Delta", true);
-            else
-                Preferencje.Add("Delta", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Quantity", true).First()).Checked)
-                Preferencje.Add("Quantity", true);
-            else
-                Preferencje.Add("Quantity", false);
-
-            if (((CheckBox)this.Controls.Find("CB_Savings", true).First()).Checked)
-                Preferencje.Add("Savings", true);
-            else
-                Preferencje.Add("Savings", false);
-
-            if (((CheckBox)this.Controls.Find("CB_ECCC", true).First()).Checked)
-                Preferencje.Add("ECCC", true);
-            else
-                Preferencje.Add("ECCC", false);
-
-            if (((CheckBox)this.Controls.Find("CB_USE", true).First()).Checked)
-                Preferencje.Add("Sum USE", true);
-            else
-                Preferencje.Add("Sum USE", false);
-
-            if (((CheckBox)this.Controls.Find("CB_BU", true).First()).Checked)
-                Preferencje.Add("Sum BU", true);
-            else
-                Preferencje.Add("Sum BU", false);
-
-            if (((CheckBox)this.Controls.Find("CB_EA1", true).First()).Checked)
-                Preferencje.Add("Sum EA1", true);
-            else
-                Preferencje.Add("Sum EA1", false);
-
-            if (((CheckBox)this.Controls.Find("CB_EA2", true).First()).Checked)
-                Preferencje.Add("Sum EA2", true);
-            else
-                Preferencje.Add("Sum EA2", false);
-
-            if (((CheckBox)this.Controls.Find("CB_EA3", true).First()).Checked)
-                Preferencje.Add("Sum EA3", true);
-            else
-                Preferencje.Add("Sum EA3", false);
         }
 
         //Wybranie akcji które mają być ujęte w zestawieniu
@@ -947,8 +791,6 @@ namespace Saving_Accelerator_Tool
             this.Controls.Remove(Personaliza);
 
             SelectedAction();
-
-            //AddActionToDataGrid();
         }
 
         //Dodanie GroupBoxa dla dla wybrania akcji których mamy wybrać do raportu
@@ -974,15 +816,16 @@ namespace Saving_Accelerator_Tool
             };
             Selected.Controls.Add(Action);
 
-            DataGridViewCheckBoxColumn ColumnCheckBox = new DataGridViewCheckBoxColumn();
-            ColumnCheckBox.Name = "Check";
-            ColumnCheckBox.HeaderText = "";
-            ColumnCheckBox.Width = 50;
-            ColumnCheckBox.ReadOnly = false;
+            DataGridViewCheckBoxColumn ColumnCheckBox = new DataGridViewCheckBoxColumn
+            {
+                Name = "Check",
+                HeaderText = "",
+                Width = 50,
+                ReadOnly = false
+            };
 
             Action.Columns.Add(ColumnCheckBox);
 
-            //Action.Columns.Add("Check", "");
             Action.Columns.Add("Name", "Action Name");
             Action.Columns[1].ReadOnly = true;
             Action.Columns[1].Width = 285;
@@ -1004,23 +847,17 @@ namespace Saving_Accelerator_Tool
         {
             DataRow[] AllAction;
             DataTable Action = new DataTable();
-            DataTable CalcAction = new DataTable();
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
             DataGridViewRow AllActionRow;
-            string Link;
             int Index;
             int Month = 0;
 
-            Link = ImportData.Load_Link("History");
-            ImportData.Load_TxtToDataTable(ref Action, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Action, "History");
 
-            Link = ImportData.Load_Link("Frozen");
-            ImportData.Load_TxtToDataTable(ref Frozen, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
-
-            CalcAction = Action.Clone();
 
             for (int counter = 12; counter >= 1; counter--)
             {
@@ -1072,7 +909,7 @@ namespace Saving_Accelerator_Tool
                 {
                     if (Preferencje["Current Action"])
                     {
-                        if (ActionRow["StartYear"].ToString() == Year.ToString() || (ActionRow["StartYear"].ToString() == "BU/" + Year.ToString() && !Preferencje["Actual"]))
+                        if ((ActionRow["StartYear"].ToString() == Year.ToString()) || (ActionRow["StartYear"].ToString() == "BU/" + Year.ToString()) || (ActionRow["StartYear"].ToString() == ("SA/" + Year).ToString()))
                         {
                             if (Preferencje["Electronic"] && ActionRow["Group"].ToString() == "Electronic")
                             {
@@ -1341,7 +1178,7 @@ namespace Saving_Accelerator_Tool
             {
                 Cursor.Current = Cursors.WaitCursor;
                 ActionToDictionary();
-                MultiRaport CreateRaport = new MultiRaport(mainProgram, ImportData, AkcjeApprove, Preferencje, Year);
+                MultiRaport CreateRaport = new MultiRaport(AkcjeApprove, Preferencje, Year);
                 CreateRaport.GeneretedMutliRaport();
                 Cursor.Current = Cursors.Default;
                 this.Close();

@@ -11,35 +11,29 @@ namespace Saving_Accelerator_Tool
 {
     public class LoadAction
     {
+        private readonly Action action;
 
-        MainProgram mainProgram;
-        Data_Import ImportData;
-        Action action;
+        private readonly DataTable USE = new DataTable();
+        private readonly DataTable BU = new DataTable();
+        private readonly DataTable EA1 = new DataTable();
+        private readonly DataTable EA2 = new DataTable();
+        private readonly DataTable EA3 = new DataTable();
 
-        DataTable USE = new DataTable();
-        DataTable BU = new DataTable();
-        DataTable EA1 = new DataTable();
-        DataTable EA2 = new DataTable();
-        DataTable EA3 = new DataTable();
+        private readonly Dictionary<string, string> IDCODictionary = new Dictionary<string, string>();
 
-        Dictionary<string, string> IDCODictionary = new Dictionary<string, string>();
-
-        public LoadAction(MainProgram mainProgram, Data_Import ImportData, Action action)
+        public LoadAction(Action action)
         {
-            this.mainProgram = mainProgram;
-            this.ImportData = ImportData;
             this.action = action;
         }
 
         public void Load(string ActionToLoad)
         {
-            //try
-            //{
+
             DataRow Action;
             decimal Year;
 
             //Z jakiego roku ma być akcja
-            Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
+            Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
 
             //Ładowanie Akcji 
             Action = ImportRowAction(ActionToLoad, Year);
@@ -50,18 +44,26 @@ namespace Saving_Accelerator_Tool
                 return;
             }
 
-            ((TextBox)mainProgram.TabControl.Controls.Find("tb_Name", true).First()).Text = Action["Name"].ToString();
-            ((GroupBox)mainProgram.TabControl.Controls.Find("gb_ActiveAction", true).First()).Text = Action["Name"].ToString();
-            ((TextBox)mainProgram.TabControl.Controls.Find("tb_Description", true).First()).Text = (Action["Description"].ToString()).Replace("/n", Environment.NewLine);
-            ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearAction", true).First()).Value = decimal.Parse(Action["StartYear"].ToString());
-            ((TextBox)mainProgram.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text = Action["PNCANCPersent"].ToString();
-            ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Text = Action["StartMonth"].ToString();
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("tb_Name", true).First()).Text = Action["Name"].ToString();
+            ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ActiveAction", true).First()).Text = Action["Name"].ToString();
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("tb_Description", true).First()).Text = (Action["Description"].ToString()).Replace("/n", Environment.NewLine);
+            if(Action["StartYear"].ToString().Length == 4)
+                ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Value = decimal.Parse(Action["StartYear"].ToString());
+            else
+            {
+                ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Value = decimal.Parse(Action["StartYear"].ToString().Remove(0, 3));
+            }
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text = Action["PNCANCPersent"].ToString();
+            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Text = Action["StartMonth"].ToString();
 
             //Ustawienie Dewizji
             Devision(Action);
 
             //Jeśli akcja jest Carry Over ustawia odpowiednie przyciski
-            CarryOverButton(decimal.Parse(Action["StartYear"].ToString()), Year);
+            if (Action["StartYear"].ToString().Length == 4)
+                CarryOverButton(decimal.Parse(Action["StartYear"].ToString()), Year);
+            else
+                CarryOverButton(decimal.Parse(Action["StartYear"].ToString().Remove(0, 3)),Year);
 
             //Fabryka 
             Plant(Action["Factory"].ToString());
@@ -102,16 +104,12 @@ namespace Saving_Accelerator_Tool
 
             //Wypełnij tabele jeśli są dane
             PerANC_PNCToTable(Action, Year);
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogSingleton.Instance.SaveLog(ex.Message);
-            //}
+
         }
 
         private void ClearMassANCby()
         {
-            CheckBox All = (CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First();
+            CheckBox All = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_All", true).First();
 
             All.Checked = true;
             All.Checked = false;
@@ -317,13 +315,10 @@ namespace Saving_Accelerator_Tool
         //ładowanie tabeli z akcjami plus wyciągnięcie akcji która nas interesuje
         private DataRow ImportRowAction(string ActionName, decimal Year)
         {
-            string Link;
             DataTable ActionList = new DataTable();
             DataRow[] FoundArry;
 
-            Link = ImportData.Load_Link("Action");
-
-            ImportData.Load_TxtToDataTable(ref ActionList, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref ActionList, "Action");
 
             FoundArry = ActionList.Select(string.Format("Name LIKE '%{0}%'", ActionName)).ToArray();
 
@@ -337,6 +332,10 @@ namespace Saving_Accelerator_Tool
                 {
                     return Row;
                 }
+                else if (Row["Name"].ToString() == ActionName && Row["StartYear"].ToString() == "SA/" + Year.ToString())
+                {
+                    return Row;
+                }
             }
 
             return null;
@@ -345,7 +344,7 @@ namespace Saving_Accelerator_Tool
         //Ustawienie odpowiedniej Dewizji 
         private void Devision(DataRow Action)
         {
-            ComboBox DevisionBox = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Devision", true).First();
+            ComboBox DevisionBox = (ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Devision", true).First();
 
             if (DevisionBox.Items.Contains(Action["Group"].ToString()))
             {
@@ -359,8 +358,8 @@ namespace Saving_Accelerator_Tool
         {
             if (ActionYear == YearOption - 1)
             {
-                Button pb_CarryOver = (Button)mainProgram.TabControl.Controls.Find("pb_CarryOver", true).First();
-                Button pb_CurrentYear = (Button)mainProgram.TabControl.Controls.Find("pb_CurrentYear", true).First();
+                Button pb_CarryOver = (Button)MainProgram.Self.TabControl.Controls.Find("pb_CarryOver", true).First();
+                Button pb_CurrentYear = (Button)MainProgram.Self.TabControl.Controls.Find("pb_CurrentYear", true).First();
                 pb_CarryOver.Enabled = true;
                 pb_CarryOver.UseVisualStyleBackColor = false;
                 pb_CarryOver.BackColor = Color.LightBlue;
@@ -371,7 +370,7 @@ namespace Saving_Accelerator_Tool
         //Ładowanie jakiej fabryki jest akcja
         private void Plant(string Factory)
         {
-            ComboBox FactoryBox = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Factory", true).First();
+            ComboBox FactoryBox = (ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Factory", true).First();
             if (Factory != "")
             {
                 if (Factory == "PLV")
@@ -398,11 +397,11 @@ namespace Saving_Accelerator_Tool
                 Platform1 = Plat.Split('/');
                 if (Platform1[0] == "DMD")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_DMD", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_DMD", true).First()).Checked = true;
                 }
                 if (Platform1[1] == "D45")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_D45", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_D45", true).First()).Checked = true;
                 }
             }
         }
@@ -416,23 +415,23 @@ namespace Saving_Accelerator_Tool
                 Installation = Instal.Split('/');
                 if (Installation[0] == "FS")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_FS", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_FS", true).First()).Checked = true;
                 }
                 if (Installation[1] == "FI")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_FI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_FI", true).First()).Checked = true;
                 }
                 if (Installation[2] == "BI")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_BI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_BI", true).First()).Checked = true;
                 }
                 if (Installation[3] == "BU")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_BU", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_BU", true).First()).Checked = true;
                 }
                 if (Installation[4] == "FSBU")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_FSBU", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_FSBU", true).First()).Checked = true;
                 }
             }
         }
@@ -440,7 +439,7 @@ namespace Saving_Accelerator_Tool
         //ładoawnie Lidera Akcji 
         private void Leader(string Who)
         {
-            ComboBox LeaderBox = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_Leader", true).First();
+            ComboBox LeaderBox = (ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Leader", true).First();
 
             if (LeaderBox.Items.Contains(Who))
             {
@@ -456,24 +455,24 @@ namespace Saving_Accelerator_Tool
 
             if (How == "ANC")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcANC", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_CalcANC", true).First()).Checked = true;
                 ECCCSec(Action["ECCC"].ToString());
             }
             else if (How == "ANCSpec")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcANCby", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_CalcANCby", true).First()).Checked = true;
                 ECCCSec(Action["ECCC"].ToString());
                 CheckANCSPec(Action["Calc"].ToString(), Action["CalcMass"].ToString());
             }
             else if (How == "PNC")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNC", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_CalcPNC", true).First()).Checked = true;
                 ECCCSec(Action["ECCC"].ToString());
                 PNCLoad(Action);
             }
             else if (How == "PNCSpec")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNCSpec", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_CalcPNCSpec", true).First()).Checked = true;
                 ECCCSec(Action["ECCC"].ToString());
                 PNCSpecLoad(Action);
             }
@@ -482,8 +481,8 @@ namespace Saving_Accelerator_Tool
         //Ładowanie sekund dla ECCC
         private void ECCCSec(string ECCC)
         {
-            NumericUpDown ECCCSekundnik = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_ECCC", true).First();
-            CheckBox ECCCCB = (CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCC", true).First();
+            NumericUpDown ECCCSekundnik = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_ECCC", true).First();
+            CheckBox ECCCCB = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_ECCC", true).First();
 
             string[] ECCCArry;
 
@@ -498,7 +497,7 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ECCCSpec", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_ECCCSpec", true).First()).Checked = true;
                 }
             }
         }
@@ -506,7 +505,7 @@ namespace Saving_Accelerator_Tool
         //Ładowanie PNC dla kalkulacji pod PNC
         private void PNCLoad(DataRow Action)
         {
-            DataGridView DG = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
+            DataGridView DG = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
             string[] PNC;
 
             CreateColumn(ref DG, "PNC", 80, Color.Black);
@@ -532,9 +531,9 @@ namespace Saving_Accelerator_Tool
             string[] ECCC;
 
 
-            DataGridView DG = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
+            DataGridView DG = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
 
-            ((TextBox)mainProgram.TabControl.Controls.Find("TB_EstymacjaPNC", true).First()).Text = Action["PNCEstyma"].ToString();
+            ((TextBox)MainProgram.Self.TabControl.Controls.Find("TB_EstymacjaPNC", true).First()).Text = Action["PNCEstyma"].ToString();
 
             //Dodawanie kolum 
             CreateColumn(ref DG, "PNC", 80, Color.Black);
@@ -613,13 +612,15 @@ namespace Saving_Accelerator_Tool
         //Tworzenie kolumny
         private void CreateColumn(ref DataGridView Table, string Name, int Width, Color color)
         {
-            DataGridViewColumn NewColumn = new DataGridViewTextBoxColumn();
-            NewColumn.Name = Name;
-            NewColumn.HeaderText = Name;
-            NewColumn.Width = Width;
+            DataGridViewColumn NewColumn = new DataGridViewTextBoxColumn
+            {
+                Name = Name,
+                HeaderText = Name,
+                Width = Width,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+                ValueType = typeof(String),
+            };
             NewColumn.DefaultCellStyle.ForeColor = color;
-            NewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
-            NewColumn.ValueType = typeof(String);
             Table.Columns.Add(NewColumn);
         }
 
@@ -697,27 +698,27 @@ namespace Saving_Accelerator_Tool
             decimal DeltaSum = 0;
             decimal CalcSum = 0;
 
-            Label OLD = (Label)mainProgram.TabControl.Controls.Find("lab_OldSum", true).First();
-            Label NEW = (Label)mainProgram.TabControl.Controls.Find("lab_NewSum", true).First();
-            Label Delta = (Label)mainProgram.TabControl.Controls.Find("lab_DeltaSum", true).First();
-            Label Calc = (Label)mainProgram.TabControl.Controls.Find("lab_CalcSum", true).First();
+            Label OLD = (Label)MainProgram.Self.TabControl.Controls.Find("lab_OldSum", true).First();
+            Label NEW = (Label)MainProgram.Self.TabControl.Controls.Find("lab_NewSum", true).First();
+            Label Delta = (Label)MainProgram.Self.TabControl.Controls.Find("lab_DeltaSum", true).First();
+            Label Calc = (Label)MainProgram.Self.TabControl.Controls.Find("lab_CalcSum", true).First();
 
 
             for (int counter = 1; counter <= ANCChangeNumber; counter++)
             {
-                if (((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text == "")
-                    ((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text = "0";
-                if (((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text == "")
-                    ((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text = "0";
-                if (((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text == "")
-                    ((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text = "0";
-                if (((Label)mainProgram.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text == "")
-                    ((Label)mainProgram.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)MainProgram.Self.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text == "")
+                    ((Label)MainProgram.Self.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)MainProgram.Self.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text == "")
+                    ((Label)MainProgram.Self.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)MainProgram.Self.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text == "")
+                    ((Label)MainProgram.Self.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text = "0";
+                if (((Label)MainProgram.Self.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text == "")
+                    ((Label)MainProgram.Self.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text = "0";
 
-                OLDSTK = OLDSTK + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text);
-                NEWSTK = NEWSTK + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text);
-                DeltaSum = DeltaSum + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text);
-                CalcSum = CalcSum + decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text);
+                OLDSTK += decimal.Parse(((Label)MainProgram.Self.TabControl.Controls.Find("lab_OldSTK" + counter.ToString(), true).First()).Text);
+                NEWSTK += decimal.Parse(((Label)MainProgram.Self.TabControl.Controls.Find("lab_NewSTK" + counter.ToString(), true).First()).Text);
+                DeltaSum += decimal.Parse(((Label)MainProgram.Self.TabControl.Controls.Find("lab_Delta" + counter.ToString(), true).First()).Text);
+                CalcSum += decimal.Parse(((Label)MainProgram.Self.TabControl.Controls.Find("lab_Calc" + counter.ToString(), true).First()).Text);
             }
 
             OLD.Text = OLDSTK.ToString();
@@ -764,41 +765,41 @@ namespace Saving_Accelerator_Tool
                 if (Calc[counter] == "true")
                 {
                     Status = true;
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_ANCby" + (counter + 1).ToString(), true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_ANCby" + (counter + 1).ToString(), true).First()).Checked = true;
                 }
             }
             if(!Status)
             {
                 if(CalcMass[0] == "All")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_All", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_All", true).First()).Checked = true;
                     return;
                 }
                 if (CalcMass[1] == "DMD")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_DMD", true).First()).Checked = true;
                 }
                 if (CalcMass[2] == "D45")
                 {
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_D45", true).First()).Checked = true;
                 }
                 if (CalcMass[3] == "DMD_FS")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FS", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_DMD_FS", true).First()).Checked = true;
                 if (CalcMass[4] == "DMD_FI")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_DMD_FI", true).First()).Checked = true;
                 if (CalcMass[5] == "DMD_BI")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_BI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_DMD_BI", true).First()).Checked = true;
                 if (CalcMass[6] == "DMD_FSBU")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_DMD_FSBU", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_DMD_FSBU", true).First()).Checked = true;
 
                 if (CalcMass[7] == "D45_FS")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FS", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_D45_FS", true).First()).Checked = true;
                 if (CalcMass[8] == "D45_FI")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_D45_FI", true).First()).Checked = true;
                 if (CalcMass[9] == "D45_BI")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_BI", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_D45_BI", true).First()).Checked = true;
                 if (CalcMass[10] == "D45_FSBU")
-                    ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Mass_D45_FSBU", true).First()).Checked = true;
+                    ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_D45_FSBU", true).First()).Checked = true;
 
             }
         }
@@ -808,7 +809,12 @@ namespace Saving_Accelerator_Tool
         {
             string Carry = "";
             string[] What = new string[3] { "Quantity", "Saving", "ECCC" };
-            decimal YearStart = decimal.Parse(Action["StartYear"].ToString());
+            decimal YearStart;
+
+            if (Action["StartYear"].ToString().Length ==4    )
+                YearStart = decimal.Parse(Action["StartYear"].ToString());
+            else
+                YearStart = decimal.Parse(Action["StartYear"].ToString().Remove(0,3));
 
             if (YearStart == Year - 1)
             {
@@ -824,7 +830,7 @@ namespace Saving_Accelerator_Tool
         //Ładowanie danych bezpośrednio do gridów Quantity, savings, ECCC
         private void SpecififcGridLoad(DataRow Action, string TableName, string Carry)
         {
-            DataGridView DG = (DataGridView)mainProgram.TabControl.Controls.Find("dg_" + TableName, true).First();
+            DataGridView DG = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_" + TableName, true).First();
 
             string[] BU = Action["CalcBU" + TableName + Carry].ToString().Split('/');
             string[] EA1 = Action["CalcEA1" + TableName + Carry].ToString().Split('/');
@@ -880,15 +886,15 @@ namespace Saving_Accelerator_Tool
         {
             if (Status == "Active")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Active", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Active", true).First()).Checked = true;
             }
             else if (Status == "Idea")
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Idea", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Idea", true).First()).Checked = true;
             }
             else
             {
-                ((CheckBox)mainProgram.TabControl.Controls.Find("cb_Active", true).First()).Checked = true;
+                ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Active", true).First()).Checked = true;
             }
         }
 

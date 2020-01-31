@@ -12,17 +12,6 @@ namespace Saving_Accelerator_Tool
 {
     public class SummaryDetails
     {
-        private readonly Data_Import ImportData;
-
-        private readonly string LinkAction;
-        private readonly string LinkFrozen;
-
-        public SummaryDetails()
-        {
-            ImportData = Data_Import.Singleton();
-            LinkAction = ImportData.Load_Link("Action");
-            LinkFrozen = ImportData.Load_Link("Frozen");
-        }
 
         public void SummaryDetails_ReportApprove(string Devision, string PC)
         {
@@ -81,17 +70,13 @@ namespace Saving_Accelerator_Tool
         // Przeliczanie akcji dla raportu finalnego
         private void AddToFinalReport(string Devision)
         {
-            string Link;
-
             DataTable Frozen = new DataTable();
             DataRow FrozenYear;
             decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
             if (Devision != "Product Care Approve")
             {
-
-                Link = ImportData.Load_Link("Frozen");
-                ImportData.Load_TxtToDataTable(ref Frozen, Link);
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
 
                 FrozenYear = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
@@ -99,19 +84,19 @@ namespace Saving_Accelerator_Tool
 
                 if (FrozenYear["BU"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "BU", Year, ImportData);
+                    PC_Approval.Approve_Info(Devision, "BU", Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA1"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA1", Year, ImportData);
+                    PC_Approval.Approve_Info(Devision, "EA1", Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA2"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA2", Year, ImportData);
+                    PC_Approval.Approve_Info(Devision, "EA2", Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA3"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA3", Year, ImportData);
+                    PC_Approval.Approve_Info(Devision, "EA3", Year, Data_Import.Singleton());
                 }
 
 
@@ -143,7 +128,7 @@ namespace Saving_Accelerator_Tool
             bool ToApprove = false;
             int ToApproveFull = 0;
 
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
             if (Devision.Substring(0, 2) == "PC")
@@ -389,7 +374,7 @@ namespace Saving_Accelerator_Tool
             string MailTo;
             string ToReject;
 
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
             ToReject = WhatIsToApprove(FrozenRow);
@@ -415,7 +400,7 @@ namespace Saving_Accelerator_Tool
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
                 }
             }
-            ImportData.Save_DataTableToTXT(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
         }
 
         private void ReportApprove(string Devision)
@@ -426,7 +411,7 @@ namespace Saving_Accelerator_Tool
             string MailTo;
             string ToApprove;
 
-            ImportData.Load_TxtToDataTable(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
             ToApprove = WhatIsToApprove(FrozenRow);
@@ -462,7 +447,7 @@ namespace Saving_Accelerator_Tool
                     FrozenRow[ToApprove] = "Approve";
                 }
             }
-            ImportData.Save_DataTableToTXT(ref Frozen, LinkFrozen);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
         }
 
         private string WhatIsToApprove(DataRow frozenRow)
@@ -509,8 +494,6 @@ namespace Saving_Accelerator_Tool
             DataTable Action = new DataTable();
             decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
-            //DataGridView dg_CurrentAction = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CurrentAction", true).First();
-            //DataGridView dg_CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_CarryOver", true).First();
             ComboBox Leader = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetLeader", true).First();
             ComboBox Devision = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetDevision", true).First();
             CheckBox Active = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First();
@@ -518,16 +501,14 @@ namespace Saving_Accelerator_Tool
             CheckBox Positive = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First();
             CheckBox Negative = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First();
 
-            //dg_CurrentAction.Rows.Clear();
-            //dg_CarryOver.Rows.Clear();
 
-            ImportData.Load_TxtToDataTable(ref Action, LinkAction);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Action, "Action");
 
             AddZerotoDataGridView();
 
             foreach (DataRow ActionRow in Action.Rows)
             {
-                if (ActionRow["StartYear"].ToString() == Year.ToString() || ActionRow["StartYear"].ToString() == "BU/" + Year.ToString())
+                if (ActionRow["StartYear"].ToString() == Year.ToString() || ActionRow["StartYear"].ToString() == "BU/" + Year.ToString() || ActionRow["StartYear"].ToString() == "SA/" + Year.ToString())
                 {
                     if (ActionRow["Status"].ToString() == "Active" && Active.Checked)
                     {
@@ -965,7 +946,6 @@ namespace Saving_Accelerator_Tool
 
         private void PlanCheck()
         {
-            string Link;
             DataTable Kurs = new DataTable();
             DataRow KursRow;
 
@@ -977,8 +957,7 @@ namespace Saving_Accelerator_Tool
             DataGridView ECCCPlan = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_SavingSumECCC", true).First();
             NumericUpDown Num_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
 
-            Link = ImportData.Load_Link("Kurs");
-            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Kurs, "Kurs");
 
             KursRow = Kurs.Select(string.Format("Year LIKE '%{0}%'", Num_Year.Value.ToString())).FirstOrDefault();
 
@@ -993,7 +972,6 @@ namespace Saving_Accelerator_Tool
 
         private void SumPlanCheck()
         {
-            string Link;
             DataTable Kurs = new DataTable();
             DataRow KursRow;
 
@@ -1001,8 +979,7 @@ namespace Saving_Accelerator_Tool
             DataGridView Summ = (DataGridView)MainProgram.Self.TabControl.Controls.Find("DVG_SumPlan", true).First();
             NumericUpDown Num_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First();
 
-            Link = ImportData.Load_Link("Kurs");
-            ImportData.Load_TxtToDataTable(ref Kurs, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Kurs, "Kurs");
 
             KursRow = Kurs.Select(string.Format("Year LIKE '%{0}%'", Num_Year.Value.ToString())).FirstOrDefault();
 

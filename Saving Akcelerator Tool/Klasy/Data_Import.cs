@@ -198,7 +198,6 @@ namespace Saving_Accelerator_Tool
             int counter = 0;
             string[] Row;
 
-
             Data = File.ReadAllLines(Link);
             foreach (string line in Data)
             {
@@ -221,8 +220,6 @@ namespace Saving_Accelerator_Tool
                 }
                 counter++;
             }
-
-            //Log("Load Txt Base to program:  " + Link);
         }
 
         private void Save_File(ref DataTable Table, string Link)

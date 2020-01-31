@@ -12,110 +12,94 @@ namespace Saving_Accelerator_Tool
 {
     class ModifiActionFormHendler
     {
-        MainProgram mainProgram;
-        Data_Import ImportData;
-        TabPage Tab_AdminAction;
-        string LinkAction;
-        string LinkHistory;
-        string LinkFrozen;
-        string LinkAccess;
-        string LinkKurs;
-        string LinkSTK;
+        private readonly TabPage Tab_AdminAction;
 
-        public ModifiActionFormHendler(MainProgram mainProgram, Data_Import ImportData, TabPage Tab_AdminAction)
+        public ModifiActionFormHendler(TabPage Tab_AdminAction)
         {
-            this.ImportData = ImportData;
             this.Tab_AdminAction = Tab_AdminAction;
-            this.mainProgram = mainProgram;
-            LinkHistory = ImportData.Load_Link("History");
-            LinkAction = ImportData.Load_Link("Action");
-            LinkFrozen = ImportData.Load_Link("Frozen");
-            LinkAccess = ImportData.Load_Link("Access");
-            LinkKurs = ImportData.Load_Link("Kurs");
-            LinkSTK = ImportData.Load_Link("STK");
         }
 
         public void Pb_AdminAction_LoadSTK_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkSTK);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("STK"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveSTK_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkSTK);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("STK"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_LoadHistory_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkHistory);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("History"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveHistory_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkHistory);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("History"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_LoadKursy_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkKurs);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("Kurs"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveKursy_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkKurs);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("Kurs"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_LoadAction_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkAction);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("Action"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveAction_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkAction);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("Action"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_LoadFrozen_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkFrozen);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("Frozen"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveFrozen_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkFrozen);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("Frozen"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_LoadAccess_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            LoadToDataGridView(LinkAccess);
+            LoadToDataGridView(Data_Import.Singleton().Load_Link("Access"));
             Cursor.Current = Cursors.Default;
         }
 
         public void Pb_AdminAction_SaveAccess_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            SaveFromDataGridView(LinkAccess);
+            SaveFromDataGridView(Data_Import.Singleton().Load_Link("Access"));
             Cursor.Current = Cursors.Default;
         }
 
@@ -126,8 +110,6 @@ namespace Saving_Accelerator_Tool
 
             Cursor.Current = Cursors.WaitCursor;
 
-            //Dg_AdminActionGrid.Rows.Clear();
-            //Dg_AdminActionGrid.Columns.Clear();
             Dg_AdminActionGrid.DataSource = null;
             Dg_AdminActionGrid.Refresh();
             Gb_AdminAction_NewColumn.Enabled = false;
@@ -147,8 +129,10 @@ namespace Saving_Accelerator_Tool
             {
 
                 DataTable TableSource = (DataTable)Dg_AdminActionGrid.DataSource;
-                DataColumn NewColumn = new DataColumn();
-                NewColumn.ColumnName = Tb_AdminAction_NewColumn.Text;
+                DataColumn NewColumn = new DataColumn
+                {
+                    ColumnName = Tb_AdminAction_NewColumn.Text
+                };
                 TableSource.Columns.Add(NewColumn);
                 TableSource.Columns[Tb_AdminAction_NewColumn.Text].SetOrdinal(Decimal.ToInt32(Num_AdminAction_NewColumn.Value));
 
@@ -167,10 +151,7 @@ namespace Saving_Accelerator_Tool
 
         private void SaveToXML()
         {
-            //Level1 level1 = new Level1(mainProgram, ImportData);
-            //level1.Genereted_Level1();
-
-            ReportingOption Report = new ReportingOption(mainProgram, ImportData, 2020);
+            ReportingOption Report = new ReportingOption(2020);
             Report.ShowDialog();
         }
 
@@ -179,9 +160,9 @@ namespace Saving_Accelerator_Tool
             DataTable ActionTable = new DataTable();
             DataGridView Dg_AdminActionGrid = (DataGridView)Tab_AdminAction.Controls.Find("Dg_AdminActionGrid", true).First();
             GroupBox Gb_AdminAction_NewColumn = (GroupBox)Tab_AdminAction.Controls.Find("Gb_AdminAction_NewColumn", true).First();
-            Label QuantityColumns = (Label)mainProgram.TabControl.Controls.Find("Lab_ColumnQuantity", true).First();
+            Label QuantityColumns = (Label)MainProgram.Self.TabControl.Controls.Find("Lab_ColumnQuantity", true).First();
 
-            ImportData.Load_TxtToDataTable(ref ActionTable, Link);
+            Data_Import.Singleton().Load_TxtToDataTable(ref ActionTable, Link);
             Dg_AdminActionGrid.DataSource = ActionTable;
             foreach (DataGridViewColumn Column in Dg_AdminActionGrid.Columns)
             {
@@ -195,11 +176,11 @@ namespace Saving_Accelerator_Tool
 
         private void SaveFromDataGridView(string Link)
         {
-            DataTable Actiontable = new DataTable();
+            DataTable Actiontable;
             DataGridView Dg_AdminActionGrid = (DataGridView)Tab_AdminAction.Controls.Find("Dg_AdminActionGrid", true).First();
 
             Actiontable = (DataTable)(Dg_AdminActionGrid.DataSource);
-            ImportData.Save_DataTableToTXT(ref Actiontable, Link);
+            Data_Import.Singleton().Save_DataTableToTXT(ref Actiontable, Link);
         }
     }
 }
