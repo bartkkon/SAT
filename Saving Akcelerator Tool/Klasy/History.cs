@@ -10,24 +10,18 @@ namespace Saving_Accelerator_Tool
 {
     class History
     {
-        private readonly Data_Import data_Import;
-
         public History()
         {
-
-            data_Import = Data_Import.Singleton();
         }
 
         public void HistorySave()
         {
             DataTable Frozen = new DataTable();
             DataRow FrozenRow;
-            string Link;
 
             decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
 
-            Link = data_Import.Load_Link("Frozen");
-            data_Import.Load_TxtToDataTable(ref Frozen, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
@@ -69,10 +63,8 @@ namespace Saving_Accelerator_Tool
         {
             DataTable Historia = new DataTable();
             DataRow[] ForDelete;
-            string Link;
 
-            Link = data_Import.Load_Link("History");
-            data_Import.Load_TxtToDataTable(ref Historia, Link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Historia, "History");
 
             ForDelete = Historia.Select(string.Format("History LIKE '%{0}%'", what + "/" + Year.ToString())).ToArray();
 
@@ -84,27 +76,23 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
-            data_Import.Save_DataTableToTXT(ref Historia, Link);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Historia, "History");
         }
 
         private void AddRowForHistory(string What,decimal  Year)
         {
             DataTable Action = new DataTable();
             DataTable Historia = new DataTable();
-            string LinkHistory;
-            string LinkAction;
 
-            LinkHistory = data_Import.Load_Link("History");
-            LinkAction = data_Import.Load_Link("Action");
-            data_Import.Load_TxtToDataTable(ref Historia, LinkHistory);
-            data_Import.Load_TxtToDataTable(ref Action, LinkAction);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Historia, "History");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Action, "Action");
 
             DataColumn Col = Action.Columns.Add("History");
             Col.SetOrdinal(0);
 
             foreach(DataRow ActionRow in Action.Rows)
             {
-                if(ActionRow["StartYear"].ToString() == Year.ToString() || ActionRow["StartYear"].ToString() == (Year-1).ToString() || ActionRow["StartYear"].ToString() == ("BU/"+Year).ToString())
+                if(ActionRow["StartYear"].ToString() == Year.ToString() || ActionRow["StartYear"].ToString() == (Year-1).ToString() || ActionRow["StartYear"].ToString() == ("BU/"+Year).ToString() || ActionRow["StartYear"].ToString() == ("SA/" + Year).ToString())
                 {
                     ActionRow["History"] = What + "/" + Year.ToString();
                     DataRow HistoriaNewRow = Historia.NewRow();
@@ -113,7 +101,7 @@ namespace Saving_Accelerator_Tool
                 }
             }
 
-            data_Import.Save_DataTableToTXT(ref Historia, LinkHistory);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref Historia, "History");
         }
     }
 }

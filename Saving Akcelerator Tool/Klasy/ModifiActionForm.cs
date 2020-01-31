@@ -9,15 +9,11 @@ namespace Saving_Accelerator_Tool
 {
     class ModifiActionForm : ModifiActionFormHendler
     {
-        Data_Import ImportData;
-        TabPage AdminAction;
-        MainProgram mainProgram;
+        private readonly TabPage AdminAction;
 
-        public ModifiActionForm(MainProgram mainProgram, TabPage AdminAction, Data_Import data_Import) : base(mainProgram ,data_Import, AdminAction)
+        public ModifiActionForm(TabPage AdminAction) : base(AdminAction)
         {
-            ImportData = data_Import;
             this.AdminAction = AdminAction;
-            this.mainProgram = mainProgram;
 
             ModifiActionFormBuild();
         }
@@ -32,7 +28,7 @@ namespace Saving_Accelerator_Tool
         {
             Panel PanelTop = new Panel
             {
-                Dock = System.Windows.Forms.DockStyle.Top,
+                Dock = DockStyle.Top,
                 Location = new System.Drawing.Point(0, 0),
                 Name = "AdminAction_PanelTop",
                 Size = new System.Drawing.Size(307, 150),
@@ -42,7 +38,7 @@ namespace Saving_Accelerator_Tool
 
             GroupBox Gb_AdminAction_Top = new GroupBox
             {
-                Dock = System.Windows.Forms.DockStyle.Fill,
+                Dock = DockStyle.Fill,
                 Location = new System.Drawing.Point(0, 0),
                 Name = "Gb_AdminAction_Top",
                 Text = "",
@@ -241,7 +237,7 @@ namespace Saving_Accelerator_Tool
         {
             Panel PanelGrid = new Panel
             {
-                //Dock = System.Windows.Forms.DockStyle.Fill,
+                //Dock = DockStyle.Fill,
                 Location = new System.Drawing.Point(0, 150),
                 Name = "AdminAction_PanelGrid",
                 Size = new System.Drawing.Size(1910, 820),
@@ -251,7 +247,7 @@ namespace Saving_Accelerator_Tool
 
             DataGridView Dg_AdminAction = new DataGridView
             {
-                Dock = System.Windows.Forms.DockStyle.Fill,
+                Dock = DockStyle.Fill,
                 Location = new System.Drawing.Point(0, 0),
                 Name = "Dg_AdminActionGrid",
                 Size = new System.Drawing.Size(10, 10),

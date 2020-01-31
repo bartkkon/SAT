@@ -42,7 +42,10 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.Framework.Access
 
                 FoundRow["tab_Action"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminTabAction", true).First()).Checked.ToString();
 
-                FoundRow["Action"] = ((RadioButton)MainProgram.Self.TabControl.Controls.Find("radbut_AdminViwer", true).First()).Checked.ToString();
+                if (((RadioButton)MainProgram.Self.TabControl.Controls.Find("radbut_AdminViwer", true).First()).Checked)
+                    FoundRow["Action"] = "View";
+                else if(((RadioButton)MainProgram.Self.TabControl.Controls.Find("radbut_AdminDevelop", true).First()).Checked)
+                    FoundRow["Action"] = "Developer";
 
                 FoundRow["ActionEle"] = ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminElectronic", true).First()).Checked.ToString();
 

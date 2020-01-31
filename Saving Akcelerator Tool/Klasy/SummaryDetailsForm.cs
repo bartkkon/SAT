@@ -12,13 +12,11 @@ namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsForm : SummaryDetailsFormHendler
     {
-        private readonly MainProgram mainProgram;
         private readonly SummaryDetails summaryDetails;
         private readonly DataRow Person;
 
-        public SummaryDetailsForm(MainProgram mainProgram, DataRow Person, SummaryDetails summaryDetails, Data_Import data_Import) : base(mainProgram, summaryDetails, Person, data_Import)
+        public SummaryDetailsForm( DataRow Person, SummaryDetails summaryDetails) : base(summaryDetails, Person)
         {
-            this.mainProgram = mainProgram;
             this.summaryDetails = summaryDetails;
             this.Person = Person;
             Tab_SummaryDetail_Comp();
@@ -27,7 +25,7 @@ namespace Saving_Accelerator_Tool
 
         private void Tab_SummaryDetail_Comp()
         {
-            TabPage tab_Summary = (TabPage)mainProgram.TabControl.Controls.Find("tab_Summary", false).First();
+            TabPage tab_Summary = (TabPage)MainProgram.Self.TabControl.Controls.Find("tab_Summary", false).First();
 
             GroupBox gb_Controls = new GroupBox
             {
@@ -194,7 +192,7 @@ namespace Saving_Accelerator_Tool
 
         private void Tab_Summary_Comp()
         {
-            TabPage tab_Summary = (TabPage)mainProgram.TabControl.Controls.Find("tab_SummaryS", true).First();
+            TabPage tab_Summary = (TabPage)MainProgram.Self.TabControl.Controls.Find("tab_SummaryS", true).First();
 
             GroupBox gb_Controls = new GroupBox
             {
@@ -307,7 +305,7 @@ namespace Saving_Accelerator_Tool
             Comb_SummLeader.SelectedIndexChanged += new EventHandler(ComboBox_Leader_ChangeIndex);
             gb_Show.Controls.Add(Comb_SummLeader);
             AddLeadertoComboBox(Comb_SummLeader);
-            ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetLeader", true).First()).SelectedIndexChanged += new EventHandler(ComboBox_Leader_ChangeIndex);
+            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetLeader", true).First()).SelectedIndexChanged += new EventHandler(ComboBox_Leader_ChangeIndex);
 
 
             Label lab_SummDetDevision = new Label
@@ -330,7 +328,7 @@ namespace Saving_Accelerator_Tool
             gb_Show.Controls.Add(Comb_SummDevision);
             AddDevisionToComboBox(Comb_SummDevision);
             //Dodanie Hendlera do opodobnego Elementy z Tab_SummaryDet_Comp
-            ((ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDetDevision", true).First()).SelectedIndexChanged += new EventHandler(ComboBox_Devision_ChangeIndex);
+            ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetDevision", true).First()).SelectedIndexChanged += new EventHandler(ComboBox_Devision_ChangeIndex);
 
             Button pb_SummDet_Show = new Button
             {
@@ -672,7 +670,7 @@ namespace Saving_Accelerator_Tool
 
         private void AddLeadertoComboBox(ComboBox Comb_SummDetLeader)
         {
-            ComboBox ActionLeader = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_FilterBy", true).First();
+            ComboBox ActionLeader = (ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_FilterBy", true).First();
 
             Comb_SummDetLeader.Items.AddRange(ActionLeader.Items.Cast<Object>().ToArray());
             Comb_SummDetLeader.SelectedIndex = 0;

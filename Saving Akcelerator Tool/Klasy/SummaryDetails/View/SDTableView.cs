@@ -11,8 +11,8 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
 {
     class SDTableView : SDTableHandler
     {
-        TabPage _summaryDetailsTab;
-        GroupBox _ShowAction;
+        private readonly TabPage _summaryDetailsTab;
+        private GroupBox _ShowAction;
         public SDTableView(TabPage SummaryDetailsTab)
         {
             _summaryDetailsTab = SummaryDetailsTab;

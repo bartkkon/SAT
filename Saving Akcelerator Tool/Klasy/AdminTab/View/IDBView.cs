@@ -25,7 +25,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
         {
             GroupBox gb_IDB = new GroupBox
             {
-                Location = new Point(1140, 10),
+                Location = new Point(1135, 15),
                 Size = new Size(150, 70),
                 Name = "Gb_IDB",
                 TabStop = false,

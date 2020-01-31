@@ -73,7 +73,7 @@ namespace Saving_Accelerator_Tool
                 };
 
                 mainProgram.TabControl.Controls.Add(tab_Summary);
-                _ = new SummaryDetailsForm(mainProgram, Person, summaryDetails, ImportData);
+                _ = new SummaryDetailsForm(Person, summaryDetails);
 
             }
 
@@ -135,7 +135,6 @@ namespace Saving_Accelerator_Tool
             // 
             if (User.AdminTab)
             {
-                //admin = new Admin(mainProgram);
                 TabPage tab_Admin = new TabPage
                 {
                     Location = new System.Drawing.Point(4, 22),
@@ -162,9 +161,7 @@ namespace Saving_Accelerator_Tool
 
                 mainProgram.TabControl.Controls.Add(tab_AdminAction);
 
-                _ = new ModifiActionForm(mainProgram, tab_AdminAction, ImportData);
-                //Tab_Admin_Comp(Person, mainProgram);
-                
+                _ = new ModifiActionForm(tab_AdminAction);
             }
         }
 

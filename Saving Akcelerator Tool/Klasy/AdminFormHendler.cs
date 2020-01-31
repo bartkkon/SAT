@@ -41,11 +41,6 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        public void SentEmailTest_Clikc(object sender, EventArgs e)
-        {
-            SentEmail.Instance.Sent_Email("konrad.bartkowiak@electrolux.com", "Test", "Testujemy!!!!!!!!!!!!!!!!!");
-        }
-
         public void Pb_AdminTargets_Save_Click(object sender, EventArgs e)
         {
             admin.Admin_TargetsSave();

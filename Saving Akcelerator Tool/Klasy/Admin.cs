@@ -544,7 +544,7 @@ namespace Saving_Accelerator_Tool
             DataRow FrozenRow;
             decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_FrozenYear", true).First()).Value;
 
-            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Forzen");
+            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
 

@@ -13,7 +13,7 @@ using Saving_Accelerator_Tool.Klasy.Action.Framework;
 
 namespace Saving_Accelerator_Tool
 {
-    public class Action 
+    public class Action
     {
         private int ANCChangeNumber = 0;
         private readonly string link;
@@ -134,7 +134,7 @@ namespace Saving_Accelerator_Tool
 
             Cursor.Current = Cursors.WaitCursor;
             NewAction(mainProgram);
-            LoadAction loadAction = new LoadAction(mainProgram, ImportData, this);
+            LoadAction loadAction = new LoadAction(this);
             loadAction.Load(Action);
             USE = loadAction.ReturnTable("USE");
             BU = loadAction.ReturnTable("BU");
@@ -2787,6 +2787,20 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
+                    if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
+                    {
+                        if (Leader == "All")
+                        {
+                            ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+                        }
+                        else
+                        {
+                            if (Row["Leader"].ToString() == Leader)
+                            {
+                                ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+                            }
+                        }
+                    }
 
                     if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
                     {
@@ -2823,6 +2837,21 @@ namespace Saving_Accelerator_Tool
                         }
                     }
 
+                    if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
+                    {
+                        if (Leader == "All")
+                        {
+                            ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+                        }
+                        else
+                        {
+                            if (Row["Leader"].ToString() == Leader)
+                            {
+                                ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+                            }
+                        }
+                    }
+
                     if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
                     {
                         if (Row["StartMonth"].ToString() != "January")
@@ -2844,6 +2873,20 @@ namespace Saving_Accelerator_Tool
                 if (Users.Singleton().ActionNVR)
                 {
                     if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
+                    {
+                        if (Leader == "All")
+                        {
+                            ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+                        }
+                        else
+                        {
+                            if (Row["Leader"].ToString() == Leader)
+                            {
+                                ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+                            }
+                        }
+                    }
+                    if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
                     {
                         if (Leader == "All")
                         {

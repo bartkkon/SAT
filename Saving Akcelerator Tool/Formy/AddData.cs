@@ -436,6 +436,11 @@ namespace Saving_Accelerator_Tool
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if(File.Exists(saveFileDialog.FileName))
+                {
+                    File.Delete(saveFileDialog.FileName);
+                }
+
                 File.Copy(Template, saveFileDialog.FileName);
             }
         }

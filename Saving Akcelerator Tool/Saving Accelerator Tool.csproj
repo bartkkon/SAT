@@ -113,6 +113,15 @@
     </Compile>
     <Compile Include="Klasy\Action\Framework\Activation_Action.cs" />
     <Compile Include="Klasy\Action\Framework\Deactivation_Action.cs" />
+    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
+    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
+    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\Save_Action_SM.cs" />
+    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.Designer.cs">
+      <DependentUpon>SpecialCalcAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
@@ -258,6 +267,9 @@
     <EmbeddedResource Include="Formy\Special_Massage.resx">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.resx">
+      <DependentUpon>SpecialCalcAction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AddPersonView.resx">
       <DependentUpon>AddPersonView.cs</DependentUpon>
     </EmbeddedResource>
@@ -313,6 +325,7 @@
     <Content Include="bitcoun-512Green.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Klasy\Action\View\" />
     <Folder Include="Klasy\Platform\AddPNC\Framework\" />
     <Folder Include="Klasy\Platform\AddPNC\Handlers\" />
   </ItemGroup>

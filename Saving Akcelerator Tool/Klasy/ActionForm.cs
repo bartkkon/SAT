@@ -1496,6 +1496,20 @@ namespace Saving_Accelerator_Tool
             SavePNC.Click += new EventHandler(SavePNC_Click);
             Action_GroupBox.Controls.Add(SavePNC);
 
+            if(Users.Singleton().Role == "Admin")
+            {
+                Button SpecialCalc = new Button
+                {
+                    Location = new Point(975, 890),
+                    Name = "PB_SpecialCalc",
+                    Size = new Size(75, 30),
+                    Text = "Spec Calc",
+                    Visible = false,
+                };
+                SpecialCalc.Click += new EventHandler(Pb_SpecialCalc_Click);
+                Action_GroupBox.Controls.Add(SpecialCalc);
+            }
+
         }
 
         private void CreaterDataGridView(DataGridView DG)

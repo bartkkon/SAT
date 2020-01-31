@@ -67,31 +67,17 @@ namespace Saving_Accelerator_Tool
             //Wszystkie nowe rzeczy dodawana w nowy sposób
             _ = new AdminTabGenerator(tab_Admin);
 
-            Admin_EmailButtonTest();
 
-            Button pb_Admin_SaveCalcRev = new Button
-            {
-                Location = new Point(100, 80),
-                Name = "pb_Admin_SaveCalcRev",
-                Size = new Size(60, 20),
-                Text = "Calc",
-                UseVisualStyleBackColor = true,
-            };
-            pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
-            tab_Admin.Controls.Add(pb_Admin_SaveCalcRev);
-        }
-
-        private void Admin_EmailButtonTest()
-        {
-            Button Email = new Button
-            {
-                Location = new Point(1000, 500),
-                Size = new Size(80, 30),
-                Name = "pb_SentMail",
-                Text = "Sent Mail",
-            };
-            Email.Click += new EventHandler(SentEmailTest_Clikc);
-            tab_Admin.Controls.Add(Email);
+            //Button pb_Admin_SaveCalcRev = new Button
+            //{
+            //    Location = new Point(1000, 500),
+            //    Name = "pb_Admin_SaveCalcRev",
+            //    Size = new Size(60, 20),
+            //    Text = "Calc",
+            //    UseVisualStyleBackColor = true,
+            //};
+            //pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
+            //tab_Admin.Controls.Add(pb_Admin_SaveCalcRev);
         }
 
         private void Admin_Targets()
