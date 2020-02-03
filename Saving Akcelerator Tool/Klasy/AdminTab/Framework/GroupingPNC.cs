@@ -6,34 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Saving_Accelerator_Tool.SumPNC
+namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
 {
     class GroupingPNC
     {
-        Data_Import _ImportData;
         private readonly decimal _Year;
         private readonly decimal _Month;
         private readonly string _Rev;
         private DataTable PNC = new DataTable();
         private DataTable SumPNC = new DataTable();
 
-        public GroupingPNC(Data_Import ImportData, decimal Year, decimal Month)
+        public GroupingPNC(decimal Year, decimal Month)
         {
-            _ImportData = ImportData;
+
             _Year = Year;
             _Month = Month;
         }
 
-        public GroupingPNC(Data_Import ImportData, decimal Year, string Rev)
+        public GroupingPNC(decimal Year, string Rev)
         {
-            _ImportData = ImportData;
             _Year = Year;
             _Rev = Rev;
         }
 
         public void GrupingPNC_Month()
         {
-            string link;
             decimal All = 0;
             decimal DMD = 0;
             decimal D45 = 0;
@@ -46,11 +43,9 @@ namespace Saving_Accelerator_Tool.SumPNC
             decimal DMD_FSBU = 0;
             decimal D45_FSBU = 0;
 
-            link = _ImportData.Load_Link("PNCMonth");
-            _ImportData.Load_TxtToDataTable(ref PNC, link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref PNC, "PNCMonth");
 
-            link = _ImportData.Load_Link("SumPNC");
-            _ImportData.Load_TxtToDataTable(ref SumPNC, link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref SumPNC, "SumPNC");
 
             if (!PNC.Columns.Contains(_Month.ToString() + "/" + _Year.ToString()))
             {
@@ -168,12 +163,11 @@ namespace Saving_Accelerator_Tool.SumPNC
                 }
             }
 
-            _ImportData.Save_DataTableToTXT(ref SumPNC, link);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref SumPNC, "SumPNC");
         }
 
         public void GrupingPNC_Revision()
         {
-            string link;
             int StartMonth;
             decimal All = 0;
             decimal DMD = 0;
@@ -187,11 +181,9 @@ namespace Saving_Accelerator_Tool.SumPNC
             decimal DMD_FSBU = 0;
             decimal D45_FSBU = 0;
 
-            link = _ImportData.Load_Link("PNC");
-            _ImportData.Load_TxtToDataTable(ref PNC, link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref PNC, "PNC");
 
-            link = _ImportData.Load_Link("SumPNCBU");
-            _ImportData.Load_TxtToDataTable(ref SumPNC, link);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref SumPNC, "SumPNCBU");
 
             switch (_Rev)
             {
@@ -344,7 +336,7 @@ namespace Saving_Accelerator_Tool.SumPNC
                 D45_FS = 0;
                 D45_FSBU = 0;
             }
-            _ImportData.Save_DataTableToTXT(ref SumPNC, link);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref SumPNC, "SumPNCBU");
         }
 
     }

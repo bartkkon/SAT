@@ -46,6 +46,13 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab
                 Location = new Point(425, 15)
             };
             _adminTab.Controls.Add(AccessView);
+
+            //Sumowanie ilości miesięcznych PNC do odpowiednich grup
+            SumPNC Sum = new SumPNC
+            {
+                Location = new Point(15, 525),
+            };
+            _adminTab.Controls.Add(Sum);
         }
     }
 }

@@ -58,26 +58,12 @@ namespace Saving_Accelerator_Tool
             //Aktywowanie zablokowanych akcji
             Admin_Activator_Action();
 
-            //Sumowanie PNC dla poszczególnych kategori
-            Admin_SumPNC();
-
             //Klonowanie Bazy danych na dysk - działa tylko dla Bartkkon
             Admin_CloneDataBase();
 
             //Wszystkie nowe rzeczy dodawana w nowy sposób
             _ = new AdminTabGenerator(tab_Admin);
 
-
-            //Button pb_Admin_SaveCalcRev = new Button
-            //{
-            //    Location = new Point(1000, 500),
-            //    Name = "pb_Admin_SaveCalcRev",
-            //    Size = new Size(60, 20),
-            //    Text = "Calc",
-            //    UseVisualStyleBackColor = true,
-            //};
-            //pb_Admin_SaveCalcRev.Click += new EventHandler(Pb_AdminSaveCalcRev_Click);
-            //tab_Admin.Controls.Add(pb_Admin_SaveCalcRev);
         }
 
         private void Admin_Targets()
@@ -1462,134 +1448,6 @@ namespace Saving_Accelerator_Tool
             };
             Pb_Deactivator_Action.Click += new EventHandler(Pb_DeactivatorAction_Click);
             Gb_Activater_Action.Controls.Add(Pb_Deactivator_Action);
-        }
-
-        private void Admin_SumPNC()
-        {
-            GroupBox gb_SumPNC = new GroupBox
-            {
-                Location = new Point(15, 525),
-                Name = "gb_Admin_SumPNC",
-                Size = new Size(200, 160),
-                TabStop = false,
-                Text = "Grup PNC",
-            };
-            tab_Admin.Controls.Add(gb_SumPNC);
-
-            Label lab_Admin_SumPNC_Year = new Label
-            {
-                Location = new Point(15, 25),
-                AutoSize = true,
-                Size = new Size(10, 10),
-                Name = "lab_Admin_SumPNC_Year",
-                Text = "Year:",
-            };
-            gb_SumPNC.Controls.Add(lab_Admin_SumPNC_Year);
-
-            NumericUpDown num_Admin_SumPNC_Year = new NumericUpDown
-            {
-                Location = new Point(100, 20),
-                Size = new Size(78, 20),
-                Maximum = new decimal(new int[] {
-                    2100,
-                    0,
-                    0,
-                    0 }),
-                Minimum = new decimal(new int[] {
-                    2018,
-                    0,
-                    0,
-                    0 }),
-                Name = "num_Admin_SumPNC_Year",
-
-            };
-            gb_SumPNC.Controls.Add(num_Admin_SumPNC_Year);
-
-            Label lab_Admin_SumPNC_Month = new Label
-            {
-                Location = new Point(15, 50),
-                AutoSize = true,
-                Size = new Size(10, 10),
-                Name = "lab_Admin_SumPNC_Month",
-                Text = "Month:",
-            };
-            gb_SumPNC.Controls.Add(lab_Admin_SumPNC_Month);
-
-            NumericUpDown num_Admin_SumPNC_Month = new NumericUpDown
-            {
-                Location = new Point(100, 45),
-                Size = new Size(78, 20),
-                Maximum = new decimal(new int[] {
-                    12,
-                    0,
-                    0,
-                    0 }),
-                Minimum = new decimal(new int[] {
-                    1,
-                    0,
-                    0,
-                    0 }),
-                Name = "num_Admin_SumPNC_Month",
-
-            };
-            gb_SumPNC.Controls.Add(num_Admin_SumPNC_Month);
-
-            if (DateTime.Now.Month == 1)
-            {
-                num_Admin_SumPNC_Year.Value = DateTime.Now.Year - 1;
-                num_Admin_SumPNC_Month.Value = 12;
-            }
-            else
-            {
-                num_Admin_SumPNC_Year.Value = DateTime.Now.Year;
-                num_Admin_SumPNC_Month.Value = DateTime.Now.Month;
-            }
-
-            Button but_Admin_SumPNC_Month = new Button
-            {
-                Location = new Point(60, 80),
-                Size = new Size(80, 20),
-                Name = "but_Admin_SumPNC_Calc",
-                Text = "Calc",
-                UseVisualStyleBackColor = true,
-            };
-            but_Admin_SumPNC_Month.Click += new EventHandler(Pb_Admin_SumPNC_Month_Click);
-            gb_SumPNC.Controls.Add(but_Admin_SumPNC_Month);
-
-
-            Label lab_Admin_SumPNC_Rev = new Label
-            {
-                Location = new Point(15, 110),
-                Size = new Size(10, 10),
-                AutoSize = true,
-                Text = "Revision:",
-                Name = "lab_Admin_SumPNC_Rev",
-            };
-            gb_SumPNC.Controls.Add(lab_Admin_SumPNC_Rev);
-
-            ComboBox comb_Admin_SumPNC_Rev = new ComboBox
-            {
-                Location = new Point(100, 105),
-                Size = new Size(80, 25),
-                Name = "comb_Admin_SumPNC_Rev",
-            };
-            comb_Admin_SumPNC_Rev.Items.Add("BU");
-            comb_Admin_SumPNC_Rev.Items.Add("EA1");
-            comb_Admin_SumPNC_Rev.Items.Add("EA2");
-            comb_Admin_SumPNC_Rev.Items.Add("EA3");
-            comb_Admin_SumPNC_Rev.SelectedIndex = 0;
-            gb_SumPNC.Controls.Add(comb_Admin_SumPNC_Rev);
-
-            Button but_Admin_SumPNC_Revision = new Button
-            {
-                Location = new Point(60, 130),
-                Size = new Size(80, 20),
-                Name = "but_Admin_SumPNC_Calc_Revision",
-                Text = "Revision",
-                UseVisualStyleBackColor = true,
-            };
-            but_Admin_SumPNC_Revision.Click += new EventHandler(Pb_Admin_SumPNC_Revision_Click);
-            gb_SumPNC.Controls.Add(but_Admin_SumPNC_Revision);
         }
 
         private void Admin_CloneDataBase()

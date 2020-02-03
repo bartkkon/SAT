@@ -28,7 +28,7 @@
     <MinimumRequiredVersion>0.5.0.19</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationRevision>27</ApplicationRevision>
     <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -153,6 +153,12 @@
       <DependentUpon>SendMailView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\AdminTab\View\STKUpdate.cs" />
+    <Compile Include="Klasy\AdminTab\View\SumPNC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\SumPNC.Designer.cs">
+      <DependentUpon>SumPNC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\Email\MailInfo.cs" />
     <Compile Include="Klasy\Email\SentTo.cs" />
     <Compile Include="Klasy\Platform\AddPNC\Platform_AddPNC.cs">
@@ -254,7 +260,7 @@
       <DependentUpon>ReportingOption.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\SavePNC.cs" />
-    <Compile Include="SumPNC\GroupingPNC.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\GroupingPNC.cs" />
     <EmbeddedResource Include="Formy\ActionFunction.resx">
       <DependentUpon>ActionFunction.cs</DependentUpon>
     </EmbeddedResource>
@@ -278,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\SendMailView.resx">
       <DependentUpon>SendMailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\SumPNC.resx">
+      <DependentUpon>SumPNC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\Platform\AddPNC\Platform_AddPNC.resx">
       <DependentUpon>Platform_AddPNC.cs</DependentUpon>

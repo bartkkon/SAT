@@ -367,11 +367,11 @@ namespace Saving_Accelerator_Tool
 
                 if (Jak == "AddMonthANC")
                 {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Quantity, "ANCMonth");
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "ANCMonth");
                 }
                 if(Jak == "AddMonthPNC")
                 {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Quantity, "PNCMonth");
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "PNCMonth");
                 }
 
                 if (Quantity.Columns.Contains(Miesiac))
@@ -409,11 +409,11 @@ namespace Saving_Accelerator_Tool
                 }
                 if (Jak == "AddMonthANC")
                 {
-                    Data_Import.Singleton().Save_DataTableToTXT(ref Quantity, "ANCMonth");
+                    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "ANCMonth");
                 }
                 if (Jak == "AddMonthPNC")
                 {
-                    Data_Import.Singleton().Save_DataTableToTXT(ref Quantity, "PNCMonth");
+                    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "PNCMonth");
                 }
                 this.Close();
                 Cursor.Current = Cursors.Default;
