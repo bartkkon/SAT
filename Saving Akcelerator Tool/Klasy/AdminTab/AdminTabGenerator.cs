@@ -53,6 +53,13 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab
                 Location = new Point(15, 525),
             };
             _adminTab.Controls.Add(Sum);
+
+            //Sprawdzania i dodawanie Targetów dla poszczególnych działów i łacznie dla całego PC
+            TargetView Target = new TargetView
+            {
+                Location = new Point(830, 175),
+            };
+            _adminTab.Controls.Add(Target);
         }
     }
 }

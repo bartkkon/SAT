@@ -514,7 +514,7 @@ namespace Saving_Accelerator_Tool
                 case "January":
                     MonthCount = 1;
                     break;
-                case "Febuary":
+                case "February":
                     MonthCount = 2;
                     break;
                 case "March":

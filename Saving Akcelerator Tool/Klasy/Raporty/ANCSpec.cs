@@ -15,7 +15,7 @@ namespace Saving_Accelerator_Tool
         private readonly Dictionary<string, int> Month = new Dictionary<string, int>()
         {
             {"January", 1},
-            {"Febuary", 2},
+            {"February", 2},
             {"March", 3},
             {"April", 4},
             {"May", 5},
