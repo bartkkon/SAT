@@ -28,7 +28,7 @@
     <MinimumRequiredVersion>0.5.0.19</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>27</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -130,6 +130,8 @@
     <Compile Include="Klasy\AdminTab\Framework\Access\SaveAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\AutoUpdateSTK.cs" />
     <Compile Include="Klasy\AdminTab\Framework\IDBLoadDataBase.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Targets\LoadTargets.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Targets\SaveTargets.cs" />
     <Compile Include="Klasy\AdminTab\Handlers\IDBHandler.cs" />
     <Compile Include="Klasy\AdminTab\Handlers\STKUpdateHandlers.cs" />
     <Compile Include="Klasy\AdminTab\Mail\SendMailInfo.cs" />
@@ -158,6 +160,12 @@
     </Compile>
     <Compile Include="Klasy\AdminTab\View\SumPNC.Designer.cs">
       <DependentUpon>SumPNC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\TargetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\TargetView.Designer.cs">
+      <DependentUpon>TargetView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\Email\MailInfo.cs" />
     <Compile Include="Klasy\Email\SentTo.cs" />
@@ -287,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\SumPNC.resx">
       <DependentUpon>SumPNC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\TargetView.resx">
+      <DependentUpon>TargetView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\Platform\AddPNC\Platform_AddPNC.resx">
       <DependentUpon>Platform_AddPNC.cs</DependentUpon>

@@ -1139,7 +1139,7 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(100, 21),
                 Text = "Wybierz Miesiąc",
             };
-            combox_Month.Items.AddRange(new object[] { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
+            combox_Month.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
             combox_Month.SelectedIndexChanged += new EventHandler(Combox_Month_SelectedIndexChange);
             gb_State.Controls.Add(combox_Month);
 

@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.AdmnTab.Framework;
+using Saving_Accelerator_Tool.Klasy.AdmnTab.Handlers;
 
 namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
 {
     public partial class AutoUpdateSTKView : UserControl
     {
-        public AutoUpdateSTKView()
+        public AutoUpdateSTKView() 
         {
             InitializeComponent();
             InitialuzeData();
