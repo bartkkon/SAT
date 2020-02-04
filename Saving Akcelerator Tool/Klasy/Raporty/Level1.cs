@@ -55,7 +55,7 @@ namespace Saving_Accelerator_Tool
             Sum(workbook, YearGenereted);
             Remove_Empty_Sheets(excel, workbook);
 
-            Save_Excel_WorkBook Save = new Save_Excel_WorkBook(mainProgram);
+            Save_Excel_WorkBook Save = new Save_Excel_WorkBook();
             Save.Save_WorkBook(excel, workbook);
 
         }

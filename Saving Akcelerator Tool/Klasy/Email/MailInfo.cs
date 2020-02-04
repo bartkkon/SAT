@@ -106,5 +106,26 @@ namespace Saving_Accelerator_Tool.Klasy.Email
 
             return Body;
         }
+
+        public string RaportApprove_PC_Topic(string Month)
+        {
+            string Header;
+
+            Header = Month + " data has been approved!";
+
+            return Header;
+        }
+
+        public string RaportApprove_PC_Body(string WhatApprove)
+        {
+            string Body;
+
+            if (WhatApprove == "BU" || WhatApprove == "EA1" || WhatApprove == "EA2" || WhatApprove == "EA3")
+                Body = "User " + Users.Singleton().Name + " has approved data for Revison " + WhatApprove + "." + Environment.NewLine + Environment.NewLine +"Good Job!!!";
+            else
+                Body = "User " + Users.Singleton().Name + " has approved data for Month: " + Month[int.Parse(WhatApprove)] + "." + Environment.NewLine + Environment.NewLine + "Good Job!!!";
+
+            return Body;
+        }
     }
 }
