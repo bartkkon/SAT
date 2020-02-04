@@ -188,7 +188,6 @@ namespace Saving_Accelerator_Tool
             }
             else
             {
-                //SaveAction(mainProgram);
                 SaveAction Save = new SaveAction(MainProgram.Self, ImportData, ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
                 Save.Save(NewActionCreate, IDCODictionary);
                 TreeRefresh();

@@ -686,10 +686,10 @@ namespace Saving_Accelerator_Tool
                                         {
                                             if (Preferencje["Quantity"])
                                                 if (Help[0] != "")
-                                                    NewRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString()) + double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                                    NewRow["Q" + counter2.ToString()] = double.Parse(NewRow["Q" + counter2.ToString()].ToString());
                                             if (Preferencje["Savings"])
                                                 if (Help[1] != "")
-                                                    NewRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString()) + double.Parse(NewRow["S" + counter2.ToString()].ToString());
+                                                    NewRow["S" + counter2.ToString()] = double.Parse(NewRow["S" + counter2.ToString()].ToString());
                                         }
                                     }
                                 }
@@ -761,10 +761,10 @@ namespace Saving_Accelerator_Tool
                                         {
                                             if (Preferencje["Quantity"])
                                                 if (Help[0] != "")
-                                                    NewRow["Q" + counter2.ToString()] = double.Parse(Help[0].ToString()) + double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                                    NewRow["Q" + counter2.ToString()] =  double.Parse(NewRow["Q" + counter2.ToString()].ToString());
                                             if (Preferencje["Savings"])
                                                 if (Help[1] != "")
-                                                    NewRow["S" + counter2.ToString()] = double.Parse(Help[1].ToString()) + double.Parse(NewRow["S" + counter2.ToString()].ToString());
+                                                    NewRow["S" + counter2.ToString()] =  double.Parse(NewRow["S" + counter2.ToString()].ToString());
                                         }
                                     }
                                 }

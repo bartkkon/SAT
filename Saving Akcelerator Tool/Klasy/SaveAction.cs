@@ -21,6 +21,22 @@ namespace Saving_Accelerator_Tool
         DataTable EA2 = new DataTable();
         DataTable EA3 = new DataTable();
 
+        private readonly Dictionary<string, int> Month = new Dictionary<string, int>()
+        {
+            {"January", 1},
+            {"February", 2},
+            {"March", 3},
+            {"April", 4},
+            {"May", 5},
+            {"June",6},
+            {"July", 7},
+            {"August",8},
+            {"September",9},
+            {"October",10},
+            {"November",11},
+            {"December",12},
+        };
+
         public SaveAction(MainProgram mainProgram, Data_Import ImportData, int ANCChangeNumber, Dictionary<string, string> IDCODictionary, DataTable USE, DataTable BU, DataTable EA1, DataTable EA2, DataTable EA3)
         {
             this.mainProgram = mainProgram;
@@ -101,10 +117,10 @@ namespace Saving_Accelerator_Tool
                                 //TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
                                 //foreach (DataRow Row2 in TableRow.Take(TableRow.Length))
                                 //{
-                                    //if (Row["Name"].ToString() == NameAction)
-                                   //{
-                                        Row["StartYear"] = "BU/" + Row["StartYear"].ToString();
-                                    //}
+                                //if (Row["Name"].ToString() == NameAction)
+                                //{
+                                Row["StartYear"] = "BU/" + Row["StartYear"].ToString();
+                                //}
                                 //}
 
                                 NewRow = ActionList.NewRow();
@@ -144,7 +160,7 @@ namespace Saving_Accelerator_Tool
                             {
                                 MessageBox.Show("Action will be Save with New Name");
                                 TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
-                                
+
 
                                 foreach (DataRow Row in TableRow.Take(TableRow.Length))
                                 {
@@ -176,7 +192,7 @@ namespace Saving_Accelerator_Tool
                     //                    Row["StartYear"] = "BU/" + NewRow["StartYear"].ToString();
                     //                }
                     //            }
-                                    
+
                     //            NewRow = ActionList.NewRow();
                     //            New_Year = true;
                     //        }
@@ -200,6 +216,8 @@ namespace Saving_Accelerator_Tool
 
             NewRow["StartYear"] = Year.ToString();
             NewRow["StartMonth"] = ((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Text;
+
+            ClearDataforUse(((ComboBox)mainProgram.TabControl.Controls.Find("comBox_Month", true).First()).Text);
 
             NewRow["Platform"] = Platform();
 
@@ -262,7 +280,7 @@ namespace Saving_Accelerator_Tool
             IDCOAdd(ref NewRow);
 
             //Zapis kalkulacji poszczególych ANC?PNC
-            PerANC_PNC(ref NewRow,Year);
+            PerANC_PNC(ref NewRow, Year);
 
             //Jesli zmienił się rok to ma do gridów wpisać puste warości
             if (New_Year)
@@ -295,11 +313,23 @@ namespace Saving_Accelerator_Tool
             return true;
         }
 
-        //Sprawdzenie czy akcja jest dodatnia czy ujemna
-        private void PozitiveOrNegative( ref DataRow NewRow)
+        private void ClearDataforUse(string MonthStart)
         {
-            decimal Delta = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_CalcSum", true).First()).Text); 
-            if(Delta >=0)
+            int StartCalc = Month[MonthStart];
+            for (int counter = 1; counter < StartCalc; counter++)
+            {
+                foreach (DataRow Row in USE.Rows)
+                {
+                    Row[counter.ToString()] = "";    
+                }
+            }
+        }
+
+        //Sprawdzenie czy akcja jest dodatnia czy ujemna
+        private void PozitiveOrNegative(ref DataRow NewRow)
+        {
+            decimal Delta = decimal.Parse(((Label)mainProgram.TabControl.Controls.Find("lab_CalcSum", true).First()).Text);
+            if (Delta >= 0)
             {
                 NewRow["+ czy -"] = "Pozytywna";
             }
@@ -315,10 +345,10 @@ namespace Saving_Accelerator_Tool
             string Save = "";
             decimal YearCalc = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First()).Value;
 
-            if (Year == YearCalc -1)
+            if (Year == YearCalc - 1)
                 Carry = "Carry";
 
-            if (USE!= null)
+            if (USE != null)
             {
                 foreach (DataRow Row in USE.Rows)
                 {
@@ -409,7 +439,7 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataRow Row in CheckName.Take(CheckName.Length))
             {
-                if(Name == Row["Name"].ToString())
+                if (Name == Row["Name"].ToString())
                 {
                     NameExist = true;
                 }
@@ -774,7 +804,7 @@ namespace Saving_Accelerator_Tool
                 //ActionRow["CalcEA3" + Column + "Carry"] = "/////////////";
                 //ActionRow["CalcUSE" + Column + "Carry"] = "/////////////";
             }
-            else if (Year == YearSave -1)
+            else if (Year == YearSave - 1)
             {
                 ActionRow["CalcBU" + Column + "Carry"] = GridValue[4];
                 ActionRow["CalcEA1" + Column + "Carry"] = GridValue[3];
@@ -788,7 +818,7 @@ namespace Saving_Accelerator_Tool
         private void IfEmptyCalc(ref DataRow ActionRow)
         {
             string Carry = "";
-                for (int counter = 0; counter <= 1; counter++)
+            for (int counter = 0; counter <= 1; counter++)
             {
                 if (ActionRow["CalcBUSaving" + Carry].ToString() == "")
                     ActionRow["CalcBUSaving" + Carry] = "/////////////";
@@ -837,7 +867,7 @@ namespace Saving_Accelerator_Tool
             ImportData.Load_TxtToDataTable(ref Frozen, link);
 
             FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
-            if(FrozenRow == null)
+            if (FrozenRow == null)
             {
                 return Grid;
             }
@@ -849,15 +879,15 @@ namespace Saving_Accelerator_Tool
                 {
                     if (Table_Check.Rows[Row].Cells[Column] != null && Table_Check.Rows[Row].Cells[Column].ToString() != "")
                     {
-                        if(Row == 1)
+                        if (Row == 1)
                         {
-                            if(FrozenRow["EA3"].ToString() == "Approve")
+                            if (FrozenRow["EA3"].ToString() == "Approve")
                             {
                                 Grid = true;
                                 return Grid;
                             }
                         }
-                        else if(Row == 2)
+                        else if (Row == 2)
                         {
                             if (FrozenRow["EA2"].ToString() == "Approve")
                             {
@@ -883,7 +913,7 @@ namespace Saving_Accelerator_Tool
                         }
                         else
                         {
-                            if(FrozenRow[(Column +1).ToString()].ToString() == "Approve")
+                            if (FrozenRow[(Column + 1).ToString()].ToString() == "Approve")
                             {
                                 Grid = true;
                                 return Grid;

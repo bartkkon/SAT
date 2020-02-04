@@ -59,12 +59,15 @@ namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc.Framework
                     AllString = Row["PerUSE"].ToString().Split('/');
                     Row["PerUSE"] = "";
 
+
                     for (int counter = 0; counter < AllString.Length - 1; counter++)
                     {
                         OnePNC = AllString[counter].Split('|');
                         AllString[counter] = UpdateDataForTable(OnePNC);
                         Row["PerUse"] += AllString[counter] + "/";
                     }
+
+
 
                     SumQuantity = Row["CalcUseQuantity"].ToString().Split('/');
                     SumSavings = Row["CalcUSESaving"].ToString().Split('/');

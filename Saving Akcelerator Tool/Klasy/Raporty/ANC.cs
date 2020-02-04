@@ -657,7 +657,7 @@ namespace Saving_Accelerator_Tool
 
                         for (int counter2 = Start; counter2 <= Finish; counter2++)
                         {
-                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
+                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                             if (ANC != null)
                             {
@@ -680,7 +680,7 @@ namespace Saving_Accelerator_Tool
 
                         for (int counter2 = Start; counter2 <= Finish; counter2++)
                         {
-                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
+                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                             if (ANC != null)
                             {
@@ -705,7 +705,7 @@ namespace Saving_Accelerator_Tool
                     {
                         if (OldANC[counter] != "")
                         {
-                            DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", OldANC[counter])).First();
+                            DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", OldANC[counter])).FirstOrDefault();
 
                             if (ANC != null)
                             {
@@ -733,7 +733,7 @@ namespace Saving_Accelerator_Tool
 
                             for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                             {
-                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
+                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                                 if (ANC != null)
                                 {
@@ -756,7 +756,7 @@ namespace Saving_Accelerator_Tool
 
                             for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                             {
-                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).First();
+                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                                 if (ANC != null)
                                 {
