@@ -149,12 +149,19 @@ namespace Saving_Accelerator_Tool
 
     public class Remove_Empty_Sheet
     {
-        public void Remove_Empty(Excel.Application application, Excel.Workbook workbook)
+        public void Remove_Empty(Excel.Application application, Excel.Workbook workbook, string Culture)
         {
             if (workbook.Sheets.Count > 1)
             {
                 application.DisplayAlerts = false;
-                workbook.Worksheets["Sheet1"].Delete();
+                if (Culture == "en-US")
+                {
+                    workbook.Worksheets["Sheet1"].Delete();
+                }
+                else if(Culture == "pl-PL")
+                {
+                    workbook.Worksheets["Arkusz1"].Delete();
+                }
                 application.DisplayAlerts = true;
             }
         }

@@ -8,6 +8,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.Raporty;
+using System.Globalization;
 
 namespace Saving_Accelerator_Tool
 {
@@ -244,6 +245,8 @@ namespace Saving_Accelerator_Tool
             Create_Excel_WorkBooks _WorkBooks = new Create_Excel_WorkBooks();
             RaportWorkBook = _WorkBooks.Create_WorkBooks(Raport);
 
+            var culture = new CultureInfo(Raport.LanguageSettings.get_LanguageID(Microsoft.Office.Core.MsoAppLanguageID.msoLanguageIDUI));
+
             if (Preferencje["WS Action"])
             {
                 Create_Excel_WorkSheet _WorkSheet = new Create_Excel_WorkSheet();
@@ -262,19 +265,19 @@ namespace Saving_Accelerator_Tool
                     if (Preferencje["Electronic"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Electronic", ElectronicC, ColumnForSavings);
-                        Start = AddTableToWorksheet2(ElectronicCarry, MultiAction, Start, ColumnUse);
+                        Start = AddTableToWorksheet2(ElectronicCarry, MultiAction, Start, ColumnUse, culture.Name);
                         Start += 2;
                     }
                     if (Preferencje["Mechanic"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Mechanic", MechanicC, ColumnForSavings);
-                        Start = AddTableToWorksheet2(MechanicalCarry, MultiAction, Start, ColumnUse);
+                        Start = AddTableToWorksheet2(MechanicalCarry, MultiAction, Start, ColumnUse, culture.Name);
                         Start += 2;
                     }
                     if (Preferencje["NVR"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Aesthetics", NVRC, ColumnForSavings);
-                        Start = AddTableToWorksheet2(NVRCarry, MultiAction, Start, ColumnUse);
+                        Start = AddTableToWorksheet2(NVRCarry, MultiAction, Start, ColumnUse, culture.Name);
                         Start += 2;
                     }
                 }
@@ -285,19 +288,19 @@ namespace Saving_Accelerator_Tool
                     if (Preferencje["Electronic"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Electronic", ElectronicA, ColumnForSavings);
-                        Start = AddTableToWorksheet2(ElectronicActual, MultiAction, Start, ColumnUse);
+                        Start = AddTableToWorksheet2(ElectronicActual, MultiAction, Start, ColumnUse, culture.Name);
                         Start += 2;
                     }
                     if (Preferencje["Mechanic"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Mechanic", MechanicA, ColumnForSavings);
-                        Start = AddTableToWorksheet2(MechanicActual, MultiAction, Start, ColumnUse);
+                        Start = AddTableToWorksheet2(MechanicActual, MultiAction, Start, ColumnUse, culture.Name);
                         Start += 2;
                     }
                     if (Preferencje["NVR"])
                     {
                         Start = DevisionHeader(MultiAction, ColumnUse, Start, "Aesthetics", NVRA, ColumnForSavings);
-                        _ = AddTableToWorksheet2(NVRActual, MultiAction, Start, ColumnUse);
+                        _ = AddTableToWorksheet2(NVRActual, MultiAction, Start, ColumnUse, culture.Name);
                     }
                 }
             }
@@ -418,7 +421,7 @@ namespace Saving_Accelerator_Tool
             }
 
             Remove_Empty_Sheet EmptySheet = new Remove_Empty_Sheet();
-            EmptySheet.Remove_Empty(Raport, RaportWorkBook);
+            EmptySheet.Remove_Empty(Raport, RaportWorkBook, culture.Name);
 
             Save_Excel_WorkBook Save = new Save_Excel_WorkBook();
             Save.Save_WorkBook(Raport, RaportWorkBook);
@@ -793,7 +796,7 @@ namespace Saving_Accelerator_Tool
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private int AddTableToWorksheet2(DataTable Table, Excel.Worksheet worksheet, int Start, int ColumnCount)
+        private int AddTableToWorksheet2(DataTable Table, Excel.Worksheet worksheet, int Start, int ColumnCount, string Culture)
         {
             int RowCount = Table.Rows.Count;
             int ColumnCountTable = Table.Columns.Count;
@@ -874,7 +877,7 @@ namespace Saving_Accelerator_Tool
                 for (int counter2 = 1; counter2 <= 13; counter2++)
                     ConvertToNumber(worksheet, column + counter2, Start, Start + RowCount - 1);
 
-                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1);
+                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1, Culture);
                 NumberFormationgTotal(worksheet, column + 13, Start, Start + RowCount - 1);
             }
             if (Preferencje["Savings"])
@@ -883,7 +886,7 @@ namespace Saving_Accelerator_Tool
                 for (int counter2 = 1; counter2 <= 13; counter2++)
                     ConvertToNumber(worksheet, column + counter2, Start, Start + RowCount - 1);
 
-                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1);
+                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1, Culture);
                 NumberFormationgTotal(worksheet, column + 13, Start, Start + RowCount - 1);
             }
             if (Preferencje["ECCC"])
@@ -892,7 +895,7 @@ namespace Saving_Accelerator_Tool
                 for (int counter2 = 1; counter2 <= 13; counter2++)
                     ConvertToNumber(worksheet, column + counter2, Start, Start + RowCount - 1);
 
-                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1);
+                NumberFormatiog(worksheet, column + 1, column + 12, Start, Start + RowCount - 1, Culture);
                 NumberFormationgTotal(worksheet, column + 13, Start, Start + RowCount - 1);
             }
 
@@ -1577,13 +1580,27 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private void NumberFormatiog(Excel.Worksheet MultiAction, int ColumnStart, int ColumnFinish, int RowStart, int RowFinish)
+        private void NumberFormatiog(Excel.Worksheet MultiAction, int ColumnStart, int ColumnFinish, int RowStart, int RowFinish, string Culture)
         {
+            Excel.FormatCondition format;
+
             Excel.Range CellStart = MultiAction.Cells[RowStart, ColumnStart];
             Excel.Range CellFinish = MultiAction.Cells[RowFinish, ColumnFinish];
             MultiAction.Range[CellStart, CellFinish].NumberFormat = "# ### ##0";
-            Excel.FormatCondition format = (Excel.FormatCondition)MultiAction.Range[CellStart, CellFinish].FormatConditions.Add(Excel.XlFormatConditionType.xlExpression, Excel.XlFormatConditionOperator.xlEqual, "=ISBLANK(RC)");
-            format.Interior.Color = Color.FromArgb(208, 206, 206);
+            if (Culture == "en-US")
+            {
+                format = (Excel.FormatCondition)MultiAction.Range[CellStart, CellFinish].FormatConditions.Add(Excel.XlFormatConditionType.xlExpression, Excel.XlFormatConditionOperator.xlEqual, "=ISBLANK(RC)");
+                format.Interior.Color = Color.FromArgb(208, 206, 206);
+            }
+            else if (Culture == "pl-PL")
+            {
+                format = (Excel.FormatCondition)MultiAction.Range[CellStart, CellFinish].FormatConditions.Add(Excel.XlFormatConditionType.xlExpression, Excel.XlFormatConditionOperator.xlEqual, "=CZY.PUSTA(WK)");
+                format.Interior.Color = Color.FromArgb(208, 206, 206);
+            }
+            else
+            {
+
+            }
         }
 
         private void NumberFormationgTotal(Excel.Worksheet MultiAction, int ColumnFinish, int RowStart, int RowFinish)

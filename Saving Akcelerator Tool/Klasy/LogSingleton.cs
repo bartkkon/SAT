@@ -10,10 +10,10 @@ namespace Saving_Accelerator_Tool
     public class LogSingleton
     {
         private static LogSingleton instance;
-        private static object syncRoot = new Object();
+        private readonly static object syncRoot = new Object();
 
-        private string filename;
-        private string path;
+        private readonly string filename;
+        private readonly string path;
 
         private LogSingleton()
         {
@@ -21,11 +21,12 @@ namespace Saving_Accelerator_Tool
             filename = "SAT_Log.txt";
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
+
         public void SaveLog(string msg)
         {
-            writeToFile(msg);
+            WriteToFile(msg);
         }
-        private void writeToFile(string msg)
+        private void WriteToFile(string msg)
         {
             lock (syncRoot)
             {

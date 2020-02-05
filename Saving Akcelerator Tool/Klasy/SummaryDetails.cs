@@ -443,6 +443,8 @@ namespace Saving_Accelerator_Tool
                     FrozenRow["MechApp"] = "Close";
                     FrozenRow["NVRApp"] = "Close";
                     FrozenRow[ToApprove] = "Approve";
+                    MailTo = new SentTo(true, true, true, true).SentToList();
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_PC_Topic(ToApprove), new MailInfo().RaportApprove_PC_Body(ToApprove));
                 }
             }
             Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
