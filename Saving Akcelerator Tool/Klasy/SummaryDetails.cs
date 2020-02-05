@@ -84,22 +84,20 @@ namespace Saving_Accelerator_Tool
 
                 if (FrozenYear["BU"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "BU", Year, Data_Import.Singleton());
+                    PC_Approval.Approve_Info(Devision, Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA1"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA1", Year, Data_Import.Singleton());
+                    PC_Approval.Approve_Info(Devision,  Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA2"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA2", Year, Data_Import.Singleton());
+                    PC_Approval.Approve_Info(Devision,  Year, Data_Import.Singleton());
                 }
                 else if (FrozenYear["EA3"].ToString() == "Open")
                 {
-                    PC_Approval.Approve_Info(Devision, "EA3", Year, Data_Import.Singleton());
+                    PC_Approval.Approve_Info(Devision, Year, Data_Import.Singleton());
                 }
-
-
             }
         }
 

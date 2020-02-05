@@ -37,12 +37,9 @@ namespace Saving_Accelerator_Tool
     //Zapis pliku dla MiltuRaport
     public class Save_Excel_WorkBook
     {
-        MainProgram mainProgram;
-       
-
-        public Save_Excel_WorkBook(MainProgram mainProgram)
+        public Save_Excel_WorkBook()
         {
-            this.mainProgram = mainProgram;
+
         }
 
         public void Save_WorkBook(Excel.Application application, Excel.Workbook workbook)
@@ -77,9 +74,9 @@ namespace Saving_Accelerator_Tool
             string Minute;
             string Secound;
 
-            ComboBox DevisionCB = (ComboBox)mainProgram.TabControl.Controls.Find("Comb_SummDevision", true).First();
+            ComboBox DevisionCB = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDevision", true).First();
             string Devision = DevisionCB.Text;
-            decimal YearRep = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First()).Value;
+            decimal YearRep = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYearSum", true).First()).Value;
 
             if (Devision == "All")
             {
@@ -88,11 +85,11 @@ namespace Saving_Accelerator_Tool
             else
             {
                 Name = Devision;
-                Name = Name + "_";
+                Name += "_";
             }
 
-            Name = Name + YearRep.ToString();
-            Name = Name + "_";
+            Name += YearRep.ToString();
+            Name += "_";
 
             Year = DateTime.Now.Year;
             Month = DateTime.Now.Month;
@@ -101,13 +98,13 @@ namespace Saving_Accelerator_Tool
             Minute = DateTime.Now.Minute.ToString("d2");
             Secound = DateTime.Now.Second.ToString("d2");
 
-            Name = Name + Year.ToString();
-            Name = Name + Month.ToString();
-            Name = Name + Day.ToString();
-            Name = Name + "_";
-            Name = Name + Hour;
-            Name = Name + Minute;
-            Name = Name + Secound;
+            Name += Year.ToString();
+            Name += Month.ToString();
+            Name += Day.ToString();
+            Name += "_";
+            Name += Hour;
+            Name += Minute;
+            Name += Secound;
 
             return Name;
         }
@@ -118,13 +115,14 @@ namespace Saving_Accelerator_Tool
     {
         public void Save_WorkBook(Excel.Application application, Excel.Workbook workbook, string FileName)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            saveFileDialog.FileName = FileName;
-            saveFileDialog.DefaultExt = "Xlsx";
-            saveFileDialog.Filter = "Excel Files (*.xlsx)|*xlsx";
-            saveFileDialog.FilterIndex = 1;
-            saveFileDialog.RestoreDirectory = true;
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                FileName = FileName,
+                DefaultExt = "Xlsx",
+                Filter = "Excel Files (*.xlsx)|*xlsx",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {

@@ -420,7 +420,7 @@ namespace Saving_Accelerator_Tool
             Remove_Empty_Sheet EmptySheet = new Remove_Empty_Sheet();
             EmptySheet.Remove_Empty(Raport, RaportWorkBook);
 
-            Save_Excel_WorkBook Save = new Save_Excel_WorkBook(MainProgram.Self);
+            Save_Excel_WorkBook Save = new Save_Excel_WorkBook();
             Save.Save_WorkBook(Raport, RaportWorkBook);
 
         }
@@ -1116,12 +1116,12 @@ namespace Saving_Accelerator_Tool
         {
             if (ActionRow["Calculate"].ToString() == "ANC")
             {
-                ANC _ANC = new ANC(Data_Import.Singleton(), Preferencje);
+                ANC _ANC = new ANC(Preferencje);
                 _ANC.PrepareANC(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
             else if (ActionRow["Calculate"].ToString() == "ANCSpec")
             {
-                ANCSpec _ANCSpec = new ANCSpec(Data_Import.Singleton(), Preferencje);
+                ANCSpec _ANCSpec = new ANCSpec(Preferencje);
                 _ANCSpec.PrepareANCSpec(ActionRow, ref FinalActions, MonthA, CarryOver, Status);
             }
             else if (ActionRow["Calculate"].ToString() == "PNC")

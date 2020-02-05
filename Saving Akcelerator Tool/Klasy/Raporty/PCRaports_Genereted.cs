@@ -82,7 +82,7 @@ namespace Saving_Accelerator_Tool
             Action_WorkSheet(worksheet, NewActionPozitiveFinish, 10);
             Action_WorkSheet(worksheet, NewActionNegativeFinish, 14 + NewActionPozitiveFinish.Rows.Count);
 
-            Save_Excel_WorkBook Save = new Save_Excel_WorkBook(mainProgram);
+            Save_Excel_WorkBook Save = new Save_Excel_WorkBook();
             Save.Save_WorkBook(excel, workbook);
         }
 

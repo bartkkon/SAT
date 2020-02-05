@@ -115,7 +115,7 @@ namespace Saving_Accelerator_Tool
                 if (EA3.Columns.Count != 5)
                     CreateColumnPerANC("EA3");
             }
-            Calculation Calc = new Calculation(mainProgram, ImportData, ANCChangeNumber, USE, BU, EA1, EA2, EA3);
+            Calculation Calc = new Calculation(ANCChangeNumber, USE, BU, EA1, EA2, EA3);
             Calc.SavingCalculation();
             Action_ChangeInAction();
             ChangeCalcProtector(false);
@@ -188,7 +188,7 @@ namespace Saving_Accelerator_Tool
             }
             else
             {
-                SaveAction Save = new SaveAction(MainProgram.Self, ImportData, ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
+                SaveAction Save = new SaveAction(ANCChangeNumber, IDCODictionary, USE, BU, EA1, EA2, EA3);
                 Save.Save(NewActionCreate, IDCODictionary);
                 TreeRefresh();
                 Action_NoChangeInAction();

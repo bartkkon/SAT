@@ -38,7 +38,7 @@ namespace Saving_Accelerator_Tool
             {"EA3", 9},
         };
 
-        public void Approve_Info(string Devision, string Rewizion, decimal Year, Data_Import data_Import)
+        public void Approve_Info(string Devision, decimal Year, Data_Import data_Import)
         {
             DataTable Action = new DataTable();
             DataTable ANC = new DataTable();
@@ -47,7 +47,7 @@ namespace Saving_Accelerator_Tool
 
             string Link;
             string DevisionFinal = Dewizje[Devision];
-            decimal Euro;
+            //decimal Euro;
 
             Link = data_Import.Load_Link("Action");
             data_Import.Load_TxtToDataTable(ref Action, Link);
@@ -61,7 +61,7 @@ namespace Saving_Accelerator_Tool
             Link = data_Import.Load_Link("PNC");
             data_Import.Load_TxtToDataTable(ref PNC, Link);
 
-            Euro = decimal.Parse((Kurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault())["EURO"].ToString());
+            //Euro = decimal.Parse((Kurs.Select(string.Format("Year LIKE '%{0}%'", Year)).FirstOrDefault())["EURO"].ToString());
 
             foreach (DataRow Row in Action.Rows)
             {
