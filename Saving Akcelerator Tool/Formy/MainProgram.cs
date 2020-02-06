@@ -15,12 +15,8 @@ namespace Saving_Accelerator_Tool
 {
     public partial class MainProgram : Form
     {
-        private readonly Data_Import data_Import;
-        private readonly BuildForm buildForm = new BuildForm();
         private readonly Action action;
-        private readonly DataTable  Access = new DataTable();
         private readonly SummaryDetails summaryDetails;
-        private readonly Admin admin;
         public static MainProgram Self;
 
 
@@ -28,9 +24,7 @@ namespace Saving_Accelerator_Tool
         {
             try
             {
-                data_Import = Data_Import.Singleton();
-
-                if(!data_Import.CheckConnectionToDataBase())
+                if(!Data_Import.Singleton().CheckConnectionToDataBase())
                 {
                     Environment.Exit(0);
                 }
@@ -38,18 +32,21 @@ namespace Saving_Accelerator_Tool
                 //Widocznoś Maina dla Wszystkich.
                 Self = this;
 
-                //Pobranie danych z bazy dla dostępów osób logujących się do programy
-                Access = data_Import.Load_Access();
                 //Tworzenie Użytkowanika
-                CreateUsers NewUsers = new CreateUsers(Access);
+                _ = new CreateUsers(Data_Import.Singleton().Load_Access());
+                if(Users.Singleton().Role == "Employee")
+                {
+                    MessageBox.Show("You don't have permision to acces this tool. Please contact with administrator!", "No Access!");
+                    Environment.Exit(0);
+                }
                 //Inicjalizowanie programu
                 InitializeComponent();
-                action = new Action(this, data_Import);
-                admin = new Admin();
+
+                action = new Action(this, Data_Import.Singleton());
                 summaryDetails = new SummaryDetails();
 
                 //Budowanie Formsa w zależności od uprawnień
-                buildForm.Tab_Control_Add(Access, this, action, summaryDetails, admin, data_Import);
+                _ = new BuildForm(action, summaryDetails);
 
                 if (ApplicationDeployment.IsNetworkDeployed)
                 {
@@ -62,7 +59,7 @@ namespace Saving_Accelerator_Tool
 
                 if (Environment.UserName.ToString() == "BartkKon")
                 {
-                    string Link = data_Import.CheckLink();
+                    string Link = Data_Import.Singleton().CheckLink();
                     toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
                 }
                 

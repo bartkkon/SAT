@@ -26,7 +26,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.Framework.Targets
 
             Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
 
-            TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).First();
+            TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
             if (TargetsRow != null)
             {
                 string[] DM = (TargetsRow["DM"].ToString()).Split('/');

@@ -10,19 +10,18 @@ using System.ComponentModel;
 using Saving_Accelerator_Tool.Klasy.User;
 using Saving_Accelerator_Tool.Klasy.StatisticTab;
 using Saving_Accelerator_Tool.Klasy.Platform;
+using Saving_Accelerator_Tool.Klasy.AdmnTab;
 
 namespace Saving_Accelerator_Tool
 {
     class BuildForm
     {
-
-        private DataRow Person;
-
-
-        public void Tab_Control_Add(DataTable Access, MainProgram mainProgram, Action action, SummaryDetails summaryDetails, Admin admin, Data_Import ImportData)
+        public BuildForm(Action action, SummaryDetails summaryDetails)
         {
-            Person = Access.Rows[0];
-
+            Tab_Control_Add(action, summaryDetails);
+        }
+        public void Tab_Control_Add(Action action, SummaryDetails summaryDetails)
+        {
             Users User = Users.Singleton();
             
             // 
@@ -32,7 +31,7 @@ namespace Saving_Accelerator_Tool
             {
 
                 TabPage tab_Action = new TabPage();
-                mainProgram.TabControl.Controls.Add(tab_Action);
+                MainProgram.Self.TabControl.Controls.Add(tab_Action);
                 tab_Action.Location = new System.Drawing.Point(4, 22);
                 tab_Action.Name = "tab_Action";
                 tab_Action.Padding = new Padding(3);
@@ -60,7 +59,7 @@ namespace Saving_Accelerator_Tool
                     UseVisualStyleBackColor = true
                 };
 
-                mainProgram.TabControl.Controls.Add(tab_SummaryDetail);
+                MainProgram.Self.TabControl.Controls.Add(tab_SummaryDetail);
             
                 TabPage tab_Summary = new TabPage
                 {
@@ -72,8 +71,8 @@ namespace Saving_Accelerator_Tool
                     UseVisualStyleBackColor = true
                 };
 
-                mainProgram.TabControl.Controls.Add(tab_Summary);
-                _ = new SummaryDetailsForm(Person, summaryDetails);
+                MainProgram.Self.TabControl.Controls.Add(tab_Summary);
+                _ = new SummaryDetailsForm(summaryDetails);
 
             }
 
@@ -107,7 +106,7 @@ namespace Saving_Accelerator_Tool
                     UseVisualStyleBackColor = true
                 };
 
-                mainProgram.TabControl.Controls.Add(tab_STK);
+                MainProgram.Self.TabControl.Controls.Add(tab_STK);
 
                 Tab_STK_Comp();
             }
@@ -126,7 +125,7 @@ namespace Saving_Accelerator_Tool
                     UseVisualStyleBackColor = true
                 };
 
-                mainProgram.TabControl.Controls.Add(tab_Quantity);
+                MainProgram.Self.TabControl.Controls.Add(tab_Quantity);
 
                 Tab_Quantity_Comp();
             }
@@ -135,19 +134,7 @@ namespace Saving_Accelerator_Tool
             // 
             if (User.AdminTab)
             {
-                TabPage tab_Admin = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_Admin",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 7,
-                    Text = "Administration ",
-                    UseVisualStyleBackColor = true
-                };
-
-                mainProgram.TabControl.Controls.Add(tab_Admin);
-
-                _ = new AdminForm(mainProgram, action, admin, ImportData);
+                _ = new AdminTabGenerator();
 
                 TabPage tab_AdminAction = new TabPage
                 {
@@ -159,7 +146,7 @@ namespace Saving_Accelerator_Tool
                     UseVisualStyleBackColor = true,
                 };
 
-                mainProgram.TabControl.Controls.Add(tab_AdminAction);
+                MainProgram.Self.TabControl.Controls.Add(tab_AdminAction);
 
                 _ = new ModifiActionForm(tab_AdminAction);
             }

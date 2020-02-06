@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Saving_Accelerator_Tool.Klasy.AdmnTab.Handlers;
 using Saving_Accelerator_Tool.Klasy.Email;
 using Saving_Accelerator_Tool.Klasy.AdmnTab.Mail;
 using Saving_Accelerator_Tool.Formy;

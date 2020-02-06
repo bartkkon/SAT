@@ -12,54 +12,154 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab
 {
     class AdminTabGenerator
     {
-        private readonly TabPage _adminTab;
+        private  TabPage _adminTab;
 
-        public AdminTabGenerator(TabPage AdminTab)
+        public AdminTabGenerator()
         {
-            _adminTab = AdminTab;
+            GeneretedTab();
 
-            AdminViewGenerator();
+
+            ColumnFirst(15);
+
+            ColumnSecond(220);
+
+            ColumnThird(425);
+
+            ColumnFourth(830);
+
+            ColumnFifth(1135);
+
+            ColumnSixth(1290);
         }
 
-        private void AdminViewGenerator()
+        private void GeneretedTab()
         {
-            //Ładowanie do bazy zrzutu z IDB;
-            _ = new IDBView(_adminTab);
+            TabPage tab_Admin = new TabPage
+            {
+                Location = new Point(4, 22),
+                Name = "tab_Admin",
+                Size = new Size(1826, 877),
+                TabIndex = 7,
+                Text = "Administration",
+                UseVisualStyleBackColor = true
+            };
+            MainProgram.Self.TabControl.Controls.Add(tab_Admin);
+            _adminTab = tab_Admin;
+        }
+
+        private void ColumnSixth(int StartColumn)
+        {
+            int Row = 15;
 
             //Wysyłanie Maili z Admina;
             SendMailView SendMail = new SendMailView
             {
-                Location = new Point(1135, 85)
+                Location = new Point(StartColumn, Row)
             };
             _adminTab.Controls.Add(SendMail);
+        }
 
-            //Automatyczne przliczaie STK w akcjach Z tenego roku
-            AutoUpdateSTKView AutoSTK = new AutoUpdateSTKView
-            {
-                Location = new Point(425, 680)
-            };
-            _adminTab.Controls.Add(AutoSTK);
+        private void ColumnFifth(int StartColumn)
+        {
+            int Row = 15;
 
-            //Dodawania konta lub zmiany jego praw
-            AddPersonView AccessView = new AddPersonView
+            //Ładowanie Baz Danych 
+            DataBaseView DataBase = new DataBaseView
             {
-                Location = new Point(425, 15)
+                Location = new Point(StartColumn, Row),
             };
-            _adminTab.Controls.Add(AccessView);
+            _adminTab.Controls.Add(DataBase);
 
-            //Sumowanie ilości miesięcznych PNC do odpowiednich grup
-            SumPNC Sum = new SumPNC
-            {
-                Location = new Point(15, 525),
-            };
-            _adminTab.Controls.Add(Sum);
+        }
+
+        private void ColumnFourth(int StartColumn)
+        {
+            int Row = 15;
 
             //Sprawdzania i dodawanie Targetów dla poszczególnych działów i łacznie dla całego PC
             TargetView Target = new TargetView
             {
-                Location = new Point(830, 175),
+                Location = new Point(StartColumn, Row),
             };
             _adminTab.Controls.Add(Target);
+
+            Row += Target.Size.Height;
+
+            //Waluty dostępne w programie (EURO, USD, SEK) plus ECCC(na sek)
+            CoinsView Coins = new CoinsView
+            {
+                Location = new Point(StartColumn, Row),
+            };
+            _adminTab.Controls.Add(Coins);
+        }
+
+        private void ColumnThird(int StartColumn)
+        {
+            int Row = 15;
+
+            //Dodawania konta lub zmiany jego praw
+            AddPersonView AccessView = new AddPersonView
+            {
+                Location = new Point(StartColumn, Row)
+            };
+            _adminTab.Controls.Add(AccessView);
+
+            Row += AccessView.Size.Height;
+
+            //Wszystko co z STK związane
+            AutoUpdateSTKView AutoSTK = new AutoUpdateSTKView
+            {
+                Location = new Point(StartColumn, Row)
+            };
+            _adminTab.Controls.Add(AutoSTK);
+
+        }
+
+        private void ColumnSecond(int StartColumn)
+        {
+            int Row = 15;
+            //Forzen sprawdzanie który miesiąc można kalkulowac a który nie 
+            Frozen frozen = new Frozen
+            {
+                Location = new Point(StartColumn, Row),
+            };
+            _adminTab.Controls.Add(frozen);
+
+            Row += frozen.Size.Height;
+
+            ActionActivatorView ActionActivator = new ActionActivatorView
+            {
+                Location = new Point(StartColumn, Row)
+            };
+            _adminTab.Controls.Add(ActionActivator);
+        }
+
+        private void ColumnFirst(int StartColumn)
+        {
+            int Row = 15;
+            //Dodawanie ilości dla Rewizji
+            QuantityRevAddView RevQuantity = new QuantityRevAddView
+            {
+                Location = new Point(StartColumn, Row),
+            };
+            _adminTab.Controls.Add(RevQuantity);
+
+            Row += RevQuantity.Size.Height;
+
+            QuantityMonthAddView MonthQuantity = new QuantityMonthAddView
+            {
+                Location = new Point(StartColumn, Row),
+            };
+            _adminTab.Controls.Add(MonthQuantity);
+
+            Row += MonthQuantity.Size.Height;
+
+            //Sumowanie ilości miesięcznych PNC do odpowiednich grup
+            SumPNC Sum = new SumPNC
+            {
+                Location = new Point(StartColumn, Row),
+            };
+            _adminTab.Controls.Add(Sum);
         }
     }
 }

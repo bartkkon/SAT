@@ -7,18 +7,18 @@ using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.SummaryDetails.View;
+using Saving_Accelerator_Tool.Klasy.User;
 
 namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsForm : SummaryDetailsFormHendler
     {
         private readonly SummaryDetails summaryDetails;
-        private readonly DataRow Person;
 
-        public SummaryDetailsForm( DataRow Person, SummaryDetails summaryDetails) : base(summaryDetails, Person)
+        public SummaryDetailsForm(SummaryDetails summaryDetails) : base(summaryDetails)
         {
             this.summaryDetails = summaryDetails;
-            this.Person = Person;
+
             Tab_SummaryDetail_Comp();
             Tab_Summary_Comp();
         }
@@ -378,7 +378,7 @@ namespace Saving_Accelerator_Tool
 
         private void ReportingForm(GroupBox gb_Controls)
         {
-            if (Person["EleApprove"].ToString() == "true" || Person["MechApprove"].ToString() == "true" || Person["NVRApprove"].ToString() == "true" || Person["PCApprove"].ToString() == "true")
+            if (Users.Singleton().ElectronicApprove || Users.Singleton().MechanicApprove || Users.Singleton().NVRApprove || Users.Singleton().PCApprove)
             {
                 GroupBox gb_Approve = new GroupBox
                 {
@@ -400,7 +400,7 @@ namespace Saving_Accelerator_Tool
                 Pb_SummDet_ReportingRefresh.Click += new EventHandler(Pb_SummDet_ReportingRefresh_Click);
                 gb_Approve.Controls.Add(Pb_SummDet_ReportingRefresh);
 
-                if (Person["EleApprove"].ToString() == "true")
+                if (Users.Singleton().ElectronicApprove)
                 {
                     Button pb_SummDet_EleApp = new Button
                     {
@@ -416,7 +416,7 @@ namespace Saving_Accelerator_Tool
                     summaryDetails.SummaryDetails_CheckifCanReporting("Electronic", "false");
                 }
 
-                if (Person["MechApprove"].ToString() == "true")
+                if (Users.Singleton().MechanicApprove)
                 {
                     Button pb_SummDet_MechApp = new Button
                     {
@@ -432,7 +432,7 @@ namespace Saving_Accelerator_Tool
                     summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
                 }
 
-                if (Person["NVRApprove"].ToString() == "true")
+                if (Users.Singleton().NVRApprove)
                 {
                     Button pb_SummDet_NVRApp = new Button
                     {
@@ -448,7 +448,7 @@ namespace Saving_Accelerator_Tool
                     summaryDetails.SummaryDetails_CheckifCanReporting("NVR", "false");
                 }
 
-                if (Person["PCApprove"].ToString() == "true")
+                if (Users.Singleton().PCApprove)
                 {
                     Button pb_SummDet_PCApp = new Button
                     {
@@ -676,7 +676,7 @@ namespace Saving_Accelerator_Tool
 
         private void AddDevisionToComboBox(ComboBox Comb_SummDetDevision)
         {
-            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager")
+            if (Users.Singleton().Role == "Admin" || Users.Singleton().Role == "PCMenager")
             {
                 Comb_SummDetDevision.Items.Add("All");
                 Comb_SummDetDevision.Items.Add("Electronic");
@@ -684,17 +684,17 @@ namespace Saving_Accelerator_Tool
                 Comb_SummDetDevision.Items.Add("NVR");
                 Comb_SummDetDevision.SelectedIndex = 0;
             }
-            else if (Person["Role"].ToString() == "EleMenager")
+            else if (Users.Singleton().Role == "EleMenager")
             {
                 Comb_SummDetDevision.Items.Add("Electronic");
                 Comb_SummDetDevision.SelectedIndex = 0;
             }
-            else if (Person["Role"].ToString() == "MechMenager")
+            else if (Users.Singleton().Role == "MechMenager")
             {
                 Comb_SummDetDevision.Items.Add("Mechanic");
                 Comb_SummDetDevision.SelectedIndex = 0;
             }
-            else if (Person["Role"].ToString() == "NVRMenager")
+            else if (Users.Singleton().Role == "NVRMenager")
             {
                 Comb_SummDetDevision.Items.Add("NVR");
                 Comb_SummDetDevision.SelectedIndex = 0;
@@ -703,7 +703,7 @@ namespace Saving_Accelerator_Tool
 
         private void PC_Raport(GroupBox gb_Show)
         {
-            if (Person["Role"].ToString() == "Admin" || Person["Role"].ToString() == "PCMenager" || Person["Role"].ToString() == "EleMenager" || Person["Role"].ToString() == "MechMenager" || Person["Role"].ToString() == "NVRMenager")
+            if (Users.Singleton().Role == "Admin" || Users.Singleton().Role == "PCMenager" || Users.Singleton().Role == "EleMenager" || Users.Singleton().Role == "MechMenager" || Users.Singleton().Role == "NVRMenager")
             {
                 Button PCRaport = new Button
                 {

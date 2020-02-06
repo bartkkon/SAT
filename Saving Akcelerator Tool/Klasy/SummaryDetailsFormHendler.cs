@@ -8,19 +8,18 @@ using System.Data;
 using System.Drawing;
 using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework;
 using Saving_Accelerator_Tool.Klasy.Email;
+using Saving_Accelerator_Tool.Klasy.User;
 
 namespace Saving_Accelerator_Tool
 {
     class SummaryDetailsFormHendler
     {
         private readonly SummaryDetails summaryDetails;
-        private readonly DataRow Person;
         private readonly Charts charts;
 
-        public SummaryDetailsFormHendler(SummaryDetails summaryDetails, DataRow Person)
+        public SummaryDetailsFormHendler(SummaryDetails summaryDetails)
         {
             this.summaryDetails = summaryDetails;
-            this.Person = Person;
             charts = new Charts(MainProgram.Self);
         }
 
@@ -29,7 +28,7 @@ namespace Saving_Accelerator_Tool
             DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Person["PCApprove"].ToString());
+                summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton().PCApprove.ToString());
             }
             else if (result == DialogResult.No)
             {
@@ -42,7 +41,7 @@ namespace Saving_Accelerator_Tool
             DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
             if (Result == DialogResult.Yes)
             {
-                summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Person["PCApprove"].ToString());
+                summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton().PCApprove.ToString());
             }
             else if (Result == DialogResult.No)
             {
@@ -124,19 +123,19 @@ namespace Saving_Accelerator_Tool
 
         public void Pb_SummDet_ReportingRefresh_Click(object sender, EventArgs e)
         {
-            if (Person["EleApprove"].ToString() == "true")
+            if (Users.Singleton().ElectronicApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("Electronic","false");
             }
-            if (Person["MechApprove"].ToString() == "true")
+            if (Users.Singleton().MechanicApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
             }
-            if (Person["NVRapprove"].ToString() == "true")
+            if (Users.Singleton().NVRApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("NVR","false");
             }
-            if (Person["PCApprove"].ToString() == "true")
+            if (Users.Singleton().PCApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
             }

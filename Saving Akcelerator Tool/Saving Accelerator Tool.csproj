@@ -132,12 +132,17 @@
     <Compile Include="Klasy\AdminTab\Framework\Access\NewAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\SaveAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\AutoUpdateSTK.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\CloneDataBase.cs" />
     <Compile Include="Klasy\AdminTab\Framework\IDBLoadDataBase.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Targets\LoadTargets.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Targets\SaveTargets.cs" />
-    <Compile Include="Klasy\AdminTab\Handlers\IDBHandler.cs" />
-    <Compile Include="Klasy\AdminTab\Handlers\STKUpdateHandlers.cs" />
     <Compile Include="Klasy\AdminTab\Mail\SendMailInfo.cs" />
+    <Compile Include="Klasy\AdminTab\View\ActionActivatorView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\ActionActivatorView.Designer.cs">
+      <DependentUpon>ActionActivatorView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\AdminTab\View\AddPersonView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -150,14 +155,42 @@
     <Compile Include="Klasy\AdminTab\View\AutoUpdateSTKView.Designer.cs">
       <DependentUpon>AutoUpdateSTKView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\IDBView.cs" />
+    <Compile Include="Klasy\AdminTab\View\CoinsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\CoinsView.Designer.cs">
+      <DependentUpon>CoinsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\DataBaseView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\DataBaseView.Designer.cs">
+      <DependentUpon>DataBaseView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\Frozen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\Frozen.Designer.cs">
+      <DependentUpon>Frozen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\QuantityMonthAddView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\QuantityMonthAddView.Designer.cs">
+      <DependentUpon>QuantityMonthAddView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\QuantityRevAddView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\QuantityRevAddView.Designer.cs">
+      <DependentUpon>QuantityRevAddView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\AdminTab\View\SendMailView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Klasy\AdminTab\View\SendMailView.Designer.cs">
       <DependentUpon>SendMailView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\STKUpdate.cs" />
     <Compile Include="Klasy\AdminTab\View\SumPNC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -205,7 +238,6 @@
     </Compile>
     <Compile Include="Klasy\Calculation.cs" />
     <Compile Include="Klasy\Charts.cs" />
-    <Compile Include="Klasy\AdminFormHendler.cs" />
     <Compile Include="Klasy\ActionFormHendler.cs" />
     <Compile Include="Klasy\ActionForm.cs" />
     <Compile Include="Formy\AddData.cs">
@@ -215,8 +247,6 @@
       <DependentUpon>AddData.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\Action.cs" />
-    <Compile Include="Klasy\Admin.cs" />
-    <Compile Include="Klasy\AdminForm.cs" />
     <Compile Include="Klasy\Budget.cs" />
     <Compile Include="Formy\MainProgram.cs">
       <SubType>Form</SubType>
@@ -287,11 +317,29 @@
     <EmbeddedResource Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.resx">
       <DependentUpon>SpecialCalcAction.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\ActionActivatorView.resx">
+      <DependentUpon>ActionActivatorView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AddPersonView.resx">
       <DependentUpon>AddPersonView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AutoUpdateSTKView.resx">
       <DependentUpon>AutoUpdateSTKView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\CoinsView.resx">
+      <DependentUpon>CoinsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\DataBaseView.resx">
+      <DependentUpon>DataBaseView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\Frozen.resx">
+      <DependentUpon>Frozen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\QuantityMonthAddView.resx">
+      <DependentUpon>QuantityMonthAddView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\QuantityRevAddView.resx">
+      <DependentUpon>QuantityRevAddView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\SendMailView.resx">
       <DependentUpon>SendMailView.cs</DependentUpon>

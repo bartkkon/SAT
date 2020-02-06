@@ -35,23 +35,18 @@ namespace Saving_Accelerator_Tool
             {"December",12},
         };
 
+        private readonly decimal _Year;
 
-        private readonly MainProgram mainProgram;
-        private readonly Data_Import data_Import;
-
-        public CalculationMass(MainProgram mainProgram, Data_Import data_Import, string Revision)
+        public CalculationMass(string Revision, decimal Year)
         {
-            this.mainProgram = mainProgram;
-            this.data_Import = data_Import;
+            _Year = Year;
 
             MassCalculation(Revision, 0);
         }
 
-        public CalculationMass(MainProgram mainProgram, Data_Import data_Import, int Month)
+        public CalculationMass(int Month, decimal Year)
         {
-            this.mainProgram = mainProgram;
-            this.data_Import = data_Import;
-
+            _Year = Year;
             MassCalculation("USE", Month);
         }
 
@@ -61,12 +56,6 @@ namespace Saving_Accelerator_Tool
             DataTable ANCQ;
             DataTable PNCQ;
             DataTable ECCCQ;
-            decimal Year;
-
-            if (Revision != "USE")
-                Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_QuantityCalcRev", true).First()).Value;
-            else
-                Year = ((NumericUpDown)mainProgram.TabControl.Controls.Find("num_Admin_YearCalc", true).First()).Value;
 
             ActionList = LoadActionTable();
 
@@ -85,7 +74,7 @@ namespace Saving_Accelerator_Tool
 
             foreach (DataRow ActionRow in ActionList.Rows)
             {
-                if (ActionRow["StartYear"].ToString() == Year.ToString() && ActionRow["Status"].ToString() == "Active")
+                if (ActionRow["StartYear"].ToString() == _Year.ToString() && ActionRow["Status"].ToString() == "Active")
                 {
                     int RevStart = RevisionStartMonth[Revision];
                     int MonthStart = Month[ActionRow["StartMonth"].ToString()];
@@ -123,33 +112,33 @@ namespace Saving_Accelerator_Tool
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = ANC(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = ANC(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "ANCSpec")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = ANCSpec(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = ANCSpec(ActionRow, Revision, Estymation, RevStart, "", ref ANCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "PNC")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "PNCSpec")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "", ref PNCQ, ref ECCCQ).ItemArray;
                         }
                         //}
                     }
                 }
-                if (ActionRow["StartYear"].ToString() == (Year - 1).ToString() && ActionRow["Status"].ToString() == "Active")
+                if (ActionRow["StartYear"].ToString() == (_Year - 1).ToString() && ActionRow["Status"].ToString() == "Active")
                 {
                     int RevStart = RevisionStartMonth[Revision];
                     int MonthStart = Month[ActionRow["StartMonth"].ToString()];
@@ -181,7 +170,7 @@ namespace Saving_Accelerator_Tool
                             RevFinish = 0;
                         }
 
-                        if (Year - 1 == DateTime.Now.Year)
+                        if (_Year - 1 == DateTime.Now.Year)
                         {
                             if (MonthStart >= DateTime.Now.Month)
                                 Estymation = true;
@@ -195,65 +184,58 @@ namespace Saving_Accelerator_Tool
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = ANC(ActionRow, Revision, Estymation, RevStart, "Carry", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = ANC(ActionRow, Revision, Estymation, RevStart, "Carry", ref ANCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "ANCSpec")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = ANCSpec(ActionRow, Revision, Estymation, RevStart, "Carry", ref ANCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = ANCSpec(ActionRow, Revision, Estymation, RevStart, "Carry", ref ANCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "PNC")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "Carry", ref PNCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNC(ActionRow, Revision, Estymation, RevStart, "Carry", ref PNCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     else if (Calcby == "PNCSpec")
                     {
                         for (; RevStart <= RevFinish; RevStart++)
                         {
-                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "Carry", ref PNCQ, ref ECCCQ, Year).ItemArray;
+                            ActionRow.ItemArray = PNCSpec(ActionRow, Revision, Estymation, RevStart, "Carry", ref PNCQ, ref ECCCQ).ItemArray;
                         }
                     }
                     //}
                 }
             }
 
-            string LinkAction = data_Import.Load_Link("Action");
-            data_Import.Save_DataTableToTXT(ref ActionList, LinkAction);
+            Data_Import.Singleton().Save_DataTableToTXT2(ref ActionList, "Action");
         }
-
-
 
         //Funkcje pomocnicze
 
         private DataTable LoadTable(bool Revision, string What)
         {
             DataTable Table = new DataTable();
-            string Link;
 
             if (What == "ECCC")
             {
-                Link = data_Import.Load_Link("Kurs");
-                data_Import.Load_TxtToDataTable(ref Table, Link);
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "Kurs");
                 return Table;
             }
             else if (Revision)
             {
                 if (What == "ANC")
                 {
-                    Link = data_Import.Load_Link("ANC");
-                    data_Import.Load_TxtToDataTable(ref Table, Link);
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "ANC");
                     return Table;
                 }
                 else if (What == "PNC")
                 {
-                    Link = data_Import.Load_Link("PNC");
-                    data_Import.Load_TxtToDataTable(ref Table, Link);
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "PNC");
                     return Table;
                 }
 
@@ -262,14 +244,12 @@ namespace Saving_Accelerator_Tool
             {
                 if (What == "ANC")
                 {
-                    Link = data_Import.Load_Link("ANCMonth");
-                    data_Import.Load_TxtToDataTable(ref Table, Link);
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "ANCMonth");
                     return Table;
                 }
                 else if (What == "PNC")
                 {
-                    Link = data_Import.Load_Link("PNCMonth");
-                    data_Import.Load_TxtToDataTable(ref Table, Link);
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Table, "PNCMonth");
                     return Table;
                 }
             }
@@ -279,10 +259,8 @@ namespace Saving_Accelerator_Tool
         private DataTable LoadActionTable()
         {
             DataTable ActionTable = new DataTable();
-            string LinkAction;
 
-            LinkAction = data_Import.Load_Link("Action");
-            data_Import.Load_TxtToDataTable(ref ActionTable, LinkAction);
+            Data_Import.Singleton().Load_TxtToDataTable2(ref ActionTable, "Action");
 
             return ActionTable;
         }
@@ -437,7 +415,7 @@ namespace Saving_Accelerator_Tool
             return Results;
         }
 
-        private DataRow ANC(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost, decimal Year)
+        private DataRow ANC(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost)
         {
             string[] ANCCalc;
             string[] Delta;
@@ -488,12 +466,12 @@ namespace Saving_Accelerator_Tool
                 ECCCSek = decimal.Parse(ActionRow["ECCC"].ToString());
                 if (Carry == "")
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
                 else
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (Year - 1).ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (_Year - 1).ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
             }
@@ -513,9 +491,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString());
                         }
                     }
 
@@ -540,9 +518,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Month + "/" + _Year.ToString()].ToString());
                         }
                     }
 
@@ -552,9 +530,9 @@ namespace Saving_Accelerator_Tool
 
                         if (QuantityBaseNext != null)
                         {
-                            if (QuantityBaseNext[Month + "/" + Year.ToString()].ToString() != "")
+                            if (QuantityBaseNext[Month + "/" + _Year.ToString()].ToString() != "")
                             {
-                                QuantityNext = decimal.Parse(QuantityBaseNext[Month + "/" + Year.ToString()].ToString());
+                                QuantityNext = decimal.Parse(QuantityBaseNext[Month + "/" + _Year.ToString()].ToString());
                             }
                         }
                     }
@@ -604,7 +582,7 @@ namespace Saving_Accelerator_Tool
             return ActionRow;
         }
 
-        private DataRow ANCSpec(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost, decimal Year)
+        private DataRow ANCSpec(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost)
         {
             string[] ANCCalc;
             string[] Delta;
@@ -631,7 +609,7 @@ namespace Saving_Accelerator_Tool
 
             QuantityPerANC = LoadTableWithQuantityPerANC_PNC(ActionRow, Revision, Carry);
             ClearColumnPer(ref QuantityPerANC, Month);
-            QuantityMass = LoadQuantityACNSpecMass(Revision, Year);
+            QuantityMass = LoadQuantityACNSpecMass(Revision, _Year);
 
             if (Estymacja)
             {
@@ -657,12 +635,12 @@ namespace Saving_Accelerator_Tool
                 ECCCSek = decimal.Parse(ActionRow["ECCC"].ToString());
                 if (Carry == "")
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
                 else
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (Year - 1).ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (_Year - 1).ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
             }
@@ -689,8 +667,8 @@ namespace Saving_Accelerator_Tool
                         QuantityBase = ANC.Select(string.Format("BUANC LIKE '%{0}%'", ANCCalc[counter].ToString())).FirstOrDefault();
                         if (QuantityBase != null)
                         {
-                            if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
-                                Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                            if (QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString() != "")
+                                Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString()) * PercentQuantity;
                         }
 
                         if (ECCCCalc)
@@ -710,15 +688,15 @@ namespace Saving_Accelerator_Tool
                         QuantityBase = ANC.Select(string.Format("ANC LIKE '%{0}%'", ANCCalc[counter].ToString())).FirstOrDefault();
                         if (QuantityBase != null)
                         {
-                            if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
-                                Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                            if (QuantityBase[Month + "/" + _Year.ToString()].ToString() != "")
+                                Quantity = decimal.Parse(QuantityBase[Month + "/" + _Year.ToString()].ToString()) * PercentQuantity;
                         }
 
                         QuantityBase = ANC.Select(string.Format("ANC LIKE '%{0}%'", Next[counter].ToString())).FirstOrDefault();
                         if (QuantityBase != null)
                         {
-                            if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
-                                Quantity += (decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString()) * PercentQuantity);
+                            if (QuantityBase[Month + "/" + _Year.ToString()].ToString() != "")
+                                Quantity += (decimal.Parse(QuantityBase[Month + "/" + _Year.ToString()].ToString()) * PercentQuantity);
                         }
 
                         if (ECCCCalc)
@@ -749,11 +727,11 @@ namespace Saving_Accelerator_Tool
                         QuantityBase = QuantityMass.Select(string.Format("PNC Like '%{0}%'", CalcMassOne)).First();
                         if (Revision == "USE")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Month.ToString() + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                            Quantity = decimal.Parse(QuantityBase[Month.ToString() + "/" + _Year.ToString()].ToString()) * PercentQuantity;
                         }
                         else
                         {
-                            Quantity = decimal.Parse(QuantityBase[Revision.ToString() + "/" + Month.ToString() + "/" + Year.ToString()].ToString()) * PercentQuantity;
+                            Quantity = decimal.Parse(QuantityBase[Revision.ToString() + "/" + Month.ToString() + "/" + _Year.ToString()].ToString()) * PercentQuantity;
                         }
                         Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
                         QuantitySum += Quantity;
@@ -802,11 +780,10 @@ namespace Saving_Accelerator_Tool
             return ActionRow;
         }
 
-        private DataRow PNC(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost, decimal Year)
+        private DataRow PNC(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost)
         {
             string[] ANCCalc;
             string[] Delta;
-            //string[] Next;
             string[] QuantityTable;
             string[] SavingTable;
             string[] ECCCTable;
@@ -850,12 +827,12 @@ namespace Saving_Accelerator_Tool
                 ECCCSek = decimal.Parse(ActionRow["ECCC"].ToString());
                 if (Carry == "")
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
                 else
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (Year - 1).ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (_Year - 1).ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
             }
@@ -879,9 +856,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString());
                             Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
                             QuantitySum += Quantity;
@@ -905,9 +882,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Month + "/" + _Year.ToString()].ToString());
                             Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
                             QuantitySum += Quantity;
@@ -954,12 +931,11 @@ namespace Saving_Accelerator_Tool
             return ActionRow;
         }
 
-        private DataRow PNCSpec(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost, decimal Year)
+        private DataRow PNCSpec(DataRow ActionRow, string Revision, bool Estymacja, int Month, string Carry, ref DataTable ANC, ref DataTable ECCCCost)
         {
             string[] ANCCalc;
             string[] Delta = null;
             decimal DeltaEst = 0;
-            //string[] Next;
             string[] QuantityTable;
             string[] SavingTable;
             string[] ECCCTable;
@@ -1016,12 +992,12 @@ namespace Saving_Accelerator_Tool
                 }
                 if (Carry == "")
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
                 else
                 {
-                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (Year - 1).ToString())).FirstOrDefault();
+                    QuantityBase = ECCCCost.Select(string.Format("Year LIKE '%{0}%'", (_Year - 1).ToString())).FirstOrDefault();
                     ECCCSekCost = decimal.Parse(QuantityBase["ECCC"].ToString());
                 }
             }
@@ -1039,9 +1015,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Revision + "/" + Month + "/" + _Year.ToString()].ToString());
                             Quantity *= PercentQuantity;
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
                             QuantitySum += Quantity;
@@ -1082,9 +1058,9 @@ namespace Saving_Accelerator_Tool
 
                     if (QuantityBase != null)
                     {
-                        if (QuantityBase[Month + "/" + Year.ToString()].ToString() != "")
+                        if (QuantityBase[Month + "/" + _Year.ToString()].ToString() != "")
                         {
-                            Quantity = decimal.Parse(QuantityBase[Month + "/" + Year.ToString()].ToString());
+                            Quantity = decimal.Parse(QuantityBase[Month + "/" + _Year.ToString()].ToString());
                             Quantity = Math.Round(Quantity, 0, MidpointRounding.AwayFromZero);
                             Quantity *= PercentQuantity;
                             QuantitySum += Quantity;
@@ -1152,18 +1128,16 @@ namespace Saving_Accelerator_Tool
         {
             DataTable Quantity = new DataTable();
             DataTable QuantityFinal;
-            string link;
+
 
             if (Revision == "USE")
             {
-                link = data_Import.Load_Link("SumPNC");
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "SumPNC");
             }
             else
             {
-                link = data_Import.Load_Link("SumPNCBU");
+                Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "SumPNCBU");
             }
-
-            data_Import.Load_TxtToDataTable(ref Quantity, link);
 
             QuantityFinal = Quantity.Copy();
 
