@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Klasy.Acton;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,31 +13,32 @@ namespace Saving_Accelerator_Tool
 {
     public partial class ActionFunction : Form
     {
-        MainProgram mainProgram;
-
-        Dictionary<string, string> IDCODictionary = new Dictionary<string, string>();
-
-        public ActionFunction(Dictionary<string, string> IDCO, int ANCChangeNumber, MainProgram mainProgram)
+        private DataGridView DG_IDCO;
+        private readonly DataTable IDCO;
+        private readonly int ANCChangeNumber;
+        public ActionFunction()
         {
             InitializeComponent();
-            IDCODictionary = IDCO;
-            this.mainProgram = mainProgram;
-            ShowIDCO(ANCChangeNumber);
+
+            IDCO = OriginalAction.Value.IDCO;
+            ANCChangeNumber = OriginalAction.Value.IloscANC;
+
+            ShowIDCO();
         }
 
 
-        private void ShowIDCO(int ANCChangeNumber)
+        private void ShowIDCO()
         {
             ADDGrid();
-            DataGridView DG_IDCO = (DataGridView)this.Controls.Find("DG_IDCO", true).First();
-            ADD_Column(ref DG_IDCO, "OLD ANC", 80, Color.Red);
-            ADD_Column(ref DG_IDCO, "OLD IDCO", 80, Color.Red);
-            ADD_Column(ref DG_IDCO, "NEW ANC", 80, Color.Green);
-            ADD_Column(ref DG_IDCO, "NEW IDCO", 80, Color.Green);
+            DG_IDCO = (DataGridView)this.Controls.Find("DG_IDCO", true).First();
+            ADD_Column("OLD ANC", 80, Color.Red);
+            ADD_Column("OLD IDCO", 80, Color.Red);
+            ADD_Column("NEW ANC", 80, Color.Green);
+            ADD_Column("NEW IDCO", 80, Color.Green);
 
             this.Size = new Size(397, 550);
 
-            LoadIDCO(ref DG_IDCO, ANCChangeNumber);
+            LoadIDCO();
 
         }
 
@@ -53,7 +55,7 @@ namespace Saving_Accelerator_Tool
             this.Controls.Add(DG_IDCO);
         }
 
-        private void ADD_Column(ref DataGridView Table, string Name, int Width, Color color)
+        private void ADD_Column(string Name, int Width, Color color)
         {
             DataGridViewColumn NewColumn = new DataGridViewTextBoxColumn();
             NewColumn.Name = Name;
@@ -62,20 +64,20 @@ namespace Saving_Accelerator_Tool
             NewColumn.DefaultCellStyle.ForeColor = color;
             NewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             NewColumn.ValueType = typeof(String);
-            Table.Columns.Add(NewColumn);
+            DG_IDCO.Columns.Add(NewColumn);
         }
 
-        private void LoadIDCO(ref DataGridView DG_IDCO, int ANCChangeNumber)
+        private void LoadIDCO()
         {
-            CheckBox PNCSpec = (CheckBox)mainProgram.TabControl.Controls.Find("cb_CalcPNCSpec", true).First();
-            if (IDCODictionary.Count != 0)
+            CheckBox PNCSpec = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_CalcPNCSpec", true).First();
+            if (IDCO.Rows.Count != 0)
             {
                 if (!PNCSpec.Checked)
                 {
                     for (int counter = 1; counter <= ANCChangeNumber; counter++)
                     {
-                        TextBox OLDANC = (TextBox)mainProgram.TabControl.Controls.Find("TB_OldANC" + counter.ToString(), true).First();
-                        TextBox NEWANC = (TextBox)mainProgram.TabControl.Controls.Find("TB_NewANC" + counter.ToString(), true).First();
+                        TextBox OLDANC = (TextBox)MainProgram.Self.TabControl.Controls.Find("TB_OldANC" + counter.ToString(), true).First();
+                        TextBox NEWANC = (TextBox)MainProgram.Self.TabControl.Controls.Find("TB_NewANC" + counter.ToString(), true).First();
 
                         int index = DG_IDCO.Rows.Add();
                         DataGridViewRow Row = DG_IDCO.Rows[index];
@@ -83,19 +85,27 @@ namespace Saving_Accelerator_Tool
                         Row.Cells["OLD ANC"].Value = OLDANC.Text;
                         Row.Cells["NEW ANC"].Value = NEWANC.Text;
 
-                        if (IDCODictionary.ContainsKey(OLDANC.Text))
+                        if (OLDANC.Text != "")
                         {
-                            Row.Cells["OLD IDCO"].Value = IDCODictionary[OLDANC.Text];
+                            DataRow[] OLD = IDCO.Select("ANC = '" + OLDANC.Text + "'");
+                            if (OLD != null)
+                            {
+                                Row.Cells["OLD IDCO"].Value = OLD[0][1];
+                            }
                         }
-                        if (IDCODictionary.ContainsKey(NEWANC.Text))
+                        if (NEWANC.Text != "")
                         {
-                            Row.Cells["NEW IDCO"].Value = IDCODictionary[NEWANC.Text];
+                            DataRow[] NEW = IDCO.Select("ANC = '" + NEWANC.Text + "'");
+                            if (NEW != null)
+                            {
+                                Row.Cells["NEW IDCO"].Value = NEW[0][1];
+                            }
                         }
                     }
                 }
                 else
                 {
-                    DataGridView PNC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_PNC", true).First();
+                    DataGridView PNC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
 
                     foreach (DataGridViewRow IDCO_Row in PNC.Rows)
                     {
@@ -126,7 +136,12 @@ namespace Saving_Accelerator_Tool
                                 if (Old != "")
                                 {
                                     Row.Cells["OLD ANC"].Value = Old;
-                                    Row.Cells["OLD IDCO"].Value = IDCODictionary[Old];
+                                    DataRow[] OLD = IDCO.Select("ANC = '" + Old + "'");
+                                    if (OLD != null)
+                                    {
+                                        Row.Cells["OLD IDCO"].Value = OLD[0][1];
+                                    }
+
                                 }
                                 else
                                 {
@@ -136,7 +151,11 @@ namespace Saving_Accelerator_Tool
                                 if (New != "")
                                 {
                                     Row.Cells["NEW ANC"].Value = New;
-                                    Row.Cells["NEW IDCO"].Value = IDCODictionary[New];
+                                    DataRow[] NEW = IDCO.Select("ANC = '" + New + "'");
+                                    if (NEW != null)
+                                    {
+                                        Row.Cells["NEW IDCO"].Value = NEW[0][1];
+                                    }
                                 }
                                 else
                                 {

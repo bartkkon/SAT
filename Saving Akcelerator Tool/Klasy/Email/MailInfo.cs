@@ -39,9 +39,9 @@ namespace Saving_Accelerator_Tool.Klasy.Email
             string Body;
 
             if (WhatApprove == "BU" || WhatApprove == "EA1" || WhatApprove == "EA2" || WhatApprove == "EA3")
-                Body = "User " + Users.Singleton().Name + " has approved " + Devision + " data for Revison " + WhatApprove + ".";
+                Body = "User " + Users.Singleton.Name + " has approved " + Devision + " data for Revison " + WhatApprove + ".";
             else
-                Body = "User " + Users.Singleton().Name + " has approved " + Devision + " data for Month: " + Month[int.Parse(WhatApprove)] + ".";
+                Body = "User " + Users.Singleton.Name + " has approved " + Devision + " data for Month: " + Month[int.Parse(WhatApprove)] + ".";
 
             return Body;
         }
@@ -121,9 +121,9 @@ namespace Saving_Accelerator_Tool.Klasy.Email
             string Body;
 
             if (WhatApprove == "BU" || WhatApprove == "EA1" || WhatApprove == "EA2" || WhatApprove == "EA3")
-                Body = "User " + Users.Singleton().Name + " has approved data for Revison " + WhatApprove + "." + Environment.NewLine + Environment.NewLine +"Good Job!!!";
+                Body = "User " + Users.Singleton.Name + " has approved data for Revison " + WhatApprove + "." + Environment.NewLine + Environment.NewLine +"Good Job!!!";
             else
-                Body = "User " + Users.Singleton().Name + " has approved data for Month: " + Month[int.Parse(WhatApprove)] + "." + Environment.NewLine + Environment.NewLine + "Good Job!!!";
+                Body = "User " + Users.Singleton.Name + " has approved data for Month: " + Month[int.Parse(WhatApprove)] + "." + Environment.NewLine + Environment.NewLine + "Good Job!!!";
 
             return Body;
         }

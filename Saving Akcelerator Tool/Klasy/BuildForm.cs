@@ -22,28 +22,28 @@ namespace Saving_Accelerator_Tool
         }
         public void Tab_Control_Add(Action action, SummaryDetails summaryDetails)
         {
-            Users User = Users.Singleton();
+            Users User = Users.Singleton;
             
             // 
             // Tab_Action
             // 
-            if (User.ActionTab)
-            {
+            //if (User.ActionTab)
+            //{
 
-                TabPage tab_Action = new TabPage();
-                MainProgram.Self.TabControl.Controls.Add(tab_Action);
-                tab_Action.Location = new System.Drawing.Point(4, 22);
-                tab_Action.Name = "tab_Action";
-                tab_Action.Padding = new Padding(3);
-                tab_Action.Size = new System.Drawing.Size(1826, 877);
-                tab_Action.TabIndex = 0;
-                tab_Action.Text = "Action";
-                tab_Action.UseVisualStyleBackColor = true;
+            //    TabPage tab_Action = new TabPage();
+            //    MainProgram.Self.TabControl.Controls.Add(tab_Action);
+            //    tab_Action.Location = new System.Drawing.Point(4, 22);
+            //    tab_Action.Name = "tab_Action";
+            //    tab_Action.Padding = new Padding(3);
+            //    tab_Action.Size = new System.Drawing.Size(1826, 877);
+            //    tab_Action.TabIndex = 0;
+            //    tab_Action.Text = "Action";
+            //    tab_Action.UseVisualStyleBackColor = true;
 
-                //Tab_Action_Comp();
-                _ = new ActionForm(action);
-                action.Action_NoChangeInAction();
-            }
+            //    //Tab_Action_Comp();
+            //    //_ = new ActionForm(action);
+            //    action.Action_NoChangeInAction();
+            //}
             // 
             // tab_SummaryDetail
             // 
@@ -107,8 +107,6 @@ namespace Saving_Accelerator_Tool
                 };
 
                 MainProgram.Self.TabControl.Controls.Add(tab_STK);
-
-                Tab_STK_Comp();
             }
             // 
             // tab_Quantity
@@ -126,8 +124,6 @@ namespace Saving_Accelerator_Tool
                 };
 
                 MainProgram.Self.TabControl.Controls.Add(tab_Quantity);
-
-                Tab_Quantity_Comp();
             }
             // 
             // tab_Admin
@@ -151,17 +147,5 @@ namespace Saving_Accelerator_Tool
                 _ = new ModifiActionForm(tab_AdminAction);
             }
         }
-
-        private void Tab_STK_Comp()
-        {
-
-        }
-
-        private void Tab_Quantity_Comp()
-        {
-
-        }
-
- 
     }
 }

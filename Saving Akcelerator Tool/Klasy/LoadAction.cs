@@ -682,7 +682,7 @@ namespace Saving_Accelerator_Tool
 
             for (int counter = 2; ANCChangeNumber < ANCQuantity; counter++)
             {
-                action.Action_AddANC();
+                //action.Action_AddANC();
                 ANCChangeNumber = action.Action_ANCChangeNumber();
                 action.AddValueANC(counter, ANCOld[counter - 1], ANCNew[counter - 1], STKOld[counter - 1], STKNew[counter - 1], Delta[counter - 1], STKEst[counter - 1], Percent[counter - 1], STKCal[counter - 1], Next[counter - 1], OldQ[counter - 1], NewQ[counter - 1]);
             }

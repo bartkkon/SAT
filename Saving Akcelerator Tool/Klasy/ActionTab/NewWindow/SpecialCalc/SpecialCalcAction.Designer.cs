@@ -1,4 +1,4 @@
-﻿namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc
+﻿namespace Saving_Accelerator_Tool.Klasy.ActionTab.NewWindow.SpecialCalc
 {
     partial class SpecialCalcAction
     {

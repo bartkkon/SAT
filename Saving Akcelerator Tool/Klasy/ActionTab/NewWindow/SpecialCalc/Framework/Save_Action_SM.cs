@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc.Framework
+namespace Saving_Accelerator_Tool.Klasy.ActionTab.NewWindow.SpecialCalc.Framework
 {
     class Save_Action_SM
     {

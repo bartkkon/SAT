@@ -9,18 +9,27 @@ namespace Saving_Accelerator_Tool.Klasy.User
     public class Users : User
     {
         private static Users _instance;
+        private static readonly object syncRoot = new object();
 
         protected Users()
         {
         }
 
-        public static Users Singleton()
+        public static Users Singleton
         {
-            if (_instance == null)
+            get
             {
-                _instance = new Users();
+                if (_instance == null)
+                {
+                    lock (syncRoot)
+                        if (_instance == null)
+                        {
+                            _instance = new Users();
+                            _ = new CreateUsers(Data_Import.Singleton().Load_Access());
+                        }
+                }
+                return _instance;
             }
-            return _instance;
         }
     }
 }

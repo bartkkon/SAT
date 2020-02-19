@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using Saving_Accelerator_Tool.Klasy.User;
-using Saving_Accelerator_Tool.Klasy.Action.Framework;
+using Saving_Accelerator_Tool.Klasy.ActionTab.Framework;
 
 namespace Saving_Accelerator_Tool
 {
@@ -60,29 +60,29 @@ namespace Saving_Accelerator_Tool
             AddColumn();
         }
 
-        public void Action_AddANC()
-        {
-            if (ANCChangeNumber < 10)
-            {
-                ANCChangeNumber++;
-                ButtonAddANC();
-            }
-        }
+        //public void Action_AddANC()
+        //{
+        //    if (ANCChangeNumber < 10)
+        //    {
+        //        ANCChangeNumber++;
+        //        ButtonAddANC();
+        //    }
+        //}
 
-        public void Action_RemoveANC()
-        {
-            if (ANCChangeNumber == 1)
-            {
-                ButtonRemoveANC();
-                ButtonAddANC();
-            }
-            if (ANCChangeNumber > 1)
-            {
-                ButtonRemoveANC();
-                ANCChangeNumber--;
-            }
+        //public void Action_RemoveANC()
+        //{
+        //    if (ANCChangeNumber == 1)
+        //    {
+        //        ButtonRemoveANC();
+        //        ButtonAddANC();
+        //    }
+        //    if (ANCChangeNumber > 1)
+        //    {
+        //        ButtonRemoveANC();
+        //        ANCChangeNumber--;
+        //    }
 
-        }
+        //}
 
         public void Action_IDCODictionary(Dictionary<string, string> IDCOLoad)
         {
@@ -121,13 +121,13 @@ namespace Saving_Accelerator_Tool
             ChangeCalcProtector(false);
         }
 
-        public void Action_AddList()
-        {
-            TreeView tree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
+        //public void Action_AddList()
+        //{
+        //    TreeView tree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
 
-            AddList();
-            tree_Action.ExpandAll();
-        }
+        //    AddList();
+        //    tree_Action.ExpandAll();
+        //}
 
         public void Action_Load(string Action)
         {
@@ -210,12 +210,12 @@ namespace Saving_Accelerator_Tool
             Cursor.Current = Cursors.Default;
         }
 
-        public void Action_TreeRefresh()
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            TreeRefresh();
-            Cursor.Current = Cursors.Default;
-        }
+        //public void Action_TreeRefresh()
+        //{
+        //    Cursor.Current = Cursors.WaitCursor;
+        //    TreeRefresh();
+        //    Cursor.Current = Cursors.Default;
+        //}
 
         public void Action_CurrentCarry_Change(string what, string Action)
         {
@@ -251,7 +251,7 @@ namespace Saving_Accelerator_Tool
         public void Action_NoChangeInAction()
         {
             IfanyChange = false;
-            ((Button)mainProgram.TabControl.Controls.Find("pb_Save", true).First()).ForeColor = Color.Black;
+            //((Button)mainProgram.TabControl.Controls.Find("pb_Save", true).First()).ForeColor = Color.Black;
         }
 
         public bool Action_IfcanChange()
@@ -698,7 +698,7 @@ namespace Saving_Accelerator_Tool
             TreeView tree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
 
             tree_Action.Nodes.Clear();
-            AddList();
+            //AddList();
             tree_Action.ExpandAll();
         }
 
@@ -761,9 +761,9 @@ namespace Saving_Accelerator_Tool
 
             for (; ANCChangeNumber > 1;)
             {
-                Action_RemoveANC();
+                //Action_RemoveANC();
             }
-            Action_RemoveANC();
+            //Action_RemoveANC();
         }
 
         public void AddValueANC(int counter, string ANCOld, string ANCNew, string STKold, string STKNew, string Delta, string STKEst, string Percent, string STKCal, string Next, string OldQ, string NewQ)
@@ -842,487 +842,487 @@ namespace Saving_Accelerator_Tool
             //STK_Sum(mainProgram, counter);
         }
 
-        private void AddList()
-        {
-            DataTable ActionList = new DataTable();
-            string Leader;
-            string Status;
+        //private void AddList()
+        //{
+        //    DataTable ActionList = new DataTable();
+        //    string Leader;
+        //    string Status;
 
-            NumericUpDown nNum_ActionYear = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First();
-            TreeView ntree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
-            ComboBox ComBox_Leader = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_FilterBy", true).First();
+        //    NumericUpDown nNum_ActionYear = (NumericUpDown)mainProgram.TabControl.Controls.Find("num_Action_YearOption", true).First();
+        //    TreeView ntree_Action = (TreeView)mainProgram.TabControl.Controls.Find("tree_Action", true).First();
+        //    ComboBox ComBox_Leader = (ComboBox)mainProgram.TabControl.Controls.Find("comBox_FilterBy", true).First();
 
-            Leader = ComBox_Leader.GetItemText(ComBox_Leader.SelectedItem);
-            ntree_Action.Nodes.Clear();
+        //    Leader = ComBox_Leader.GetItemText(ComBox_Leader.SelectedItem);
+        //    ntree_Action.Nodes.Clear();
 
-            decimal Year = nNum_ActionYear.Value;
+        //    decimal Year = nNum_ActionYear.Value;
 
-            ImportData.Load_TxtToDataTable(ref ActionList, link);
+        //    ImportData.Load_TxtToDataTable(ref ActionList, link);
 
-            if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionActive", true).First()).Checked)
-            {
-                Status = "Active";
-            }
-            else
-            {
-                Status = "Idea";
-            }
+        //    if (((CheckBox)mainProgram.TabControl.Controls.Find("cb_ActionActive", true).First()).Checked)
+        //    {
+        //        Status = "Active";
+        //    }
+        //    else
+        //    {
+        //        Status = "Idea";
+        //    }
 
 
-            if (Users.Singleton().ActionEle)
-            {
-                TreeNode Electronic = new TreeNode("Electronic")
-                {
-                    Name = "Electronic"
-                };
-                ntree_Action.Nodes.Add(Electronic);
-                TreeNode ElectronicCarry = new TreeNode("Electronic Carry Over")
-                {
-                    Name = "Electronic Carry Over"
-                };
-                ntree_Action.Nodes.Add(ElectronicCarry);
-            }
-            if (Users.Singleton().ActionMech)
-            {
-                TreeNode Mechanic = new TreeNode("Mechanic")
-                {
-                    Name = "Mechanic"
-                };
-                ntree_Action.Nodes.Add(Mechanic);
-                TreeNode MechanicCarry = new TreeNode("Mechanic Carry Over")
-                {
-                    Name = "Mechanic Carry Over"
-                };
-                ntree_Action.Nodes.Add(MechanicCarry);
-            }
-            if (Users.Singleton().ActionNVR)
-            {
-                TreeNode NVR = new TreeNode("NVR")
-                {
-                    Name = "NVR"
-                };
-                ntree_Action.Nodes.Add(NVR);
-                TreeNode NVRCarry = new TreeNode("NVR Carry Over")
-                {
-                    Name = "NVR Carry Over"
-                };
-                ntree_Action.Nodes.Add(NVRCarry);
-            }
+        //    if (Users.Singleton().ActionEle)
+        //    {
+        //        TreeNode Electronic = new TreeNode("Electronic")
+        //        {
+        //            Name = "Electronic"
+        //        };
+        //        ntree_Action.Nodes.Add(Electronic);
+        //        TreeNode ElectronicCarry = new TreeNode("Electronic Carry Over")
+        //        {
+        //            Name = "Electronic Carry Over"
+        //        };
+        //        ntree_Action.Nodes.Add(ElectronicCarry);
+        //    }
+        //    if (Users.Singleton().ActionMech)
+        //    {
+        //        TreeNode Mechanic = new TreeNode("Mechanic")
+        //        {
+        //            Name = "Mechanic"
+        //        };
+        //        ntree_Action.Nodes.Add(Mechanic);
+        //        TreeNode MechanicCarry = new TreeNode("Mechanic Carry Over")
+        //        {
+        //            Name = "Mechanic Carry Over"
+        //        };
+        //        ntree_Action.Nodes.Add(MechanicCarry);
+        //    }
+        //    if (Users.Singleton().ActionNVR)
+        //    {
+        //        TreeNode NVR = new TreeNode("NVR")
+        //        {
+        //            Name = "NVR"
+        //        };
+        //        ntree_Action.Nodes.Add(NVR);
+        //        TreeNode NVRCarry = new TreeNode("NVR Carry Over")
+        //        {
+        //            Name = "NVR Carry Over"
+        //        };
+        //        ntree_Action.Nodes.Add(NVRCarry);
+        //    }
 
-            foreach (DataRow Row in ActionList.Rows)
-            {
-                if (Users.Singleton().ActionEle)
-                {
-                    if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
-                    if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
+        //    foreach (DataRow Row in ActionList.Rows)
+        //    {
+        //        if (Users.Singleton().ActionEle)
+        //        {
+        //            if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
+        //            if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["Electronic"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
 
-                    if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Row["StartMonth"].ToString() != "January")
-                        {
-                            if (Leader == "All")
-                            {
-                                ntree_Action.Nodes["Electronic Carry Over"].Nodes.Add(Row["Name"].ToString());
-                            }
-                            else
-                            {
-                                if (Row["Leader"].ToString() == Leader)
-                                {
-                                    ntree_Action.Nodes["Electronic Carry Over"].Nodes.Add(Row["Name"].ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-                if (Users.Singleton().ActionMech)
-                {
-                    if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
+        //            if (Row["Group"].ToString() == "Electronic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Row["StartMonth"].ToString() != "January")
+        //                {
+        //                    if (Leader == "All")
+        //                    {
+        //                        ntree_Action.Nodes["Electronic Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                    else
+        //                    {
+        //                        if (Row["Leader"].ToString() == Leader)
+        //                        {
+        //                            ntree_Action.Nodes["Electronic Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        if (Users.Singleton().ActionMech)
+        //        {
+        //            if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
 
-                    if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
+        //            if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["Mechanic"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
 
-                    if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Row["StartMonth"].ToString() != "January")
-                        {
-                            if (Leader == "All")
-                            {
-                                ntree_Action.Nodes["Mechanic Carry Over"].Nodes.Add(Row["Name"].ToString());
-                            }
-                            else
-                            {
-                                if (Row["Leader"].ToString() == Leader)
-                                {
-                                    ntree_Action.Nodes["Mechanic Carry Over"].Nodes.Add(Row["Name"].ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-                if (Users.Singleton().ActionNVR)
-                {
-                    if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
-                    if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Leader == "All")
-                        {
-                            ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
-                        }
-                        else
-                        {
-                            if (Row["Leader"].ToString() == Leader)
-                            {
-                                ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
-                            }
-                        }
-                    }
+        //            if (Row["Group"].ToString() == "Mechanic" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Row["StartMonth"].ToString() != "January")
+        //                {
+        //                    if (Leader == "All")
+        //                    {
+        //                        ntree_Action.Nodes["Mechanic Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                    else
+        //                    {
+        //                        if (Row["Leader"].ToString() == Leader)
+        //                        {
+        //                            ntree_Action.Nodes["Mechanic Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        if (Users.Singleton().ActionNVR)
+        //        {
+        //            if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
+        //            if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == "SA/" + Year.ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Leader == "All")
+        //                {
+        //                    ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+        //                }
+        //                else
+        //                {
+        //                    if (Row["Leader"].ToString() == Leader)
+        //                    {
+        //                        ntree_Action.Nodes["NVR"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                }
+        //            }
 
-                    if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
-                    {
-                        if (Row["StartMonth"].ToString() != "January")
-                        {
-                            if (Leader == "All")
-                            {
-                                ntree_Action.Nodes["NVR Carry Over"].Nodes.Add(Row["Name"].ToString());
-                            }
-                            else
-                            {
-                                if (Row["Leader"].ToString() == Leader)
-                                {
-                                    ntree_Action.Nodes["NVR Carry Over"].Nodes.Add(Row["Name"].ToString());
-                                }
-                            }
+        //            if (Row["Group"].ToString() == "NVR" && Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Status"].ToString() == Status)
+        //            {
+        //                if (Row["StartMonth"].ToString() != "January")
+        //                {
+        //                    if (Leader == "All")
+        //                    {
+        //                        ntree_Action.Nodes["NVR Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                    }
+        //                    else
+        //                    {
+        //                        if (Row["Leader"].ToString() == Leader)
+        //                        {
+        //                            ntree_Action.Nodes["NVR Carry Over"].Nodes.Add(Row["Name"].ToString());
+        //                        }
+        //                    }
 
-                        }
-                    }
-                }
-            }
-        }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        private void ButtonAddANC()
-        {
-            GroupBox gb_ANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First();
-            GroupBox gb_STK = (GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First();
-            GroupBox gb_Calc = (GroupBox)mainProgram.TabControl.Controls.Find("gb_Calc", true).First();
-            GroupBox gb_NextANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_NextANC", true).First();
-            GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
+        //private void ButtonAddANC()
+        //{
+        //    GroupBox gb_ANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First();
+        //    GroupBox gb_STK = (GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First();
+        //    GroupBox gb_Calc = (GroupBox)mainProgram.TabControl.Controls.Find("gb_Calc", true).First();
+        //    GroupBox gb_NextANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_NextANC", true).First();
+        //    GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
 
-            //TextBox for Old ANC
-            TextBox nTB_OldANC = new TextBox
-            {
-                Location = new Point(5, ((ANCChangeNumber - 1) * 26 + 80)),
-                MaxLength = 9,
-                Name = "TB_OldANC" + ANCChangeNumber.ToString(),
-                Size = new Size(70, 20)
-            };
-            nTB_OldANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
-            nTB_OldANC.Leave += new EventHandler(Tb_Quantity_Leave);
-            gb_ANC.Controls.Add(nTB_OldANC);
+        //    //TextBox for Old ANC
+        //    TextBox nTB_OldANC = new TextBox
+        //    {
+        //        Location = new Point(5, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        MaxLength = 9,
+        //        Name = "TB_OldANC" + ANCChangeNumber.ToString(),
+        //        Size = new Size(70, 20)
+        //    };
+        //    nTB_OldANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
+        //    nTB_OldANC.Leave += new EventHandler(Tb_Quantity_Leave);
+        //    gb_ANC.Controls.Add(nTB_OldANC);
 
-            //TextBox for qunatity Old ANC
-            TextBox nTB_OldANCQ = new TextBox
-            {
-                Location = new Point(80, ((ANCChangeNumber - 1) * 26 + 80)),
-                MaxLength = 5,
-                Name = "TB_OldANCQ" + ANCChangeNumber.ToString(),
-                Size = new Size(40, 20),
-                Text = "0",
-            };
-            nTB_OldANCQ.TextChanged += new EventHandler(Tb_CheckIfQuantity_TextChange);
-            nTB_OldANCQ.Leave += new EventHandler(Tb_Quantity_Leave);
-            gb_ANC.Controls.Add(nTB_OldANCQ);
+        //    //TextBox for qunatity Old ANC
+        //    TextBox nTB_OldANCQ = new TextBox
+        //    {
+        //        Location = new Point(80, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        MaxLength = 5,
+        //        Name = "TB_OldANCQ" + ANCChangeNumber.ToString(),
+        //        Size = new Size(40, 20),
+        //        Text = "0",
+        //    };
+        //    nTB_OldANCQ.TextChanged += new EventHandler(Tb_CheckIfQuantity_TextChange);
+        //    nTB_OldANCQ.Leave += new EventHandler(Tb_Quantity_Leave);
+        //    gb_ANC.Controls.Add(nTB_OldANCQ);
 
-            //Label between Old ANC And New ANC
-            Label nLab_ANC = new Label
-            {
-                AutoSize = true,
-                Location = new Point(130, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "leb_ANC" + ANCChangeNumber.ToString(),
-                Size = new Size(16, 13),
-                Text = "->"
-            };
-            gb_ANC.Controls.Add(nLab_ANC);
+        //    //Label between Old ANC And New ANC
+        //    Label nLab_ANC = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new Point(130, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "leb_ANC" + ANCChangeNumber.ToString(),
+        //        Size = new Size(16, 13),
+        //        Text = "->"
+        //    };
+        //    gb_ANC.Controls.Add(nLab_ANC);
 
-            //TextBox for New ANC
-            TextBox nTB_NewANC = new TextBox
-            {
-                Location = new Point(150, ((ANCChangeNumber - 1) * 26 + 80)),
-                MaxLength = 9,
-                Name = "TB_NewANC" + ANCChangeNumber.ToString(),
-                Size = new Size(70, 20)
-            };
-            nTB_NewANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
-            nTB_NewANC.Leave += new EventHandler(Tb_Quantity_Leave);
-            gb_ANC.Controls.Add(nTB_NewANC);
+        //    //TextBox for New ANC
+        //    TextBox nTB_NewANC = new TextBox
+        //    {
+        //        Location = new Point(150, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        MaxLength = 9,
+        //        Name = "TB_NewANC" + ANCChangeNumber.ToString(),
+        //        Size = new Size(70, 20)
+        //    };
+        //    nTB_NewANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
+        //    nTB_NewANC.Leave += new EventHandler(Tb_Quantity_Leave);
+        //    gb_ANC.Controls.Add(nTB_NewANC);
 
-            //TextBox for quantity to new ANC 
-            TextBox nTB_NewANCQ = new TextBox
-            {
-                Location = new Point(225, ((ANCChangeNumber - 1) * 26 + 80)),
-                MaxLength = 5,
-                Name = "TB_NewANCQ" + ANCChangeNumber.ToString(),
-                Size = new Size(40, 20),
-                Text = "0",
-            };
-            nTB_NewANCQ.TextChanged += new EventHandler(Tb_CheckIfQuantity_TextChange);
-            nTB_NewANCQ.Leave += new EventHandler(Tb_Quantity_Leave);
-            gb_ANC.Controls.Add(nTB_NewANCQ);
+        //    //TextBox for quantity to new ANC 
+        //    TextBox nTB_NewANCQ = new TextBox
+        //    {
+        //        Location = new Point(225, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        MaxLength = 5,
+        //        Name = "TB_NewANCQ" + ANCChangeNumber.ToString(),
+        //        Size = new Size(40, 20),
+        //        Text = "0",
+        //    };
+        //    nTB_NewANCQ.TextChanged += new EventHandler(Tb_CheckIfQuantity_TextChange);
+        //    nTB_NewANCQ.Leave += new EventHandler(Tb_Quantity_Leave);
+        //    gb_ANC.Controls.Add(nTB_NewANCQ);
 
-            //Label for OLD STK 
-            Label nLab_OldSTK = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
-                ForeColor = Color.Red,
-                Location = new Point(24, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "lab_OldSTK" + ANCChangeNumber.ToString(),
-                Size = new Size(48, 13),
-                Text = ""
-            };
-            gb_STK.Controls.Add(nLab_OldSTK);
+        //    //Label for OLD STK 
+        //    Label nLab_OldSTK = new Label
+        //    {
+        //        AutoSize = true,
+        //        Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
+        //        ForeColor = Color.Red,
+        //        Location = new Point(24, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "lab_OldSTK" + ANCChangeNumber.ToString(),
+        //        Size = new Size(48, 13),
+        //        Text = ""
+        //    };
+        //    gb_STK.Controls.Add(nLab_OldSTK);
 
-            //Label between OLD STK and New STK
-            Label nLab_Strz = new Label
-            {
-                AutoSize = true,
-                Location = new Point(82, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "lab_Strz" + ANCChangeNumber.ToString(),
-                Size = new Size(16, 13),
-                Text = "->"
-            };
-            gb_STK.Controls.Add(nLab_Strz);
+        //    //Label between OLD STK and New STK
+        //    Label nLab_Strz = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new Point(82, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "lab_Strz" + ANCChangeNumber.ToString(),
+        //        Size = new Size(16, 13),
+        //        Text = "->"
+        //    };
+        //    gb_STK.Controls.Add(nLab_Strz);
 
-            //Label for New STK 
-            Label nLab_NewSTK = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
-                ForeColor = Color.Green,
-                Location = new Point(114, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "lab_NewSTK" + ANCChangeNumber.ToString(),
-                Size = new Size(48, 13),
-                Text = ""
-            };
-            gb_STK.Controls.Add(nLab_NewSTK);
+        //    //Label for New STK 
+        //    Label nLab_NewSTK = new Label
+        //    {
+        //        AutoSize = true,
+        //        Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
+        //        ForeColor = Color.Green,
+        //        Location = new Point(114, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "lab_NewSTK" + ANCChangeNumber.ToString(),
+        //        Size = new Size(48, 13),
+        //        Text = ""
+        //    };
+        //    gb_STK.Controls.Add(nLab_NewSTK);
 
-            //Label Equal
-            Label nLab_Rowna = new Label
-            {
-                AutoSize = true,
-                Location = new Point(182, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "lab_Rowna" + ANCChangeNumber.ToString(),
-                Size = new Size(13, 13),
-                Text = "="
-            };
-            gb_STK.Controls.Add(nLab_Rowna);
+        //    //Label Equal
+        //    Label nLab_Rowna = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new Point(182, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "lab_Rowna" + ANCChangeNumber.ToString(),
+        //        Size = new Size(13, 13),
+        //        Text = "="
+        //    };
+        //    gb_STK.Controls.Add(nLab_Rowna);
 
-            //Label Delta
-            Label nLab_Delta = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
-                Location = new Point(215, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "lab_Delta" + ANCChangeNumber.ToString(),
-                Size = new Size(48, 13),
-                Text = ""
-            };
-            gb_STK.Controls.Add(nLab_Delta);
+        //    //Label Delta
+        //    Label nLab_Delta = new Label
+        //    {
+        //        AutoSize = true,
+        //        Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
+        //        Location = new Point(215, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "lab_Delta" + ANCChangeNumber.ToString(),
+        //        Size = new Size(48, 13),
+        //        Text = ""
+        //    };
+        //    gb_STK.Controls.Add(nLab_Delta);
 
-            //Estimation 
-            TextBox nTB_Estymacja = new TextBox
-            {
-                Location = new Point(285, ((ANCChangeNumber - 1) * 26 + 80)),
-                Name = "TB_Estymacja" + ANCChangeNumber.ToString(),
-                Size = new Size(60, 20)
-            };
-            nTB_Estymacja.TextChanged += new EventHandler(CalcAfterChange_TextChanged);
-            nTB_Estymacja.Leave += new EventHandler(RefreshEstimation_Leave);
-            gb_STK.Controls.Add(nTB_Estymacja);
+        //    //Estimation 
+        //    TextBox nTB_Estymacja = new TextBox
+        //    {
+        //        Location = new Point(285, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        Name = "TB_Estymacja" + ANCChangeNumber.ToString(),
+        //        Size = new Size(60, 20)
+        //    };
+        //    nTB_Estymacja.TextChanged += new EventHandler(CalcAfterChange_TextChanged);
+        //    nTB_Estymacja.Leave += new EventHandler(RefreshEstimation_Leave);
+        //    gb_STK.Controls.Add(nTB_Estymacja);
 
-            //Percent
-            TextBox nTB_Percent = new TextBox
-            {
-                Location = new Point(373, ((ANCChangeNumber - 1) * 26 + 80)),
-                MaxLength = 3,
-                Text = "100",
-                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
-                Name = "TB_Percent" + ANCChangeNumber.ToString(),
-                Size = new Size(32, 20)
-            };
-            nTB_Percent.TextChanged += new EventHandler(CalcAfterChange_TextChanged);
-            nTB_Percent.Leave += new EventHandler(RefreshEstimation_Leave);
-            gb_STK.Controls.Add(nTB_Percent);
+        //    //Percent
+        //    TextBox nTB_Percent = new TextBox
+        //    {
+        //        Location = new Point(373, ((ANCChangeNumber - 1) * 26 + 80)),
+        //        MaxLength = 3,
+        //        Text = "100",
+        //        Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
+        //        Name = "TB_Percent" + ANCChangeNumber.ToString(),
+        //        Size = new Size(32, 20)
+        //    };
+        //    nTB_Percent.TextChanged += new EventHandler(CalcAfterChange_TextChanged);
+        //    nTB_Percent.Leave += new EventHandler(RefreshEstimation_Leave);
+        //    gb_STK.Controls.Add(nTB_Percent);
 
-            //Calculation
-            Label nLab_Calc = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
-                Location = new Point(435, ((ANCChangeNumber - 1) * 26 + 83)),
-                Name = "Lab_Calc" + ANCChangeNumber.ToString(),
-                Size = new Size(48, 13),
-                Text = ""
-            };
-            gb_STK.Controls.Add(nLab_Calc);
+        //    //Calculation
+        //    Label nLab_Calc = new Label
+        //    {
+        //        AutoSize = true,
+        //        Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, ((byte)(238))),
+        //        Location = new Point(435, ((ANCChangeNumber - 1) * 26 + 83)),
+        //        Name = "Lab_Calc" + ANCChangeNumber.ToString(),
+        //        Size = new Size(48, 13),
+        //        Text = ""
+        //    };
+        //    gb_STK.Controls.Add(nLab_Calc);
 
-            //Next ANC 
-            TextBox nTB_NextANC = new TextBox
-            {
-                Location = new Point(5, ((ANCChangeNumber - 1) * 26 + 20)),
-                Name = "TB_NextANC" + ANCChangeNumber.ToString(),
-                MaxLength = 9,
-                Size = new Size(70, 20),
+        //    //Next ANC 
+        //    TextBox nTB_NextANC = new TextBox
+        //    {
+        //        Location = new Point(5, ((ANCChangeNumber - 1) * 26 + 20)),
+        //        Name = "TB_NextANC" + ANCChangeNumber.ToString(),
+        //        MaxLength = 9,
+        //        Size = new Size(70, 20),
 
-            };
-            nTB_NextANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
-            gb_NextANC.Controls.Add(nTB_NextANC);
+        //    };
+        //    nTB_NextANC.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
+        //    gb_NextANC.Controls.Add(nTB_NextANC);
 
-            //Next ANC 2
-            TextBox nTB_NextANC2 = new TextBox
-            {
-                Location = new Point(80, ((ANCChangeNumber - 1) * 26 + 20)),
-                Name = "TB_NextANC2" + ANCChangeNumber.ToString(),
-                MaxLength = 9,
-                Size = new Size(70, 20),
-                Enabled = false,
-            };
-            nTB_NextANC2.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
-            gb_NextANC.Controls.Add(nTB_NextANC2);
+        //    //Next ANC 2
+        //    TextBox nTB_NextANC2 = new TextBox
+        //    {
+        //        Location = new Point(80, ((ANCChangeNumber - 1) * 26 + 20)),
+        //        Name = "TB_NextANC2" + ANCChangeNumber.ToString(),
+        //        MaxLength = 9,
+        //        Size = new Size(70, 20),
+        //        Enabled = false,
+        //    };
+        //    nTB_NextANC2.TextChanged += new EventHandler(Tb_CheckifOK_TextChange);
+        //    gb_NextANC.Controls.Add(nTB_NextANC2);
 
-            //Calc ANCBy - licz po tym ANC 
-            CheckBox cb_ANCby = new CheckBox
-            {
-                AutoSize = true,
-                Checked = false,
-                Location = new Point(10, (ANCChangeNumber - 1) * 26 + 83),
-                Name = "cb_ANCby" + ANCChangeNumber.ToString(),
-                Size = new Size(80, 17),
-                Text = "",
-                UseVisualStyleBackColor = true
-            };
-            cb_ANCby.CheckedChanged += Cb_ANCby_CheckedChanged;
-            gb_ANCby.Controls.Add(cb_ANCby);
-        }
+        //    //Calc ANCBy - licz po tym ANC 
+        //    CheckBox cb_ANCby = new CheckBox
+        //    {
+        //        AutoSize = true,
+        //        Checked = false,
+        //        Location = new Point(10, (ANCChangeNumber - 1) * 26 + 83),
+        //        Name = "cb_ANCby" + ANCChangeNumber.ToString(),
+        //        Size = new Size(80, 17),
+        //        Text = "",
+        //        UseVisualStyleBackColor = true
+        //    };
+        //    cb_ANCby.CheckedChanged += Cb_ANCby_CheckedChanged;
+        //    gb_ANCby.Controls.Add(cb_ANCby);
+        //}
 
-        private void ButtonRemoveANC()
-        {
-            GroupBox gb_ANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First();
-            GroupBox gb_STK = (GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First();
-            GroupBox gb_NextANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_NextANC", true).First();
-            GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
+        //private void ButtonRemoveANC()
+        //{
+        //    GroupBox gb_ANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANC", true).First();
+        //    GroupBox gb_STK = (GroupBox)mainProgram.TabControl.Controls.Find("gb_STK", true).First();
+        //    GroupBox gb_NextANC = (GroupBox)mainProgram.TabControl.Controls.Find("gb_NextANC", true).First();
+        //    GroupBox gb_ANCby = (GroupBox)mainProgram.TabControl.Controls.Find("gb_ANCby", true).First();
 
-            TextBox nTB_OLDANC = (TextBox)gb_ANC.Controls.Find("TB_OldANC" + ANCChangeNumber.ToString(), false).First();
-            gb_ANC.Controls.Remove(nTB_OLDANC);
+        //    TextBox nTB_OLDANC = (TextBox)gb_ANC.Controls.Find("TB_OldANC" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANC.Controls.Remove(nTB_OLDANC);
 
-            TextBox nTB_OLDANCQ = (TextBox)gb_ANC.Controls.Find("TB_OldANCQ" + ANCChangeNumber.ToString(), false).First();
-            gb_ANC.Controls.Remove(nTB_OLDANCQ);
+        //    TextBox nTB_OLDANCQ = (TextBox)gb_ANC.Controls.Find("TB_OldANCQ" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANC.Controls.Remove(nTB_OLDANCQ);
 
-            Label nLab_ANC = (Label)gb_ANC.Controls.Find("leb_ANC" + ANCChangeNumber.ToString(), false).First();
-            gb_ANC.Controls.Remove(nLab_ANC);
+        //    Label nLab_ANC = (Label)gb_ANC.Controls.Find("leb_ANC" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANC.Controls.Remove(nLab_ANC);
 
-            TextBox nTB_NEWANC = (TextBox)gb_ANC.Controls.Find("TB_NewANC" + ANCChangeNumber.ToString(), false).First();
-            gb_ANC.Controls.Remove(nTB_NEWANC);
+        //    TextBox nTB_NEWANC = (TextBox)gb_ANC.Controls.Find("TB_NewANC" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANC.Controls.Remove(nTB_NEWANC);
 
-            TextBox nTB_NEWANCQ = (TextBox)gb_ANC.Controls.Find("TB_NewANCQ" + ANCChangeNumber.ToString(), false).First();
-            gb_ANC.Controls.Remove(nTB_NEWANCQ);
+        //    TextBox nTB_NEWANCQ = (TextBox)gb_ANC.Controls.Find("TB_NewANCQ" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANC.Controls.Remove(nTB_NEWANCQ);
 
-            Label nLab_OldStk = (Label)gb_STK.Controls.Find("lab_OldSTK" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_OldStk);
+        //    Label nLab_OldStk = (Label)gb_STK.Controls.Find("lab_OldSTK" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_OldStk);
 
-            Label nLab_Strz = (Label)gb_STK.Controls.Find("lab_Strz" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_Strz);
+        //    Label nLab_Strz = (Label)gb_STK.Controls.Find("lab_Strz" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_Strz);
 
-            Label nLab_NewSTK = (Label)gb_STK.Controls.Find("lab_NewSTK" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_NewSTK);
+        //    Label nLab_NewSTK = (Label)gb_STK.Controls.Find("lab_NewSTK" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_NewSTK);
 
-            Label nLab_Rowna = (Label)gb_STK.Controls.Find("lab_Rowna" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_Rowna);
+        //    Label nLab_Rowna = (Label)gb_STK.Controls.Find("lab_Rowna" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_Rowna);
 
-            Label nLab_Delta = (Label)gb_STK.Controls.Find("lab_Delta" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_Delta);
+        //    Label nLab_Delta = (Label)gb_STK.Controls.Find("lab_Delta" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_Delta);
 
-            TextBox nTB_Estymacja = (TextBox)gb_STK.Controls.Find("TB_Estymacja" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nTB_Estymacja);
+        //    TextBox nTB_Estymacja = (TextBox)gb_STK.Controls.Find("TB_Estymacja" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nTB_Estymacja);
 
-            TextBox nTB_Percent = (TextBox)gb_STK.Controls.Find("TB_Percent" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nTB_Percent);
+        //    TextBox nTB_Percent = (TextBox)gb_STK.Controls.Find("TB_Percent" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nTB_Percent);
 
-            Label nLab_Calc = (Label)gb_STK.Controls.Find("Lab_Calc" + ANCChangeNumber.ToString(), false).First();
-            gb_STK.Controls.Remove(nLab_Calc);
+        //    Label nLab_Calc = (Label)gb_STK.Controls.Find("Lab_Calc" + ANCChangeNumber.ToString(), false).First();
+        //    gb_STK.Controls.Remove(nLab_Calc);
 
-            TextBox nTB_NextANC = (TextBox)gb_NextANC.Controls.Find("TB_NextANC" + ANCChangeNumber.ToString(), false).First();
-            gb_NextANC.Controls.Remove(nTB_NextANC);
+        //    TextBox nTB_NextANC = (TextBox)gb_NextANC.Controls.Find("TB_NextANC" + ANCChangeNumber.ToString(), false).First();
+        //    gb_NextANC.Controls.Remove(nTB_NextANC);
 
-            TextBox nTB_NextANC2 = (TextBox)gb_NextANC.Controls.Find("TB_NextANC2" + ANCChangeNumber.ToString(), false).First();
-            gb_NextANC.Controls.Remove(nTB_NextANC2);
+        //    TextBox nTB_NextANC2 = (TextBox)gb_NextANC.Controls.Find("TB_NextANC2" + ANCChangeNumber.ToString(), false).First();
+        //    gb_NextANC.Controls.Remove(nTB_NextANC2);
 
-            CheckBox nCB_ANCby = (CheckBox)gb_ANCby.Controls.Find("cb_ANCby" + ANCChangeNumber.ToString(), false).First();
-            gb_ANCby.Controls.Remove(nCB_ANCby);
-        }
+        //    CheckBox nCB_ANCby = (CheckBox)gb_ANCby.Controls.Find("cb_ANCby" + ANCChangeNumber.ToString(), false).First();
+        //    gb_ANCby.Controls.Remove(nCB_ANCby);
+        //}
 
         private bool CheckANCLength()
         {
@@ -1534,146 +1534,146 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        //Przerwanie do wpisywania ANC New, Old, Next czy poza pierwszym znakiem jest char 
-        private void Tb_CheckifOK_TextChange(object sender, EventArgs e)
-        {
-            TextBox TextToCheck = sender as TextBox;
-            Regex GoodChar = new Regex("^[aA0-9]*$");
-            Regex OnlyNumber = new Regex("^[0-9]*$");
-            Regex SmallChar = new Regex("^[a]");
-            int CursorPosition = TextToCheck.SelectionStart - 1;
-            if (CursorPosition < 0)
-            {
-                CursorPosition = 0;
-            }
+        ////Przerwanie do wpisywania ANC New, Old, Next czy poza pierwszym znakiem jest char 
+        //private void Tb_CheckifOK_TextChange(object sender, EventArgs e)
+        //{
+        //    TextBox TextToCheck = sender as TextBox;
+        //    Regex GoodChar = new Regex("^[aA0-9]*$");
+        //    Regex OnlyNumber = new Regex("^[0-9]*$");
+        //    Regex SmallChar = new Regex("^[a]");
+        //    int CursorPosition = TextToCheck.SelectionStart - 1;
+        //    if (CursorPosition < 0)
+        //    {
+        //        CursorPosition = 0;
+        //    }
 
-            if (TextToCheck.Text.Length > 1)
-            {
-                string Check = TextToCheck.Text.Remove(0, 1);
-                if (!OnlyNumber.IsMatch(Check))
-                {
-                    Check = Regex.Replace(Check, @"[^0-9]+", "");
+        //    if (TextToCheck.Text.Length > 1)
+        //    {
+        //        string Check = TextToCheck.Text.Remove(0, 1);
+        //        if (!OnlyNumber.IsMatch(Check))
+        //        {
+        //            Check = Regex.Replace(Check, @"[^0-9]+", "");
 
-                    TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition;
-                }
+        //            TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = CursorPosition;
+        //        }
 
-                Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
-                if (!GoodChar.IsMatch(Check))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = 0;
-                }
-                else if (Check == "a")
-                {
-                    TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition + 1;
-                }
+        //        Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
+        //        if (!GoodChar.IsMatch(Check))
+        //        {
+        //            TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = 0;
+        //        }
+        //        else if (Check == "a")
+        //        {
+        //            TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = CursorPosition + 1;
+        //        }
 
-            }
-            else if (TextToCheck.Text.Length == 1)
-            {
-                if (!GoodChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-                if (SmallChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = "A";
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-            }
-            if (TextToCheck.Text.Length < 9)
-            {
-                TextToCheck.ForeColor = Color.Red;
-            }
-            else if (TextToCheck.Text.Length == 9)
-            {
-                TextToCheck.ForeColor = Color.Black;
-            }
+        //    }
+        //    else if (TextToCheck.Text.Length == 1)
+        //    {
+        //        if (!GoodChar.IsMatch(TextToCheck.Text))
+        //        {
+        //            TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
+        //        }
+        //        if (SmallChar.IsMatch(TextToCheck.Text))
+        //        {
+        //            TextToCheck.Text = "A";
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
+        //        }
+        //    }
+        //    if (TextToCheck.Text.Length < 9)
+        //    {
+        //        TextToCheck.ForeColor = Color.Red;
+        //    }
+        //    else if (TextToCheck.Text.Length == 9)
+        //    {
+        //        TextToCheck.ForeColor = Color.Black;
+        //    }
 
-            if (TextToCheck.Name.Substring(0, 10) != "TB_NextANC")
-            {
-                ChangeANCProtector(true);
-                Tb_Quantity_Leave(sender, e);
-            }
-            Action_ChangeInAction();
-        }
+        //    if (TextToCheck.Name.Substring(0, 10) != "TB_NextANC")
+        //    {
+        //        ChangeANCProtector(true);
+        //        Tb_Quantity_Leave(sender, e);
+        //    }
+        //    Action_ChangeInAction();
+        //}
 
         //Przerwanie dla Quantity czy jest prawidłowy
-        private void Tb_CheckIfQuantity_TextChange(object sender, EventArgs e)
-        {
-            TextBox Quantity = sender as TextBox;
-            Regex Good = new Regex("^[0-9,]*$");
-            string[] Check;
-            int CursorPosition = Quantity.SelectionStart - 1;
+        //private void Tb_CheckIfQuantity_TextChange(object sender, EventArgs e)
+        //{
+        //    TextBox Quantity = sender as TextBox;
+        //    Regex Good = new Regex("^[0-9,]*$");
+        //    string[] Check;
+        //    int CursorPosition = Quantity.SelectionStart - 1;
 
-            if (!Good.IsMatch(Quantity.Text))
-            {
-                Quantity.Text = Quantity.Text.Substring(0, Quantity.Text.Length - 1);
-                Quantity.Focus();
-                Quantity.SelectionStart = Quantity.Text.Length;
-            }
+        //    if (!Good.IsMatch(Quantity.Text))
+        //    {
+        //        Quantity.Text = Quantity.Text.Substring(0, Quantity.Text.Length - 1);
+        //        Quantity.Focus();
+        //        Quantity.SelectionStart = Quantity.Text.Length;
+        //    }
 
-            Check = Quantity.Text.Split(',');
-            if (Check.Length == 3)
-            {
-                Quantity.Text = Quantity.Text.Remove(Quantity.SelectionStart - 1, 1);
-                Quantity.Focus();
-                Quantity.SelectionStart = CursorPosition;
-            }
-            ChangeANCProtector(true);
-            Action_ChangeInAction();
+        //    Check = Quantity.Text.Split(',');
+        //    if (Check.Length == 3)
+        //    {
+        //        Quantity.Text = Quantity.Text.Remove(Quantity.SelectionStart - 1, 1);
+        //        Quantity.Focus();
+        //        Quantity.SelectionStart = CursorPosition;
+        //    }
+        //    ChangeANCProtector(true);
+        //    Action_ChangeInAction();
 
-        }
+        //}
 
         //Przerwanie które sprawdza czy po wyjściu z Quantity nie ma pustego pola
-        private void Tb_Quantity_Leave(object sender, EventArgs e)
-        {
-            TextBox Quantity;
+        //private void Tb_Quantity_Leave(object sender, EventArgs e)
+        //{
+        //    TextBox Quantity;
 
-            if ((sender as TextBox).Name.Substring(0, 10) == "TB_OldANCQ" || (sender as TextBox).Name.Substring(0, 10) == "TB_NewANCQ")
-            {
-                Quantity = sender as TextBox;
-            }
-            else
-            {
-                Quantity = (TextBox)mainProgram.TabControl.Controls.Find((sender as TextBox).Name.Insert(9, "Q"), true).First();
-            }
+        //    if ((sender as TextBox).Name.Substring(0, 10) == "TB_OldANCQ" || (sender as TextBox).Name.Substring(0, 10) == "TB_NewANCQ")
+        //    {
+        //        Quantity = sender as TextBox;
+        //    }
+        //    else
+        //    {
+        //        Quantity = (TextBox)mainProgram.TabControl.Controls.Find((sender as TextBox).Name.Insert(9, "Q"), true).First();
+        //    }
 
-            if (Quantity.Text.Length == 0)
-            {
-                string ANC = Quantity.Name.Remove(9, 1);
-                TextBox Old_New = (TextBox)mainProgram.TabControl.Controls.Find(ANC, true).First();
-                if (Old_New.Text == "")
-                {
-                    Quantity.Text = "0";
-                }
-                else
-                {
-                    Quantity.Text = "1";
-                }
-            }
-            else
-            {
-                string ANC = Quantity.Name.Remove(9, 1);
-                TextBox Old_New = (TextBox)mainProgram.TabControl.Controls.Find(ANC, true).First();
-                if (Old_New.Text == "")
-                {
-                    Quantity.Text = "0";
-                }
-                else if (Quantity.Text == "0")
-                {
-                    Quantity.Text = "1";
-                }
-            }
-        }
+        //    if (Quantity.Text.Length == 0)
+        //    {
+        //        string ANC = Quantity.Name.Remove(9, 1);
+        //        TextBox Old_New = (TextBox)mainProgram.TabControl.Controls.Find(ANC, true).First();
+        //        if (Old_New.Text == "")
+        //        {
+        //            Quantity.Text = "0";
+        //        }
+        //        else
+        //        {
+        //            Quantity.Text = "1";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        string ANC = Quantity.Name.Remove(9, 1);
+        //        TextBox Old_New = (TextBox)mainProgram.TabControl.Controls.Find(ANC, true).First();
+        //        if (Old_New.Text == "")
+        //        {
+        //            Quantity.Text = "0";
+        //        }
+        //        else if (Quantity.Text == "0")
+        //        {
+        //            Quantity.Text = "1";
+        //        }
+        //    }
+        //}
 
         public void Mass_DMD_D45_Enabled(bool Status, string Instalation)
         {

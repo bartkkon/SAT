@@ -10,66 +10,144 @@ using System.Windows.Forms;
 using System.IO;
 using System.Deployment.Application;
 using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Klasy.Acton;
+using Saving_Accelerator_Tool.Klasy.ActionTab.Framework;
 
 namespace Saving_Accelerator_Tool
 {
     public partial class MainProgram : Form
     {
-        private readonly Action action;
-        private readonly SummaryDetails summaryDetails;
         public static MainProgram Self;
-
 
         public MainProgram()
         {
-            try
+            //try
+            //{
+            //Sprawdzenie czy jest dostęp do Baz Danych
+            if (!Data_Import.Singleton().CheckConnectionToDataBase())
+                Environment.Exit(0);
+
+            //Sprawdzenie czy masz uprawnienia do korzystania z programu
+            if (Users.Singleton.Role == "Employee")
             {
-                if(!Data_Import.Singleton().CheckConnectionToDataBase())
-                {
-                    Environment.Exit(0);
-                }
-
-                //Widocznoś Maina dla Wszystkich.
-                Self = this;
-
-                //Tworzenie Użytkowanika
-                _ = new CreateUsers(Data_Import.Singleton().Load_Access());
-                if(Users.Singleton().Role == "Employee")
-                {
-                    MessageBox.Show("You don't have permision to acces this tool. Please contact with administrator!", "No Access!");
-                    Environment.Exit(0);
-                }
-                //Inicjalizowanie programu
-                InitializeComponent();
-
-                action = new Action(this, Data_Import.Singleton());
-                summaryDetails = new SummaryDetails();
-
-                //Budowanie Formsa w zależności od uprawnień
-                _ = new BuildForm(action, summaryDetails);
-
-                if (ApplicationDeployment.IsNetworkDeployed)
-                {
-                    toolStripStatusLabel1.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + " Beta Version";
-                }
-                else
-                {
-                    toolStripStatusLabel1.Text = "0.5.0.32  Beta Version Portable Version";
-                }
-
-                if (Environment.UserName.ToString() == "BartkKon")
-                {
-                    string Link = Data_Import.Singleton().CheckLink();
-                    toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
-                }
-                
-
+                MessageBox.Show("You don't have permision to acces this tool. Please contact with administrator!", "No Access!");
+                Environment.Exit(0);
             }
-            catch (Exception ex)
-            {
-                LogSingleton.Instance.SaveLog(ex.Message);
-            }
+
+            //Inicjalizowanie programu
+            InitializeComponent();
+            //Inicjalizowanie danych
+            this.Shown += new EventHandler(this.InitializeData);
+
+            //Widocznoś Maina dla Wszystkich.
+            Self = this;
+
+
+            if (ApplicationDeployment.IsNetworkDeployed)
+                toolStripStatusLabel1.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + " Beta Version";
+            else
+                toolStripStatusLabel1.Text = "0.5.0.32  Beta Version Portable Version";
+
+
+            if (Environment.UserName.ToString() == "BartkKon")
+                toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Data_Import.Singleton().CheckLink();
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogSingleton.Instance.SaveLog(ex.Message);
+            //}
         }
 
+        private void InitializeData(object sender, EventArgs e)
+        {
+            //
+            //  ActionTab
+            //
+            if (Users.Singleton.ActionTab)
+            {
+                treeActionView.InitializeData();
+                mainFilter.InitializeData();
+                actionView.stateView.InitializeData();
+                actionView.SavingsTable.InitializeData();
+                _ = new ClearForm();
+                actionView.Enabled = false;
+            }
+            else
+                TabControl.TabPages.Remove(tab_Action);
+
+            //
+            //  Summary Tab
+            //
+            if (Users.Singleton.SummaryTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_Summary);
+                TabControl.TabPages.Remove(tab_SummaryS);
+            }
+
+            //
+            //  StatisticTab
+            //
+            if (Users.Singleton.StatisticTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_Statistic);
+            }
+
+            //
+            //  AdminTab
+            //
+            if (Users.Singleton.AdminTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_Admin);
+                TabControl.TabPages.Remove(tab_AdminAction);
+            }
+
+            //
+            //  PlatformTab
+            //
+            if (Users.Singleton.PlatformTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_Platform);
+            }
+
+            //
+            //  STK Tab
+            //
+            if (Users.Singleton.STKTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_STK);
+            }
+
+            //
+            //  QuantityTab
+            //
+            if (Users.Singleton.QuantityTab)
+            {
+
+            }
+            else
+            {
+                TabControl.TabPages.Remove(tab_Quantity);
+            }
+        }
     }
 }

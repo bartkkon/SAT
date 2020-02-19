@@ -28,7 +28,7 @@ namespace Saving_Accelerator_Tool
             DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton().PCApprove.ToString());
+                summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton.PCApprove.ToString());
             }
             else if (result == DialogResult.No)
             {
@@ -41,7 +41,7 @@ namespace Saving_Accelerator_Tool
             DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
             if (Result == DialogResult.Yes)
             {
-                summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton().PCApprove.ToString());
+                summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton.PCApprove.ToString());
             }
             else if (Result == DialogResult.No)
             {
@@ -123,19 +123,19 @@ namespace Saving_Accelerator_Tool
 
         public void Pb_SummDet_ReportingRefresh_Click(object sender, EventArgs e)
         {
-            if (Users.Singleton().ElectronicApprove)
+            if (Users.Singleton.ElectronicApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("Electronic","false");
             }
-            if (Users.Singleton().MechanicApprove)
+            if (Users.Singleton.MechanicApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
             }
-            if (Users.Singleton().NVRApprove)
+            if (Users.Singleton.NVRApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("NVR","false");
             }
-            if (Users.Singleton().PCApprove)
+            if (Users.Singleton.PCApprove)
             {
                 summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
             }

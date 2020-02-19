@@ -1,4 +1,4 @@
-﻿using Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc.Framework;
+﻿using Saving_Accelerator_Tool.Klasy.ActionTab.NewWindow.SpecialCalc.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Saving_Accelerator_Tool.Klasy.Action.NewWindow.SpecialCalc
+namespace Saving_Accelerator_Tool.Klasy.ActionTab.NewWindow.SpecialCalc
 {
     public partial class SpecialCalcAction : Form
     {

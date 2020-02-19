@@ -13,7 +13,7 @@ namespace Saving_Accelerator_Tool.Klasy.User
         {
             DataRow Person = UserDataFromBase.Rows[0];
             
-            Users NewUser = Users.Singleton();
+            Users NewUser = Users.Singleton;
 
             NewUser.Login = Person["Name"].ToString();
             NewUser.Name = Person["FullName"].ToString();

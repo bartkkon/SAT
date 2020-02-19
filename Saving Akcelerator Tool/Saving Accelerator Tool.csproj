@@ -106,6 +106,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Formy\Special_Massage.cs">
@@ -114,17 +117,140 @@
     <Compile Include="Formy\Special_Massage.Designer.cs">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\Action\Framework\Activation_Action.cs" />
-    <Compile Include="Klasy\Action\Framework\Deactivation_Action.cs" />
-    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
-    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
-    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\Framework\Save_Action_SM.cs" />
-    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.cs">
+    <Compile Include="Klasy\ActionTab\Framework\Activation_Action.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\ClearForm.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Deactivation_Action.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\LoadAction.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\LoadActionToForm.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\LoadActionToTree.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\LoadDevision.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\LoadEmployees.cs" />
+    <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
+    <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
+    <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Save_Action_SM.cs" />
+    <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\SpecialCalcAction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.Designer.cs">
+    <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\SpecialCalcAction.Designer.cs">
       <DependentUpon>SpecialCalcAction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Klasy\ActionTab\View\ActionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\ActionView.Designer.cs">
+      <DependentUpon>ActionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ANCChangeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ANCChangeView.Designer.cs">
+      <DependentUpon>ANCChangeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ButtonsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ButtonsView.Designer.cs">
+      <DependentUpon>ButtonsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\CalculationByView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\CalculationByView.Designer.cs">
+      <DependentUpon>CalculationByView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\CalculationGroupView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\CalculationGroupView.Designer.cs">
+      <DependentUpon>CalculationGroupView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ECCCView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\ECCCView.Designer.cs">
+      <DependentUpon>ECCCView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\InstallationView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\InstallationView.Designer.cs">
+      <DependentUpon>InstallationView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\NameView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\NameView.Designer.cs">
+      <DependentUpon>NameView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\NextANC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\NextANC.Designer.cs">
+      <DependentUpon>NextANC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PlatformView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PlatformView.Designer.cs">
+      <DependentUpon>PlatformView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PNCListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PNCListView.Designer.cs">
+      <DependentUpon>PNCListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PNCSpecialEstymationView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\PNCSpecialEstymationView.Designer.cs">
+      <DependentUpon>PNCSpecialEstymationView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\QunatityPercentView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\QunatityPercentView.Designer.cs">
+      <DependentUpon>QunatityPercentView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\SaveButtonView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\SaveButtonView.Designer.cs">
+      <DependentUpon>SaveButtonView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\SavingsTableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\SavingsTableView.Designer.cs">
+      <DependentUpon>SavingsTableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\StateView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\StateView.Designer.cs">
+      <DependentUpon>StateView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\STKChange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\Action\STKChange.Designer.cs">
+      <DependentUpon>STKChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\MainFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\MainFilter.Designer.cs">
+      <DependentUpon>MainFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\TreeActionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\ActionTab\View\TreeActionView.Designer.cs">
+      <DependentUpon>TreeActionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\Acton\Action.cs" />
+    <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
+    <Compile Include="Klasy\Acton\OriginalAction.cs" />
     <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
@@ -314,8 +440,65 @@
     <EmbeddedResource Include="Formy\Special_Massage.resx">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\Action\NewWindow\SpecialCalc\SpecialCalcAction.resx">
+    <EmbeddedResource Include="Klasy\ActionTab\NewWindow\SpecialCalc\SpecialCalcAction.resx">
       <DependentUpon>SpecialCalcAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\ActionView.resx">
+      <DependentUpon>ActionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\ANCChangeView.resx">
+      <DependentUpon>ANCChangeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\ButtonsView.resx">
+      <DependentUpon>ButtonsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\CalculationByView.resx">
+      <DependentUpon>CalculationByView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\CalculationGroupView.resx">
+      <DependentUpon>CalculationGroupView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\ECCCView.resx">
+      <DependentUpon>ECCCView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\InstallationView.resx">
+      <DependentUpon>InstallationView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\NameView.resx">
+      <DependentUpon>NameView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\NextANC.resx">
+      <DependentUpon>NextANC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\PlatformView.resx">
+      <DependentUpon>PlatformView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\PNCListView.resx">
+      <DependentUpon>PNCListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\PNCSpecialEstymationView.resx">
+      <DependentUpon>PNCSpecialEstymationView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\QunatityPercentView.resx">
+      <DependentUpon>QunatityPercentView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\SaveButtonView.resx">
+      <DependentUpon>SaveButtonView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\SavingsTableView.resx">
+      <DependentUpon>SavingsTableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\StateView.resx">
+      <DependentUpon>StateView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\Action\STKChange.resx">
+      <DependentUpon>STKChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\MainFilter.resx">
+      <DependentUpon>MainFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\ActionTab\View\TreeActionView.resx">
+      <DependentUpon>TreeActionView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\ActionActivatorView.resx">
       <DependentUpon>ActionActivatorView.cs</DependentUpon>
@@ -396,7 +579,6 @@
     <Content Include="bitcoun-512Green.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Klasy\Action\View\" />
     <Folder Include="Klasy\Platform\AddPNC\Framework\" />
     <Folder Include="Klasy\Platform\AddPNC\Handlers\" />
   </ItemGroup>
