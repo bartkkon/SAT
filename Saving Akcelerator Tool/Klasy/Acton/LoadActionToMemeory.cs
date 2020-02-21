@@ -14,12 +14,18 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
         {
             _action = Action;
 
+            _ = OriginalAction.Delete;
+            _ = CopyAction.Delete;
+
             BasicData();
             ANCChange();
             PNCChange();
             CalcSum();
             Per();
             IDCO();
+
+
+            _ = CopyAction.Value;
         }
 
         private void IDCO()

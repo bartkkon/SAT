@@ -80,7 +80,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCSpecialEstymationView.Clear();
                 MainProgram.Self.actionView.PNCSpecialEstymationView.Visible = false;
                 MainProgram.Self.actionView.CalculationGroup.Clear();
-                MainProgram.Self.actionView.CalculationGroup.SetVisibleCount(OriginalAction.Value.IloscANC);
+                MainProgram.Self.actionView.CalculationGroup.SetVisibleCount(CopyAction.Value.IloscANC);
                 MainProgram.Self.actionView.CalculationGroup.Visible = true;
                 MainProgram.Self.actionView.PNCListView.Visible = false;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(false);

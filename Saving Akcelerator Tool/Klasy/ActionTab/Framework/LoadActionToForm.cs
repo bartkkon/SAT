@@ -9,10 +9,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
 {
     public class LoadActionToForm
     {
-        private readonly OriginalAction _action;
+        private readonly CopyAction _action;
         public LoadActionToForm()
         {
-            _action = OriginalAction.Value;
+            _action = CopyAction.Value;
 
             _ = new ClearForm();
 

@@ -23,7 +23,9 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
             FindAction();
 
             _ = new LoadActionToMemeory(_Action);
-            _= new LoadActionToForm();
+            _ = new LoadActionToForm();
+
+
         }
 
         private void FindAction()

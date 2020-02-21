@@ -18,14 +18,24 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             InitializeComponent();
             control = this;
         }
-        public void ActionNameChange (string Name)
+        public void ActionNameChange(string Name)
         {
             Tb_Name.Text = Name;
         }
 
+        public string GetActionName()
+        {
+            return Tb_Name.Text;
+        }
+
+        public string GetDescription()
+        {
+            return Tb_Description.Text.Replace(Environment.NewLine, "/n");
+        }
+
         public void Description(string Des)
         {
-            Tb_Description.Text = Des;
+            Tb_Description.Text = Des.Replace("/n", Environment.NewLine);
         }
 
         public void Clear()

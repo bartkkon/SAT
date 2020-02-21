@@ -190,23 +190,23 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         private void Pb_Plus_Click(object sender, EventArgs e)
         {
-            OriginalAction.Value.IloscANC++;
-            if (OriginalAction.Value.IloscANC <= 10)
+            CopyAction.Value.IloscANC++;
+            if (CopyAction.Value.IloscANC <= 10)
             {
-                AddRow(OriginalAction.Value.IloscANC);
+                AddRow(CopyAction.Value.IloscANC);
             }
             else
             {
-                OriginalAction.Value.IloscANC--;
+                CopyAction.Value.IloscANC--;
             }
         }
 
         private void Pb_Minus_Click(object sender, EventArgs e)
         {
-            if (OriginalAction.Value.IloscANC > 1)
+            if (CopyAction.Value.IloscANC > 1)
             {
-                RemoveRow(OriginalAction.Value.IloscANC);
-                OriginalAction.Value.IloscANC--;
+                RemoveRow(CopyAction.Value.IloscANC);
+                CopyAction.Value.IloscANC--;
             }
             else
             {

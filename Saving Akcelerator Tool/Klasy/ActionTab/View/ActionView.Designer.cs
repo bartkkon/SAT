@@ -45,8 +45,8 @@
             this.installationView = new Saving_Accelerator_Tool.Klasy.ActionTab.View.Action.InstallationView();
             this.stateView = new Saving_Accelerator_Tool.Klasy.ActionTab.View.Action.StateView();
             this.nameView = new Saving_Accelerator_Tool.Klasy.ActionTab.View.Action.NameView();
-            gb_ActiveAction = new System.Windows.Forms.GroupBox();
-            gb_ActiveAction.SuspendLayout();
+            //gb_ActiveAction = new System.Windows.Forms.GroupBox();
+            this.gb_ActiveAction.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_ActiveAction
@@ -193,10 +193,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(gb_ActiveAction);
+            this.Controls.Add(this.gb_ActiveAction);
             this.Name = "ActionView";
             this.Size = new System.Drawing.Size(1603, 972);
-            gb_ActiveAction.ResumeLayout(false);
+            this.gb_ActiveAction.ResumeLayout(false);
+            this.gb_ActiveAction.PerformLayout();
             this.ResumeLayout(false);
 
         }

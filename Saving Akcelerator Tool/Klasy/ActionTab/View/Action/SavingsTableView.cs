@@ -150,17 +150,17 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         private void Pb_CurrentYear_Click(object sender, EventArgs e)
         {
-            SetData("Savings", OriginalAction.Value.CalcUSESaving, OriginalAction.Value.CalcBUSaving, OriginalAction.Value.CalcEA1Saving, OriginalAction.Value.CalcEA2Saving, OriginalAction.Value.CalcEA3Saving);
-            SetData("Quantity", OriginalAction.Value.CalcUSEQuantity, OriginalAction.Value.CalcBUQuantity, OriginalAction.Value.CalcEA1Quantity, OriginalAction.Value.CalcEA2Quantity, OriginalAction.Value.CalcEA3Quantity);
-            SetData("ECCC", OriginalAction.Value.CalcUSEECCC, OriginalAction.Value.CalcBUECCC, OriginalAction.Value.CalcEA1ECCC, OriginalAction.Value.CalcEA2ECCC, OriginalAction.Value.CalcEA3ECCC);
+            SetData("Savings", CopyAction.Value.CalcUSESaving, CopyAction.Value.CalcBUSaving, CopyAction.Value.CalcEA1Saving, CopyAction.Value.CalcEA2Saving, CopyAction.Value.CalcEA3Saving);
+            SetData("Quantity", CopyAction.Value.CalcUSEQuantity, CopyAction.Value.CalcBUQuantity, CopyAction.Value.CalcEA1Quantity, CopyAction.Value.CalcEA2Quantity, CopyAction.Value.CalcEA3Quantity);
+            SetData("ECCC", CopyAction.Value.CalcUSEECCC, CopyAction.Value.CalcBUECCC, CopyAction.Value.CalcEA1ECCC, CopyAction.Value.CalcEA2ECCC, CopyAction.Value.CalcEA3ECCC);
             SetButton("CurrentYear");
         }
 
         private void Pb_CarryOver_Click(object sender, EventArgs e)
         {
-            SetData("Savings", OriginalAction.Value.CalcUSESavingCarry, OriginalAction.Value.CalcBUSavingCarry, OriginalAction.Value.CalcEA1SavingCarry, OriginalAction.Value.CalcEA2SavingCarry, OriginalAction.Value.CalcEA3SavingCarry);
-            SetData("Quantity", OriginalAction.Value.CalcUSEQuantityCarry, OriginalAction.Value.CalcBUQuantityCarry, OriginalAction.Value.CalcEA1QuantityCarry, OriginalAction.Value.CalcEA2QuantityCarry, OriginalAction.Value.CalcEA3QuantityCarry);
-            SetData("ECCC", OriginalAction.Value.CalcUSEECCCCarry, OriginalAction.Value.CalcBUECCCCarry, OriginalAction.Value.CalcEA1ECCCCarry, OriginalAction.Value.CalcEA2ECCCCarry, OriginalAction.Value.CalcEA3ECCCCarry);
+            SetData("Savings", CopyAction.Value.CalcUSESavingCarry, CopyAction.Value.CalcBUSavingCarry, CopyAction.Value.CalcEA1SavingCarry, CopyAction.Value.CalcEA2SavingCarry, CopyAction.Value.CalcEA3SavingCarry);
+            SetData("Quantity", CopyAction.Value.CalcUSEQuantityCarry, CopyAction.Value.CalcBUQuantityCarry, CopyAction.Value.CalcEA1QuantityCarry, CopyAction.Value.CalcEA2QuantityCarry, CopyAction.Value.CalcEA3QuantityCarry);
+            SetData("ECCC", CopyAction.Value.CalcUSEECCCCarry, CopyAction.Value.CalcBUECCCCarry, CopyAction.Value.CalcEA1ECCCCarry, CopyAction.Value.CalcEA2ECCCCarry, CopyAction.Value.CalcEA3ECCCCarry);
             SetButton("CarryOver");
         }
 

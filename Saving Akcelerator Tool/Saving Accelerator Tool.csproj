@@ -117,6 +117,7 @@
     <Compile Include="Formy\Special_Massage.Designer.cs">
       <DependentUpon>Special_Massage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Klasy\ActionTab\Framework\ActionVerificationEnabled.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Activation_Action.cs" />
     <Compile Include="Klasy\ActionTab\Framework\ClearForm.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Deactivation_Action.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Klasy\ActionTab\Framework\LoadActionToTree.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadDevision.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadEmployees.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\SaveActionFromForm.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Save_Action_SM.cs" />
@@ -249,6 +251,8 @@
       <DependentUpon>TreeActionView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\Acton\Action.cs" />
+    <Compile Include="Klasy\Acton\CheckIfEqual.cs" />
+    <Compile Include="Klasy\Acton\CopyAction.cs" />
     <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
     <Compile Include="Klasy\Acton\OriginalAction.cs" />
     <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />

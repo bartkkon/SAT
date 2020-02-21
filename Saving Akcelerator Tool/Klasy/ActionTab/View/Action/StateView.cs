@@ -50,6 +50,14 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return cb_Idea.Checked;
         }
 
+        public string GetActionIdea()
+        {
+            if (cb_Active.Checked)
+                return "Active";
+            else
+                return "Idea";
+        }
+
         public void SetYear(decimal Year)
         {
             num_Action_YearAction.Value = Year;

@@ -52,6 +52,28 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
         }
 
+        public string[] GetNext1(int Ilosc)
+        {
+            string[] Next = new string[Ilosc];
+
+            for(int counter =0; counter<Ilosc; counter++)
+            {
+                Next[counter] = Next1[counter].Text;
+            }
+            return Next;
+        }
+
+        public string[] GetNext2(int Ilosc)
+        {
+            string[] Next = new string[Ilosc];
+
+            for (int counter = 0; counter < Ilosc; counter++)
+            {
+                Next[counter] = Next2[counter].Text;
+            }
+            return Next;
+        }
+
         public void Clear()
         {
             for (int counter = 0; counter < 10; counter++)
