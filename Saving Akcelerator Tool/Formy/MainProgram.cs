@@ -70,7 +70,7 @@ namespace Saving_Accelerator_Tool
                 actionView.stateView.InitializeData();
                 actionView.SavingsTable.InitializeData();
                 _ = new ClearForm();
-                actionView.Enabled = false;
+                _ = new ActionVerificationEnabled(false);
             }
             else
                 TabControl.TabPages.Remove(tab_Action);
@@ -80,7 +80,7 @@ namespace Saving_Accelerator_Tool
             //
             if (Users.Singleton.SummaryTab)
             {
-
+                
             }
             else
             {
@@ -93,7 +93,10 @@ namespace Saving_Accelerator_Tool
             //
             if (Users.Singleton.StatisticTab)
             {
-
+                optionView.SetYear(DateTime.UtcNow.Year);
+                dmView.InitializeData();
+                productionQuantityView.InitializeData();
+                productionQuantityMonthView1.InitializeData();
             }
             else
             {

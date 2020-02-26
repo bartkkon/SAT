@@ -12,10 +12,20 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
     class StatisticQuantityMonthLoad
     {
         private static Data_Import _Import;
+        private readonly string _Revision;
+        private readonly string _Installation;
+        private readonly string _Structure;
+        private readonly decimal _Year;
+        private readonly DataGridView _QuantityMonth;
 
-        public StatisticQuantityMonthLoad()
+        public StatisticQuantityMonthLoad(DataGridView QuantityMonth)
         {
             _Import = Data_Import.Singleton();
+            _QuantityMonth = QuantityMonth;
+            _Revision = MainProgram.Self.productionQuantityMonthView1.GetRevision();
+            _Structure = MainProgram.Self.productionQuantityMonthView1.GetStructure();
+            _Installation = MainProgram.Self.productionQuantityMonthView1.GetInstallation();
+            _Year = MainProgram.Self.optionView.GetYear();
 
             LoadData_QuantityMonth();
         }
@@ -25,43 +35,36 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
             DataTable Actual;
             DataTable Plan;
 
-            string Revision = ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comb_StatisicQuantityMonthRev", true).First()).SelectedItem.ToString();
-            string Structure = ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comb_StatisicQuantityMonthStructure", true).First()).SelectedItem.ToString();
-            string Installation = ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comb_StatisicQuantityMonthInstalation", true).First()).SelectedItem.ToString();
-            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_StatisticYearOption", true).First()).Value;
-
-            DataGridView QuantityMonth = (DataGridView)MainProgram.Self.TabControl.Controls.Find("GDV_StatisticQuantityMonth", true).First();
-
-            Actual = ActualValue(Structure, Installation, false);
-            Plan = ActualValue(Structure, Installation, true);
+            Actual = ActualValue(false);
+            Plan = ActualValue(true);
 
             ClearTable();
 
             foreach (DataRow Row in Actual.Rows)
             {
-                for (int counter = StartRevision(Revision); counter <= 12; counter++)
+                for (int counter = StartRevision(); counter <= 12; counter++)
                 {
-                    if (Actual.Columns.Contains(counter.ToString() + "/" + Year.ToString()))
+                    if (Actual.Columns.Contains(counter.ToString() + "/" + _Year.ToString()))
                     {
-                        if (QuantityMonth.Rows[0].Cells[counter.ToString()].Value != null)
-                            QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[counter.ToString() + "/" + Year.ToString()].ToString());
+                        if (_QuantityMonth.Rows[0].Cells[counter.ToString()].Value != null)
+                            _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
                         else
-                            QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Row[counter.ToString() + "/" + Year.ToString()].ToString());
+                            _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
                     }
                 }
             }
             foreach (DataRow Row in Plan.Rows)
             {
-                if (Revision != "All")
+                if (_Revision != "All")
                 {
-                    for (int counter = StartRevision(Revision); counter <= 12; counter++)
+                    for (int counter = StartRevision(); counter <= 12; counter++)
                     {
-                        if (Plan.Columns.Contains(Revision + "/" + counter.ToString() + "/" + Year.ToString()))
+                        if (Plan.Columns.Contains(_Revision + "/" + counter.ToString() + "/" + _Year.ToString()))
                         {
-                            if (QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Revision + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                            if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
+                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
                             else
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Revision + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
                         }
                     }
                 }
@@ -79,12 +82,12 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
                         else
                             Rewizja = "EA3";
 
-                        if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + Year.ToString()))
+                        if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()))
                         {
-                            if (QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                            if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
+                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
                             else
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
                         }
                     }
                 }
@@ -95,34 +98,32 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
         private void SumRow()
         {
-            DataGridView QuantityMonth = (DataGridView)MainProgram.Self.TabControl.Controls.Find("GDV_StatisticQuantityMonth", true).First();
             decimal SumActual = 0;
             decimal SumPlan = 0;
 
             for (int counter = 0; counter < 12; counter++)
             {
-                if (QuantityMonth.Rows[0].Cells[counter].Value != null)
-                    SumActual += decimal.Parse(QuantityMonth.Rows[0].Cells[counter].Value.ToString());
-                if (QuantityMonth.Rows[1].Cells[counter].Value != null)
-                    SumPlan += decimal.Parse(QuantityMonth.Rows[1].Cells[counter].Value.ToString());
+                if (_QuantityMonth.Rows[0].Cells[counter].Value != null)
+                    SumActual += decimal.Parse(_QuantityMonth.Rows[0].Cells[counter].Value.ToString());
+                if (_QuantityMonth.Rows[1].Cells[counter].Value != null)
+                    SumPlan += decimal.Parse(_QuantityMonth.Rows[1].Cells[counter].Value.ToString());
             }
 
             if (SumActual != 0)
-                QuantityMonth.Rows[0].Cells[12].Value = SumActual;
+                _QuantityMonth.Rows[0].Cells[12].Value = SumActual;
             if (SumPlan != 0)
-                QuantityMonth.Rows[1].Cells[12].Value = SumPlan;
+                _QuantityMonth.Rows[1].Cells[12].Value = SumPlan;
         }
 
         private void Different()
         {
-            DataGridView QuantityMonth = (DataGridView)MainProgram.Self.TabControl.Controls.Find("GDV_StatisticQuantityMonth", true).First();
 
             for (int counter = 0; counter <= 12; counter++)
             {
-                if (QuantityMonth.Rows[0].Cells[counter].Value != null && QuantityMonth.Rows[1].Cells[counter].Value != null)
+                if (_QuantityMonth.Rows[0].Cells[counter].Value != null && _QuantityMonth.Rows[1].Cells[counter].Value != null)
                 {
-                    QuantityMonth.Rows[2].Cells[counter].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter].Value.ToString()) - decimal.Parse(QuantityMonth.Rows[1].Cells[counter].Value.ToString());
-                    ColorTable(QuantityMonth.Rows[2].Cells[counter]);
+                    _QuantityMonth.Rows[2].Cells[counter].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter].Value.ToString()) - decimal.Parse(_QuantityMonth.Rows[1].Cells[counter].Value.ToString());
+                    ColorTable(_QuantityMonth.Rows[2].Cells[counter]);
                 }
             }
         }
@@ -143,28 +144,26 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
         private void ClearTable()
         {
-            DataGridView QuantityMonth = (DataGridView)MainProgram.Self.TabControl.Controls.Find("GDV_StatisticQuantityMonth", true).First();
-
             for (int counter = 0; counter <= 12; counter++)
             {
-                QuantityMonth.Rows[0].Cells[counter].Value = null;
-                QuantityMonth.Rows[1].Cells[counter].Value = null;
-                QuantityMonth.Rows[2].Cells[counter].Value = null;
-                QuantityMonth.Rows[2].Cells[counter].Style.ForeColor = Color.FromArgb(0, 0, 0);
-                QuantityMonth.Rows[2].Cells[counter].Style.BackColor = Color.FromArgb(255, 255, 255);
+                _QuantityMonth.Rows[0].Cells[counter].Value = null;
+                _QuantityMonth.Rows[1].Cells[counter].Value = null;
+                _QuantityMonth.Rows[2].Cells[counter].Value = null;
+                _QuantityMonth.Rows[2].Cells[counter].Style.ForeColor = Color.FromArgb(0, 0, 0);
+                _QuantityMonth.Rows[2].Cells[counter].Style.BackColor = Color.FromArgb(255, 255, 255);
             }
         }
-        private int StartRevision(string Rewizion)
+        private int StartRevision()
         {
-            if (Rewizion == "All" || Rewizion == "BU")
+            if (_Revision == "All" || _Revision == "BU")
             {
                 return 1;
             }
-            else if (Rewizion == "EA1")
+            else if (_Revision == "EA1")
             {
                 return 3;
             }
-            else if (Rewizion == "EA2")
+            else if (_Revision == "EA2")
             {
                 return 6;
             }
@@ -174,12 +173,11 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
             }
         }
 
-        private DataTable ActualValue(string Structure, string Instalation, bool Estymacja)
+        private DataTable ActualValue(bool Estymacja)
         {
             DataTable SumPNC = new DataTable();
             DataTable ActualAllRow;
             DataRow Actual;
-            //string Name;
 
             if (Estymacja)
                 _Import.Load_TxtToDataTable2(ref SumPNC, "SumPNCBU");
@@ -188,28 +186,28 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
             ActualAllRow = SumPNC.Clone();
 
-            if (Structure == Instalation)
+            if (_Structure == _Installation)
             {
                 Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "All")).First();
                 ActualAllRow.Rows.Add(Actual.ItemArray);
             }
             else
             {
-                if (Instalation == "All")
+                if (_Installation == "All")
                 {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", Structure)).First();
+                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", _Structure)).First();
                     ActualAllRow.Rows.Add(Actual.ItemArray);
                 }
-                else if (Structure == "All")
+                else if (_Structure == "All")
                 {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "DMD_" + Instalation)).First();
+                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "DMD_" + _Installation)).First();
                     ActualAllRow.Rows.Add(Actual.ItemArray);
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "D45_" + Instalation)).First();
+                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "D45_" + _Installation)).First();
                     ActualAllRow.Rows.Add(Actual.ItemArray);
                 }
                 else
                 {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", Structure + "_" + Instalation)).First();
+                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", _Structure + "_" + _Installation)).First();
                     ActualAllRow.Rows.Add(Actual.ItemArray);
                 }
             }

@@ -33,7 +33,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View
         private void But_Action_NewAction_Click(object sender, EventArgs e)
         {
             _ = new ClearForm();
-            MainProgram.Self.actionView.Enabled = true;
+            _ = new ActionVerificationEnabled();
             MainProgram.Self.actionView.SetActionName("New Action");
         }
 

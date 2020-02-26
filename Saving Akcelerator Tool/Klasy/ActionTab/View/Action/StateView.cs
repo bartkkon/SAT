@@ -129,6 +129,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return comBox_Month.SelectedItem.ToString();
         }
 
+        public int GetStartMonthInt()
+        {
+            return comBox_Month.SelectedIndex + 1;
+        }
+
         private void Cb_Active_CheckedChanged(object sender, EventArgs e)
         {
             if((sender as CheckBox).Text == "Active")

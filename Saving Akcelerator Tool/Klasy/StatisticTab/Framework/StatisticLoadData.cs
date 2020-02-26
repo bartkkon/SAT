@@ -10,19 +10,14 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
     {
         public StatisticLoadData()
         {
-
-        }
-
-        public void LoadData()
-        {
             //Ładoawnie danych do porównania danych DM
-            _ =  new StatisticDMLoad();
+            _ = new StatisticDMLoad(MainProgram.Self.dmView.ObjectTable());
 
             //Ładowanie danych do prównania ilości produkowanych PNC w danym roku
-            _ = new StatisticQuantityLoad();
+            _ = new StatisticQuantityLoad(MainProgram.Self.productionQuantityView.ObjectTable());
 
             //Ładowanie danych do porównania ilości produkcyjnych PNC w poszczególnych miesiącahc
-            _ = new StatisticQuantityMonthLoad();
+            _ = new StatisticQuantityMonthLoad(MainProgram.Self.productionQuantityMonthView1.ObjectTable());
         }
     }
 }

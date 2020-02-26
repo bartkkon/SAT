@@ -255,7 +255,6 @@
     <Compile Include="Klasy\Acton\CopyAction.cs" />
     <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
     <Compile Include="Klasy\Acton\OriginalAction.cs" />
-    <Compile Include="Klasy\AdminTab\AdminTabGenerator.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadPerson.cs" />
@@ -393,14 +392,30 @@
     <Compile Include="Klasy\StatisticTab\Framework\StatisticLoadData.cs" />
     <Compile Include="Klasy\StatisticTab\Framework\StatisticQuantityLoad.cs" />
     <Compile Include="Klasy\StatisticTab\Framework\StatisticQuantityMonthLoad.cs" />
-    <Compile Include="Klasy\StatisticTab\Handlers\StatisticDMHandler.cs" />
-    <Compile Include="Klasy\StatisticTab\Handlers\StatisticOptionHandler.cs" />
-    <Compile Include="Klasy\StatisticTab\Handlers\StatisticQuantityMonthHandler.cs" />
-    <Compile Include="Klasy\StatisticTab\StatisticTabGenerator.cs" />
-    <Compile Include="Klasy\StatisticTab\View\StatisticDMView.cs" />
-    <Compile Include="Klasy\StatisticTab\View\StatisticOptionView.cs" />
-    <Compile Include="Klasy\StatisticTab\View\StatisticQuantityMonthView.cs" />
-    <Compile Include="Klasy\StatisticTab\View\StatisticQuantityView.cs" />
+    <Compile Include="Klasy\StatisticTab\View\DMView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\DMView.Designer.cs">
+      <DependentUpon>DMView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\OptionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\OptionView.Designer.cs">
+      <DependentUpon>OptionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\ProductionQuantityMonthView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\ProductionQuantityMonthView.Designer.cs">
+      <DependentUpon>ProductionQuantityMonthView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\ProductionQuantityView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\StatisticTab\View\ProductionQuantityView.Designer.cs">
+      <DependentUpon>ProductionQuantityView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\SummaryDetails.cs" />
     <Compile Include="Klasy\ModifiActionForm.cs" />
     <Compile Include="Klasy\ModifiActionFormHendler.cs" />
@@ -539,6 +554,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\Platform\AddPNC\Platform_AddPNC.resx">
       <DependentUpon>Platform_AddPNC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\StatisticTab\View\DMView.resx">
+      <DependentUpon>DMView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\StatisticTab\View\OptionView.resx">
+      <DependentUpon>OptionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\StatisticTab\View\ProductionQuantityMonthView.resx">
+      <DependentUpon>ProductionQuantityMonthView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\StatisticTab\View\ProductionQuantityView.resx">
+      <DependentUpon>ProductionQuantityView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

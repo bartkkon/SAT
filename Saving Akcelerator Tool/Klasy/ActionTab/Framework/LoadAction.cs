@@ -24,7 +24,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
 
             _ = new LoadActionToMemeory(_Action);
             _ = new LoadActionToForm();
-
+            _ = new ActionVerificationEnabled();
 
         }
 

@@ -11,30 +11,31 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 {
     public class StatisticDMLoad
     {
-        Data_Import _Import;
+        private readonly Data_Import _Import;
+        private readonly DataGridView _DM;
+        private readonly decimal _Year;
 
-
-        public StatisticDMLoad()
+        public StatisticDMLoad(DataGridView DM)
         {
             _Import = Data_Import.Singleton();
+            _DM = DM;
+            _Year = MainProgram.Self.optionView.GetYear();
 
             LoadData_DM();
         }
 
         private void LoadData_DM()
         {
-            DataGridView DM = (DataGridView)MainProgram.Self.TabControl.Controls.Find("DGV_StatisticDM", true).First();
-            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_StatisticYearOption", true).First()).Value;
             decimal Kurs;
 
             DataTable Table = new DataTable();
-            DataRow Data = null;
+            DataRow Data;
 
             _Import.Load_TxtToDataTable2(ref Table, "Kurs");
 
-            ClearDGVForDM(DM);
+            ClearDGVForDM();
 
-            Data = Table.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+            Data = Table.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
 
             if (Data != null)
             {
@@ -49,35 +50,35 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
                 if (DMRevision[0] != "")
                 {
-                    DM.Rows[0].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[0]) / Kurs, 0, MidpointRounding.AwayFromZero);
+                    _DM.Rows[0].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[0]) / Kurs, 0, MidpointRounding.AwayFromZero);
                 }
                 if (DMRevision[1] != "")
                 {
-                    DM.Rows[1].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[1]) / Kurs, 0, MidpointRounding.AwayFromZero);
+                    _DM.Rows[1].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[1]) / Kurs, 0, MidpointRounding.AwayFromZero);
                 }
                 if (DMRevision[2] != "")
                 {
-                    DM.Rows[2].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[2]) / Kurs, 0, MidpointRounding.AwayFromZero);
+                    _DM.Rows[2].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[2]) / Kurs, 0, MidpointRounding.AwayFromZero);
                 }
                 if (DMRevision[3] != "")
                 {
-                    DM.Rows[3].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[3]) / Kurs, 0, MidpointRounding.AwayFromZero);
+                    _DM.Rows[3].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[3]) / Kurs, 0, MidpointRounding.AwayFromZero);
                 }
                 if (DMRevision[4] != "")
                 {
-                    DM.Rows[4].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[4]) / Kurs, 0, MidpointRounding.AwayFromZero);
+                    _DM.Rows[4].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[4]) / Kurs, 0, MidpointRounding.AwayFromZero);
                 }
 
-                CalcDelta(DM);
+                CalcDelta();
             }
         }
 
         private decimal CheckExchangeRate(DataRow Data)
         {
-            decimal Exchenage = 0;
-            ComboBox ExchangeCombo = (ComboBox)MainProgram.Self.TabControl.Controls.Find("cb_Statistic ExchangeRate", true).First();
+            decimal Exchenage;
+            int ExchangeCombo = MainProgram.Self.dmView.GetExchangeRateIndex();
 
-            switch (ExchangeCombo.SelectedIndex)
+            switch (ExchangeCombo)
             {
                 case 0:
                     Exchenage = 1;
@@ -108,78 +109,78 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
             return Exchenage;
         }
 
-        private void ClearDGVForDM(DataGridView dM)
+        private void ClearDGVForDM()
         {
             for (int counter = 0; counter < 5; counter++)
             {
-                dM.Rows[counter].Cells["DM"].Value = null;
+                _DM.Rows[counter].Cells["DM"].Value = null;
             }
 
             for (int counter = 1; counter <= 4; counter++)
             {
-                ClearCells(dM.Rows[counter].Cells["BU"]);
+                ClearCells(_DM.Rows[counter].Cells["BU"]);
                 if (counter >= 2)
                 {
-                    ClearCells(dM.Rows[counter].Cells["EA1"]);
+                    ClearCells(_DM.Rows[counter].Cells["EA1"]);
                 }
                 if (counter >= 3)
                 {
-                    ClearCells(dM.Rows[counter].Cells["EA2"]);
+                    ClearCells(_DM.Rows[counter].Cells["EA2"]);
                 }
                 if (counter == 4)
                 {
-                    ClearCells(dM.Rows[counter].Cells["EA3"]);
+                    ClearCells(_DM.Rows[counter].Cells["EA3"]);
                 }
             }
         }
 
-        private void CalcDelta(DataGridView DMTable)
+        private void CalcDelta()
         {
-            decimal BU = 0;
+            decimal BU;
             decimal EA1 = 0;
             decimal EA2 = 0;
             decimal EA3 = 0;
-            decimal EA4 = 0;
+            decimal EA4;
 
-            if (DMTable.Rows[0].Cells["DM"].Value != null)
+            if (_DM.Rows[0].Cells["DM"].Value != null)
             {
-                BU = decimal.Parse(DMTable.Rows[0].Cells["DM"].Value.ToString());
+                BU = decimal.Parse(_DM.Rows[0].Cells["DM"].Value.ToString());
 
-                if (DMTable.Rows[1].Cells["DM"].Value != null)
+                if (_DM.Rows[1].Cells["DM"].Value != null)
                 {
-                    EA1 = decimal.Parse(DMTable.Rows[1].Cells["DM"].Value.ToString());
-                    DMTable.Rows[1].Cells["BU"].Value = EA1 - BU;
-                    ColoringCells(DMTable.Rows[1].Cells["BU"]);
+                    EA1 = decimal.Parse(_DM.Rows[1].Cells["DM"].Value.ToString());
+                    _DM.Rows[1].Cells["BU"].Value = EA1 - BU;
+                    ColoringCells(_DM.Rows[1].Cells["BU"]);
                 }
-                if (DMTable.Rows[2].Cells["DM"].Value != null)
+                if (_DM.Rows[2].Cells["DM"].Value != null)
                 {
-                    EA2 = decimal.Parse(DMTable.Rows[2].Cells["DM"].Value.ToString());
-                    DMTable.Rows[2].Cells["BU"].Value = EA2 - BU;
-                    ColoringCells(DMTable.Rows[2].Cells["BU"]);
-                    DMTable.Rows[2].Cells["EA1"].Value = EA2 - EA1;
-                    ColoringCells(DMTable.Rows[2].Cells["EA1"]);
+                    EA2 = decimal.Parse(_DM.Rows[2].Cells["DM"].Value.ToString());
+                    _DM.Rows[2].Cells["BU"].Value = EA2 - BU;
+                    ColoringCells(_DM.Rows[2].Cells["BU"]);
+                    _DM.Rows[2].Cells["EA1"].Value = EA2 - EA1;
+                    ColoringCells(_DM.Rows[2].Cells["EA1"]);
                 }
-                if (DMTable.Rows[3].Cells["DM"].Value != null)
+                if (_DM.Rows[3].Cells["DM"].Value != null)
                 {
-                    EA3 = decimal.Parse(DMTable.Rows[3].Cells["DM"].Value.ToString());
-                    DMTable.Rows[3].Cells["BU"].Value = EA3 - BU;
-                    ColoringCells(DMTable.Rows[3].Cells["BU"]);
-                    DMTable.Rows[3].Cells["EA1"].Value = EA3 - EA1;
-                    ColoringCells(DMTable.Rows[3].Cells["EA1"]);
-                    DMTable.Rows[3].Cells["EA2"].Value = EA3 - EA2;
-                    ColoringCells(DMTable.Rows[3].Cells["EA2"]);
+                    EA3 = decimal.Parse(_DM.Rows[3].Cells["DM"].Value.ToString());
+                    _DM.Rows[3].Cells["BU"].Value = EA3 - BU;
+                    ColoringCells(_DM.Rows[3].Cells["BU"]);
+                    _DM.Rows[3].Cells["EA1"].Value = EA3 - EA1;
+                    ColoringCells(_DM.Rows[3].Cells["EA1"]);
+                    _DM.Rows[3].Cells["EA2"].Value = EA3 - EA2;
+                    ColoringCells(_DM.Rows[3].Cells["EA2"]);
                 }
-                if (DMTable.Rows[4].Cells["DM"].Value != null)
+                if (_DM.Rows[4].Cells["DM"].Value != null)
                 {
-                    EA4 = decimal.Parse(DMTable.Rows[4].Cells["DM"].Value.ToString());
-                    DMTable.Rows[4].Cells["BU"].Value = EA4 - BU;
-                    ColoringCells(DMTable.Rows[4].Cells["BU"]);
-                    DMTable.Rows[4].Cells["EA1"].Value = EA4 - EA1;
-                    ColoringCells(DMTable.Rows[4].Cells["EA1"]);
-                    DMTable.Rows[4].Cells["EA2"].Value = EA4 - EA2;
-                    ColoringCells(DMTable.Rows[4].Cells["EA2"]);
-                    DMTable.Rows[4].Cells["EA3"].Value = EA4 - EA3;
-                    ColoringCells(DMTable.Rows[4].Cells["EA3"]);
+                    EA4 = decimal.Parse(_DM.Rows[4].Cells["DM"].Value.ToString());
+                    _DM.Rows[4].Cells["BU"].Value = EA4 - BU;
+                    ColoringCells(_DM.Rows[4].Cells["BU"]);
+                    _DM.Rows[4].Cells["EA1"].Value = EA4 - EA1;
+                    ColoringCells(_DM.Rows[4].Cells["EA1"]);
+                    _DM.Rows[4].Cells["EA2"].Value = EA4 - EA2;
+                    ColoringCells(_DM.Rows[4].Cells["EA2"]);
+                    _DM.Rows[4].Cells["EA3"].Value = EA4 - EA3;
+                    ColoringCells(_DM.Rows[4].Cells["EA3"]);
 
                 }
             }

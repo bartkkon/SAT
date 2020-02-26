@@ -16,11 +16,11 @@ namespace Saving_Accelerator_Tool
 {
     class BuildForm
     {
-        public BuildForm(Action action, SummaryDetails summaryDetails)
+        public BuildForm(SummaryDetails summaryDetails)
         {
-            Tab_Control_Add(action, summaryDetails);
+            Tab_Control_Add(summaryDetails);
         }
-        public void Tab_Control_Add(Action action, SummaryDetails summaryDetails)
+        public void Tab_Control_Add(SummaryDetails summaryDetails)
         {
             Users User = Users.Singleton;
             
@@ -81,7 +81,7 @@ namespace Saving_Accelerator_Tool
             //
             if(User.StatisticTab)
             {
-                _ = new StatisticTabGenerator();
+                //_ = new StatisticTabGenerator();
             }
 
             //
@@ -128,24 +128,24 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_Admin
             // 
-            if (User.AdminTab)
-            {
-                _ = new AdminTabGenerator();
+            //if (User.AdminTab)
+            //{
+            //    _ = new AdminTabGenerator();
 
-                TabPage tab_AdminAction = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_AdminAction",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 8,
-                    Text = "Action Admin",
-                    UseVisualStyleBackColor = true,
-                };
+            //    TabPage tab_AdminAction = new TabPage
+            //    {
+            //        Location = new System.Drawing.Point(4, 22),
+            //        Name = "tab_AdminAction",
+            //        Size = new System.Drawing.Size(1826, 877),
+            //        TabIndex = 8,
+            //        Text = "Action Admin",
+            //        UseVisualStyleBackColor = true,
+            //    };
 
-                MainProgram.Self.TabControl.Controls.Add(tab_AdminAction);
+            //    MainProgram.Self.TabControl.Controls.Add(tab_AdminAction);
 
-                _ = new ModifiActionForm(tab_AdminAction);
-            }
+            //    _ = new ModifiActionForm(tab_AdminAction);
+            //}
         }
     }
 }
