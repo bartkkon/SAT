@@ -22,7 +22,7 @@ namespace Saving_Accelerator_Tool
                 history.HistorySave();
             }
             ReportApprove(Devision);
-            CheckifCanReporting(Devision, PC);
+            //CheckifCanReporting(Devision, PC);
             AddToFinalReport(Devision);
             Cursor.Current = Cursors.Default;
         }
@@ -31,7 +31,7 @@ namespace Saving_Accelerator_Tool
         {
             Cursor.Current = Cursors.WaitCursor;
             ReportRejected(Devision);
-            CheckifCanReporting(Devision, PC);
+            //CheckifCanReporting(Devision, PC);
             Cursor.Current = Cursors.Default;
         }
 
@@ -47,10 +47,10 @@ namespace Saving_Accelerator_Tool
             DataGridDifference((DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_ECCCSum", true).First());
         }
 
-        public void SummaryDetails_CheckifCanReporting(string Devision, string PC)
-        {
-            CheckifCanReporting(Devision, PC);
-        }
+        //public void SummaryDetails_CheckifCanReporting(string Devision, string PC)
+        //{
+        //    CheckifCanReporting(Devision, PC);
+        //}
 
         public void SummaryDetails_DataGridDifferenceClear()
         {
@@ -117,252 +117,252 @@ namespace Saving_Accelerator_Tool
             }
         }
 
-        private void CheckifCanReporting(string Devision, string PC)
-        {
-            DataTable Frozen = new DataTable();
-            DataRow FrozenRow;
-            Control[] App;
-            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
-            bool ToApprove = false;
-            int ToApproveFull = 0;
+        //private void CheckifCanReporting(string Devision, string PC)
+        //{
+        //    DataTable Frozen = new DataTable();
+        //    DataRow FrozenRow;
+        //    Control[] App;
+        //    decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
+        //    bool ToApprove = false;
+        //    int ToApproveFull = 0;
 
-            Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
-            FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
+        //    Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
+        //    FrozenRow = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
 
-            if (Devision.Substring(0, 2) == "PC")
-            {
-                Devision = "PC";
-            }
-            else if (Devision.Substring(0, 3) == "NVR")
-            {
-                Devision = "NVR";
-            }
-            else if (Devision.Substring(0, 8) == "Mechanic")
-            {
-                Devision = "Mechanic";
-            }
-            else if (Devision.Substring(0, 10) == "Electronic")
-            {
-                Devision = "Electronic";
-            }
-            else if (Devision.Substring(0, 12) == "Product Care")
-            {
-                Devision = "PC";
-            }
+        //    if (Devision.Substring(0, 2) == "PC")
+        //    {
+        //        Devision = "PC";
+        //    }
+        //    else if (Devision.Substring(0, 3) == "NVR")
+        //    {
+        //        Devision = "NVR";
+        //    }
+        //    else if (Devision.Substring(0, 8) == "Mechanic")
+        //    {
+        //        Devision = "Mechanic";
+        //    }
+        //    else if (Devision.Substring(0, 10) == "Electronic")
+        //    {
+        //        Devision = "Electronic";
+        //    }
+        //    else if (Devision.Substring(0, 12) == "Product Care")
+        //    {
+        //        Devision = "PC";
+        //    }
 
-            if (FrozenRow["BU"].ToString() == "Open")
-            {
-                ToApprove = true;
-            }
-            if (FrozenRow["EA1"].ToString() == "Open")
-            {
-                ToApprove = true;
+        //    if (FrozenRow["BU"].ToString() == "Open")
+        //    {
+        //        ToApprove = true;
+        //    }
+        //    if (FrozenRow["EA1"].ToString() == "Open")
+        //    {
+        //        ToApprove = true;
 
-            }
-            if (FrozenRow["EA2"].ToString() == "Open")
-            {
-                ToApprove = true;
-            }
-            if (FrozenRow["EA3"].ToString() == "Open")
-            {
-                ToApprove = true;
-            }
-            for (int counter = 1; counter <= 12; counter++)
-            {
-                if (FrozenRow[counter.ToString()].ToString() == "Open")
-                {
-                    ToApprove = true;
-                }
-            }
+        //    }
+        //    if (FrozenRow["EA2"].ToString() == "Open")
+        //    {
+        //        ToApprove = true;
+        //    }
+        //    if (FrozenRow["EA3"].ToString() == "Open")
+        //    {
+        //        ToApprove = true;
+        //    }
+        //    for (int counter = 1; counter <= 12; counter++)
+        //    {
+        //        if (FrozenRow[counter.ToString()].ToString() == "Open")
+        //        {
+        //            ToApprove = true;
+        //        }
+        //    }
 
-            if (Devision == "Electronic" && ToApprove == true)
-            {
-                if (FrozenRow["EleApp"].ToString() == "Close")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = true;
+        //    if (Devision == "Electronic" && ToApprove == true)
+        //    {
+        //        if (FrozenRow["EleApp"].ToString() == "Close")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = true;
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                else if (FrozenRow["EleApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        else if (FrozenRow["EleApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                }
-            }
-            if (Devision == "Mechanic" && ToApprove == true)
-            {
-                if (FrozenRow["MechApp"].ToString() == "Close")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //        }
+        //    }
+        //    if (Devision == "Mechanic" && ToApprove == true)
+        //    {
+        //        if (FrozenRow["MechApp"].ToString() == "Close")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                else if (FrozenRow["MechApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        else if (FrozenRow["MechApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                }
-            }
-            if (Devision == "NVR" && ToApprove == true)
-            {
-                if (FrozenRow["NVRApp"].ToString() == "Close")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //        }
+        //    }
+        //    if (Devision == "NVR" && ToApprove == true)
+        //    {
+        //        if (FrozenRow["NVRApp"].ToString() == "Close")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                else if (FrozenRow["NVRApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        else if (FrozenRow["NVRApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
 
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                }
-            }
-            if (PC == "true")
-            {
-                App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
-                for (int counter = 0; counter < App.Length; counter++)
-                {
-                    App[counter].Enabled = false;
-                }
-            }
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //        }
+        //    }
+        //    if (PC == "true")
+        //    {
+        //        App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+        //        for (int counter = 0; counter < App.Length; counter++)
+        //        {
+        //            App[counter].Enabled = false;
+        //        }
+        //    }
 
-            if (Devision == "PC" && ToApprove == true)
-            {
-                if (FrozenRow["EleApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                    ToApproveFull += 1;
-                }
-                else
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                if (FrozenRow["MechApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                    ToApproveFull += 1;
-                }
-                else
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                if (FrozenRow["NVRApp"].ToString() == "Approve")
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                    ToApproveFull += 1;
-                }
-                else
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-                if (ToApproveFull == 3)
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = true;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = true;
-                    }
-                }
-                else
-                {
-                    //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = false;
-                    App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
-                    for (int counter = 0; counter < App.Length; counter++)
-                    {
-                        App[counter].Enabled = false;
-                    }
-                }
-            }
-        }
+        //    if (Devision == "PC" && ToApprove == true)
+        //    {
+        //        if (FrozenRow["EleApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //            ToApproveFull += 1;
+        //        }
+        //        else
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_EleRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        if (FrozenRow["MechApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //            ToApproveFull += 1;
+        //        }
+        //        else
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_MechRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        if (FrozenRow["NVRApp"].ToString() == "Approve")
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //            ToApproveFull += 1;
+        //        }
+        //        else
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_NVRRejected", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //        if (ToApproveFull == 3)
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = true;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = true;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //((Button)MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true).First()).Enabled = false;
+        //            App = MainProgram.Self.TabControl.Controls.Find("pb_SummDet_PCApprove", true);
+        //            for (int counter = 0; counter < App.Length; counter++)
+        //            {
+        //                App[counter].Enabled = false;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void ReportRejected(string Devision)
         {

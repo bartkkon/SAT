@@ -11,6 +11,9 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
 {
     public class SDTableLoad
     {
+        private DataGridView _Actual;
+        private DataGridView _CarryOver;
+
         public SDTableLoad()
         {
             LoadToTable();
@@ -24,21 +27,21 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             int StartMonth;
             string Revision;
 
-            DataGridView Actual = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_ActualAction", true).First();
-            DataGridView CarryOver = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_CarryOverAction", true).First();
-            decimal Year = ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First()).Value;
-            CheckBox Active = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Active1", true).First();
-            CheckBox Idea = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Idea1", true).First();
-            ComboBox Leader = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetLeader", true).First();
-            ComboBox Devision = (ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_SummDetDevision", true).First();
-            CheckBox Savings = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_SDOptionSavings", true).First();
-            CheckBox Quantity = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_SDOptionQuantity", true).First();
-            CheckBox ECCC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_SDOptionECCC", true).First();
-            CheckBox Positive = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Positive1", true).First();
-            CheckBox Negative = (CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative1", true).First();
+            _Actual = MainProgram.Self.sdTableAllView.ObjectTableActual();
+            _CarryOver = MainProgram.Self.sdTableAllView.ObjectTableCarryOver();
+            decimal Year = MainProgram.Self.sdOptions1.GetYear();
+            bool Active = MainProgram.Self.sdOptions1.GetActive();
+            bool Idea = MainProgram.Self.sdOptions1.GetIdea();
+            string Leader = MainProgram.Self.sdOptions1.GetLeader();
+            string Devision = MainProgram.Self.sdOptions1.GetDevision();
+            bool Savings = MainProgram.Self.sdTableAllView.GetSavings() ;
+            bool Quantity = MainProgram.Self.sdTableAllView.GetQauntity();
+            bool ECCC = MainProgram.Self.sdTableAllView.GetECCC();
+            bool Positive = MainProgram.Self.sdOptions1.GetPositive();
+            bool Negative = MainProgram.Self.sdOptions1.GetNegative();
 
-            Actual.Rows.Clear();
-            CarryOver.Rows.Clear();
+            _Actual.Rows.Clear();
+            _CarryOver.Rows.Clear();
 
             Data_Import.Singleton().Load_TxtToDataTable2(ref Actions, "Action");
 
@@ -46,32 +49,31 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             Revision = WhatRevisionApprove(Year);
 
             //Tworzenie kluczy
-            Klucz = CreateKey(Active.Checked, Idea.Checked, Year, Leader.Text, Devision.Text, Positive.Checked, Negative.Checked);
+             Klucz = CreateKey(Active, Idea, Year, Leader, Devision, Positive, Negative);
 
             foreach (DataRow ActionRow in Actions.Rows)
             {
 
-                ActionKey = CreateActionKey(ActionRow, Active.Checked, Idea.Checked, Devision.Text, Leader.Text, Positive.Checked, Negative.Checked, Year);
+                ActionKey = CreateActionKey(ActionRow, Active, Idea, Devision, Leader, Positive, Negative, Year);
 
                 if (Klucz[0] == ActionKey || Klucz[1] == ActionKey || Klucz[2] == ActionKey)
                 {
-                    LoadActionSD(ActionRow, false, Savings.Checked, Quantity.Checked, ECCC.Checked, StartMonth, Revision);
+                    LoadActionSD(ActionRow, false, Savings, Quantity, ECCC, StartMonth, Revision);
                 }
                 else if (Klucz[3] == ActionKey)
                 {
-                    LoadActionSD(ActionRow, true, Savings.Checked, Quantity.Checked, ECCC.Checked, StartMonth, Revision);
+                    LoadActionSD(ActionRow, true, Savings, Quantity, ECCC, StartMonth, Revision);
                 }
             }
 
-            DataGridView Table = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_CarryOverAction", true).First();
-            Table.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
-            Table.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
-            Table.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
 
-            Table = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_ActualAction", true).First();
-            Table.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
-            Table.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
-            Table.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+            _CarryOver.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            _CarryOver.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
+            _CarryOver.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+
+            _Actual.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
+            _Actual.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
+            _Actual.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
         }
 
         private void LoadActionSD(DataRow actionRow, bool CarryBool, bool Savings, bool Quantity, bool ECCC, int StartMonth, string Revision)
@@ -87,12 +89,12 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
 
             if (CarryBool)
             {
-                Table = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_CarryOverAction", true).First();
+                Table = _CarryOver;
                 Carry = "Carry";
             }
             else
             {
-                Table = (DataGridView)MainProgram.Self.TabControl.Controls.Find("gd_ActualAction", true).First();
+                Table = _Actual;
                 Carry = "";
             }
 
@@ -211,7 +213,21 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             string Revision = "";
 
             Data_Import.Singleton().Load_TxtToDataTable2(ref Frozen, "Frozen");
-            FrozenYear = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
+            FrozenYear = Frozen.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).FirstOrDefault();
+
+            if(FrozenYear == null)
+            {
+                FrozenYear = Frozen.NewRow();
+                foreach(DataColumn Column in Frozen.Columns)
+                {
+                    if (Column.ColumnName == "Year")
+                        FrozenYear[Column] = Year;
+                    else
+                        FrozenYear[Column] = "Close";
+                }
+                Frozen.Rows.Add(FrozenYear);
+                Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
+            }
 
             if (Year < DateTime.UtcNow.Year)
             {
@@ -222,7 +238,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 if (FrozenYear["BU"].ToString() == "Approve" || FrozenYear["BU"].ToString() == "Open")
                     Revision = "BU";
                 else
-                    Revision = "";
+                    Revision = "BU";
             }
             else
             {

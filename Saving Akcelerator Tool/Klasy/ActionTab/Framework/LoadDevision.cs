@@ -14,6 +14,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
         {
             if (Users.Singleton.Role == "Admin" || Users.Singleton.Role == "PCMenager" || AddAll)
             {
+                if(AddAll)
+                    Devision.Items.Add("All");
                 Devision.Items.Add("Electronic");
                 Devision.Items.Add("Mechanic");
                 Devision.Items.Add("NVR");

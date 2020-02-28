@@ -397,7 +397,7 @@ namespace Saving_Accelerator_Tool
                     Size = new Size(20, 20),
                     Text = "R",
                 };
-                Pb_SummDet_ReportingRefresh.Click += new EventHandler(Pb_SummDet_ReportingRefresh_Click);
+                //Pb_SummDet_ReportingRefresh.Click += new EventHandler(Pb_SummDet_ReportingRefresh_Click);
                 gb_Approve.Controls.Add(Pb_SummDet_ReportingRefresh);
 
                 if (Users.Singleton.ElectronicApprove)
@@ -413,7 +413,7 @@ namespace Saving_Accelerator_Tool
                     };
                     pb_SummDet_EleApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_EleApp);
-                    summaryDetails.SummaryDetails_CheckifCanReporting("Electronic", "false");
+                   //summaryDetails.SummaryDetails_CheckifCanReporting("Electronic", "false");
                 }
 
                 if (Users.Singleton.MechanicApprove)
@@ -429,7 +429,7 @@ namespace Saving_Accelerator_Tool
                     };
                     pb_SummDet_MechApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_MechApp);
-                    summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
+                    //summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
                 }
 
                 if (Users.Singleton.NVRApprove)
@@ -445,7 +445,7 @@ namespace Saving_Accelerator_Tool
                     };
                     pb_SummDet_NVRApp.Click += new System.EventHandler(Pb_SummDet_Approve_Click);
                     gb_Approve.Controls.Add(pb_SummDet_NVRApp);
-                    summaryDetails.SummaryDetails_CheckifCanReporting("NVR", "false");
+                    //summaryDetails.SummaryDetails_CheckifCanReporting("NVR", "false");
                 }
 
                 if (Users.Singleton.PCApprove)
@@ -497,7 +497,7 @@ namespace Saving_Accelerator_Tool
                     };
                     pb_SummDet_NVRRej.Click += new System.EventHandler(Pb_SummDet_Rejected_Click);
                     gb_Approve.Controls.Add(pb_SummDet_NVRRej);
-                    summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
+                    //summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
                 }
             }
         }

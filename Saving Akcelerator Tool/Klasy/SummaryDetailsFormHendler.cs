@@ -121,25 +121,25 @@ namespace Saving_Accelerator_Tool
             cb_Level3Sum.CheckedChanged += Cb_LevelChange_CheckedChanged;
         }
 
-        public void Pb_SummDet_ReportingRefresh_Click(object sender, EventArgs e)
-        {
-            if (Users.Singleton.ElectronicApprove)
-            {
-                summaryDetails.SummaryDetails_CheckifCanReporting("Electronic","false");
-            }
-            if (Users.Singleton.MechanicApprove)
-            {
-                summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
-            }
-            if (Users.Singleton.NVRApprove)
-            {
-                summaryDetails.SummaryDetails_CheckifCanReporting("NVR","false");
-            }
-            if (Users.Singleton.PCApprove)
-            {
-                summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
-            }
-        }
+        //public void Pb_SummDet_ReportingRefresh_Click(object sender, EventArgs e)
+        //{
+        //    if (Users.Singleton.ElectronicApprove)
+        //    {
+        //        summaryDetails.SummaryDetails_CheckifCanReporting("Electronic","false");
+        //    }
+        //    if (Users.Singleton.MechanicApprove)
+        //    {
+        //        summaryDetails.SummaryDetails_CheckifCanReporting("Mechanic", "false");
+        //    }
+        //    if (Users.Singleton.NVRApprove)
+        //    {
+        //        summaryDetails.SummaryDetails_CheckifCanReporting("NVR","false");
+        //    }
+        //    if (Users.Singleton.PCApprove)
+        //    {
+        //        summaryDetails.SummaryDetails_CheckifCanReporting("PC", "false");
+        //    }
+        //}
 
         public void GeneretedSumCurrentAction_CarryOver_DataGridView()
         {

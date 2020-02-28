@@ -427,8 +427,28 @@
     <Compile Include="Klasy\Raporty\MultiRaport.cs" />
     <Compile Include="Klasy\Raporty\PNC.cs" />
     <Compile Include="Klasy\Raporty\PNCSpec.cs" />
+    <Compile Include="Klasy\SummaryDetails\Framework\LoadAllSummary.cs" />
     <Compile Include="Klasy\SummaryDetails\Framework\SDTableLoad.cs" />
+    <Compile Include="Klasy\SummaryDetails\Framework\UpdateOptions.cs" />
     <Compile Include="Klasy\SummaryDetails\Handlers\SDTableHandler.cs" />
+    <Compile Include="Klasy\SummaryDetails\View\SDOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\SummaryDetails\View\SDOptions.Designer.cs">
+      <DependentUpon>SDOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\SummaryDetails\View\SDReporting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\SummaryDetails\View\SDReporting.Designer.cs">
+      <DependentUpon>SDReporting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\SummaryDetails\View\SDTableAllView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\SummaryDetails\View\SDTableAllView.Designer.cs">
+      <DependentUpon>SDTableAllView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Klasy\SummaryDetails\View\SDTableView.cs" />
     <Compile Include="Klasy\User\CreateUsers.cs" />
     <Compile Include="Klasy\User\Users.cs" />
@@ -566,6 +586,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\StatisticTab\View\ProductionQuantityView.resx">
       <DependentUpon>ProductionQuantityView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\SummaryDetails\View\SDOptions.resx">
+      <DependentUpon>SDOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\SummaryDetails\View\SDReporting.resx">
+      <DependentUpon>SDReporting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\SummaryDetails\View\SDTableAllView.resx">
+      <DependentUpon>SDTableAllView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

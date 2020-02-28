@@ -80,7 +80,10 @@ namespace Saving_Accelerator_Tool
             //
             if (Users.Singleton.SummaryTab)
             {
-                
+                sdOptions1.InitiazlizeData();
+                sdOptions2.InitiazlizeData();
+                sdTableAllView.InitializeData();
+                sdReporting1.InitializeData();
             }
             else
             {
