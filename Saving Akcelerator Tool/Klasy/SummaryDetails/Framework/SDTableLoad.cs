@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework.Actions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -13,10 +14,15 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
     {
         private DataGridView _Actual;
         private DataGridView _CarryOver;
+        private static List<AllAction> _ActualActionList;
+        private static List<AllAction> _CarryOverList;
 
         public SDTableLoad()
         {
+            _ActualActionList = new List<AllAction>();
+            _CarryOverList = new List<AllAction>();
             LoadToTable();
+            
         }
 
         private void LoadToTable()
@@ -59,10 +65,14 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 if (Klucz[0] == ActionKey || Klucz[1] == ActionKey || Klucz[2] == ActionKey)
                 {
                     LoadActionSD(ActionRow, false, Savings, Quantity, ECCC, StartMonth, Revision);
+                    AllAction NewAction = new AllAction(ActionRow);
+                    _ActualActionList.Add(NewAction);
                 }
                 else if (Klucz[3] == ActionKey)
                 {
                     LoadActionSD(ActionRow, true, Savings, Quantity, ECCC, StartMonth, Revision);
+                    AllAction NewAction = new AllAction(ActionRow);
+                    _CarryOverList.Add(NewAction);
                 }
             }
 
@@ -74,6 +84,8 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             _Actual.Columns["Name"].DefaultCellStyle.BackColor = Color.FromArgb(252, 228, 214);
             _Actual.Columns["Option"].DefaultCellStyle.BackColor = Color.White;
             _Actual.Columns["Sum"].DefaultCellStyle.BackColor = Color.FromArgb(244, 176, 132);
+
+            _ = new SumAllAction(_ActualActionList, _CarryOverList);
         }
 
         private void LoadActionSD(DataRow actionRow, bool CarryBool, bool Savings, bool Quantity, bool ECCC, int StartMonth, string Revision)

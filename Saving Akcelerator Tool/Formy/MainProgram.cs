@@ -84,6 +84,7 @@ namespace Saving_Accelerator_Tool
                 sdOptions2.InitiazlizeData();
                 sdTableAllView.InitializeData();
                 sdReporting1.InitializeData();
+                SDSumAllAction.InitializeData();
             }
             else
             {

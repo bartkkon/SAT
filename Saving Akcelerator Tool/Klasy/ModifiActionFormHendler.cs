@@ -151,7 +151,7 @@ namespace Saving_Accelerator_Tool
 
         private void SaveToXML()
         {
-            ReportingOption Report = new ReportingOption(2020);
+            ReportingOption Report = new ReportingOption();
             Report.ShowDialog();
         }
 

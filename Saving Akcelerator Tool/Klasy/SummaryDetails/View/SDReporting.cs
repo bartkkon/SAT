@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework;
 
 namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
 {
     public partial class SDReporting : UserControl
     {
-        private System.Threading.Timer _timer;
-        SDReporting _sDReporting;
+        //private System.Threading.Timer _timer;
+        private readonly SDReporting _sDReporting;
         public delegate void SetEnable(bool Visible, string What);
         public SetEnable myDeleate;
 
@@ -58,7 +59,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
             }
 
             UpdateReporting(null);
-            _timer = new System.Threading.Timer(UpdateReporting, null, 12000, 12000);
+            _ = new System.Threading.Timer(UpdateReporting, null, 12000, 12000);
         }
 
 
@@ -99,24 +100,24 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
         {
             Button Przycisk = sender as Button;
 
-            if (Przycisk.Text.Remove(0, 7) == "Approve")
+            if (Przycisk.Text.Remove(Przycisk.Text.Length - 7, 7) == "Approve")
             {
                 DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    //summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton.PCApprove.ToString());
+                    _ = new SDReportingApproval(Przycisk.Text);
                 }
                 else if (result == DialogResult.No)
                 {
                     return;
                 }
             }
-            else if(Przycisk.Text.Remove(0, 7) == "Rejected")
+            else if(Przycisk.Text.Remove(Przycisk.Text.Length -8, 8) == "Rejected")
             {
                 DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
                 if (Result == DialogResult.Yes)
                 {
-                    //summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton.PCApprove.ToString());
+                    _ = new SDReportingApproval(Przycisk.Text);
                 }
                 else if (Result == DialogResult.No)
                 {
@@ -226,6 +227,12 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
                     }
                 }
             }
+        }
+
+        private void Pb_GenerateRaport_Click(object sender, EventArgs e)
+        {
+            ReportingOption Report = new ReportingOption();
+            Report.ShowDialog();
         }
     }
 }

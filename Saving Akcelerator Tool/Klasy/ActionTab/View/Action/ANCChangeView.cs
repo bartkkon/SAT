@@ -116,7 +116,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
         }
 
-        public void SetANCQ(int[] QuantityList, int Rows, bool TrueIfNew)
+        public void SetANCQ(decimal[] QuantityList, int Rows, bool TrueIfNew)
         {
             for (int counter = 0; counter < Rows; counter++)
             {
@@ -142,16 +142,16 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return ANCList;
         }
 
-        public int[] GetQuantity(int Rows, bool New)
+        public decimal[] GetQuantity(int Rows, bool New)
         {
-            int[] QuantityList = new int[Rows];
+            decimal[] QuantityList = new decimal[Rows];
 
             for (int counter = 0; counter < Rows; counter++)
             {
                 if (New)
-                    QuantityList[counter] = Int32.Parse(NewANCQList[counter].Text);
+                    QuantityList[counter] = decimal.Parse(NewANCQList[counter].Text);
                 else
-                    QuantityList[counter] = Int32.Parse(OldANCQList[counter].Text);
+                    QuantityList[counter] = decimal.Parse(OldANCQList[counter].Text);
             }
 
             return QuantityList;

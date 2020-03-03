@@ -23,31 +23,31 @@ namespace Saving_Accelerator_Tool
             charts = new Charts(MainProgram.Self);
         }
 
-        public void Pb_SummDet_Approve_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton.PCApprove.ToString());
-            }
-            else if (result == DialogResult.No)
-            {
-                return;
-            }
-        }
+        //public void Pb_SummDet_Approve_Click(object sender, EventArgs e)
+        //{
+        //    DialogResult result = MessageBox.Show("Do you want " + (sender as Button).Text.ToString() + "?", "Report Approve", MessageBoxButtons.YesNo);
+        //    if (result == DialogResult.Yes)
+        //    {
+        //        summaryDetails.SummaryDetails_ReportApprove((sender as Button).Text, Users.Singleton.PCApprove.ToString());
+        //    }
+        //    else if (result == DialogResult.No)
+        //    {
+        //        return;
+        //    }
+        //}
 
-        public void Pb_SummDet_Rejected_Click(object sender, EventArgs e)
-        {
-            DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
-            if (Result == DialogResult.Yes)
-            {
-                summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton.PCApprove.ToString());
-            }
-            else if (Result == DialogResult.No)
-            {
-                return;
-            }
-        }
+        //public void Pb_SummDet_Rejected_Click(object sender, EventArgs e)
+        //{
+        //    DialogResult Result = MessageBox.Show("Do you want " + (sender as Button).Text + "?", "Report Rejected", MessageBoxButtons.YesNo);
+        //    if (Result == DialogResult.Yes)
+        //    {
+        //        summaryDetails.SummaryDetails_ReportRejected((sender as Button).Text, Users.Singleton.PCApprove.ToString());
+        //    }
+        //    else if (Result == DialogResult.No)
+        //    {
+        //        return;
+        //    }
+        //}
 
         public void Pb_SummDet_Show_Click(object sender, EventArgs e)
         {
@@ -141,82 +141,82 @@ namespace Saving_Accelerator_Tool
         //    }
         //}
 
-        public void GeneretedSumCurrentAction_CarryOver_DataGridView()
-        {
-            GroupBox gb_ShowActionSum = (GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ShowActionSum", true).First();
+        //public void GeneretedSumCurrentAction_CarryOver_DataGridView()
+        //{
+        //    GroupBox gb_ShowActionSum = (GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ShowActionSum", true).First();
 
-            Label lab_CurrentActionSum = new Label
-            {
-                AutoSize = true,
-                Location = new System.Drawing.Point(470, 15),
-                Name = "lab_CurrentActionSum",
-                Size = new System.Drawing.Size(20, 13),
-                Text = "Actual:",
-            };
-            gb_ShowActionSum.Controls.Add(lab_CurrentActionSum);
+        //    Label lab_CurrentActionSum = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new System.Drawing.Point(470, 15),
+        //        Name = "lab_CurrentActionSum",
+        //        Size = new System.Drawing.Size(20, 13),
+        //        Text = "Actual:",
+        //    };
+        //    gb_ShowActionSum.Controls.Add(lab_CurrentActionSum);
 
-            DataGridView dg_SavingSum = new DataGridView
-            {
-                ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new System.Drawing.Point(5, 30),
-                Name = "dg_SavingSum",
-                Size = new System.Drawing.Size(1133, 155),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                Enabled = false,
-            };
+        //    DataGridView dg_SavingSum = new DataGridView
+        //    {
+        //        ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        //        Location = new System.Drawing.Point(5, 30),
+        //        Name = "dg_SavingSum",
+        //        Size = new System.Drawing.Size(1133, 155),
+        //        AllowUserToAddRows = false,
+        //        ReadOnly = true,
+        //        Enabled = false,
+        //    };
 
-            CreateTable(dg_SavingSum);
-            gb_ShowActionSum.Controls.Add(dg_SavingSum);
+        //    CreateTable(dg_SavingSum);
+        //    gb_ShowActionSum.Controls.Add(dg_SavingSum);
 
-            Label lab_CarryOverSum = new Label
-            {
-                AutoSize = true,
-                Location = new System.Drawing.Point(470, 190),
-                Name = "lab_CarryOverSum",
-                Size = new System.Drawing.Size(20, 13),
-                Text = "Carry Over:",
-            };
-            gb_ShowActionSum.Controls.Add(lab_CarryOverSum);
+        //    Label lab_CarryOverSum = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new System.Drawing.Point(470, 190),
+        //        Name = "lab_CarryOverSum",
+        //        Size = new System.Drawing.Size(20, 13),
+        //        Text = "Carry Over:",
+        //    };
+        //    gb_ShowActionSum.Controls.Add(lab_CarryOverSum);
 
-            DataGridView dg_CarryOverSum = new DataGridView
-            {
-                ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new System.Drawing.Point(5, 205),
-                Name = "dg_CarryOverSum",
-                Size = new System.Drawing.Size(1133, 155),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                Enabled = false,
-            };
+        //    DataGridView dg_CarryOverSum = new DataGridView
+        //    {
+        //        ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        //        Location = new System.Drawing.Point(5, 205),
+        //        Name = "dg_CarryOverSum",
+        //        Size = new System.Drawing.Size(1133, 155),
+        //        AllowUserToAddRows = false,
+        //        ReadOnly = true,
+        //        Enabled = false,
+        //    };
 
-            CreateTable(dg_CarryOverSum);
-            gb_ShowActionSum.Controls.Add(dg_CarryOverSum);
+        //    CreateTable(dg_CarryOverSum);
+        //    gb_ShowActionSum.Controls.Add(dg_CarryOverSum);
 
-            Label lab_ECCCSum = new Label
-            {
-                AutoSize = true,
-                Location = new System.Drawing.Point(470, 365),
-                Name = "lab_ECCCSum",
-                Size = new System.Drawing.Size(20, 13),
-                Text = "ECCC:",
-            };
-            gb_ShowActionSum.Controls.Add(lab_ECCCSum);
+        //    Label lab_ECCCSum = new Label
+        //    {
+        //        AutoSize = true,
+        //        Location = new System.Drawing.Point(470, 365),
+        //        Name = "lab_ECCCSum",
+        //        Size = new System.Drawing.Size(20, 13),
+        //        Text = "ECCC:",
+        //    };
+        //    gb_ShowActionSum.Controls.Add(lab_ECCCSum);
 
-            DataGridView dg_ECCCSum = new DataGridView
-            {
-                ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                Location = new System.Drawing.Point(5, 380),
-                Name = "dg_ECCCSum",
-                Size = new System.Drawing.Size(1133, 155),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                Enabled = false,
-            };
+        //    DataGridView dg_ECCCSum = new DataGridView
+        //    {
+        //        ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        //        Location = new System.Drawing.Point(5, 380),
+        //        Name = "dg_ECCCSum",
+        //        Size = new System.Drawing.Size(1133, 155),
+        //        AllowUserToAddRows = false,
+        //        ReadOnly = true,
+        //        Enabled = false,
+        //    };
 
-            CreateTable(dg_ECCCSum);
-            gb_ShowActionSum.Controls.Add(dg_ECCCSum);
-        }
+        //    CreateTable(dg_ECCCSum);
+        //    gb_ShowActionSum.Controls.Add(dg_ECCCSum);
+        //}
 
         public void ComboBox_Devision_ChangeIndex(object sender, EventArgs e)
         {
@@ -334,13 +334,13 @@ namespace Saving_Accelerator_Tool
             ((CheckBox)MainProgram.Self.TabControl.Controls.Find("CB_Negative2", true).First()).CheckedChanged += Negative_CheckedChange;
         }
 
-        public void PCRaport_Click(object sender, EventArgs e)
-        {
-            NumericUpDown YearToCalc = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
+        //public void PCRaport_Click(object sender, EventArgs e)
+        //{
+        //    NumericUpDown YearToCalc = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_SummaryDetailYear", true).First();
 
-            ReportingOption Report = new ReportingOption(YearToCalc.Value);
-            Report.ShowDialog();
-        }
+        //    ReportingOption Report = new ReportingOption();
+        //    Report.ShowDialog();
+        //}
 
         private void CreateTable(DataGridView Table)
         {

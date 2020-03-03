@@ -1,37 +1,33 @@
-﻿using Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework.Actions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
-namespace Saving_Accelerator_Tool.Klasy.Acton
+namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework.Actions
 {
-    public class LoadActionToMemeory
+    public class AllAction : Acton.Action
     {
-        private readonly DataRow _action;
-        public LoadActionToMemeory(DataRow Action)
+        public readonly DataRow _action;
+        public AllAction(DataRow action)
         {
-            _action = Action;
-
-            _ = OriginalAction.Delete;
-            _ = CopyAction.Delete;
+            _action = action;
 
             BasicData();
             ANCChange();
             PNCChange();
             CalcSum();
             Per();
-            IDCO();
-
-
-            _ = CopyAction.Value;
+            IDCOList();
         }
 
-        private void IDCO()
+
+        private void IDCOList()
         {
-            OriginalAction.Value.IDCO = IDCOTable(_action["IDCO"].ToString());
+            
+            IDCO = IDCOTable(_action["IDCO"].ToString());
         }
 
         private DataTable IDCOTable(string IDCOBase)
@@ -63,43 +59,43 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
 
         private void BasicData()
         {
-            OriginalAction.Value.Name = _action["Name"].ToString();
-            OriginalAction.Value.Description = _action["Description"].ToString();
-            OriginalAction.Value.Group = _action["Group"].ToString();
-            OriginalAction.Value.Status = _action["Status"].ToString();
+            Name = _action["Name"].ToString();
+            Description = _action["Description"].ToString();
+            Group = _action["Group"].ToString();
+            Status = _action["Status"].ToString();
             AddYear(_action["StartYear"].ToString());
-            OriginalAction.Value.StartMonth = _action["StartMonth"].ToString();
-            OriginalAction.Value.Factory = _action["Factory"].ToString();
-            OriginalAction.Value.Calculate = _action["Calculate"].ToString();
-            OriginalAction.Value.Leader = _action["Leader"].ToString();
-            OriginalAction.Value.Platform = PlatformInstallation(_action["Platform"].ToString());
-            OriginalAction.Value.Installation = PlatformInstallation(_action["Installation"].ToString());
-            OriginalAction.Value.Comment = _action["Comment"].ToString();
+            StartMonth = _action["StartMonth"].ToString();
+            Factory = _action["Factory"].ToString();
+            Calculate = _action["Calculate"].ToString();
+            Leader = _action["Leader"].ToString();
+            Platform = PlatformInstallation(_action["Platform"].ToString());
+            Installation = PlatformInstallation(_action["Installation"].ToString());
+            Comment = _action["Comment"].ToString();
         }
 
         private void ANCChange()
         {
-            OriginalAction.Value.IloscANC = int.Parse(_action["IloscANC"].ToString());
+            IloscANC = int.Parse(_action["IloscANC"].ToString());
 
-            OriginalAction.Value.OldANC = ANCList(_action["Old ANC"].ToString());
-            OriginalAction.Value.OldANCQ = ANCQList(_action["Old ANCQ"].ToString());
-            OriginalAction.Value.OldSTK = ANCDecimalList(_action["Old STK"].ToString());
+            OldANC = ANCList(_action["Old ANC"].ToString());
+            OldANCQ = ANCQList(_action["Old ANCQ"].ToString());
+            OldSTK = ANCDecimalList(_action["Old STK"].ToString());
 
-            OriginalAction.Value.NewANC = ANCList(_action["New ANC"].ToString());
-            OriginalAction.Value.NewANCQ = ANCQList(_action["New ANCQ"].ToString());
-            OriginalAction.Value.NewSTK = ANCDecimalList(_action["New STK"].ToString());
+            NewANC = ANCList(_action["New ANC"].ToString());
+            NewANCQ = ANCQList(_action["New ANCQ"].ToString());
+            NewSTK = ANCDecimalList(_action["New STK"].ToString());
 
-            OriginalAction.Value.Delta = ANCDecimalList(_action["Delta"].ToString());
-            OriginalAction.Value.STKEst = ANCDecimalList(_action["STKEst"].ToString());
-            OriginalAction.Value.Percent = ANCDecimalList(_action["Percent"].ToString());
-            OriginalAction.Value.STKCal = ANCDecimalList(_action["STKCal"].ToString());
+            Delta = ANCDecimalList(_action["Delta"].ToString());
+            STKEst = ANCDecimalList(_action["STKEst"].ToString());
+            Percent = ANCDecimalList(_action["Percent"].ToString());
+            STKCal = ANCDecimalList(_action["STKCal"].ToString());
 
-            OriginalAction.Value.ECCC = ANCDecimalList(_action["ECCC"].ToString());
-            OriginalAction.Value.Next = ANCList(_action["Next"].ToString());
-            //OriginalAction.Value.Next2 = ANCList(_action["Next2"].ToString());
+            ECCC = ANCDecimalList(_action["ECCC"].ToString());
+            Next = ANCList(_action["Next"].ToString());
+            //Next2 = ANCList(_action["Next2"].ToString());
 
-            OriginalAction.Value.Calc = ToBoolTable(_action["Calc"].ToString());
-            OriginalAction.Value.CalcMass = ToStringTable(_action["CalcMass"].ToString());
+            Calc = ToBoolTable(_action["Calc"].ToString());
+            CalcMass = ToStringTable(_action["CalcMass"].ToString());
         }
 
         private string[] ToStringTable(string Base)
@@ -131,29 +127,29 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
 
         private void PNCChange()
         {
-            OriginalAction.Value.PNC = PNCList(_action["PNC"].ToString());
-            OriginalAction.Value.PNCANC = PNCInsideTable(_action["PNC/ANC"].ToString());
-            OriginalAction.Value.PNCANCQ = PNCInsideTable(_action["PNC/ANC Q"].ToString());
-            OriginalAction.Value.PNCSTK = PNCInsideTable(_action["PNCSTK"].ToString());
-            OriginalAction.Value.PNCDelta = PNCInsideTable2(_action["PNCDelta"].ToString());
-            OriginalAction.Value.PNCSumSTK = PNCInsideTable3(_action["PNCSumSTK"].ToString());
-            OriginalAction.Value.PNCSumDelta = PNCInsideTable4(_action["PNCSumDelta"].ToString());
-            OriginalAction.Value.PNCANCPersent = decimal.Parse(_action["PNCANCPersent"].ToString());
-            OriginalAction.Value.PNCEstyma = ToDecimal(_action["PNCEstyma"].ToString());
+            PNC = PNCList(_action["PNC"].ToString());
+            PNCANC = PNCInsideTable(_action["PNC/ANC"].ToString());
+            PNCANCQ = PNCInsideTable(_action["PNC/ANC Q"].ToString());
+            PNCSTK = PNCInsideTable(_action["PNCSTK"].ToString());
+            PNCDelta = PNCInsideTable2(_action["PNCDelta"].ToString());
+            PNCSumSTK = PNCInsideTable3(_action["PNCSumSTK"].ToString());
+            PNCSumDelta = PNCInsideTable4(_action["PNCSumDelta"].ToString());
+            PNCANCPersent = decimal.Parse(_action["PNCANCPersent"].ToString());
+            PNCEstyma = ToDecimal(_action["PNCEstyma"].ToString());
         }
 
         private void Per()
         {
-            OriginalAction.Value.PerUSE = PerTable(_action["PerUSE"].ToString(), "USE");
-            OriginalAction.Value.PerUSECarry = PerTable(_action["PerUSECarry"].ToString(), "USE");
-            OriginalAction.Value.PerBU = PerTable(_action["PerBU"].ToString(), "BU");
-            OriginalAction.Value.PerBUCarry = PerTable(_action["PerBUCarry"].ToString(), "BU");
-            OriginalAction.Value.PerEA1 = PerTable(_action["PerEA1"].ToString(), "EA1");
-            OriginalAction.Value.PerEA1Carry = PerTable(_action["PerEA1Carry"].ToString(), "EA1");
-            OriginalAction.Value.PerEA2 = PerTable(_action["PerEA2"].ToString(), "EA2");
-            OriginalAction.Value.PerEA2Carry = PerTable(_action["PerEA2Carry"].ToString(), "EA2");
-            OriginalAction.Value.PerEA3 = PerTable(_action["PerEA3"].ToString(), "EA3");
-            OriginalAction.Value.PerEA3Carry = PerTable(_action["PerEA3Carry"].ToString(), "EA3");
+            PerUSE = PerTable(_action["PerUSE"].ToString(), "USE");
+            PerUSECarry = PerTable(_action["PerUSECarry"].ToString(), "USE");
+            PerBU = PerTable(_action["PerBU"].ToString(), "BU");
+            PerBUCarry = PerTable(_action["PerBUCarry"].ToString(), "BU");
+            PerEA1 = PerTable(_action["PerEA1"].ToString(), "EA1");
+            PerEA1Carry = PerTable(_action["PerEA1Carry"].ToString(), "EA1");
+            PerEA2 = PerTable(_action["PerEA2"].ToString(), "EA2");
+            PerEA2Carry = PerTable(_action["PerEA2Carry"].ToString(), "EA2");
+            PerEA3 = PerTable(_action["PerEA3"].ToString(), "EA3");
+            PerEA3Carry = PerTable(_action["PerEA3Carry"].ToString(), "EA3");
         }
 
         private DataTable PerTable(string Base, string Revision)
@@ -266,41 +262,41 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
 
         private void CalcSum()
         {
-            OriginalAction.Value.CalcUSEQuantity = CalcSumToDecimal(_action["CalcUseQuantity"].ToString());
-            OriginalAction.Value.CalcBUQuantity = CalcSumToDecimal(_action["CalcBUQuantity"].ToString());
-            OriginalAction.Value.CalcEA1Quantity = CalcSumToDecimal(_action["CalcEA1Quantity"].ToString());
-            OriginalAction.Value.CalcEA2Quantity = CalcSumToDecimal(_action["CalcEA2Quantity"].ToString());
-            OriginalAction.Value.CalcEA3Quantity = CalcSumToDecimal(_action["CalcEA3Quantity"].ToString());
+            CalcUSEQuantity = CalcSumToDecimal(_action["CalcUseQuantity"].ToString());
+            CalcBUQuantity = CalcSumToDecimal(_action["CalcBUQuantity"].ToString());
+            CalcEA1Quantity = CalcSumToDecimal(_action["CalcEA1Quantity"].ToString());
+            CalcEA2Quantity = CalcSumToDecimal(_action["CalcEA2Quantity"].ToString());
+            CalcEA3Quantity = CalcSumToDecimal(_action["CalcEA3Quantity"].ToString());
 
-            OriginalAction.Value.CalcUSEQuantityCarry = CalcSumToDecimal(_action["CalcUseQuantityCarry"].ToString());
-            OriginalAction.Value.CalcBUQuantityCarry = CalcSumToDecimal(_action["CalcBUQuantityCarry"].ToString());
-            OriginalAction.Value.CalcEA1QuantityCarry = CalcSumToDecimal(_action["CalcEA1QuantityCarry"].ToString());
-            OriginalAction.Value.CalcEA2QuantityCarry = CalcSumToDecimal(_action["CalcEA2QuantityCarry"].ToString());
-            OriginalAction.Value.CalcEA3QuantityCarry = CalcSumToDecimal(_action["CalcEA3QuantityCarry"].ToString());
+            CalcUSEQuantityCarry = CalcSumToDecimal(_action["CalcUseQuantityCarry"].ToString());
+            CalcBUQuantityCarry = CalcSumToDecimal(_action["CalcBUQuantityCarry"].ToString());
+            CalcEA1QuantityCarry = CalcSumToDecimal(_action["CalcEA1QuantityCarry"].ToString());
+            CalcEA2QuantityCarry = CalcSumToDecimal(_action["CalcEA2QuantityCarry"].ToString());
+            CalcEA3QuantityCarry = CalcSumToDecimal(_action["CalcEA3QuantityCarry"].ToString());
 
-            OriginalAction.Value.CalcUSESaving = CalcSumToDecimal(_action["CalcUseSaving"].ToString());
-            OriginalAction.Value.CalcBUSaving = CalcSumToDecimal(_action["CalcBUSaving"].ToString());
-            OriginalAction.Value.CalcEA1Saving = CalcSumToDecimal(_action["CalcEA1Saving"].ToString());
-            OriginalAction.Value.CalcEA2Saving = CalcSumToDecimal(_action["CalcEA2Saving"].ToString());
-            OriginalAction.Value.CalcEA3Saving = CalcSumToDecimal(_action["CalcEA3Saving"].ToString());
+            CalcUSESaving = CalcSumToDecimal(_action["CalcUseSaving"].ToString());
+            CalcBUSaving = CalcSumToDecimal(_action["CalcBUSaving"].ToString());
+            CalcEA1Saving = CalcSumToDecimal(_action["CalcEA1Saving"].ToString());
+            CalcEA2Saving = CalcSumToDecimal(_action["CalcEA2Saving"].ToString());
+            CalcEA3Saving = CalcSumToDecimal(_action["CalcEA3Saving"].ToString());
 
-            OriginalAction.Value.CalcUSESavingCarry = CalcSumToDecimal(_action["CalcUseSavingCarry"].ToString());
-            OriginalAction.Value.CalcBUSavingCarry = CalcSumToDecimal(_action["CalcBUSavingCarry"].ToString());
-            OriginalAction.Value.CalcEA1SavingCarry = CalcSumToDecimal(_action["CalcEA1SavingCarry"].ToString());
-            OriginalAction.Value.CalcEA2SavingCarry = CalcSumToDecimal(_action["CalcEA2SavingCarry"].ToString());
-            OriginalAction.Value.CalcEA3SavingCarry = CalcSumToDecimal(_action["CalcEA3SavingCarry"].ToString());
+            CalcUSESavingCarry = CalcSumToDecimal(_action["CalcUseSavingCarry"].ToString());
+            CalcBUSavingCarry = CalcSumToDecimal(_action["CalcBUSavingCarry"].ToString());
+            CalcEA1SavingCarry = CalcSumToDecimal(_action["CalcEA1SavingCarry"].ToString());
+            CalcEA2SavingCarry = CalcSumToDecimal(_action["CalcEA2SavingCarry"].ToString());
+            CalcEA3SavingCarry = CalcSumToDecimal(_action["CalcEA3SavingCarry"].ToString());
 
-            OriginalAction.Value.CalcUSEECCC = CalcSumToDecimal(_action["CalcUseECCC"].ToString());
-            OriginalAction.Value.CalcBUECCC = CalcSumToDecimal(_action["CalcBUECCC"].ToString());
-            OriginalAction.Value.CalcEA1ECCC = CalcSumToDecimal(_action["CalcEA1ECCC"].ToString());
-            OriginalAction.Value.CalcEA2ECCC = CalcSumToDecimal(_action["CalcEA2ECCC"].ToString());
-            OriginalAction.Value.CalcEA3ECCC = CalcSumToDecimal(_action["CalcEA3ECCC"].ToString());
+            CalcUSEECCC = CalcSumToDecimal(_action["CalcUseECCC"].ToString());
+            CalcBUECCC = CalcSumToDecimal(_action["CalcBUECCC"].ToString());
+            CalcEA1ECCC = CalcSumToDecimal(_action["CalcEA1ECCC"].ToString());
+            CalcEA2ECCC = CalcSumToDecimal(_action["CalcEA2ECCC"].ToString());
+            CalcEA3ECCC = CalcSumToDecimal(_action["CalcEA3ECCC"].ToString());
 
-            OriginalAction.Value.CalcUSEECCCCarry = CalcSumToDecimal(_action["CalcUseECCCCarry"].ToString());
-            OriginalAction.Value.CalcBUECCCCarry = CalcSumToDecimal(_action["CalcBUECCCCarry"].ToString());
-            OriginalAction.Value.CalcEA1ECCCCarry = CalcSumToDecimal(_action["CalcEA1ECCCCarry"].ToString());
-            OriginalAction.Value.CalcEA2ECCCCarry = CalcSumToDecimal(_action["CalcEA2ECCCCarry"].ToString());
-            OriginalAction.Value.CalcEA3ECCCCarry = CalcSumToDecimal(_action["CalcEA3ECCCCarry"].ToString());
+            CalcUSEECCCCarry = CalcSumToDecimal(_action["CalcUseECCCCarry"].ToString());
+            CalcBUECCCCarry = CalcSumToDecimal(_action["CalcBUECCCCarry"].ToString());
+            CalcEA1ECCCCarry = CalcSumToDecimal(_action["CalcEA1ECCCCarry"].ToString());
+            CalcEA2ECCCCarry = CalcSumToDecimal(_action["CalcEA2ECCCCarry"].ToString());
+            CalcEA3ECCCCarry = CalcSumToDecimal(_action["CalcEA3ECCCCarry"].ToString());
         }
 
         private decimal[] CalcSumToDecimal(string Base)
@@ -520,13 +516,13 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
         {
             if (Year.Length == 4)
             {
-                OriginalAction.Value.StatusYear = "";
-                OriginalAction.Value.StartYear = decimal.Parse(_action["StartYear"].ToString());
+                StatusYear = "";
+                StartYear = decimal.Parse(_action["StartYear"].ToString());
             }
             else
             {
-                OriginalAction.Value.StatusYear = _action["StartYear"].ToString().Substring(0, 2);
-                OriginalAction.Value.StartYear = decimal.Parse(_action["StartYear"].ToString().Substring(3, 4));
+                StatusYear = _action["StartYear"].ToString().Substring(0, 2);
+                StartYear = decimal.Parse(_action["StartYear"].ToString().Substring(3, 4));
             }
         }
     }

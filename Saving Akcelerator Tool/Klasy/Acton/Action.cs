@@ -20,9 +20,9 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
         public string Calculate { get; set; }
         public int IloscANC { get; set; }
         public string[] OldANC { get; set; }
-        public int[] OldANCQ { get; set; }
+        public decimal[] OldANCQ { get; set; }
         public string[] NewANC { get; set; }
-        public int[] NewANCQ { get; set; }
+        public decimal[] NewANCQ { get; set; }
         public DataTable IDCO { get; set; }
         public decimal[] OldSTK { get; set; }
         public decimal[] NewSTK { get; set; }

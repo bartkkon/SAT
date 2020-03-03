@@ -12,15 +12,12 @@ namespace Saving_Accelerator_Tool
 {
     public partial class ReportingOption : Form
     {
-        //Data_Import ImportData;
-        // MainProgram mainProgram;
-
         private readonly Dictionary<string, bool> Preferencje = new Dictionary<string, bool>();
         private readonly Dictionary<string, bool> AkcjeApprove = new Dictionary<string, bool>();
 
-        decimal Year;
+        private decimal Year;
 
-        public ReportingOption(decimal YearToAdd)
+        public ReportingOption()
         {
             InitializeComponent();
 
@@ -28,7 +25,7 @@ namespace Saving_Accelerator_Tool
             TopSummary();
             ((Label)this.Controls.Find("Lab_InfoTop", true).First()).Text = "Personalize your report";
 
-            PersonalizeRaport(YearToAdd);
+            PersonalizeRaport();
         }
 
         //Dodawanie Panelu Top w Oknie.
@@ -64,7 +61,7 @@ namespace Saving_Accelerator_Tool
         }
 
         //Personalizwoanie raportu
-        private void PersonalizeRaport(decimal YearToAdd)
+        private void PersonalizeRaport()
         {
             GroupBox Personalize = new GroupBox
             {
@@ -75,7 +72,7 @@ namespace Saving_Accelerator_Tool
             };
             this.Controls.Add(Personalize);
 
-            Status(Personalize, YearToAdd);
+            Status(Personalize);
 
             Devision(Personalize);
 
@@ -91,11 +88,11 @@ namespace Saving_Accelerator_Tool
 
             ActionDes(Personalize);
 
-            CalcBy(Personalize, YearToAdd);
+            CalcBy(Personalize);
         }
 
         // Wybranie roku i czy akcje mają być z danego roku plus carry over czy nie 
-        private void Status(GroupBox Personalize, decimal YearToCalc)
+        private void Status(GroupBox Personalize)
         {
             GroupBox groupBox = new GroupBox
             {
@@ -122,16 +119,16 @@ namespace Saving_Accelerator_Tool
                 Size = new Size(55, 20),
                 Name = "Num_Year",
                 Maximum = new decimal(new int[] {
-            2100,
-            0,
-            0,
-            0}),
+                    2100,
+                    0,
+                    0,
+                    0 }),
                 Minimum = new decimal(new int[] {
-            2018,
-            0,
-            0,
-            0}),
-                Value = YearToCalc,
+                    2018,
+                    0,
+                    0,
+                    0 }),
+                Value = MainProgram.Self.sdOptions1.GetYear(),
             };
             groupBox.Controls.Add(Year);
 
@@ -655,7 +652,7 @@ namespace Saving_Accelerator_Tool
         }
 
         //Jak mają być brane dane do Kalkulacji
-        private void CalcBy(GroupBox Personalize, decimal YearToCalc)
+        private void CalcBy(GroupBox Personalize)
         {
             GroupBox groupBox = new GroupBox
             {
@@ -726,11 +723,11 @@ namespace Saving_Accelerator_Tool
             EA3.CheckedChanged += new EventHandler(CalcBy_Rewizion_CheckedChange);
             groupBox.Controls.Add(EA3);
 
-            if (YearToCalc > DateTime.Now.Year)
+            if (MainProgram.Self.sdOptions1.GetYear() > DateTime.Now.Year)
             {
                 BU.Checked = true;
             }
-            else if (YearToCalc < DateTime.Now.Year)
+            else if (MainProgram.Self.sdOptions1.GetYear() < DateTime.Now.Year)
             {
                 Actual.Checked = true;
             }

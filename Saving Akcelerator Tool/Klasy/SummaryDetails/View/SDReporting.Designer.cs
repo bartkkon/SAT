@@ -78,6 +78,7 @@
             this.pb_GenerateRaport.Text = "Generate Report";
             this.pb_GenerateRaport.UseVisualStyleBackColor = true;
             this.pb_GenerateRaport.Visible = false;
+            this.pb_GenerateRaport.Click += new System.EventHandler(this.Pb_GenerateRaport_Click);
             // 
             // pb_Approval_Electronic
             // 
