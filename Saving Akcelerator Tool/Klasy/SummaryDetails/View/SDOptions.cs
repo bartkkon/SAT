@@ -172,6 +172,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
             _ = new UpdateOptionsYear((sender as NumericUpDown).Value);
             _ = new LoadAllSummary();
             MainProgram.Self.sdReporting1.UpdateReporting(null);
+            MainProgram.Self.sdReporting2.UpdateReporting(null);
             Cursor.Current = Cursors.Default;
         }
 
@@ -180,6 +181,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.View
             Cursor.Current = Cursors.WaitCursor;
             _ = new LoadAllSummary();
             MainProgram.Self.sdReporting1.UpdateReporting(null);
+            MainProgram.Self.sdReporting2.UpdateReporting(null);
             Cursor.Current = Cursors.Default;
         }
     }

@@ -12,6 +12,11 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
         public LoadAllSummary()
         {
             _ = new SDTableLoad();
+            Charts chart = new Charts(MainProgram.Self.SDSumAllAction.GetChart());
+            chart.ChartSummary();
+            MainProgram.Self.SDSumAllAction.ClearPlanTable();
+            MainProgram.Self.SDSumAllAction.PlanTable();
+            MainProgram.Self.SDSumAllAction.SumPlanTable();
         }
 
     }

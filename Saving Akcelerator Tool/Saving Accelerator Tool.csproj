@@ -416,7 +416,6 @@
     <Compile Include="Klasy\StatisticTab\View\ProductionQuantityView.Designer.cs">
       <DependentUpon>ProductionQuantityView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\SummaryDetails.cs" />
     <Compile Include="Klasy\ModifiActionForm.cs" />
     <Compile Include="Klasy\ModifiActionFormHendler.cs" />
     <Compile Include="Klasy\LogSingleton.cs" />
@@ -463,8 +462,6 @@
     <Compile Include="Klasy\User\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Klasy\STK.cs" />
-    <Compile Include="Klasy\SummaryDetailsForm.cs" />
-    <Compile Include="Klasy\SummaryDetailsFormHendler.cs" />
     <Compile Include="Klasy\STKCalculation.cs" />
     <Compile Include="Klasy\SaveAction.cs" />
     <Compile Include="Formy\ReportingOption.cs">

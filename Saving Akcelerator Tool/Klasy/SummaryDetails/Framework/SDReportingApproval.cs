@@ -54,14 +54,14 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
                 {
                     FrozenRow["MechApp"] = "Approve";
                     MailTo = new SentTo().SentToAdmin();
-                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToReject));
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Mechanic"), new MailInfo().RaportApprove_Devision_Body("Mechanic", ToReject));
                     CheckIfAllDevisionApprove(FrozenRow, ToReject);
                 }
                else if (Devision == "NVR Approve")
                 {
                     FrozenRow["NVRApp"] = "Approve";
                     MailTo = new SentTo().SentToAdmin();
-                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToReject));
+                    SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("NVR"), new MailInfo().RaportApprove_Devision_Body("NVR", ToReject));
                     CheckIfAllDevisionApprove(FrozenRow, ToReject);
                 }
                 else if (Devision == "Product Care Approve")

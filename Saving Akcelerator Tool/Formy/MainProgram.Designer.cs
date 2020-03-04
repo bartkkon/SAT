@@ -46,6 +46,7 @@ namespace Saving_Accelerator_Tool
             this.sdTableAllView = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDTableAllView();
             this.sdOptions1 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDOptions();
             this.tab_SummaryS = new System.Windows.Forms.TabPage();
+            this.SDSumAllAction = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDSumAllAction();
             this.sdOptions2 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDOptions();
             this.tab_Statistic = new System.Windows.Forms.TabPage();
             this.productionQuantityMonthView1 = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityMonthView();
@@ -68,7 +69,7 @@ namespace Saving_Accelerator_Tool
             this.quantityRevAddView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.QuantityRevAddView();
             this.quantityMonthAddView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.QuantityMonthAddView();
             this.tab_AdminAction = new System.Windows.Forms.TabPage();
-            this.SDSumAllAction = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDSumAllAction();
+            this.sdReporting2 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDReporting();
             this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -83,7 +84,7 @@ namespace Saving_Accelerator_Tool
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1001);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1005);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1920, 22);
             this.statusStrip1.TabIndex = 0;
@@ -200,6 +201,7 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_SummaryS
             // 
+            this.tab_SummaryS.Controls.Add(this.sdReporting2);
             this.tab_SummaryS.Controls.Add(this.SDSumAllAction);
             this.tab_SummaryS.Controls.Add(this.sdOptions2);
             this.tab_SummaryS.Location = new System.Drawing.Point(4, 22);
@@ -208,6 +210,13 @@ namespace Saving_Accelerator_Tool
             this.tab_SummaryS.TabIndex = 2;
             this.tab_SummaryS.Text = "Summary";
             this.tab_SummaryS.UseVisualStyleBackColor = true;
+            // 
+            // SDSumAllAction
+            // 
+            this.SDSumAllAction.Location = new System.Drawing.Point(210, 3);
+            this.SDSumAllAction.Name = "SDSumAllAction";
+            this.SDSumAllAction.Size = new System.Drawing.Size(1600, 970);
+            this.SDSumAllAction.TabIndex = 1;
             // 
             // sdOptions2
             // 
@@ -390,12 +399,12 @@ namespace Saving_Accelerator_Tool
             this.tab_AdminAction.Text = "Action Admin";
             this.tab_AdminAction.UseVisualStyleBackColor = true;
             // 
-            // SDSumAllAction
+            // sdReporting2
             // 
-            this.SDSumAllAction.Location = new System.Drawing.Point(210, 3);
-            this.SDSumAllAction.Name = "SDSumAllAction";
-            this.SDSumAllAction.Size = new System.Drawing.Size(1600, 970);
-            this.SDSumAllAction.TabIndex = 1;
+            this.sdReporting2.Location = new System.Drawing.Point(8, 692);
+            this.sdReporting2.Name = "sdReporting2";
+            this.sdReporting2.Size = new System.Drawing.Size(200, 279);
+            this.sdReporting2.TabIndex = 2;
             // 
             // MainProgram
             // 
@@ -464,6 +473,7 @@ namespace Saving_Accelerator_Tool
         public Klasy.SummaryDetails.View.SDTableAllView sdTableAllView;
         public Klasy.SummaryDetails.View.SDReporting sdReporting1;
         public Klasy.SummaryDetails.View.SDSumAllAction SDSumAllAction;
+        public Klasy.SummaryDetails.View.SDReporting sdReporting2;
 
         public TabControl TabControl { get => tabControl; set => tabControl = value; }
 

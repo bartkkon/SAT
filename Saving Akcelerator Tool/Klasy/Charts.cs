@@ -12,11 +12,10 @@ namespace Saving_Accelerator_Tool
 {
     class Charts
     {
-        MainProgram mainProgram;
-
-        public Charts(MainProgram mainProgram)
+        private readonly Chart ChartSum;
+        public Charts(Chart _ChartSummary)
         {
-            this.mainProgram = mainProgram;
+            ChartSum = _ChartSummary;
         }
 
         public void Charts_AddSeries()
@@ -26,32 +25,14 @@ namespace Saving_Accelerator_Tool
 
         public void ChartSummary()
         {
-            string[] xValues = new[]
-            {
-                "I",
-                "II",
-                "III",
-                "IV",
-                "V",
-                "VI",
-                "VII",
-                "VIII",
-                "IX",
-                "X",
-                "XI",
-                "XII",
-            };
 
-            GroupBox Gb_Summary = (GroupBox)mainProgram.Controls.Find("gb_ShowActionSum", true).First();
+            ChartSum.Legends.Clear();
+            ChartSum.Legends.Add(new Legend("Expenses"));
+            ChartSum.Legends[0].TableStyle = LegendTableStyle.Auto;
+            ChartSum.Legends[0].Docking = Docking.Right;
+            ChartSum.Legends[0].Alignment = StringAlignment.Center;
 
-            Chart ChartSummary = new Chart();
-            ChartSummary.Size = new Size(1400, 280);
-            ChartSummary.Name = "ChartSummary";
-            ChartSummary.Location = new Point(260, 700);
-            ChartSummary.Legends.Add(new Legend("Expenses"));
-            ChartSummary.Legends[0].TableStyle = LegendTableStyle.Auto;
-            ChartSummary.Legends[0].Docking = Docking.Right;
-            ChartSummary.Legends[0].Alignment = StringAlignment.Center;
+            ChartSum.ChartAreas.Clear();
 
             ChartArea ChartAreaSummary = new ChartArea();
             ChartAreaSummary.AxisX.MajorGrid.LineColor = Color.LightGray;
@@ -62,95 +43,102 @@ namespace Saving_Accelerator_Tool
             ChartAreaSummary.AxisX.Title = "Months";
             ChartAreaSummary.AxisY.Title = "Savings [kPLN]";
 
-            ChartSummary.ChartAreas.Add(ChartAreaSummary);
-            Gb_Summary.Controls.Add(ChartSummary);
-            ChartSummary.Invalidate();
+            ChartSum.ChartAreas.Add(ChartAreaSummary);
+            ChartSum.Invalidate();
 
             AddSeries();
-            ((GroupBox)mainProgram.Controls.Find("Gb_ChartFilters", true).First()).Enabled = true;
         }
 
         private void AddSeries()
         {
-            Chart ChartSummary = (Chart)mainProgram.TabControl.Controls.Find("ChartSummary", true).First();
             bool CurrentYear = false;
             bool CarryOver = false;
             bool ECCC = false;
             string[] xValues = new[] { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", };
 
-            ChartSummary.Series.Clear();
+            ChartSum.Series.Clear();
 
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_CurrentAction", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartActual())
             {
                 CurrentYear = true;
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_CarryOver", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartCarrOver())
             {
                 CarryOver = true;
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_ECCC", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartECCC())
             {
                 ECCC = true;
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_USE", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartUse())
             {
                 decimal[] USE = Summ_AllActionFromGrid("USE", CurrentYear, CarryOver, ECCC);
-                Series Series0 = new Series();
-                Series0.Name = "USE";
-                Series0.LegendText = "USE";
-                Series0.ChartType = SeriesChartType.Column;
-                Series0.XValueType = ChartValueType.String;
-                Series0.YValueType = ChartValueType.Int32;
-                ChartSummary.Series.Add(Series0);
-                ChartSummary.Series["USE"].Points.DataBindXY(xValues, USE);
+                Series Series0 = new Series
+                {
+                    Name = "USE",
+                    LegendText = "USE",
+                    ChartType = SeriesChartType.Column,
+                    XValueType = ChartValueType.String,
+                    YValueType = ChartValueType.Int32
+                };
+                ChartSum.Series.Add(Series0);
+                ChartSum.Series["USE"].Points.DataBindXY(xValues, USE);
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_EA3", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartEA3())
             {
                 decimal[] EA3 = Summ_AllActionFromGrid("EA3", CurrentYear, CarryOver, ECCC);
-                Series Series1 = new Series();
-                Series1.Name = "EA3";
-                Series1.LegendText = "EA3";
-                Series1.ChartType = SeriesChartType.Column;
-                Series1.XValueType = ChartValueType.String;
-                Series1.YValueType = ChartValueType.Int32;
-                ChartSummary.Series.Add(Series1);
-                ChartSummary.Series["EA3"].Points.DataBindXY(xValues, EA3);
+                Series Series1 = new Series
+                {
+                    Name = "EA3",
+                    LegendText = "EA3",
+                    ChartType = SeriesChartType.Column,
+                    XValueType = ChartValueType.String,
+                    YValueType = ChartValueType.Int32
+                };
+                ChartSum.Series.Add(Series1);
+                ChartSum.Series["EA3"].Points.DataBindXY(xValues, EA3);
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_EA2", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartEA2())
             {
                 decimal[] EA2 = Summ_AllActionFromGrid("EA2", CurrentYear, CarryOver, ECCC);
-                Series Series3 = new Series();
-                Series3.Name = "EA2";
-                Series3.LegendText = "EA2";
-                Series3.ChartType = SeriesChartType.Column;
-                Series3.XValueType = ChartValueType.String;
-                Series3.YValueType = ChartValueType.Int32;
-                ChartSummary.Series.Add(Series3);
-                ChartSummary.Series["EA2"].Points.DataBindXY(xValues, EA2);
+                Series Series3 = new Series
+                {
+                    Name = "EA2",
+                    LegendText = "EA2",
+                    ChartType = SeriesChartType.Column,
+                    XValueType = ChartValueType.String,
+                    YValueType = ChartValueType.Int32
+                };
+                ChartSum.Series.Add(Series3);
+                ChartSum.Series["EA2"].Points.DataBindXY(xValues, EA2);
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_EA1", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartEA1())
             {
                 decimal[] EA1 = Summ_AllActionFromGrid("EA1", CurrentYear, CarryOver, ECCC);
-                Series Series2 = new Series();
-                Series2.Name = "EA1";
-                Series2.LegendText = "EA1";
-                Series2.ChartType = SeriesChartType.Column;
-                Series2.XValueType = ChartValueType.String;
-                Series2.YValueType = ChartValueType.Int32;
-                ChartSummary.Series.Add(Series2);
-                ChartSummary.Series["EA1"].Points.DataBindXY(xValues, EA1);
+                Series Series2 = new Series
+                {
+                    Name = "EA1",
+                    LegendText = "EA1",
+                    ChartType = SeriesChartType.Column,
+                    XValueType = ChartValueType.String,
+                    YValueType = ChartValueType.Int32
+                };
+                ChartSum.Series.Add(Series2);
+                ChartSum.Series["EA1"].Points.DataBindXY(xValues, EA1);
             }
-            if (((CheckBox)mainProgram.Controls.Find("Cb_ChartFilters_BU", true).First()).Checked)
+            if (MainProgram.Self.SDSumAllAction.ChartBU())
             {
                 decimal[] BU = Summ_AllActionFromGrid("BU", CurrentYear, CarryOver, ECCC);
-                Series Series1 = new Series();
-                Series1.Name = "BU";
-                Series1.LegendText = "BU";
-                Series1.ChartType = SeriesChartType.Column;
-                Series1.XValueType = ChartValueType.String;
-                Series1.YValueType = ChartValueType.Int32;
-                ChartSummary.Series.Add(Series1);
-                ChartSummary.Series["BU"].Points.DataBindXY(xValues, BU);
+                Series Series1 = new Series
+                {
+                    Name = "BU",
+                    LegendText = "BU",
+                    ChartType = SeriesChartType.Column,
+                    XValueType = ChartValueType.String,
+                    YValueType = ChartValueType.Int32
+                };
+                ChartSum.Series.Add(Series1);
+                ChartSum.Series["BU"].Points.DataBindXY(xValues, BU);
             }
         }
 
@@ -162,9 +150,9 @@ namespace Saving_Accelerator_Tool
             DataGridViewRow TableCarryRow;
             DataGridViewRow TableECCCRow;
 
-            DataGridView Dg_CurrentYear = (DataGridView)mainProgram.TabControl.Controls.Find("dg_SavingSum", true).First();
-            DataGridView Dg_CarryOver = (DataGridView)mainProgram.TabControl.Controls.Find("dg_CarryOverSum", true).First();
-            DataGridView Dg_ECCC = (DataGridView)mainProgram.TabControl.Controls.Find("dg_ECCCSum", true).First();
+            DataGridView Dg_CurrentYear = MainProgram.Self.SDSumAllAction.GetActual();
+            DataGridView Dg_CarryOver = MainProgram.Self.SDSumAllAction.GetCarryOver();
+            DataGridView Dg_ECCC = MainProgram.Self.SDSumAllAction.GetECCC();
 
             if (Rewizion == "BU")
             {
@@ -195,31 +183,40 @@ namespace Saving_Accelerator_Tool
             {
                 if (CurrentYear)
                 {
-                    string Current = TableCurrentRow.Cells[counter.ToString()].Value.ToString();
-                    if (Current != "")
+                    if (TableCurrentRow.Cells[counter.ToString()].Value != null)
                     {
+                        string Current = TableCurrentRow.Cells[counter.ToString()].Value.ToString();
+                        if (Current != "")
+                        {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Current)/1000;
+                            Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Current) / 1000;
+                        }
                     }
                 }
 
                 if (CarryOver)
                 {
-                    string Carry = TableCarryRow.Cells[counter.ToString()].Value.ToString();
-                    if (Carry != "")
+                    if (TableCarryRow.Cells[counter.ToString()].Value != null)
                     {
+                        string Carry = TableCarryRow.Cells[counter.ToString()].Value.ToString();
+                        if (Carry != "")
+                        {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Carry)/1000;
+                            Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(Carry) / 1000;
+                        }
                     }
                 }
 
                 if (ECCC)
                 {
-                    string ECCCTab = TableECCCRow.Cells[counter.ToString()].Value.ToString();
-                    if (ECCCTab != "")
+                    if (TableECCCRow.Cells[counter.ToString()].Value != null)
                     {
+                        string ECCCTab = TableECCCRow.Cells[counter.ToString()].Value.ToString();
+                        if (ECCCTab != "")
+                        {
 
-                        Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(ECCCTab)/1000;
+                            Sum[counter - 1] = Sum[counter - 1] + decimal.Parse(ECCCTab) / 1000;
+                        }
                     }
                 }
             }

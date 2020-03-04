@@ -69,6 +69,7 @@ namespace Saving_Accelerator_Tool
                 mainFilter.InitializeData();
                 actionView.stateView.InitializeData();
                 actionView.SavingsTable.InitializeData();
+                actionView.ButtonsView.InitializeData();
                 _ = new ClearForm();
                 _ = new ActionVerificationEnabled(false);
             }
@@ -84,6 +85,7 @@ namespace Saving_Accelerator_Tool
                 sdOptions2.InitiazlizeData();
                 sdTableAllView.InitializeData();
                 sdReporting1.InitializeData();
+                sdReporting2.InitializeData();
                 SDSumAllAction.InitializeData();
             }
             else

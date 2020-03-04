@@ -16,11 +16,11 @@ namespace Saving_Accelerator_Tool
 {
     class BuildForm
     {
-        public BuildForm(SummaryDetails summaryDetails)
+        public BuildForm()
         {
-            Tab_Control_Add(summaryDetails);
+            Tab_Control_Add();
         }
-        public void Tab_Control_Add(SummaryDetails summaryDetails)
+        public void Tab_Control_Add()
         {
             Users User = Users.Singleton;
             
@@ -47,34 +47,34 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_SummaryDetail
             // 
-            if (User.SummaryTab)
-            {
-                TabPage tab_SummaryDetail = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_Summary",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 1,
-                    Text = "Summary Detail",
-                    UseVisualStyleBackColor = true
-                };
+            //if (User.SummaryTab)
+            //{
+            //    TabPage tab_SummaryDetail = new TabPage
+            //    {
+            //        Location = new System.Drawing.Point(4, 22),
+            //        Name = "tab_Summary",
+            //        Size = new System.Drawing.Size(1826, 877),
+            //        TabIndex = 1,
+            //        Text = "Summary Detail",
+            //        UseVisualStyleBackColor = true
+            //    };
 
-                MainProgram.Self.TabControl.Controls.Add(tab_SummaryDetail);
+            //    MainProgram.Self.TabControl.Controls.Add(tab_SummaryDetail);
             
-                TabPage tab_Summary = new TabPage
-                {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tab_SummaryS",
-                    Size = new System.Drawing.Size(1826, 877),
-                    TabIndex = 2,
-                    Text = "Summary",
-                    UseVisualStyleBackColor = true
-                };
+            //    TabPage tab_Summary = new TabPage
+            //    {
+            //        Location = new System.Drawing.Point(4, 22),
+            //        Name = "tab_SummaryS",
+            //        Size = new System.Drawing.Size(1826, 877),
+            //        TabIndex = 2,
+            //        Text = "Summary",
+            //        UseVisualStyleBackColor = true
+            //    };
 
-                MainProgram.Self.TabControl.Controls.Add(tab_Summary);
-                _ = new SummaryDetailsForm(summaryDetails);
+            //    MainProgram.Self.TabControl.Controls.Add(tab_Summary);
+            //   // _ = new SummaryDetailsForm(summaryDetails);
 
-            }
+            //}
 
             //
             // Tab Statistic- dane statystyczne
