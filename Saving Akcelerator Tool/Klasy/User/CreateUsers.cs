@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Controllers.AdminTab;
+using Saving_Accelerator_Tool.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,37 +11,35 @@ namespace Saving_Accelerator_Tool.Klasy.User
 {
     class CreateUsers
     {
-        public CreateUsers(DataTable UserDataFromBase)
+        public CreateUsers(Users users, string UserLogin)
         {
-            DataRow Person = UserDataFromBase.Rows[0];
-            
-            Users NewUser = Users.Singleton;
+            UserDB BaseUser = AddPersonController.ReturnUser(UserLogin);
 
-            NewUser.Login = Person["Name"].ToString();
-            NewUser.Name = Person["FullName"].ToString();
-            NewUser.Role = Person["Role"].ToString();
+            users.Login = BaseUser.Login;
+            users.Name = BaseUser.Name;
+            users.Role = BaseUser.Role;
+            users.Mail = BaseUser.Mail;
 
             //Taby
-            NewUser.ActionTab = bool.Parse(Person["tab_Action"].ToString());
-            NewUser.SummaryTab = bool.Parse(Person["tab_Summary"].ToString());
-            NewUser.STKTab = bool.Parse(Person["tab_STK"].ToString());
-            NewUser.QuantityTab = bool.Parse(Person["tab_Quantity"].ToString());
-            NewUser.AdminTab = bool.Parse(Person["tab_Admin"].ToString());
-            NewUser.StatisticTab = bool.Parse(Person["tab_Statistic"].ToString());
-            NewUser.PlatformTab = bool.Parse(Person["tab_Platform"].ToString());
+            users.ActionTab = BaseUser.ActionTab;
+            users.SummaryTab = BaseUser.SummaryTab;
+            users.STKTab = BaseUser.STKTab;
+            users.QuantityTab = BaseUser.QuantityTab;
+            users.AdminTab = BaseUser.AdminTab;
+            users.StatisticTab = BaseUser.StatisticTab;
+            users.PlatformTab = BaseUser.PlatformTab;
 
             //Ustawienia dla Action
-            NewUser.Action = Person["Action"].ToString();
-            NewUser.ActionEle = bool.Parse(Person["ActionEle"].ToString());
-            NewUser.ActionMech = bool.Parse(Person["ActionMech"].ToString());
-            NewUser.ActionNVR = bool.Parse(Person["ActionNVR"].ToString());
-            
+            users.Action = BaseUser.Action;
+            users.ActionEle = BaseUser.ActionEle;
+            users.ActionMech = BaseUser.ActionMech;
+            users.ActionNVR = BaseUser.ActionNVR;
+
             //Ustawienia dla Approvali
-            NewUser.ElectronicApprove = bool.Parse(Person["EleApprove"].ToString());
-            NewUser.MechanicApprove = bool.Parse(Person["MechApprove"].ToString());
-            NewUser.NVRApprove = bool.Parse(Person["NVRApprove"].ToString());
-            NewUser.PCApprove = bool.Parse(Person["PCApprove"].ToString());
-            
+            users.ElectronicApprove = BaseUser.ElectronicApprove;
+            users.MechanicApprove = BaseUser.MechanicApprove;
+            users.NVRApprove = BaseUser.NVRApprove;
+            users.PCApprove = BaseUser.PCApprove;
         }
     }
 }

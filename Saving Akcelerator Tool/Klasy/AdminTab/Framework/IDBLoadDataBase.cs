@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using Data = System.Data;
+using DataSystem = System.Data;
 
 namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
 {
     public class IDBLoadDataBase
     {
-        private Data.DataTable IDB;
+        private DataSystem.DataTable IDB;
         private readonly Data_Import _Import;
 
 
@@ -103,7 +103,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
 
             for(int rows = 1; rows<rowCount; rows++)
             {
-                Data.DataRow NewRow = IDB.NewRow();
+                DataSystem.DataRow NewRow = IDB.NewRow();
                 for(int column = 1; column< colCount; column++)
                 {
                     NewRow[column-1] = ArryRow[rows, column];
@@ -119,7 +119,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
         /// <param name="colCount"> Ilość Kolumn</param>
         private void CreateColum(Worksheet worksheet, int colCount)
         {
-            IDB = new Data.DataTable();
+            IDB = new DataSystem.DataTable();
             for (int counter = 1; counter < colCount; counter++)
             {
                 IDB.Columns.Add(worksheet.Cells[1, counter].Value.ToString(), typeof(String));

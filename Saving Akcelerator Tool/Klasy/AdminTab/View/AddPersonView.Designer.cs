@@ -29,6 +29,21 @@
         private void InitializeComponent()
         {
             this.gb_AdminAcces = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cb_AdminNVR = new System.Windows.Forms.CheckBox();
+            this.cb_AdminMechanic = new System.Windows.Forms.CheckBox();
+            this.cb_AdminElectronic = new System.Windows.Forms.CheckBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.pb_Admin_DelateAccount = new System.Windows.Forms.Button();
+            this.pb_Admin_AddNewAccount = new System.Windows.Forms.Button();
+            this.TB_Admin_NewAccount = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pb_Admin_AccessSave = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cb_Admin_RapPC = new System.Windows.Forms.CheckBox();
+            this.cb_Admin_RapNVR = new System.Windows.Forms.CheckBox();
+            this.cb_Admin_RapMech = new System.Windows.Forms.CheckBox();
+            this.cb_Admin_RapEle = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cb_AdminTabAdmin = new System.Windows.Forms.CheckBox();
             this.cb_AdminTabQuantity = new System.Windows.Forms.CheckBox();
@@ -49,29 +64,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comBox_AdminAccess = new System.Windows.Forms.ComboBox();
             this.pb_Admin_AccessRefresh = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cb_Admin_RapEle = new System.Windows.Forms.CheckBox();
-            this.cb_Admin_RapMech = new System.Windows.Forms.CheckBox();
-            this.cb_Admin_RapNVR = new System.Windows.Forms.CheckBox();
-            this.cb_Admin_RapPC = new System.Windows.Forms.CheckBox();
-            this.pb_Admin_AccessSave = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.TB_Admin_NewAccount = new System.Windows.Forms.TextBox();
-            this.pb_Admin_AddNewAccount = new System.Windows.Forms.Button();
-            this.pb_Admin_DelateAccount = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cb_AdminElectronic = new System.Windows.Forms.CheckBox();
-            this.cb_AdminMechanic = new System.Windows.Forms.CheckBox();
-            this.cb_AdminNVR = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.gb_AdminAcces.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_AdminAcces
@@ -92,6 +92,161 @@
             this.gb_AdminAcces.TabIndex = 0;
             this.gb_AdminAcces.TabStop = false;
             this.gb_AdminAcces.Text = "Access:";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cb_AdminNVR);
+            this.groupBox5.Controls.Add(this.cb_AdminMechanic);
+            this.groupBox5.Controls.Add(this.cb_AdminElectronic);
+            this.groupBox5.Location = new System.Drawing.Point(13, 208);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(373, 46);
+            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Devision:";
+            // 
+            // cb_AdminNVR
+            // 
+            this.cb_AdminNVR.AutoSize = true;
+            this.cb_AdminNVR.Location = new System.Drawing.Point(273, 19);
+            this.cb_AdminNVR.Name = "cb_AdminNVR";
+            this.cb_AdminNVR.Size = new System.Drawing.Size(49, 17);
+            this.cb_AdminNVR.TabIndex = 2;
+            this.cb_AdminNVR.Text = "NVR";
+            this.cb_AdminNVR.UseVisualStyleBackColor = true;
+            // 
+            // cb_AdminMechanic
+            // 
+            this.cb_AdminMechanic.AutoSize = true;
+            this.cb_AdminMechanic.Location = new System.Drawing.Point(138, 19);
+            this.cb_AdminMechanic.Name = "cb_AdminMechanic";
+            this.cb_AdminMechanic.Size = new System.Drawing.Size(73, 17);
+            this.cb_AdminMechanic.TabIndex = 1;
+            this.cb_AdminMechanic.Text = "Mechanic";
+            this.cb_AdminMechanic.UseVisualStyleBackColor = true;
+            // 
+            // cb_AdminElectronic
+            // 
+            this.cb_AdminElectronic.AutoSize = true;
+            this.cb_AdminElectronic.Location = new System.Drawing.Point(13, 19);
+            this.cb_AdminElectronic.Name = "cb_AdminElectronic";
+            this.cb_AdminElectronic.Size = new System.Drawing.Size(73, 17);
+            this.cb_AdminElectronic.TabIndex = 0;
+            this.cb_AdminElectronic.Text = "Electronic";
+            this.cb_AdminElectronic.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.pb_Admin_DelateAccount);
+            this.groupBox6.Controls.Add(this.pb_Admin_AddNewAccount);
+            this.groupBox6.Controls.Add(this.TB_Admin_NewAccount);
+            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Location = new System.Drawing.Point(14, 402);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(371, 92);
+            this.groupBox6.TabIndex = 8;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Account";
+            // 
+            // pb_Admin_DelateAccount
+            // 
+            this.pb_Admin_DelateAccount.Location = new System.Drawing.Point(234, 52);
+            this.pb_Admin_DelateAccount.Name = "pb_Admin_DelateAccount";
+            this.pb_Admin_DelateAccount.Size = new System.Drawing.Size(122, 26);
+            this.pb_Admin_DelateAccount.TabIndex = 3;
+            this.pb_Admin_DelateAccount.Text = "Delete Account";
+            this.pb_Admin_DelateAccount.UseVisualStyleBackColor = true;
+            this.pb_Admin_DelateAccount.Click += new System.EventHandler(this.Pb_Admin_DeleteAccount_Click);
+            // 
+            // pb_Admin_AddNewAccount
+            // 
+            this.pb_Admin_AddNewAccount.Location = new System.Drawing.Point(234, 19);
+            this.pb_Admin_AddNewAccount.Name = "pb_Admin_AddNewAccount";
+            this.pb_Admin_AddNewAccount.Size = new System.Drawing.Size(122, 26);
+            this.pb_Admin_AddNewAccount.TabIndex = 2;
+            this.pb_Admin_AddNewAccount.Text = "Create New Account";
+            this.pb_Admin_AddNewAccount.UseVisualStyleBackColor = true;
+            this.pb_Admin_AddNewAccount.Click += new System.EventHandler(this.Pb_Admin_AddNewAccount_Click);
+            // 
+            // TB_Admin_NewAccount
+            // 
+            this.TB_Admin_NewAccount.Location = new System.Drawing.Point(101, 27);
+            this.TB_Admin_NewAccount.Name = "TB_Admin_NewAccount";
+            this.TB_Admin_NewAccount.Size = new System.Drawing.Size(100, 20);
+            this.TB_Admin_NewAccount.TabIndex = 1;
+            this.TB_Admin_NewAccount.Leave += new System.EventHandler(this.TB_Admin_NewAccount_Leave);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Biz Account:";
+            // 
+            // pb_Admin_AccessSave
+            // 
+            this.pb_Admin_AccessSave.Location = new System.Drawing.Point(312, 18);
+            this.pb_Admin_AccessSave.Name = "pb_Admin_AccessSave";
+            this.pb_Admin_AccessSave.Size = new System.Drawing.Size(73, 26);
+            this.pb_Admin_AccessSave.TabIndex = 6;
+            this.pb_Admin_AccessSave.Text = "Save";
+            this.pb_Admin_AccessSave.UseVisualStyleBackColor = true;
+            this.pb_Admin_AccessSave.Click += new System.EventHandler(this.Pb_Admin_AccessSave_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cb_Admin_RapPC);
+            this.groupBox4.Controls.Add(this.cb_Admin_RapNVR);
+            this.groupBox4.Controls.Add(this.cb_Admin_RapMech);
+            this.groupBox4.Controls.Add(this.cb_Admin_RapEle);
+            this.groupBox4.Location = new System.Drawing.Point(14, 348);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(372, 48);
+            this.groupBox4.TabIndex = 5;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Raporting:";
+            // 
+            // cb_Admin_RapPC
+            // 
+            this.cb_Admin_RapPC.AutoSize = true;
+            this.cb_Admin_RapPC.Location = new System.Drawing.Point(272, 19);
+            this.cb_Admin_RapPC.Name = "cb_Admin_RapPC";
+            this.cb_Admin_RapPC.Size = new System.Drawing.Size(88, 17);
+            this.cb_Admin_RapPC.TabIndex = 3;
+            this.cb_Admin_RapPC.Text = "Product Care";
+            this.cb_Admin_RapPC.UseVisualStyleBackColor = true;
+            // 
+            // cb_Admin_RapNVR
+            // 
+            this.cb_Admin_RapNVR.AutoSize = true;
+            this.cb_Admin_RapNVR.Location = new System.Drawing.Point(187, 19);
+            this.cb_Admin_RapNVR.Name = "cb_Admin_RapNVR";
+            this.cb_Admin_RapNVR.Size = new System.Drawing.Size(49, 17);
+            this.cb_Admin_RapNVR.TabIndex = 2;
+            this.cb_Admin_RapNVR.Text = "NVR";
+            this.cb_Admin_RapNVR.UseVisualStyleBackColor = true;
+            // 
+            // cb_Admin_RapMech
+            // 
+            this.cb_Admin_RapMech.AutoSize = true;
+            this.cb_Admin_RapMech.Location = new System.Drawing.Point(92, 19);
+            this.cb_Admin_RapMech.Name = "cb_Admin_RapMech";
+            this.cb_Admin_RapMech.Size = new System.Drawing.Size(73, 17);
+            this.cb_Admin_RapMech.TabIndex = 1;
+            this.cb_Admin_RapMech.Text = "Mechanic";
+            this.cb_Admin_RapMech.UseVisualStyleBackColor = true;
+            // 
+            // cb_Admin_RapEle
+            // 
+            this.cb_Admin_RapEle.AutoSize = true;
+            this.cb_Admin_RapEle.Location = new System.Drawing.Point(7, 19);
+            this.cb_Admin_RapEle.Name = "cb_Admin_RapEle";
+            this.cb_Admin_RapEle.Size = new System.Drawing.Size(73, 17);
+            this.cb_Admin_RapEle.TabIndex = 0;
+            this.cb_Admin_RapEle.Text = "Electronic";
+            this.cb_Admin_RapEle.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -256,6 +411,7 @@
             this.Tb_AdminAccess_Email.Name = "Tb_AdminAccess_Email";
             this.Tb_AdminAccess_Email.Size = new System.Drawing.Size(215, 20);
             this.Tb_AdminAccess_Email.TabIndex = 3;
+            this.Tb_AdminAccess_Email.Leave += new System.EventHandler(this.Tb_AdminAccess_Email_Leave);
             // 
             // Tb_AdminAccessFullName
             // 
@@ -301,160 +457,6 @@
             this.pb_Admin_AccessRefresh.UseVisualStyleBackColor = true;
             this.pb_Admin_AccessRefresh.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Pb_Admin_AccessRefresh_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.cb_Admin_RapPC);
-            this.groupBox4.Controls.Add(this.cb_Admin_RapNVR);
-            this.groupBox4.Controls.Add(this.cb_Admin_RapMech);
-            this.groupBox4.Controls.Add(this.cb_Admin_RapEle);
-            this.groupBox4.Location = new System.Drawing.Point(14, 348);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(372, 48);
-            this.groupBox4.TabIndex = 5;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Raporting:";
-            // 
-            // cb_Admin_RapEle
-            // 
-            this.cb_Admin_RapEle.AutoSize = true;
-            this.cb_Admin_RapEle.Location = new System.Drawing.Point(7, 19);
-            this.cb_Admin_RapEle.Name = "cb_Admin_RapEle";
-            this.cb_Admin_RapEle.Size = new System.Drawing.Size(73, 17);
-            this.cb_Admin_RapEle.TabIndex = 0;
-            this.cb_Admin_RapEle.Text = "Electronic";
-            this.cb_Admin_RapEle.UseVisualStyleBackColor = true;
-            // 
-            // cb_Admin_RapMech
-            // 
-            this.cb_Admin_RapMech.AutoSize = true;
-            this.cb_Admin_RapMech.Location = new System.Drawing.Point(92, 19);
-            this.cb_Admin_RapMech.Name = "cb_Admin_RapMech";
-            this.cb_Admin_RapMech.Size = new System.Drawing.Size(73, 17);
-            this.cb_Admin_RapMech.TabIndex = 1;
-            this.cb_Admin_RapMech.Text = "Mechanic";
-            this.cb_Admin_RapMech.UseVisualStyleBackColor = true;
-            // 
-            // cb_Admin_RapNVR
-            // 
-            this.cb_Admin_RapNVR.AutoSize = true;
-            this.cb_Admin_RapNVR.Location = new System.Drawing.Point(187, 19);
-            this.cb_Admin_RapNVR.Name = "cb_Admin_RapNVR";
-            this.cb_Admin_RapNVR.Size = new System.Drawing.Size(49, 17);
-            this.cb_Admin_RapNVR.TabIndex = 2;
-            this.cb_Admin_RapNVR.Text = "NVR";
-            this.cb_Admin_RapNVR.UseVisualStyleBackColor = true;
-            // 
-            // cb_Admin_RapPC
-            // 
-            this.cb_Admin_RapPC.AutoSize = true;
-            this.cb_Admin_RapPC.Location = new System.Drawing.Point(272, 19);
-            this.cb_Admin_RapPC.Name = "cb_Admin_RapPC";
-            this.cb_Admin_RapPC.Size = new System.Drawing.Size(88, 17);
-            this.cb_Admin_RapPC.TabIndex = 3;
-            this.cb_Admin_RapPC.Text = "Product Care";
-            this.cb_Admin_RapPC.UseVisualStyleBackColor = true;
-            // 
-            // pb_Admin_AccessSave
-            // 
-            this.pb_Admin_AccessSave.Location = new System.Drawing.Point(312, 18);
-            this.pb_Admin_AccessSave.Name = "pb_Admin_AccessSave";
-            this.pb_Admin_AccessSave.Size = new System.Drawing.Size(73, 26);
-            this.pb_Admin_AccessSave.TabIndex = 6;
-            this.pb_Admin_AccessSave.Text = "Save";
-            this.pb_Admin_AccessSave.UseVisualStyleBackColor = true;
-            this.pb_Admin_AccessSave.Click += new System.EventHandler(this.Pb_Admin_AccessSave_Click);
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.pb_Admin_DelateAccount);
-            this.groupBox6.Controls.Add(this.pb_Admin_AddNewAccount);
-            this.groupBox6.Controls.Add(this.TB_Admin_NewAccount);
-            this.groupBox6.Controls.Add(this.label4);
-            this.groupBox6.Location = new System.Drawing.Point(14, 402);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(371, 92);
-            this.groupBox6.TabIndex = 8;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Account";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 30);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Biz Account:";
-            // 
-            // TB_Admin_NewAccount
-            // 
-            this.TB_Admin_NewAccount.Location = new System.Drawing.Point(101, 27);
-            this.TB_Admin_NewAccount.Name = "TB_Admin_NewAccount";
-            this.TB_Admin_NewAccount.Size = new System.Drawing.Size(100, 20);
-            this.TB_Admin_NewAccount.TabIndex = 1;
-            // 
-            // pb_Admin_AddNewAccount
-            // 
-            this.pb_Admin_AddNewAccount.Location = new System.Drawing.Point(234, 19);
-            this.pb_Admin_AddNewAccount.Name = "pb_Admin_AddNewAccount";
-            this.pb_Admin_AddNewAccount.Size = new System.Drawing.Size(122, 26);
-            this.pb_Admin_AddNewAccount.TabIndex = 2;
-            this.pb_Admin_AddNewAccount.Text = "Create New Account";
-            this.pb_Admin_AddNewAccount.UseVisualStyleBackColor = true;
-            this.pb_Admin_AddNewAccount.Click += new System.EventHandler(this.Pb_Admin_AddNewAccount_Click);
-            // 
-            // pb_Admin_DelateAccount
-            // 
-            this.pb_Admin_DelateAccount.Location = new System.Drawing.Point(234, 52);
-            this.pb_Admin_DelateAccount.Name = "pb_Admin_DelateAccount";
-            this.pb_Admin_DelateAccount.Size = new System.Drawing.Size(122, 26);
-            this.pb_Admin_DelateAccount.TabIndex = 3;
-            this.pb_Admin_DelateAccount.Text = "Delete Account";
-            this.pb_Admin_DelateAccount.UseVisualStyleBackColor = true;
-            this.pb_Admin_DelateAccount.Click += new System.EventHandler(this.Pb_Admin_DeleteAccount_Click);
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cb_AdminNVR);
-            this.groupBox5.Controls.Add(this.cb_AdminMechanic);
-            this.groupBox5.Controls.Add(this.cb_AdminElectronic);
-            this.groupBox5.Location = new System.Drawing.Point(13, 208);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(373, 46);
-            this.groupBox5.TabIndex = 9;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Devision:";
-            // 
-            // cb_AdminElectronic
-            // 
-            this.cb_AdminElectronic.AutoSize = true;
-            this.cb_AdminElectronic.Location = new System.Drawing.Point(13, 19);
-            this.cb_AdminElectronic.Name = "cb_AdminElectronic";
-            this.cb_AdminElectronic.Size = new System.Drawing.Size(73, 17);
-            this.cb_AdminElectronic.TabIndex = 0;
-            this.cb_AdminElectronic.Text = "Electronic";
-            this.cb_AdminElectronic.UseVisualStyleBackColor = true;
-            // 
-            // cb_AdminMechanic
-            // 
-            this.cb_AdminMechanic.AutoSize = true;
-            this.cb_AdminMechanic.Location = new System.Drawing.Point(138, 19);
-            this.cb_AdminMechanic.Name = "cb_AdminMechanic";
-            this.cb_AdminMechanic.Size = new System.Drawing.Size(73, 17);
-            this.cb_AdminMechanic.TabIndex = 1;
-            this.cb_AdminMechanic.Text = "Mechanic";
-            this.cb_AdminMechanic.UseVisualStyleBackColor = true;
-            // 
-            // cb_AdminNVR
-            // 
-            this.cb_AdminNVR.AutoSize = true;
-            this.cb_AdminNVR.Location = new System.Drawing.Point(273, 19);
-            this.cb_AdminNVR.Name = "cb_AdminNVR";
-            this.cb_AdminNVR.Size = new System.Drawing.Size(49, 17);
-            this.cb_AdminNVR.TabIndex = 2;
-            this.cb_AdminNVR.Text = "NVR";
-            this.cb_AdminNVR.UseVisualStyleBackColor = true;
-            // 
             // AddPersonView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -463,18 +465,18 @@
             this.Name = "AddPersonView";
             this.Size = new System.Drawing.Size(400, 500);
             this.gb_AdminAcces.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }

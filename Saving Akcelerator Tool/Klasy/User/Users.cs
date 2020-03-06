@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Saving_Accelerator_Tool.Klasy.User
 {
-    public class Users : User
+    public class Users : UserDB
     {
         private static Users _instance;
         private static readonly object syncRoot = new object();
@@ -25,7 +26,7 @@ namespace Saving_Accelerator_Tool.Klasy.User
                         if (_instance == null)
                         {
                             _instance = new Users();
-                            _ = new CreateUsers(Data_Import.Singleton().Load_Access());
+                            _ = new CreateUsers(_instance, Environment.UserName.ToLower());
                         }
                 }
                 return _instance;
