@@ -38,27 +38,26 @@ namespace Saving_Accelerator_Tool
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tab_Action = new System.Windows.Forms.TabPage();
-            this.tab_Summary = new System.Windows.Forms.TabPage();
-            this.tab_SummaryS = new System.Windows.Forms.TabPage();
-            this.tab_Statistic = new System.Windows.Forms.TabPage();
-            this.tab_Platform = new System.Windows.Forms.TabPage();
-            this.tab_STK = new System.Windows.Forms.TabPage();
-            this.tab_Quantity = new System.Windows.Forms.TabPage();
-            this.tab_Admin = new System.Windows.Forms.TabPage();
-            this.tab_AdminAction = new System.Windows.Forms.TabPage();
             this.actionView = new Saving_Accelerator_Tool.Klasy.ActionTab.View.ActionView();
             this.treeActionView = new Saving_Accelerator_Tool.Klasy.ActionTab.View.TreeActionView();
             this.mainFilter = new Saving_Accelerator_Tool.Klasy.ActionTab.View.MainFilter();
+            this.tab_Summary = new System.Windows.Forms.TabPage();
             this.sdReporting1 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDReporting();
             this.sdTableAllView = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDTableAllView();
             this.sdOptions1 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDOptions();
+            this.tab_SummaryS = new System.Windows.Forms.TabPage();
             this.sdReporting2 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDReporting();
             this.SDSumAllAction = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDSumAllAction();
             this.sdOptions2 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDOptions();
+            this.tab_Statistic = new System.Windows.Forms.TabPage();
             this.productionQuantityMonthView1 = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityMonthView();
             this.productionQuantityView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityView();
             this.dmView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.DMView();
             this.optionView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.OptionView();
+            this.tab_Platform = new System.Windows.Forms.TabPage();
+            this.tab_STK = new System.Windows.Forms.TabPage();
+            this.tab_Quantity = new System.Windows.Forms.TabPage();
+            this.tab_Admin = new System.Windows.Forms.TabPage();
             this.sendMailView1 = new Saving_Accelerator_Tool.Klasy.AdmnTab.View.SendMailView();
             this.dataBaseView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.DataBaseView();
             this.coinsView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.CoinsView();
@@ -70,6 +69,8 @@ namespace Saving_Accelerator_Tool
             this.sumPNC1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.SumPNC();
             this.quantityRevAddView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.QuantityRevAddView();
             this.quantityMonthAddView1 = new Saving_Accelerator_Tool.Klasy.AdminTab.View.QuantityMonthAddView();
+            this.tab_AdminAction = new System.Windows.Forms.TabPage();
+            this.adminTableView = new Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.AdminTableView();
             this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -78,15 +79,16 @@ namespace Saving_Accelerator_Tool
             this.tab_SummaryS.SuspendLayout();
             this.tab_Statistic.SuspendLayout();
             this.tab_Admin.SuspendLayout();
+            this.tab_AdminAction.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1018);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1022);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1920, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(2399, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -102,7 +104,7 @@ namespace Saving_Accelerator_Tool
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1920, 0);
+            this.panel1.Size = new System.Drawing.Size(2399, 0);
             this.panel1.TabIndex = 2;
             // 
             // panel2
@@ -145,99 +147,6 @@ namespace Saving_Accelerator_Tool
             this.tab_Action.Text = "Action";
             this.tab_Action.UseVisualStyleBackColor = true;
             // 
-            // tab_Summary
-            // 
-            this.tab_Summary.Controls.Add(this.sdReporting1);
-            this.tab_Summary.Controls.Add(this.sdTableAllView);
-            this.tab_Summary.Controls.Add(this.sdOptions1);
-            this.tab_Summary.Location = new System.Drawing.Point(4, 22);
-            this.tab_Summary.Name = "tab_Summary";
-            this.tab_Summary.Size = new System.Drawing.Size(1912, 974);
-            this.tab_Summary.TabIndex = 1;
-            this.tab_Summary.Text = "Summary Detail";
-            this.tab_Summary.UseVisualStyleBackColor = true;
-            // 
-            // tab_SummaryS
-            // 
-            this.tab_SummaryS.Controls.Add(this.sdReporting2);
-            this.tab_SummaryS.Controls.Add(this.SDSumAllAction);
-            this.tab_SummaryS.Controls.Add(this.sdOptions2);
-            this.tab_SummaryS.Location = new System.Drawing.Point(4, 22);
-            this.tab_SummaryS.Name = "tab_SummaryS";
-            this.tab_SummaryS.Size = new System.Drawing.Size(1912, 974);
-            this.tab_SummaryS.TabIndex = 2;
-            this.tab_SummaryS.Text = "Summary";
-            this.tab_SummaryS.UseVisualStyleBackColor = true;
-            // 
-            // tab_Statistic
-            // 
-            this.tab_Statistic.Controls.Add(this.productionQuantityMonthView1);
-            this.tab_Statistic.Controls.Add(this.productionQuantityView);
-            this.tab_Statistic.Controls.Add(this.dmView);
-            this.tab_Statistic.Controls.Add(this.optionView);
-            this.tab_Statistic.Location = new System.Drawing.Point(4, 22);
-            this.tab_Statistic.Name = "tab_Statistic";
-            this.tab_Statistic.Size = new System.Drawing.Size(1912, 974);
-            this.tab_Statistic.TabIndex = 3;
-            this.tab_Statistic.Text = "Statistic";
-            this.tab_Statistic.UseVisualStyleBackColor = true;
-            // 
-            // tab_Platform
-            // 
-            this.tab_Platform.Location = new System.Drawing.Point(4, 22);
-            this.tab_Platform.Name = "tab_Platform";
-            this.tab_Platform.Size = new System.Drawing.Size(1912, 974);
-            this.tab_Platform.TabIndex = 4;
-            this.tab_Platform.Text = "Platform";
-            this.tab_Platform.UseVisualStyleBackColor = true;
-            // 
-            // tab_STK
-            // 
-            this.tab_STK.Location = new System.Drawing.Point(4, 22);
-            this.tab_STK.Name = "tab_STK";
-            this.tab_STK.Size = new System.Drawing.Size(1912, 974);
-            this.tab_STK.TabIndex = 5;
-            this.tab_STK.Text = "STK";
-            this.tab_STK.UseVisualStyleBackColor = true;
-            // 
-            // tab_Quantity
-            // 
-            this.tab_Quantity.Location = new System.Drawing.Point(4, 22);
-            this.tab_Quantity.Name = "tab_Quantity";
-            this.tab_Quantity.Size = new System.Drawing.Size(1912, 974);
-            this.tab_Quantity.TabIndex = 6;
-            this.tab_Quantity.Text = "Quantity";
-            this.tab_Quantity.UseVisualStyleBackColor = true;
-            // 
-            // tab_Admin
-            // 
-            this.tab_Admin.Controls.Add(this.sendMailView1);
-            this.tab_Admin.Controls.Add(this.dataBaseView1);
-            this.tab_Admin.Controls.Add(this.coinsView1);
-            this.tab_Admin.Controls.Add(this.targetView1);
-            this.tab_Admin.Controls.Add(this.autoUpdateSTKView1);
-            this.tab_Admin.Controls.Add(this.addPersonView);
-            this.tab_Admin.Controls.Add(this.actionActivatorView1);
-            this.tab_Admin.Controls.Add(this.frozen1);
-            this.tab_Admin.Controls.Add(this.sumPNC1);
-            this.tab_Admin.Controls.Add(this.quantityRevAddView1);
-            this.tab_Admin.Controls.Add(this.quantityMonthAddView1);
-            this.tab_Admin.Location = new System.Drawing.Point(4, 22);
-            this.tab_Admin.Name = "tab_Admin";
-            this.tab_Admin.Size = new System.Drawing.Size(1912, 974);
-            this.tab_Admin.TabIndex = 7;
-            this.tab_Admin.Text = "Administration";
-            this.tab_Admin.UseVisualStyleBackColor = true;
-            // 
-            // tab_AdminAction
-            // 
-            this.tab_AdminAction.Location = new System.Drawing.Point(4, 22);
-            this.tab_AdminAction.Name = "tab_AdminAction";
-            this.tab_AdminAction.Size = new System.Drawing.Size(1912, 974);
-            this.tab_AdminAction.TabIndex = 9;
-            this.tab_AdminAction.Text = "Action Admin";
-            this.tab_AdminAction.UseVisualStyleBackColor = true;
-            // 
             // actionView
             // 
             this.actionView.Location = new System.Drawing.Point(301, 6);
@@ -258,6 +167,18 @@ namespace Saving_Accelerator_Tool
             this.mainFilter.Name = "mainFilter";
             this.mainFilter.Size = new System.Drawing.Size(300, 140);
             this.mainFilter.TabIndex = 0;
+            // 
+            // tab_Summary
+            // 
+            this.tab_Summary.Controls.Add(this.sdReporting1);
+            this.tab_Summary.Controls.Add(this.sdTableAllView);
+            this.tab_Summary.Controls.Add(this.sdOptions1);
+            this.tab_Summary.Location = new System.Drawing.Point(4, 22);
+            this.tab_Summary.Name = "tab_Summary";
+            this.tab_Summary.Size = new System.Drawing.Size(192, 74);
+            this.tab_Summary.TabIndex = 1;
+            this.tab_Summary.Text = "Summary Detail";
+            this.tab_Summary.UseVisualStyleBackColor = true;
             // 
             // sdReporting1
             // 
@@ -280,6 +201,18 @@ namespace Saving_Accelerator_Tool
             this.sdOptions1.Size = new System.Drawing.Size(201, 253);
             this.sdOptions1.TabIndex = 0;
             // 
+            // tab_SummaryS
+            // 
+            this.tab_SummaryS.Controls.Add(this.sdReporting2);
+            this.tab_SummaryS.Controls.Add(this.SDSumAllAction);
+            this.tab_SummaryS.Controls.Add(this.sdOptions2);
+            this.tab_SummaryS.Location = new System.Drawing.Point(4, 22);
+            this.tab_SummaryS.Name = "tab_SummaryS";
+            this.tab_SummaryS.Size = new System.Drawing.Size(192, 74);
+            this.tab_SummaryS.TabIndex = 2;
+            this.tab_SummaryS.Text = "Summary";
+            this.tab_SummaryS.UseVisualStyleBackColor = true;
+            // 
             // sdReporting2
             // 
             this.sdReporting2.Location = new System.Drawing.Point(8, 692);
@@ -300,6 +233,19 @@ namespace Saving_Accelerator_Tool
             this.sdOptions2.Name = "sdOptions2";
             this.sdOptions2.Size = new System.Drawing.Size(201, 253);
             this.sdOptions2.TabIndex = 0;
+            // 
+            // tab_Statistic
+            // 
+            this.tab_Statistic.Controls.Add(this.productionQuantityMonthView1);
+            this.tab_Statistic.Controls.Add(this.productionQuantityView);
+            this.tab_Statistic.Controls.Add(this.dmView);
+            this.tab_Statistic.Controls.Add(this.optionView);
+            this.tab_Statistic.Location = new System.Drawing.Point(4, 40);
+            this.tab_Statistic.Name = "tab_Statistic";
+            this.tab_Statistic.Size = new System.Drawing.Size(192, 56);
+            this.tab_Statistic.TabIndex = 3;
+            this.tab_Statistic.Text = "Statistic";
+            this.tab_Statistic.UseVisualStyleBackColor = true;
             // 
             // productionQuantityMonthView1
             // 
@@ -328,6 +274,53 @@ namespace Saving_Accelerator_Tool
             this.optionView.Name = "optionView";
             this.optionView.Size = new System.Drawing.Size(142, 112);
             this.optionView.TabIndex = 0;
+            // 
+            // tab_Platform
+            // 
+            this.tab_Platform.Location = new System.Drawing.Point(4, 40);
+            this.tab_Platform.Name = "tab_Platform";
+            this.tab_Platform.Size = new System.Drawing.Size(192, 56);
+            this.tab_Platform.TabIndex = 4;
+            this.tab_Platform.Text = "Platform";
+            this.tab_Platform.UseVisualStyleBackColor = true;
+            // 
+            // tab_STK
+            // 
+            this.tab_STK.Location = new System.Drawing.Point(4, 40);
+            this.tab_STK.Name = "tab_STK";
+            this.tab_STK.Size = new System.Drawing.Size(192, 56);
+            this.tab_STK.TabIndex = 5;
+            this.tab_STK.Text = "STK";
+            this.tab_STK.UseVisualStyleBackColor = true;
+            // 
+            // tab_Quantity
+            // 
+            this.tab_Quantity.Location = new System.Drawing.Point(4, 40);
+            this.tab_Quantity.Name = "tab_Quantity";
+            this.tab_Quantity.Size = new System.Drawing.Size(192, 56);
+            this.tab_Quantity.TabIndex = 6;
+            this.tab_Quantity.Text = "Quantity";
+            this.tab_Quantity.UseVisualStyleBackColor = true;
+            // 
+            // tab_Admin
+            // 
+            this.tab_Admin.Controls.Add(this.sendMailView1);
+            this.tab_Admin.Controls.Add(this.dataBaseView1);
+            this.tab_Admin.Controls.Add(this.coinsView1);
+            this.tab_Admin.Controls.Add(this.targetView1);
+            this.tab_Admin.Controls.Add(this.autoUpdateSTKView1);
+            this.tab_Admin.Controls.Add(this.addPersonView);
+            this.tab_Admin.Controls.Add(this.actionActivatorView1);
+            this.tab_Admin.Controls.Add(this.frozen1);
+            this.tab_Admin.Controls.Add(this.sumPNC1);
+            this.tab_Admin.Controls.Add(this.quantityRevAddView1);
+            this.tab_Admin.Controls.Add(this.quantityMonthAddView1);
+            this.tab_Admin.Location = new System.Drawing.Point(4, 58);
+            this.tab_Admin.Name = "tab_Admin";
+            this.tab_Admin.Size = new System.Drawing.Size(192, 38);
+            this.tab_Admin.TabIndex = 7;
+            this.tab_Admin.Text = "Administration";
+            this.tab_Admin.UseVisualStyleBackColor = true;
             // 
             // sendMailView1
             // 
@@ -406,12 +399,30 @@ namespace Saving_Accelerator_Tool
             this.quantityMonthAddView1.Size = new System.Drawing.Size(200, 220);
             this.quantityMonthAddView1.TabIndex = 0;
             // 
+            // tab_AdminAction
+            // 
+            this.tab_AdminAction.Controls.Add(this.adminTableView);
+            this.tab_AdminAction.Location = new System.Drawing.Point(4, 22);
+            this.tab_AdminAction.Name = "tab_AdminAction";
+            this.tab_AdminAction.Size = new System.Drawing.Size(1912, 974);
+            this.tab_AdminAction.TabIndex = 9;
+            this.tab_AdminAction.Text = "Action Admin";
+            this.tab_AdminAction.UseVisualStyleBackColor = true;
+            // 
+            // adminTableView
+            // 
+            this.adminTableView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adminTableView.Location = new System.Drawing.Point(0, 0);
+            this.adminTableView.Name = "adminTableView";
+            this.adminTableView.Size = new System.Drawing.Size(1912, 974);
+            this.adminTableView.TabIndex = 0;
+            // 
             // MainProgram
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1899, 1057);
+            this.ClientSize = new System.Drawing.Size(1899, 1061);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
@@ -429,6 +440,7 @@ namespace Saving_Accelerator_Tool
             this.tab_SummaryS.ResumeLayout(false);
             this.tab_Statistic.ResumeLayout(false);
             this.tab_Admin.ResumeLayout(false);
+            this.tab_AdminAction.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -474,6 +486,7 @@ namespace Saving_Accelerator_Tool
         public Klasy.SummaryDetails.View.SDSumAllAction SDSumAllAction;
         public Klasy.SummaryDetails.View.SDReporting sdReporting2;
         public Klasy.AdminTab.View.AddPersonView addPersonView;
+        public Klasy.AdminTab.View.AdminTabTable.AdminTableView adminTableView;
 
         public TabControl TabControl { get => tabControl; set => tabControl = value; }
 

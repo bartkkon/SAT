@@ -207,7 +207,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ConnectionString.cs" />
+    <Compile Include="Controllers\AdminTableTab\AdminTableController.cs" />
     <Compile Include="Controllers\AdminTab\AddPersonController.cs" />
+    <Compile Include="Controllers\AdminTab\ConvertTXTtoDB.cs" />
+    <Compile Include="Controllers\ANCMonthlyQuantity.cs" />
+    <Compile Include="Controllers\ANCRevisionQuantity.cs" />
+    <Compile Include="Controllers\PNCMonthlyQuantity.cs" />
+    <Compile Include="Controllers\PNCRevisionQuantity.cs" />
     <Compile Include="Data\DataBaseConnectionContext.cs" />
     <Compile Include="Formy\Special_Massage.cs">
       <SubType>Form</SubType>
@@ -353,6 +359,9 @@
     <Compile Include="Klasy\Acton\CopyAction.cs" />
     <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
     <Compile Include="Klasy\Acton\OriginalAction.cs" />
+    <Compile Include="Klasy\AddDataView\ANCQuantityAdd.cs" />
+    <Compile Include="Klasy\AddDataView\ANCRevisionQuantityAdd.cs" />
+    <Compile Include="Klasy\AddDataView\PNCQuantityAdd.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadPerson.cs" />
@@ -375,6 +384,24 @@
     </Compile>
     <Compile Include="Klasy\AdminTab\View\AddPersonView.Designer.cs">
       <DependentUpon>AddPersonView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.Designer.cs">
+      <DependentUpon>AdminTableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.Designer.cs">
+      <DependentUpon>ButtonLoadView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.Designer.cs">
+      <DependentUpon>OptionsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\AdminTab\View\AutoUpdateSTKView.cs">
       <SubType>UserControl</SubType>
@@ -566,7 +593,39 @@
     <Compile Include="Migrations\20200306151334_AddMail.designer.cs">
       <DependentUpon>20200306151334_AddMail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200309114518_AddPNC_ANCtable.cs" />
+    <Compile Include="Migrations\20200309114518_AddPNC_ANCtable.designer.cs">
+      <DependentUpon>20200309114518_AddPNC_ANCtable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309134025_PNC.cs" />
+    <Compile Include="Migrations\20200309134025_PNC.designer.cs">
+      <DependentUpon>20200309134025_PNC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309135619_Remove_PNC.cs" />
+    <Compile Include="Migrations\20200309135619_Remove_PNC.designer.cs">
+      <DependentUpon>20200309135619_Remove_PNC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309135659_add_PNC.cs" />
+    <Compile Include="Migrations\20200309135659_add_PNC.designer.cs">
+      <DependentUpon>20200309135659_add_PNC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309141053_add_PNC2.cs" />
+    <Compile Include="Migrations\20200309141053_add_PNC2.designer.cs">
+      <DependentUpon>20200309141053_add_PNC2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309141521_add_PNC3.cs" />
+    <Compile Include="Migrations\20200309141521_add_PNC3.designer.cs">
+      <DependentUpon>20200309141521_add_PNC3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309143156_add_PNC4.cs" />
+    <Compile Include="Migrations\20200309143156_add_PNC4.designer.cs">
+      <DependentUpon>20200309143156_add_PNC4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConnectionContextModelSnapshot.cs" />
+    <Compile Include="Model\ANCMonthlyDB.cs" />
+    <Compile Include="Model\ANCRevisionDB.cs" />
+    <Compile Include="Model\PNCMonthlyDB.cs" />
+    <Compile Include="Model\PNCRevisionDB.cs" />
     <Compile Include="Model\UserDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Klasy\STK.cs" />
@@ -657,6 +716,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AddPersonView.resx">
       <DependentUpon>AddPersonView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.resx">
+      <DependentUpon>AdminTableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.resx">
+      <DependentUpon>ButtonLoadView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.resx">
+      <DependentUpon>OptionsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AutoUpdateSTKView.resx">
       <DependentUpon>AutoUpdateSTKView.cs</DependentUpon>

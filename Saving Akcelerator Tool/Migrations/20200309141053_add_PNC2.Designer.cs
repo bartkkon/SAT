@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Saving_Accelerator_Tool.Data;
 
 namespace Saving_Accelerator_Tool.Migrations
 {
     [DbContext(typeof(DataBaseConnectionContext))]
-    partial class DataBaseConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20200309141053_add_PNC2")]
+    partial class add_PNC2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

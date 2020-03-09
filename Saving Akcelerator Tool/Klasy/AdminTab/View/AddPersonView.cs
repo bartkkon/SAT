@@ -67,19 +67,19 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
             {
                 Cb_AdminAccessMenager.SelectedIndex = 0;
             }
-            else if (Role == "EleMenager")
+            else if (Role == "Electronic")
             {
                 Cb_AdminAccessMenager.SelectedIndex = 1;
             }
-            else if (Role == "MechMenager")
+            else if (Role == "Mechanic")
             {
                 Cb_AdminAccessMenager.SelectedIndex = 2;
             }
-            else if (Role == "NVRMenager")
+            else if (Role == "NVR")
             {
                 Cb_AdminAccessMenager.SelectedIndex = 3;
             }
-            else if (Role == "PCMenager")
+            else if (Role == "PC")
             {
                 Cb_AdminAccessMenager.SelectedIndex = 4;
             }
@@ -272,6 +272,9 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
         private void Combox_AdminAccess_SelectedIndexChanged(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+            Tb_AdminAccessFullName.Text = "";
+            Tb_AdminAccess_Email.Text = "";
+            Cb_AdminAccessMenager.SelectedIndex = -1;
             AddPersonController.PersonLoad((sender as ComboBox).Text);
             Cursor.Current = Cursors.Default;
         }
@@ -285,7 +288,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
 
         private void Pb_Admin_AddNewAccount_Click(object sender, EventArgs e)
         {
-            if ((sender as TextBox).Text != "")
+            if (TB_Admin_NewAccount.Text != "")
             {
                 Cursor.Current = Cursors.WaitCursor;
                 if (AddPersonController.AddUser())

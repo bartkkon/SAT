@@ -36,12 +36,12 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
         {
             if (cb_AdminANCMonth.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste ANC dla " + num_Admin_QuantityMonth.Value.ToString() + "/" + num_Admin_YearMonth.Value.ToString(), "AddMonthANC");
+                Form AddData = new AddData("Proszę podać liste ANC dla " + num_Admin_QuantityMonth.Value.ToString() + "/" + num_Admin_YearMonth.Value.ToString(), num_Admin_YearMonth.Value, num_Admin_QuantityMonth.Value, "AddMonthANC");
                 AddData.Show();
             }
             else if (cb_AdminPNCMonth.Checked)
             {
-                Form AddData = new AddData("Proszę podać liste PNC dla " + num_Admin_QuantityMonth.Value.ToString() + "/" + num_Admin_YearMonth.Value.ToString(), "AddMonthPNC");
+                Form AddData = new AddData("Proszę podać liste PNC dla " + num_Admin_QuantityMonth.Value.ToString() + "/" + num_Admin_YearMonth.Value.ToString(), num_Admin_YearMonth.Value, num_Admin_QuantityMonth.Value, "AddMonthPNC");
                 AddData.Show();
             }
             else

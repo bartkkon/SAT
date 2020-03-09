@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Saving_Accelerator_Tool.Data;
 
 namespace Saving_Accelerator_Tool.Migrations
 {
     [DbContext(typeof(DataBaseConnectionContext))]
-    partial class DataBaseConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20200309141521_add_PNC3")]
+    partial class add_PNC3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +92,7 @@ namespace Saving_Accelerator_Tool.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PNCMonthly");
+                    b.ToTable("PNCMonthly2");
                 });
 
             modelBuilder.Entity("Saving_Accelerator_Tool.Model.PNCRevisionDB", b =>
@@ -117,7 +119,7 @@ namespace Saving_Accelerator_Tool.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PNCRevision");
+                    b.ToTable("PNCRevision2");
                 });
 
             modelBuilder.Entity("Saving_Accelerator_Tool.Model.UserDB", b =>

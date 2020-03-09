@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.AdminTab.Framework;
 using Saving_Accelerator_Tool.Klasy.AdmnTab.Framework;
+using Saving_Accelerator_Tool.Controllers.AdminTab;
 
 namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
 {
@@ -30,6 +31,14 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
         {
             Cursor.Current = Cursors.WaitCursor;
             _ = new IDBLoadDataBase();
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_Upload_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            MessageBox.Show("Noting to do!");
+            //ConvertTXTtoDB.Upload();
             Cursor.Current = Cursors.Default;
         }
     }

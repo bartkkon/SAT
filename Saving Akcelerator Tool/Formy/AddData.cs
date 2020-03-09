@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Saving_Accelerator_Tool.Klasy.AddDataView;
 
 namespace Saving_Accelerator_Tool
 {
@@ -15,6 +16,7 @@ namespace Saving_Accelerator_Tool
     {
         private readonly string Jak;
         private readonly decimal Year;
+        private readonly decimal _Month;
 
         public AddData(string text, string What)
         {
@@ -40,6 +42,16 @@ namespace Saving_Accelerator_Tool
             Button Close = (Button)this.Controls.Find("pb_AddData_Close", true).First();
             Close.Click -= Pb_AddData_Close_Click;
             Close.Click += Pb_AddData_STK_Close_Click;
+        }
+
+        public AddData(string text, decimal Year, decimal Month, string What)
+        {
+            InitializeComponent();
+            lab_AddData_Text.Text = text;
+
+            Jak = What;
+            this.Year = Year;
+            _Month = Month;
         }
 
 
@@ -258,167 +270,198 @@ namespace Saving_Accelerator_Tool
                 Cursor.Current = Cursors.Default;
                 return;
             }
-            if (Jak == "BU" || Jak == "EA1" || Jak == "EA2" || Jak == "EA3")
+
+            if(Jak == "BU")
             {
-                NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearQuantity", true).First();
-                CheckBox cb_AdminPNC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminPNC", true).First();
-                CheckBox cb_AdminANC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminANC", true).First();
-                DataTable Baza = new DataTable();
-                DataRow FoundRow;
 
-                int ile;
-
-                if (cb_AdminANC.Checked)
-                {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "ANC");
-                }
-                if (cb_AdminPNC.Checked)
-                {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "PNC");
-                }
-                switch (Jak)
-                {
-                    case "BU":
-                        ile = 1;
-                        break;
-                    case "EA1":
-                        ile = 3;
-                        break;
-                    case "EA2":
-                        ile = 6;
-                        break;
-                    case "EA3":
-                        ile = 9;
-                        break;
-                    default:
-                        return;
-                }
-
-                if (Baza.Columns.Contains(Jak + "/12/" + Admin_Year.Text))
-                {
-                    for (int counter = ile; counter <= 12; counter++)
-                    {
-                        Baza.Columns.Remove(Jak + "/" + counter + "/" + Admin_Year.Text);
-                    }
-                }
-                for (int counter = ile; counter <= 12; counter++)
-                {
-                    Baza.Columns.Add(new DataColumn(Jak + "/" + counter + "/" + Admin_Year.Text));
-                }
-
-                foreach (string OneRow in row)
-                {
-                    string[] row2 = OneRow.Split('\t');
-                    if (row2[0] != "")
-                    {
-                        if (cb_AdminANC.Checked)
-                        {
-                            FoundRow = Baza.Select(string.Format("BUANC LIKE '%{0}%'", row2[0])).FirstOrDefault();
-                        }
-                        else
-                        {
-                            FoundRow = Baza.Select(string.Format("BUPNC LIKE '%{0}%'", row2[0])).FirstOrDefault();
-                        }
-                        int zmienna;
-                        if (FoundRow != null)
-                        {
-                            zmienna = ile;
-                            for (int counter = 1; counter <= (13 - ile); counter++)
-                            {
-                                FoundRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
-                                zmienna++;
-                            }
-
-                        }
-                        else
-                        {
-                            DataRow NewRow = Baza.NewRow();
-                            NewRow[0] = row2[0];
-                            zmienna = ile;
-                            for (int counter = 1; counter <= (13 - ile); counter++)
-                            {
-                                NewRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
-                                zmienna++;
-                            }
-                            Baza.Rows.Add(NewRow);
-                        }
-                    }
-                }
-                if (cb_AdminANC.Checked)
-                {
-                    Data_Import.Singleton().Save_DataTableToTXT2(ref Baza, "ANC");
-                }
-                if (cb_AdminPNC.Checked)
-                {
-                    Data_Import.Singleton().Save_DataTableToTXT(ref Baza, "PNC");
-                }
-                this.Close();
-                Cursor.Current = Cursors.Default;
-                return;
             }
-            if (Jak == "AddMonthANC" || Jak == "AddMonthPNC")
+            else if(Jak == "EA1")
             {
-                NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
-                NumericUpDown Admin_Month = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
-                DataTable Quantity = new DataTable();
-                DataRow FoundRow;
-                string Miesiac = Admin_Month.Value.ToString() + "/" + Admin_Year.Value.ToString();
 
-
-                if (Jak == "AddMonthANC")
-                {
-                    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "ANCMonth");
-                }
-                if(Jak == "AddMonthPNC")
-                {
-                    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "PNCMonth");
-                }
-
-                if (Quantity.Columns.Contains(Miesiac))
-                {
-                    Quantity.Columns.Remove(Miesiac);
-                }
-                Quantity.Columns.Add(new DataColumn(Miesiac));
-
-                foreach (string OneRow in row)
-                {
-                    string[] NewValue = OneRow.Split('\t');
-
-                    if (NewValue[0] != "")
-                    {
-                        if(Jak == "AddMonthANC")
-                        {
-                            FoundRow = Quantity.Select(string.Format("ANC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
-                        }
-                        else
-                        {
-                            FoundRow = Quantity.Select(string.Format("PNC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
-                        }
-                        if(FoundRow != null)
-                        {
-                            FoundRow[Miesiac] = NewValue[1];
-                        }
-                        else
-                        {
-                            DataRow NewRow = Quantity.NewRow();
-                            NewRow[0] = NewValue[0];
-                            NewRow[Miesiac] = NewValue[1];
-                            Quantity.Rows.Add(NewRow);
-                        }
-                    }
-                }
-                if (Jak == "AddMonthANC")
-                {
-                    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "ANCMonth");
-                }
-                if (Jak == "AddMonthPNC")
-                {
-                    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "PNCMonth");
-                }
-                this.Close();
-                Cursor.Current = Cursors.Default;
-                return;
             }
+            else if(Jak == "EA2")
+            {
+
+            }
+            else if(Jak == "EA3")
+            {
+
+            }
+            else if(Jak == "AddMonthANC")
+            {
+                _ = new ANCQuantityAdd(Convert.ToInt32(_Month), Convert.ToInt32(Year), row);
+            }
+            else if(Jak == "AddMonthPNC")
+            {
+                _ = new PNCQuantityAdd(Convert.ToInt32(_Month), Convert.ToInt32(Year), row);
+            }
+
+            this.Close();
+            Cursor.Current = Cursors.Default;
+
+            //if (Jak == "BU" || Jak == "EA1" || Jak == "EA2" || Jak == "EA3")
+            //{
+            //    NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearQuantity", true).First();
+            //    CheckBox cb_AdminPNC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminPNC", true).First();
+            //    CheckBox cb_AdminANC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminANC", true).First();
+            //    DataTable Baza = new DataTable();
+            //    DataRow FoundRow;
+
+            //    int ile;
+
+            //    if (cb_AdminANC.Checked)
+            //    {
+            //        Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "ANC");
+            //    }
+            //    if (cb_AdminPNC.Checked)
+            //    {
+            //        Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "PNC");
+            //    }
+            //    switch (Jak)
+            //    {
+            //        case "BU":
+            //            ile = 1;
+            //            break;
+            //        case "EA1":
+            //            ile = 3;
+            //            break;
+            //        case "EA2":
+            //            ile = 6;
+            //            break;
+            //        case "EA3":
+            //            ile = 9;
+            //            break;
+            //        default:
+            //            return;
+            //    }
+
+            //    if (Baza.Columns.Contains(Jak + "/12/" + Admin_Year.Text))
+            //    {
+            //        for (int counter = ile; counter <= 12; counter++)
+            //        {
+            //            Baza.Columns.Remove(Jak + "/" + counter + "/" + Admin_Year.Text);
+            //        }
+            //    }
+            //    for (int counter = ile; counter <= 12; counter++)
+            //    {
+            //        Baza.Columns.Add(new DataColumn(Jak + "/" + counter + "/" + Admin_Year.Text));
+            //    }
+
+            //    foreach (string OneRow in row)
+            //    {
+            //        string[] row2 = OneRow.Split('\t');
+            //        if (row2[0] != "")
+            //        {
+            //            if (cb_AdminANC.Checked)
+            //            {
+            //                FoundRow = Baza.Select(string.Format("BUANC LIKE '%{0}%'", row2[0])).FirstOrDefault();
+            //            }
+            //            else
+            //            {
+            //                FoundRow = Baza.Select(string.Format("BUPNC LIKE '%{0}%'", row2[0])).FirstOrDefault();
+            //            }
+            //            int zmienna;
+            //            if (FoundRow != null)
+            //            {
+            //                zmienna = ile;
+            //                for (int counter = 1; counter <= (13 - ile); counter++)
+            //                {
+            //                    FoundRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
+            //                    zmienna++;
+            //                }
+
+            //            }
+            //            else
+            //            {
+            //                DataRow NewRow = Baza.NewRow();
+            //                NewRow[0] = row2[0];
+            //                zmienna = ile;
+            //                for (int counter = 1; counter <= (13 - ile); counter++)
+            //                {
+            //                    NewRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
+            //                    zmienna++;
+            //                }
+            //                Baza.Rows.Add(NewRow);
+            //            }
+            //        }
+            //    }
+            //    if (cb_AdminANC.Checked)
+            //    {
+            //        Data_Import.Singleton().Save_DataTableToTXT2(ref Baza, "ANC");
+            //    }
+            //    if (cb_AdminPNC.Checked)
+            //    {
+            //        Data_Import.Singleton().Save_DataTableToTXT(ref Baza, "PNC");
+            //    }
+            //    this.Close();
+            //    Cursor.Current = Cursors.Default;
+            //    return;
+            //}
+
+            //if (Jak == "AddMonthANC" || Jak == "AddMonthPNC")
+            //{
+
+            //NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
+            //NumericUpDown Admin_Month = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
+            //DataTable Quantity = new DataTable();
+            //DataRow FoundRow;
+            //string Miesiac = Admin_Month.Value.ToString() + "/" + Admin_Year.Value.ToString();
+
+
+            //if (Jak == "AddMonthANC")
+            //{
+            //    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "ANCMonth");
+            //}
+            //if(Jak == "AddMonthPNC")
+            //{
+            //    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "PNCMonth");
+            //}
+
+            //if (Quantity.Columns.Contains(Miesiac))
+            //{
+            //    Quantity.Columns.Remove(Miesiac);
+            //}
+            //Quantity.Columns.Add(new DataColumn(Miesiac));
+
+            //foreach (string OneRow in row)
+            //{
+            //    string[] NewValue = OneRow.Split('\t');
+
+            //    if (NewValue[0] != "")
+            //    {
+            //        if(Jak == "AddMonthANC")
+            //        {
+            //            FoundRow = Quantity.Select(string.Format("ANC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
+            //        }
+            //        else
+            //        {
+            //            FoundRow = Quantity.Select(string.Format("PNC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
+            //        }
+            //        if(FoundRow != null)
+            //        {
+            //            FoundRow[Miesiac] = NewValue[1];
+            //        }
+            //        else
+            //        {
+            //            DataRow NewRow = Quantity.NewRow();
+            //            NewRow[0] = NewValue[0];
+            //            NewRow[Miesiac] = NewValue[1];
+            //            Quantity.Rows.Add(NewRow);
+            //        }
+            //    }
+            //}
+            //if (Jak == "AddMonthANC")
+            //{
+            //    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "ANCMonth");
+            //}
+            //if (Jak == "AddMonthPNC")
+            //{
+            //    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "PNCMonth");
+            //}
+            //this.Close();
+            //Cursor.Current = Cursors.Default;
+            //return;
+            //}
         }
 
         private void PB_CopyTemplate_Click(object sender, EventArgs e)

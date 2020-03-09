@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pb_CloneBase = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.pb_CloneBase = new System.Windows.Forms.Button();
+            this.but_Upload = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.but_Upload);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.pb_CloneBase);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -45,6 +47,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data Base:";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 61);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(138, 29);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "IDB Update";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.PB_IDB_Update_DataBase_Click);
             // 
             // pb_CloneBase
             // 
@@ -56,15 +68,15 @@
             this.pb_CloneBase.UseVisualStyleBackColor = true;
             this.pb_CloneBase.Click += new System.EventHandler(this.Pb_CloneBase_Click);
             // 
-            // button2
+            // but_Upload
             // 
-            this.button2.Location = new System.Drawing.Point(6, 61);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(138, 29);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "IDB Update";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.PB_IDB_Update_DataBase_Click);
+            this.but_Upload.Location = new System.Drawing.Point(6, 271);
+            this.but_Upload.Name = "but_Upload";
+            this.but_Upload.Size = new System.Drawing.Size(138, 23);
+            this.but_Upload.TabIndex = 2;
+            this.but_Upload.Text = "Covert txt To DB";
+            this.but_Upload.UseVisualStyleBackColor = true;
+            this.but_Upload.Click += new System.EventHandler(this.But_Upload_Click);
             // 
             // DataBaseView
             // 
@@ -83,5 +95,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button pb_CloneBase;
+        private System.Windows.Forms.Button but_Upload;
     }
 }
