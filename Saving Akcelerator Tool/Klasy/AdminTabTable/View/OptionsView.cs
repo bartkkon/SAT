@@ -7,11 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.Firmwork;
 
 namespace Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.View
 {
     public partial class OptionsView : UserControl
     {
+        public OptionsView()
+        {
+            InitializeComponent();
+        }
+
+        public void InitializeData()
+        {
+            num_Year.Value = DateTime.UtcNow.Year;
+            num_OptionMonth.Value = DateTime.UtcNow.Month;
+        }
 
         public decimal GetYear()
         {
@@ -31,9 +42,11 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.View
             return comb_Revision.SelectedItem.ToString();
         }
 
-        public OptionsView()
+        private void But_SaveData_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
+            _ = new SaveDataDisplay(MainProgram.Self.adminTableView.ReturnDataGridView());
+            Cursor.Current = Cursors.Default;
         }
     }
 }

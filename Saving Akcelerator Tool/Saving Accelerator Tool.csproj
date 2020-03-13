@@ -210,10 +210,15 @@
     <Compile Include="Controllers\AdminTableTab\AdminTableController.cs" />
     <Compile Include="Controllers\AdminTab\AddPersonController.cs" />
     <Compile Include="Controllers\AdminTab\ConvertTXTtoDB.cs" />
+    <Compile Include="Controllers\AdminTab\SumMonthlyController.cs" />
+    <Compile Include="Controllers\AdminTab\SumRevisionController.cs" />
     <Compile Include="Controllers\ANCMonthlyQuantity.cs" />
     <Compile Include="Controllers\ANCRevisionQuantity.cs" />
+    <Compile Include="Controllers\FrozenController.cs" />
     <Compile Include="Controllers\PNCMonthlyQuantity.cs" />
     <Compile Include="Controllers\PNCRevisionQuantity.cs" />
+    <Compile Include="Controllers\STKController.cs" />
+    <Compile Include="Controllers\TargetsCoinsController.cs" />
     <Compile Include="Data\DataBaseConnectionContext.cs" />
     <Compile Include="Formy\Special_Massage.cs">
       <SubType>Form</SubType>
@@ -361,7 +366,9 @@
     <Compile Include="Klasy\Acton\OriginalAction.cs" />
     <Compile Include="Klasy\AddDataView\ANCQuantityAdd.cs" />
     <Compile Include="Klasy\AddDataView\ANCRevisionQuantityAdd.cs" />
+    <Compile Include="Klasy\AddDataView\ManualUpdateSTK.cs" />
     <Compile Include="Klasy\AddDataView\PNCQuantityAdd.cs" />
+    <Compile Include="Klasy\AddDataView\PNCRevisionQuantityAdd.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\DeleteAccount.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Access\LoadPerson.cs" />
@@ -369,7 +376,14 @@
     <Compile Include="Klasy\AdminTab\Framework\Access\SaveAccess.cs" />
     <Compile Include="Klasy\AdminTab\Framework\AutoUpdateSTK.cs" />
     <Compile Include="Klasy\AdminTab\Framework\CloneDataBase.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Coins\RefreshCoins.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Coins\SaveCoins.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Frozen\LoadFrozen.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Frozen\SaveFrozen.cs" />
     <Compile Include="Klasy\AdminTab\Framework\IDBLoadDataBase.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\STKUpdate.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Sum\GroupPNCMonthly.cs" />
+    <Compile Include="Klasy\AdminTab\Framework\Sum\GroupPNCRevision.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Targets\LoadTargets.cs" />
     <Compile Include="Klasy\AdminTab\Framework\Targets\SaveTargets.cs" />
     <Compile Include="Klasy\AdminTab\Mail\SendMailInfo.cs" />
@@ -385,22 +399,23 @@
     <Compile Include="Klasy\AdminTab\View\AddPersonView.Designer.cs">
       <DependentUpon>AddPersonView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.cs">
+    <Compile Include="Klasy\AdminTabTable\AdminTableView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.Designer.cs">
+    <Compile Include="Klasy\AdminTabTable\AdminTableView.Designer.cs">
       <DependentUpon>AdminTableView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.cs">
+    <Compile Include="Klasy\AdminTabTable\Firmwork\SaveDataDisplay.cs" />
+    <Compile Include="Klasy\AdminTabTable\View\ButtonLoadView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.Designer.cs">
+    <Compile Include="Klasy\AdminTabTable\View\ButtonLoadView.Designer.cs">
       <DependentUpon>ButtonLoadView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.cs">
+    <Compile Include="Klasy\AdminTabTable\View\OptionsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.Designer.cs">
+    <Compile Include="Klasy\AdminTabTable\View\OptionsView.Designer.cs">
       <DependentUpon>OptionsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\AdminTab\View\AutoUpdateSTKView.cs">
@@ -621,14 +636,42 @@
     <Compile Include="Migrations\20200309143156_add_PNC4.designer.cs">
       <DependentUpon>20200309143156_add_PNC4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200310094603_Add_Table_STK.cs" />
+    <Compile Include="Migrations\20200310094603_Add_Table_STK.designer.cs">
+      <DependentUpon>20200310094603_Add_Table_STK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200311092809_Add_Table_TargetsCoins.cs" />
+    <Compile Include="Migrations\20200311092809_Add_Table_TargetsCoins.designer.cs">
+      <DependentUpon>20200311092809_Add_Table_TargetsCoins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200311133452_Add_Table_Frozen.cs" />
+    <Compile Include="Migrations\20200311133452_Add_Table_Frozen.designer.cs">
+      <DependentUpon>20200311133452_Add_Table_Frozen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200311134230_Add_Table_Frozen_AddYear.cs" />
+    <Compile Include="Migrations\20200311134230_Add_Table_Frozen_AddYear.designer.cs">
+      <DependentUpon>20200311134230_Add_Table_Frozen_AddYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200311145158_Add_Table_Sum_MonthAndRevision.cs" />
+    <Compile Include="Migrations\20200311145158_Add_Table_Sum_MonthAndRevision.designer.cs">
+      <DependentUpon>20200311145158_Add_Table_Sum_MonthAndRevision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200311160713_Add_Table_Sum_CorrectValue.cs" />
+    <Compile Include="Migrations\20200311160713_Add_Table_Sum_CorrectValue.designer.cs">
+      <DependentUpon>20200311160713_Add_Table_Sum_CorrectValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConnectionContextModelSnapshot.cs" />
     <Compile Include="Model\ANCMonthlyDB.cs" />
     <Compile Include="Model\ANCRevisionDB.cs" />
+    <Compile Include="Model\FrozenDB.cs" />
     <Compile Include="Model\PNCMonthlyDB.cs" />
     <Compile Include="Model\PNCRevisionDB.cs" />
+    <Compile Include="Model\STKDB.cs" />
+    <Compile Include="Model\SumQuantityDB.cs" />
+    <Compile Include="Model\SumRevisionQuantityDB.cs" />
+    <Compile Include="Model\Targets_CoinsDB.cs" />
     <Compile Include="Model\UserDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Klasy\STK.cs" />
     <Compile Include="Klasy\STKCalculation.cs" />
     <Compile Include="Klasy\SaveAction.cs" />
     <Compile Include="Formy\ReportingOption.cs">
@@ -638,7 +681,6 @@
       <DependentUpon>ReportingOption.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\SavePNC.cs" />
-    <Compile Include="Klasy\AdminTab\Framework\GroupingPNC.cs" />
     <EmbeddedResource Include="Formy\ActionFunction.resx">
       <DependentUpon>ActionFunction.cs</DependentUpon>
     </EmbeddedResource>
@@ -717,13 +759,13 @@
     <EmbeddedResource Include="Klasy\AdminTab\View\AddPersonView.resx">
       <DependentUpon>AddPersonView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\AdminTableView.resx">
+    <EmbeddedResource Include="Klasy\AdminTabTable\AdminTableView.resx">
       <DependentUpon>AdminTableView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\View\ButtonLoadView.resx">
+    <EmbeddedResource Include="Klasy\AdminTabTable\View\ButtonLoadView.resx">
       <DependentUpon>ButtonLoadView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Klasy\AdminTab\View\AdminTabTable\View\OptionsView.resx">
+    <EmbeddedResource Include="Klasy\AdminTabTable\View\OptionsView.resx">
       <DependentUpon>OptionsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Klasy\AdminTab\View\AutoUpdateSTKView.resx">

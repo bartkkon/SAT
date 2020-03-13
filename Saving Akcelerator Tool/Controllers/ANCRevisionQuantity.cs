@@ -56,5 +56,16 @@ namespace Saving_Accelerator_Tool.Controllers
             }
             context.SaveChanges();
         }
+
+        public static void AddList(IEnumerable<ANCRevisionDB> ListaANC)
+        {
+            var context = new DataBaseConnectionContext();
+
+            foreach (ANCRevisionDB ANC in ListaANC)
+            {
+                context.Add(ANC);
+            }
+            context.SaveChanges();
+        }
     }
 }

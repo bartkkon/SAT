@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Saving_Accelerator_Tool.Klasy.AddDataView;
+using Saving_Accelerator_Tool.Model;
+using Saving_Accelerator_Tool.Controllers;
 
 namespace Saving_Accelerator_Tool
 {
@@ -17,6 +19,7 @@ namespace Saving_Accelerator_Tool
         private readonly string Jak;
         private readonly decimal Year;
         private readonly decimal _Month;
+        private readonly bool _ANC;
 
         public AddData(string text, string What)
         {
@@ -42,6 +45,8 @@ namespace Saving_Accelerator_Tool
             Button Close = (Button)this.Controls.Find("pb_AddData_Close", true).First();
             Close.Click -= Pb_AddData_Close_Click;
             Close.Click += Pb_AddData_STK_Close_Click;
+
+            MessageBox.Show("Information:" + Environment.NewLine + "4 Excelowe kolumny!" + Environment.NewLine + "ANC | Description | IDCO | Value");
         }
 
         public AddData(string text, decimal Year, decimal Month, string What)
@@ -54,47 +59,36 @@ namespace Saving_Accelerator_Tool
             _Month = Month;
         }
 
+        public AddData(string text, decimal Year, string What, bool ANC)
+        {
+            InitializeComponent();
+            lab_AddData_Text.Text = text;
+
+            Jak = What;
+            this.Year = Year;
+            _ANC = ANC;
+        }
+
 
         private void Pb_AddData_STK_Close_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string[] Row = tb_AddData_Data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            DataTable STK = new DataTable();
-            DataRow STKRow;
 
-            Data_Import.Singleton().Load_TxtToDataTable2(ref STK, "STK");
+            string[] Data = tb_AddData_Data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            foreach(string SingleRow in Row)
+            if (Data.Length == 1 && Data[0] == "")
             {
-                string[] Part = SingleRow.Split('\t');
-                if(Part.Length >1)
-                {
-                    Part[0] = Part[0].Replace(" ", "");
-                    STKRow = STK.Select(string.Format("ANC LIKE '%{0}%'", Part[0])).FirstOrDefault();
-                    if(STKRow != null)
-                    {
-                        STKRow[Year.ToString()] = "01/00/" + Year.ToString();
-                        STKRow["STK/" + Year.ToString()] = Part[1];
-                    }
-                    else
-                    {
-                        STKRow = STK.NewRow();
-                        STKRow["ANC"] = Part[0].ToString();
-                        STKRow[Year.ToString()] = "01/00/" + Year.ToString();
-                        STKRow["STK/" + Year.ToString()] = Part[1];
-                        STK.Rows.Add(STKRow);
-                    }
-                }
+                return;
             }
 
-            Data_Import.Singleton().Save_DataTableToTXT2(ref STK, "STK");
+            _ = new ManualUpdateSTK(Data, Convert.ToInt32(Year));
+
             this.Close();
             Cursor.Current = Cursors.Default;
         }
 
         private void Pb_AddData_Close_Click(object sender, EventArgs e)
         {
-            //Action action = new Action();
             Cursor.Current = Cursors.WaitCursor;
             string[] row = tb_AddData_Data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             bool IFCalc = false;
@@ -106,10 +100,10 @@ namespace Saving_Accelerator_Tool
 
                     DataGridView dg_PNC = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_PNC", true).First();
 
-                    if(dg_PNC.Rows.Count>1)
+                    if (dg_PNC.Rows.Count > 1)
                     {
                         DialogResult result = MessageBox.Show("Do you want replace all PNC in this Action ?", "Warning!", MessageBoxButtons.YesNo);
-                        if(result == DialogResult.Yes)
+                        if (result == DialogResult.Yes)
                         {
                             dg_PNC.Rows.Clear();
                             dg_PNC.Columns.Clear();
@@ -121,11 +115,11 @@ namespace Saving_Accelerator_Tool
                         else if (result == DialogResult.No)
                         {
                             DialogResult result2 = MessageBox.Show("Do you want add this PNC to exisitng PNC for this Action ?", "Warning!", MessageBoxButtons.YesNo);
-                            if(result2 == DialogResult.Yes)
+                            if (result2 == DialogResult.Yes)
                             {
                                 IFCalc = true;
                             }
-                            else if(result2 == DialogResult.No)
+                            else if (result2 == DialogResult.No)
                             {
                                 IFCalc = false;
                             }
@@ -271,197 +265,45 @@ namespace Saving_Accelerator_Tool
                 return;
             }
 
-            if(Jak == "BU")
+            if (Jak == "BU")
             {
-
+                if (_ANC)
+                    _ = new ANCRevisionQuantityAdd("BU", Convert.ToInt32(Year), row);
+                else
+                    _ = new PNCRevisionQuantityAdd("BU", Convert.ToInt32(Year), row);
             }
-            else if(Jak == "EA1")
+            else if (Jak == "EA1")
             {
-
+                if (_ANC)
+                    _ = new ANCRevisionQuantityAdd("EA1", Convert.ToInt32(Year), row);
+                else
+                    _ = new PNCRevisionQuantityAdd("EA1", Convert.ToInt32(Year), row);
             }
-            else if(Jak == "EA2")
+            else if (Jak == "EA2")
             {
-
+                if (_ANC)
+                    _ = new ANCRevisionQuantityAdd("EA2", Convert.ToInt32(Year), row);
+                else
+                    _ = new PNCRevisionQuantityAdd("EA2", Convert.ToInt32(Year), row);
             }
-            else if(Jak == "EA3")
+            else if (Jak == "EA3")
             {
-
+                if (_ANC)
+                    _ = new ANCRevisionQuantityAdd("EA3", Convert.ToInt32(Year), row);
+                else
+                    _ = new PNCRevisionQuantityAdd("EA3", Convert.ToInt32(Year), row);
             }
-            else if(Jak == "AddMonthANC")
+            else if (Jak == "AddMonthANC")
             {
                 _ = new ANCQuantityAdd(Convert.ToInt32(_Month), Convert.ToInt32(Year), row);
             }
-            else if(Jak == "AddMonthPNC")
+            else if (Jak == "AddMonthPNC")
             {
                 _ = new PNCQuantityAdd(Convert.ToInt32(_Month), Convert.ToInt32(Year), row);
             }
 
             this.Close();
             Cursor.Current = Cursors.Default;
-
-            //if (Jak == "BU" || Jak == "EA1" || Jak == "EA2" || Jak == "EA3")
-            //{
-            //    NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearQuantity", true).First();
-            //    CheckBox cb_AdminPNC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminPNC", true).First();
-            //    CheckBox cb_AdminANC = (CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_AdminANC", true).First();
-            //    DataTable Baza = new DataTable();
-            //    DataRow FoundRow;
-
-            //    int ile;
-
-            //    if (cb_AdminANC.Checked)
-            //    {
-            //        Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "ANC");
-            //    }
-            //    if (cb_AdminPNC.Checked)
-            //    {
-            //        Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "PNC");
-            //    }
-            //    switch (Jak)
-            //    {
-            //        case "BU":
-            //            ile = 1;
-            //            break;
-            //        case "EA1":
-            //            ile = 3;
-            //            break;
-            //        case "EA2":
-            //            ile = 6;
-            //            break;
-            //        case "EA3":
-            //            ile = 9;
-            //            break;
-            //        default:
-            //            return;
-            //    }
-
-            //    if (Baza.Columns.Contains(Jak + "/12/" + Admin_Year.Text))
-            //    {
-            //        for (int counter = ile; counter <= 12; counter++)
-            //        {
-            //            Baza.Columns.Remove(Jak + "/" + counter + "/" + Admin_Year.Text);
-            //        }
-            //    }
-            //    for (int counter = ile; counter <= 12; counter++)
-            //    {
-            //        Baza.Columns.Add(new DataColumn(Jak + "/" + counter + "/" + Admin_Year.Text));
-            //    }
-
-            //    foreach (string OneRow in row)
-            //    {
-            //        string[] row2 = OneRow.Split('\t');
-            //        if (row2[0] != "")
-            //        {
-            //            if (cb_AdminANC.Checked)
-            //            {
-            //                FoundRow = Baza.Select(string.Format("BUANC LIKE '%{0}%'", row2[0])).FirstOrDefault();
-            //            }
-            //            else
-            //            {
-            //                FoundRow = Baza.Select(string.Format("BUPNC LIKE '%{0}%'", row2[0])).FirstOrDefault();
-            //            }
-            //            int zmienna;
-            //            if (FoundRow != null)
-            //            {
-            //                zmienna = ile;
-            //                for (int counter = 1; counter <= (13 - ile); counter++)
-            //                {
-            //                    FoundRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
-            //                    zmienna++;
-            //                }
-
-            //            }
-            //            else
-            //            {
-            //                DataRow NewRow = Baza.NewRow();
-            //                NewRow[0] = row2[0];
-            //                zmienna = ile;
-            //                for (int counter = 1; counter <= (13 - ile); counter++)
-            //                {
-            //                    NewRow[Jak + "/" + zmienna + "/" + Admin_Year.Text] = row2[counter];
-            //                    zmienna++;
-            //                }
-            //                Baza.Rows.Add(NewRow);
-            //            }
-            //        }
-            //    }
-            //    if (cb_AdminANC.Checked)
-            //    {
-            //        Data_Import.Singleton().Save_DataTableToTXT2(ref Baza, "ANC");
-            //    }
-            //    if (cb_AdminPNC.Checked)
-            //    {
-            //        Data_Import.Singleton().Save_DataTableToTXT(ref Baza, "PNC");
-            //    }
-            //    this.Close();
-            //    Cursor.Current = Cursors.Default;
-            //    return;
-            //}
-
-            //if (Jak == "AddMonthANC" || Jak == "AddMonthPNC")
-            //{
-
-            //NumericUpDown Admin_Year = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_YearMonth", true).First();
-            //NumericUpDown Admin_Month = (NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Admin_QuantityMonth", true).First();
-            //DataTable Quantity = new DataTable();
-            //DataRow FoundRow;
-            //string Miesiac = Admin_Month.Value.ToString() + "/" + Admin_Year.Value.ToString();
-
-
-            //if (Jak == "AddMonthANC")
-            //{
-            //    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "ANCMonth");
-            //}
-            //if(Jak == "AddMonthPNC")
-            //{
-            //    Data_Import.Singleton().Load_TxtToDataTable2(ref Quantity, "PNCMonth");
-            //}
-
-            //if (Quantity.Columns.Contains(Miesiac))
-            //{
-            //    Quantity.Columns.Remove(Miesiac);
-            //}
-            //Quantity.Columns.Add(new DataColumn(Miesiac));
-
-            //foreach (string OneRow in row)
-            //{
-            //    string[] NewValue = OneRow.Split('\t');
-
-            //    if (NewValue[0] != "")
-            //    {
-            //        if(Jak == "AddMonthANC")
-            //        {
-            //            FoundRow = Quantity.Select(string.Format("ANC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
-            //        }
-            //        else
-            //        {
-            //            FoundRow = Quantity.Select(string.Format("PNC LIKE '%{0}%'", NewValue[0])).FirstOrDefault();
-            //        }
-            //        if(FoundRow != null)
-            //        {
-            //            FoundRow[Miesiac] = NewValue[1];
-            //        }
-            //        else
-            //        {
-            //            DataRow NewRow = Quantity.NewRow();
-            //            NewRow[0] = NewValue[0];
-            //            NewRow[Miesiac] = NewValue[1];
-            //            Quantity.Rows.Add(NewRow);
-            //        }
-            //    }
-            //}
-            //if (Jak == "AddMonthANC")
-            //{
-            //    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "ANCMonth");
-            //}
-            //if (Jak == "AddMonthPNC")
-            //{
-            //    Data_Import.Singleton().Save_DataTableToTXT2(ref Quantity, "PNCMonth");
-            //}
-            //this.Close();
-            //Cursor.Current = Cursors.Default;
-            //return;
-            //}
         }
 
         private void PB_CopyTemplate_Click(object sender, EventArgs e)
@@ -479,7 +321,7 @@ namespace Saving_Accelerator_Tool
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if(File.Exists(saveFileDialog.FileName))
+                if (File.Exists(saveFileDialog.FileName))
                 {
                     File.Delete(saveFileDialog.FileName);
                 }

@@ -37,8 +37,8 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
         private void But_Upload_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            MessageBox.Show("Noting to do!");
-            //ConvertTXTtoDB.Upload();
+            //MessageBox.Show("Noting to do!");
+            ConvertTXTtoDB.Upload();
             Cursor.Current = Cursors.Default;
         }
     }

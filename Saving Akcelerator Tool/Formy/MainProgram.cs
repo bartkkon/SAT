@@ -114,7 +114,11 @@ namespace Saving_Accelerator_Tool
             //
             if (Users.Singleton.AdminTab)
             {
-
+                adminTableView.optionsView.InitializeData();
+                CoinsView.InitializeData();
+                TargetView.InitializeData();
+                FrozenView.InitiaizeData();
+                SumPNC.InitializeData();
             }
             else
             {

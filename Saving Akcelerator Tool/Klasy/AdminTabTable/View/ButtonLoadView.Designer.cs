@@ -33,6 +33,9 @@
             this.but_SaveChange = new System.Windows.Forms.Button();
             this.but_Clear = new System.Windows.Forms.Button();
             this.but_OptionANCRevision = new System.Windows.Forms.Button();
+            this.but_STK = new System.Windows.Forms.Button();
+            this.But_PNCMonthly = new System.Windows.Forms.Button();
+            this.but_PNCRevision = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // but_Access
@@ -84,10 +87,43 @@
             this.but_OptionANCRevision.UseVisualStyleBackColor = true;
             this.but_OptionANCRevision.Click += new System.EventHandler(this.But_OptionANCRevision_Click);
             // 
+            // but_STK
+            // 
+            this.but_STK.Location = new System.Drawing.Point(351, 15);
+            this.but_STK.Name = "but_STK";
+            this.but_STK.Size = new System.Drawing.Size(106, 23);
+            this.but_STK.TabIndex = 5;
+            this.but_STK.Text = "STK";
+            this.but_STK.UseVisualStyleBackColor = true;
+            this.but_STK.Click += new System.EventHandler(this.But_STK_Click);
+            // 
+            // But_PNCMonthly
+            // 
+            this.But_PNCMonthly.Location = new System.Drawing.Point(127, 44);
+            this.But_PNCMonthly.Name = "But_PNCMonthly";
+            this.But_PNCMonthly.Size = new System.Drawing.Size(106, 23);
+            this.But_PNCMonthly.TabIndex = 6;
+            this.But_PNCMonthly.Text = "PNC Monthly";
+            this.But_PNCMonthly.UseVisualStyleBackColor = true;
+            this.But_PNCMonthly.Click += new System.EventHandler(this.But_PNCMonthly_Click);
+            // 
+            // but_PNCRevision
+            // 
+            this.but_PNCRevision.Location = new System.Drawing.Point(239, 44);
+            this.but_PNCRevision.Name = "but_PNCRevision";
+            this.but_PNCRevision.Size = new System.Drawing.Size(106, 23);
+            this.but_PNCRevision.TabIndex = 7;
+            this.but_PNCRevision.Text = "PNC Revision";
+            this.but_PNCRevision.UseVisualStyleBackColor = true;
+            this.but_PNCRevision.Click += new System.EventHandler(this.But_PNCRevision_Click);
+            // 
             // ButtonLoadView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_PNCRevision);
+            this.Controls.Add(this.But_PNCMonthly);
+            this.Controls.Add(this.but_STK);
             this.Controls.Add(this.but_OptionANCRevision);
             this.Controls.Add(this.but_Clear);
             this.Controls.Add(this.but_SaveChange);
@@ -106,5 +142,8 @@
         private System.Windows.Forms.Button but_SaveChange;
         private System.Windows.Forms.Button but_Clear;
         private System.Windows.Forms.Button but_OptionANCRevision;
+        private System.Windows.Forms.Button but_STK;
+        private System.Windows.Forms.Button But_PNCMonthly;
+        private System.Windows.Forms.Button but_PNCRevision;
     }
 }

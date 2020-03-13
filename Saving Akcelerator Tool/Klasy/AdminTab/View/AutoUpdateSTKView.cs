@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.AdmnTab.Framework;
+using Saving_Accelerator_Tool.Klasy.AdminTab.Framework;
 
 namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
 {
@@ -22,6 +23,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
         private void InitialuzeData()
         {
             num_Admin_AutoUpdateSTK_Year.Value = DateTime.UtcNow.Year;
+            Num_YearToManual.Value = DateTime.UtcNow.Year + 1;
         }
 
         private void Pb_Admin_AutoUpdateSTK_Click(object sender, EventArgs e)
@@ -34,8 +36,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
         private void Pb_Admin_UpdateSTK_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            STK UpdateSTK = new STK();
-            UpdateSTK.STK_LoadNewSTK();
+            _ = new STKUpdate();
             Cursor.Current = Cursors.Default;
         }
 
@@ -45,8 +46,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
             if (Results == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK();
-                _STK.STK_ClearYear(num_Admin_AutoUpdateSTK_Year.Value);
+                _ = new STKUpdateRemove(Convert.ToInt32(Num_YearToManual.Value));
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -57,8 +57,7 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.View
             if (Results == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                STK _STK = new STK();
-                _STK.STK_ManualUpdateFromFile(num_Admin_AutoUpdateSTK_Year.Value);
+                _ = new STKUpdate_ManualUpdate(Convert.ToInt32(Num_YearToManual.Value));
                 Cursor.Current = Cursors.Default;
             }
         }

@@ -16,57 +16,109 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
         public TargetView()
         {
             InitializeComponent();
-            InitializeData();
         }
 
-        private void InitializeData()
+        public string GetRevision()
+        {
+            return Comb_AdminTargetsRewizja.SelectedItem.ToString();
+        }
+
+        public void Clear()
+        {
+            Comb_AdminTargetsRewizja.SelectedIndex = -1;
+            Tb_AdminTargetsDM.Text = string.Empty;
+            Tb_AdminTargetsElePercent.Text = string.Empty;
+            Tb_AdminTargetsMechPercent.Text = string.Empty;
+            Tb_AdminTargetsNVRPercent.Text = string.Empty;
+            Tb_AdminTargetsPercent.Text = string.Empty;
+        }
+
+        public void SetRevision(string Revision)
+        {
+            if (Comb_AdminTargetsRewizja.Items.Contains(Revision))
+            {
+                int index = Comb_AdminTargetsRewizja.Items.IndexOf(Revision);
+                Comb_AdminTargetsRewizja.SelectedIndexChanged -= Comb_AdminTargetsComboBoxChange_SelectedItemChange;
+                Comb_AdminTargetsRewizja.SelectedIndex = index;
+                Comb_AdminTargetsRewizja.SelectedIndexChanged += Comb_AdminTargetsComboBoxChange_SelectedItemChange;
+            }
+            else
+            {
+                Comb_AdminTargetsRewizja.SelectedIndex = -1;
+            }
+        }
+
+        public void SetDM(double DMValue)
+        {
+            Tb_AdminTargetsDM.Text = DMValue.ToString();
+        }
+
+        public void SetPC(double PCValue)
+        {
+            Tb_AdminTargetsPercent.Text = PCValue.ToString();
+        }
+
+        public void SetElectronic(double EleValue)
+        {
+            Tb_AdminTargetsElePercent.Text = EleValue.ToString();
+        }
+
+        public void SetMechanic(double MechValue)
+        {
+            Tb_AdminTargetsMechPercent.Text = MechValue.ToString();
+        }
+
+        public void SetNVR(double NVRValue)
+        {
+            Tb_AdminTargetsNVRPercent.Text = NVRValue.ToString();
+        }
+
+        public void InitializeData()
         {
             Num_AdminTargetsYear.Value = DateTime.UtcNow.Year;
-            Comb_AdminTargetsRewizja.SelectedIndex = 1;
+            Comb_AdminTargetsRewizja.SelectedIndex = -1;
         }
 
         private void Pb_AdminTargets_Open_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            _ = new LoadTargets(Num_AdminTargetsYear.Value);
+            _ = new LoadTargets(Convert.ToInt32(Num_AdminTargetsYear.Value));
             Cursor.Current = Cursors.Default;
         }
 
         private void Pb_AdminTargets_Save_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            _ = new SaveTargets(Num_AdminTargetsYear.Value);
+
+            int Year = Convert.ToInt32(Num_AdminTargetsYear.Value);
+            string Revision = Comb_AdminTargetsRewizja.SelectedItem.ToString();
+            double DM = 0;
+            double PC = 0;
+            double Ele = 0;
+            double Mech = 0;
+            double NVR = 0;
+
+            if (Tb_AdminTargetsDM.Text != string.Empty)
+                DM = Convert.ToDouble(Tb_AdminTargetsDM.Text);
+            if (Tb_AdminTargetsPercent.Text != string.Empty)
+                PC = Convert.ToDouble(Tb_AdminTargetsPercent.Text);
+            if (Tb_AdminTargetsElePercent.Text != string.Empty)
+                Ele = Convert.ToDouble(Tb_AdminTargetsElePercent.Text);
+            if (Tb_AdminTargetsMechPercent.Text != string.Empty)
+                Mech = Convert.ToDouble(Tb_AdminTargetsMechPercent.Text);
+            if (Tb_AdminTargetsNVRPercent.Text != string.Empty)
+                NVR = Convert.ToDouble(Tb_AdminTargetsNVRPercent.Text);
+
+            _ = new SaveTargets(Year, Revision, DM, PC, Ele, Mech, NVR);
+
             Cursor.Current = Cursors.Default;
         }
 
         private void Comb_AdminTargetsComboBoxChange_SelectedItemChange(object sender, EventArgs e)
         {
-            DataTable Targets = new DataTable();
-            DataRow TargetsRow;
-            decimal Year = Num_AdminTargetsYear.Value;
-            int SelectedIndex = Comb_AdminTargetsRewizja.SelectedIndex;
-
-            Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
-            Tb_AdminTargetsDM.Text = "";
-            Tb_AdminTargetsPercent.Text = "";
-            Tb_AdminTargetsElePercent.Text = "";
-            Tb_AdminTargetsMechPercent.Text = "";
-            Tb_AdminTargetsNVRPercent.Text = "";
-
-            TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", Year.ToString())).First();
-            if (TargetsRow != null)
+            if ((sender as ComboBox).SelectedIndex != -1)
             {
-                string[] DM = (TargetsRow["DM"].ToString()).Split('/');
-                string[] PC = (TargetsRow["PC"].ToString()).Split('/');
-                string[] Ele = (TargetsRow["Ele"].ToString()).Split('/');
-                string[] Mech = (TargetsRow["Mech"].ToString()).Split('/');
-                string[] NVR = (TargetsRow["NVR"].ToString()).Split('/');
-
-                Tb_AdminTargetsDM.Text = DM[SelectedIndex];
-                Tb_AdminTargetsPercent.Text = PC[SelectedIndex];
-                Tb_AdminTargetsElePercent.Text = Ele[SelectedIndex];
-                Tb_AdminTargetsMechPercent.Text = Mech[SelectedIndex];
-                Tb_AdminTargetsNVRPercent.Text = NVR[SelectedIndex];
+                _ = new LoadTargets(Convert.ToInt32(Num_AdminTargetsYear.Value), (sender as ComboBox).SelectedItem.ToString());
             }
         }
 
@@ -111,9 +163,6 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
 
             if (ChangeText.Name == "Tb_AdminTargetsPercent")
             {
-                //TextBox DM = (TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First();
-                //Label Calc = (Label)mainProgram.TabControl.Controls.Find("Lab_AdminTargetsPC", true).First();
-
                 if (ChangeText.Text != "")
                 {
                     if (Tb_AdminTargetsDM.Text != "")
@@ -129,8 +178,6 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
             }
             else if (ChangeText.Name == "Tb_AdminTargetsElePercent")
             {
-                //TextBox DM = (TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First();
-                //Label Calc = (Label)mainProgram.TabControl.Controls.Find("Lab_AdminTargetsEle", true).First();
                 if (ChangeText.Text != "")
                 {
                     if (Tb_AdminTargetsDM.Text != "")
@@ -146,8 +193,6 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
             }
             else if (ChangeText.Name == "Tb_AdminTargetsMechPercent")
             {
-                //TextBox DM = (TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First();
-                //Label Calc = (Label)mainProgram.TabControl.Controls.Find("Lab_AdminTargetsMech", true).First();
                 if (ChangeText.Text != "")
                 {
                     if (Tb_AdminTargetsDM.Text != "")
@@ -163,8 +208,6 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
             }
             else if (ChangeText.Name == "Tb_AdminTargetsNVRPercent")
             {
-                //TextBox DM = (TextBox)mainProgram.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First();
-                //Label Calc = (Label)mainProgram.TabControl.Controls.Find("Lab_AdminTargetsNVR", true).First();
                 if (ChangeText.Text != "")
                 {
                     if (Tb_AdminTargetsDM.Text != "")

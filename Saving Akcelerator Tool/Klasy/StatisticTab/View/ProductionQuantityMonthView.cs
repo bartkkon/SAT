@@ -54,6 +54,17 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
             return dgv_StatisticQuantityMonth;
         }
 
+        public void ClearDataGridView()
+        {
+            foreach(DataGridViewRow Row in dgv_StatisticQuantityMonth.Rows)
+            {
+                foreach(DataGridViewColumn Column in dgv_StatisticQuantityMonth.Columns)
+                {
+                    Row.Cells[Column.Name].Value = null;
+                }
+            }
+        }
+
         private void PrepareTable()
         {
             dgv_StatisticQuantityMonth.Columns.Add("1", "I");

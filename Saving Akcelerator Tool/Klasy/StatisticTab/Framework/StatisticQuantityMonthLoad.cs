@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Controllers;
+using Saving_Accelerator_Tool.Controllers.AdminTab;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -32,69 +34,77 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
         private void LoadData_QuantityMonth()
         {
-            DataTable Actual;
-            DataTable Plan;
+            var Actual = SumMonthlyController.LoadByYear(Convert.ToInt32(_Year));
+            var Revision = SumRevisionController.LoadByYear(Convert.ToInt32(_Year));
 
-            Actual = ActualValue(false);
-            Plan = ActualValue(true);
 
-            ClearTable();
-
-            foreach (DataRow Row in Actual.Rows)
-            {
-                for (int counter = StartRevision(); counter <= 12; counter++)
-                {
-                    if (Actual.Columns.Contains(counter.ToString() + "/" + _Year.ToString()))
-                    {
-                        if (_QuantityMonth.Rows[0].Cells[counter.ToString()].Value != null)
-                            _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
-                        else
-                            _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
-                    }
-                }
-            }
-            foreach (DataRow Row in Plan.Rows)
-            {
-                if (_Revision != "All")
-                {
-                    for (int counter = StartRevision(); counter <= 12; counter++)
-                    {
-                        if (Plan.Columns.Contains(_Revision + "/" + counter.ToString() + "/" + _Year.ToString()))
-                        {
-                            if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-                            else
-                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-                        }
-                    }
-                }
-                else
-                {
-                    for (int counter = 1; counter <= 12; counter++)
-                    {
-                        string Rewizja;
-                        if (counter < 3)
-                            Rewizja = "BU";
-                        else if (counter < 6)
-                            Rewizja = "EA1";
-                        else if (counter < 9)
-                            Rewizja = "EA2";
-                        else
-                            Rewizja = "EA3";
-
-                        if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()))
-                        {
-                            if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-                            else
-                                _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-                        }
-                    }
-                }
-            }
-            SumRow();
-            Different();
         }
+
+        //private void LoadData_QuantityMonth()
+        //{
+        //    DataTable Actual;
+        //    DataTable Plan;
+
+        //    Actual = ActualValue(false);
+        //    Plan = ActualValue(true);
+
+        //    ClearTable();
+
+        //    foreach (DataRow Row in Actual.Rows)
+        //    {
+        //        for (int counter = StartRevision(); counter <= 12; counter++)
+        //        {
+        //            if (Actual.Columns.Contains(counter.ToString() + "/" + _Year.ToString()))
+        //            {
+        //                if (_QuantityMonth.Rows[0].Cells[counter.ToString()].Value != null)
+        //                    _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
+        //                else
+        //                    _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
+        //            }
+        //        }
+        //    }
+        //    foreach (DataRow Row in Plan.Rows)
+        //    {
+        //        if (_Revision != "All")
+        //        {
+        //            for (int counter = StartRevision(); counter <= 12; counter++)
+        //            {
+        //                if (Plan.Columns.Contains(_Revision + "/" + counter.ToString() + "/" + _Year.ToString()))
+        //                {
+        //                    if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
+        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
+        //                    else
+        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            for (int counter = 1; counter <= 12; counter++)
+        //            {
+        //                string Rewizja;
+        //                if (counter < 3)
+        //                    Rewizja = "BU";
+        //                else if (counter < 6)
+        //                    Rewizja = "EA1";
+        //                else if (counter < 9)
+        //                    Rewizja = "EA2";
+        //                else
+        //                    Rewizja = "EA3";
+
+        //                if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()))
+        //                {
+        //                    if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
+        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
+        //                    else
+        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
+        //                }
+        //            }
+        //        }
+        //    }
+        //    SumRow();
+        //    Different();
+        //}
 
         private void SumRow()
         {

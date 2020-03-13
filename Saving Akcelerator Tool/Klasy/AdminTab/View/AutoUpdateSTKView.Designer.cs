@@ -35,15 +35,15 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pb_Admin_UpdateSTK = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.Num_YearToManual = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.gb_Admin_AutoUpdateSTK.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Admin_AutoUpdateSTK_Year)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Num_YearToManual)).BeginInit();
             this.SuspendLayout();
             // 
             // gb_Admin_AutoUpdateSTK
@@ -125,7 +125,7 @@
             // 
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.numericUpDown1);
+            this.groupBox2.Controls.Add(this.Num_YearToManual);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 58);
@@ -135,21 +135,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Manual Update:";
             // 
-            // label2
+            // button2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Year:";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(98, 20);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(78, 20);
-            this.numericUpDown1.TabIndex = 1;
+            this.button2.Location = new System.Drawing.Point(37, 82);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(120, 30);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Manual Update";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Pb_Admin_ManualUpdate_Click);
             // 
             // button1
             // 
@@ -161,15 +155,36 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Pb_Admin_YearClear_Click);
             // 
-            // button2
+            // Num_YearToManual
             // 
-            this.button2.Location = new System.Drawing.Point(37, 82);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 30);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Manual Update";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Pb_Admin_ManualUpdate_Click);
+            this.Num_YearToManual.Location = new System.Drawing.Point(98, 20);
+            this.Num_YearToManual.Maximum = new decimal(new int[] {
+            2100,
+            0,
+            0,
+            0});
+            this.Num_YearToManual.Minimum = new decimal(new int[] {
+            2018,
+            0,
+            0,
+            0});
+            this.Num_YearToManual.Name = "Num_YearToManual";
+            this.Num_YearToManual.Size = new System.Drawing.Size(78, 20);
+            this.Num_YearToManual.TabIndex = 1;
+            this.Num_YearToManual.Value = new decimal(new int[] {
+            2018,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(34, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Year:";
             // 
             // AutoUpdateSTKView
             // 
@@ -186,7 +201,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Num_YearToManual)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -202,7 +217,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown Num_YearToManual;
         private System.Windows.Forms.Label label2;
     }
 }

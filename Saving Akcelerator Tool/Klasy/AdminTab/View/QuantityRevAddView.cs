@@ -49,12 +49,12 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View
 
                     if(cb_AdminPNC.Checked)
                     {
-                        Form AddData = new AddData("Proszę podać liste PNC", What);
+                        Form AddData = new AddData("Proszę podać liste PNC", num_Admin_YearQuantity.Value, What, false);
                         AddData.Show();
                     }
                     else
                     {
-                        Form AddData = new AddData("Proszę podać liste ANC", What);
+                        Form AddData = new AddData("Proszę podać liste ANC", num_Admin_YearQuantity.Value, What, true);
                         AddData.Show();
                     }      
                 }

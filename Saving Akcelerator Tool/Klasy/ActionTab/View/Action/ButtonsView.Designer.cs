@@ -41,7 +41,7 @@
             this.pb_IDCO.TabIndex = 0;
             this.pb_IDCO.Text = "IDCO";
             this.pb_IDCO.UseVisualStyleBackColor = true;
-            this.pb_IDCO.Click += new System.EventHandler(this.pb_IDCO_Click);
+            this.pb_IDCO.Click += new System.EventHandler(this.Pb_IDCO_Click);
             // 
             // pb_SavePNC
             // 
@@ -52,7 +52,7 @@
             this.pb_SavePNC.Text = "Save Data";
             this.pb_SavePNC.UseVisualStyleBackColor = true;
             this.pb_SavePNC.Visible = false;
-            this.pb_SavePNC.Click += new System.EventHandler(this.pb_SavePNC_Click);
+            this.pb_SavePNC.Click += new System.EventHandler(this.Pb_SavePNC_Click);
             // 
             // pb_SpecialCalc
             // 
@@ -64,7 +64,7 @@
             this.pb_SpecialCalc.Text = "Spec Calc";
             this.pb_SpecialCalc.UseVisualStyleBackColor = true;
             this.pb_SpecialCalc.Visible = false;
-            this.pb_SpecialCalc.Click += new System.EventHandler(this.pb_SpecialCalc_Click);
+            this.pb_SpecialCalc.Click += new System.EventHandler(this.Pb_SpecialCalc_Click);
             // 
             // ButtonsView
             // 

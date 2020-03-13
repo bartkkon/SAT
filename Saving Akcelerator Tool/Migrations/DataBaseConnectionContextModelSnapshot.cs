@@ -69,6 +69,78 @@ namespace Saving_Accelerator_Tool.Migrations
                     b.ToTable("ANCRevision");
                 });
 
+            modelBuilder.Entity("Saving_Accelerator_Tool.Model.FrozenDB", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("April")
+                        .HasColumnType("int");
+
+                    b.Property<int>("August")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BU")
+                        .HasColumnType("int");
+
+                    b.Property<int>("December")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EA1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EA2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EA3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ElectronicApprove")
+                        .HasColumnType("int");
+
+                    b.Property<int>("February")
+                        .HasColumnType("int");
+
+                    b.Property<int>("January")
+                        .HasColumnType("int");
+
+                    b.Property<int>("July")
+                        .HasColumnType("int");
+
+                    b.Property<int>("June")
+                        .HasColumnType("int");
+
+                    b.Property<int>("March")
+                        .HasColumnType("int");
+
+                    b.Property<int>("May")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MechanicApprove")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NVRApprove")
+                        .HasColumnType("int");
+
+                    b.Property<int>("November")
+                        .HasColumnType("int");
+
+                    b.Property<int>("October")
+                        .HasColumnType("int");
+
+                    b.Property<int>("September")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Frozen");
+                });
+
             modelBuilder.Entity("Saving_Accelerator_Tool.Model.PNCMonthlyDB", b =>
                 {
                     b.Property<int>("ID")
@@ -118,6 +190,198 @@ namespace Saving_Accelerator_Tool.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PNCRevision");
+                });
+
+            modelBuilder.Entity("Saving_Accelerator_Tool.Model.STKDB", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ANC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IDCO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("STK");
+                });
+
+            modelBuilder.Entity("Saving_Accelerator_Tool.Model.SumQuantityDB", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Installation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Platform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SumQuantity");
+                });
+
+            modelBuilder.Entity("Saving_Accelerator_Tool.Model.SumRevisionQuantityDB", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Installation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Platform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Revision")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SumRevisionQuantity");
+                });
+
+            modelBuilder.Entity("Saving_Accelerator_Tool.Model.Targets_CoinsDB", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("DM_BU")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DM_EA1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DM_EA2")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DM_EA3")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DM_EA4")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ECCC")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Electronic_BU")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Electronic_EA1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Electronic_EA2")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Electronic_EA3")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Electronic_EA4")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Euro")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Mechanic_BU")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Mechanic_EA1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Mechanic_EA2")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Mechanic_EA3")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Mechanic_EA4")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVR_BU")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVR_EA1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVR_EA2")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVR_EA3")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVR_EA4")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PC_BU")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PC_EA1")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PC_EA2")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PC_EA3")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PC_EA4")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SEK")
+                        .HasColumnType("float");
+
+                    b.Property<double>("USD")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Targets_Coins");
                 });
 
             modelBuilder.Entity("Saving_Accelerator_Tool.Model.UserDB", b =>

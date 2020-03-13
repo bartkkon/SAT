@@ -87,5 +87,71 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.View
 
             Cursor.Current = Cursors.Default;
         }
+
+        private void But_STK_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Option = MainProgram.Self.adminTableView.optionsView;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            Table.DataSource = STKController.Load_By_Year(Convert.ToInt32(Option.GetYear()));
+
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_PNCMonthly_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Option = MainProgram.Self.adminTableView.optionsView;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            if (Option.GetMonth() != 0)
+            {
+                Table.DataSource = PNCMonthlyQuantity.LoadByYear_Month(Convert.ToInt32(Option.GetYear()), Convert.ToInt32(Option.GetMonth()));
+            }
+            else
+            {
+                Table.DataSource = PNCMonthlyQuantity.LoadByYear(Convert.ToInt32(Option.GetYear()));
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_PNCRevision_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Option = MainProgram.Self.adminTableView.optionsView;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            if (Option.GetMonth() != 0 && Option.GetRevision() != "")
+            {
+                Table.DataSource = PNCRevisionQuantity.LoadByYear_Month_Revision(
+                    Convert.ToInt32(Option.GetYear()),
+                    Convert.ToInt32(Option.GetMonth()),
+                    Option.GetRevision()
+                    );
+            }
+            else if (Option.GetMonth() != 0)
+            {
+                Table.DataSource = PNCRevisionQuantity.LoadByYear_Month(
+                    Convert.ToInt32(Option.GetYear()),
+                    Convert.ToInt32(Option.GetMonth())
+                    );
+            }
+            else if (Option.GetRevision() != "")
+            {
+                Table.DataSource = PNCRevisionQuantity.LoadByYear_Revision(
+                    Convert.ToInt32(Option.GetYear()),
+                    Option.GetRevision()
+                    );
+            }
+            else
+            {
+                Table.DataSource = PNCRevisionQuantity.LoadByYear(
+                    Convert.ToInt32(Option.GetYear()));
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
     }
 }

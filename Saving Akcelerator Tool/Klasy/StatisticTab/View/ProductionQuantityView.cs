@@ -27,6 +27,30 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
             return dgv_StatisticQuantity;
         }
 
+        public void ClearDataGridView()
+        {
+            foreach(DataGridViewRow Row in dgv_StatisticQuantity.Rows)
+            {
+                foreach(DataGridViewColumn Column in dgv_StatisticQuantity.Columns)
+                {
+                    Row.Cells[Column.Name].Value = null;
+                    Row.Cells[Column.Name].Style.ForeColor = Color.FromArgb(0, 0, 0);
+                    Row.Cells[Column.Name].Style.BackColor = Color.FromArgb(255, 255, 255);
+                }
+            }
+
+            dgv_StatisticQuantity.Rows[0].Cells["BU"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[0].Cells["EA1"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[0].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[0].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[1].Cells["EA1"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[1].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[1].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[2].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[2].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticQuantity.Rows[3].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+        }
+
         private void PrepareTable()
         {
             dgv_StatisticQuantity.Columns.Add("Q", "Quantity");

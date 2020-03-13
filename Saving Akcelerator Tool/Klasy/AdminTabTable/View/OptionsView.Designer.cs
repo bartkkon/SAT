@@ -34,6 +34,7 @@
             this.num_OptionMonth = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.comb_Revision = new System.Windows.Forms.ComboBox();
+            this.but_SaveData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.num_Year)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_OptionMonth)).BeginInit();
             this.SuspendLayout();
@@ -113,10 +114,21 @@
             this.comb_Revision.Size = new System.Drawing.Size(91, 21);
             this.comb_Revision.TabIndex = 5;
             // 
+            // but_SaveData
+            // 
+            this.but_SaveData.Location = new System.Drawing.Point(1776, 52);
+            this.but_SaveData.Name = "but_SaveData";
+            this.but_SaveData.Size = new System.Drawing.Size(112, 28);
+            this.but_SaveData.TabIndex = 6;
+            this.but_SaveData.Text = "Save to .xlm";
+            this.but_SaveData.UseVisualStyleBackColor = true;
+            this.but_SaveData.Click += new System.EventHandler(this.But_SaveData_Click);
+            // 
             // OptionsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_SaveData);
             this.Controls.Add(this.comb_Revision);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.num_OptionMonth);
@@ -140,5 +152,6 @@
         private System.Windows.Forms.NumericUpDown num_OptionMonth;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comb_Revision;
+        private System.Windows.Forms.Button but_SaveData;
     }
 }

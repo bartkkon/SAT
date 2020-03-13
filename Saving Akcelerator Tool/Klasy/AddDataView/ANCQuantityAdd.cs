@@ -26,18 +26,21 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
             {
                 string[] AddData = Data.Split('\t');
 
-                var NewRow = new ANCMonthlyDB
+                if (AddData.Length != 1)
                 {
-                    ANC = AddData[0].ToString(),
-                    Year = AddYear,
-                    Month = AddMonth,
-                    Value = Convert.ToDouble(AddData[1])
-                };
-                ListANC.Add(NewRow);
+                    var NewRow = new ANCMonthlyDB
+                    {
+                        ANC = AddData[0].ToString(),
+                        Year = AddYear,
+                        Month = AddMonth,
+                        Value = Convert.ToDouble(AddData[1])
+                    };
+                    ListANC.Add(NewRow);
+                }
             }
 
 
-            if(ListANC != null)
+            if (ListANC != null)
             {
                 ANCMonthlyQuantity.AddList(ListANC);
             }

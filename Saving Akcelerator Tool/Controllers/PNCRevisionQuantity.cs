@@ -45,5 +45,28 @@ namespace Saving_Accelerator_Tool.Controllers
 
             return PNCListDB;
         }
+
+        public static void RemoveList(IEnumerable<PNCRevisionDB> ListPNC)
+        {
+            var context = new DataBaseConnectionContext();
+            foreach (var PNC in ListPNC)
+            {
+                context.Remove(PNC);
+            }
+
+            context.SaveChanges();
+        }
+
+        public static void AddList(IEnumerable<PNCRevisionDB> ListaPNC)
+        {
+            var context = new DataBaseConnectionContext();
+
+            foreach (var PNC in ListaPNC)
+            {
+                context.Add(PNC);
+            }
+
+            context.SaveChanges();
+        }
     }
 }

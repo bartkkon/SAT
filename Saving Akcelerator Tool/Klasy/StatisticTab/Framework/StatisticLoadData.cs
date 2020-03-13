@@ -14,6 +14,7 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
             _ = new StatisticDMLoad(MainProgram.Self.dmView.ObjectTable());
 
             //Ładowanie danych do prównania ilości produkowanych PNC w danym roku
+            MainProgram.Self.productionQuantityView.ClearDataGridView();
             _ = new StatisticQuantityLoad(MainProgram.Self.productionQuantityView.ObjectTable());
 
             //Ładowanie danych do porównania ilości produkcyjnych PNC w poszczególnych miesiącahc

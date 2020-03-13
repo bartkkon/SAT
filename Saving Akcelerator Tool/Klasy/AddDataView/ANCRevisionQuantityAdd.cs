@@ -11,9 +11,8 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
 {
     class ANCRevisionQuantityAdd
     {
-        public ANCRevisionQuantityAdd(string Revision, int AddYear, int AddMonth, string[] DataToAdd)
+        public ANCRevisionQuantityAdd(string Revision, int AddYear, string[] DataToAdd)
         {
-            var context = new DataBaseConnectionContext();
             var ANCList = ANCRevisionQuantity.LoadByYear_Revision(AddYear, Revision);
             int StartMonth = 0;
 
@@ -35,12 +34,34 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
             }
             List<ANCRevisionDB> ListANC = new List<ANCRevisionDB>();
 
-            
-            foreach(string Data in DataToAdd)
+
+            foreach (string Data in DataToAdd)
             {
                 string[] AddData = Data.Split('\t');
+                if (AddData.Length != 1)
+                {
+                    int StringCount = 1;
+
+                    for (int counter = StartMonth; counter < 13; counter++)
+                    {
+                        var NewRow = new ANCRevisionDB
+                        {
+                            ANC = AddData[0].ToString(),
+                            Year = AddYear,
+                            Month = counter,
+                            Revision = Revision,
+                            Value = Convert.ToDouble(AddData[StringCount]),
+                        };
+                        StringCount++;
+                        ListANC.Add(NewRow);
+                    }
+                }
             }
 
+            if(ListANC != null)
+            {
+                ANCRevisionQuantity.AddList(ListANC);
+            }
         }
     }
 }

@@ -35,20 +35,20 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             pb_SpecialCalc.Enabled = ifEnabled;
         }
 
-        private void pb_IDCO_Click(object sender, EventArgs e)
+        private void Pb_IDCO_Click(object sender, EventArgs e)
         {
 
             Form ActionFunction = new ActionFunction();
             ActionFunction.ShowDialog();
         }
 
-        private void pb_SpecialCalc_Click(object sender, EventArgs e)
+        private void Pb_SpecialCalc_Click(object sender, EventArgs e)
         {
             SpecialCalcAction SpecialCalc = new SpecialCalcAction();
             SpecialCalc.ShowDialog();
         }
 
-        private void pb_SavePNC_Click(object sender, EventArgs e)
+        private void Pb_SavePNC_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             _ = new SavePNC();

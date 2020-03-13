@@ -18,7 +18,6 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
             if (PNCList != null)
             {
                 PNCMonthlyQuantity.RemoveList(PNCList);
-                PNCList = null;
             }
 
             List<PNCMonthlyDB> ListPNC = new List<PNCMonthlyDB>();
@@ -27,14 +26,17 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
             {
                 string[] AddData = Data.Split('\t');
 
-                var NewRow = new PNCMonthlyDB
+                if (AddData.Length != 1)
                 {
-                    PNC = AddData[0].ToString(),
-                    Year = AddYear,
-                    Month = AddMonth,
-                    Value = Convert.ToDouble(AddData[1])
-                };
-                ListPNC.Add(NewRow);
+                    var NewRow = new PNCMonthlyDB
+                    {
+                        PNC = AddData[0].ToString(),
+                        Year = AddYear,
+                        Month = AddMonth,
+                        Value = Convert.ToDouble(AddData[1])
+                    };
+                    ListPNC.Add(NewRow);
+                }
             }
 
             if(ListPNC != null)

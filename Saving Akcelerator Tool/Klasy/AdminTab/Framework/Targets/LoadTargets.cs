@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Controllers;
+using Saving_Accelerator_Tool.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,58 +12,138 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.Framework.Targets
 {
     public class LoadTargets
     {
-        private readonly decimal _Year;
-        public LoadTargets(decimal Year)
+       
+        public LoadTargets(int Year)
         {
-            _Year = Year;
+            IEnumerable<Targets_CoinsDB> Lista = TargetsCoinsController.Load_Year(Year);
 
-            TargetsLoad();
+            MainProgram.Self.TargetView.Clear();
+
+            if(Lista.Count() == 0)
+            {
+                return;
+            }
+            else
+            {
+                Load(Lista.First());
+            }
         }
 
-        private void TargetsLoad()
+        public LoadTargets(int Year, string Revision)
         {
-            DataTable Targets = new DataTable();
-            DataRow TargetsRow;
-            int Revision = 5;
+            IEnumerable<Targets_CoinsDB> Lista = TargetsCoinsController.Load_Year(Year);
 
-            Data_Import.Singleton().Load_TxtToDataTable2(ref Targets, "Kurs");
+            MainProgram.Self.TargetView.Clear();
 
-            TargetsRow = Targets.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
-            if (TargetsRow != null)
+            if (Lista.Count() == 0)
             {
-                string[] DM = (TargetsRow["DM"].ToString()).Split('/');
-                string[] PC = (TargetsRow["PC"].ToString()).Split('/');
-                string[] Ele = (TargetsRow["Ele"].ToString()).Split('/');
-                string[] Mech = (TargetsRow["Mech"].ToString()).Split('/');
-                string[] NVR = (TargetsRow["NVR"].ToString()).Split('/');
-                
-                for(int counter = 4; counter>=0; counter--)
-                {
-                    if(DM[counter]!= "")
-                    {
-                        Revision = counter;
-                        break;
-                    }
-                }
-
-                if(Revision != 5)
-                {
-                    ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = Revision;
-                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = DM[Revision];
-                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = PC[Revision];
-                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = Ele[Revision];
-                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = Mech[Revision];
-                    ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = NVR[Revision];
-                }
+                return;
             }
-            if(Revision == 5)
+            else
             {
-                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsPercent", true).First()).Text = "";
-                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsElePercent", true).First()).Text = "";
-                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsMechPercent", true).First()).Text = "";
-                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsNVRPercent", true).First()).Text = "";
-                ((ComboBox)MainProgram.Self.TabControl.Controls.Find("Comb_AdminTargetsRewizja", true).First()).SelectedIndex = 0;
-                ((TextBox)MainProgram.Self.TabControl.Controls.Find("Tb_AdminTargetsDM", true).First()).Text = "";
+                LoadRevision(Lista.First(), Revision);
+            }
+        }
+
+        private void LoadRevision(Targets_CoinsDB Data, string revision)
+        {
+            var Target = MainProgram.Self.TargetView;
+
+            if (revision == "EA4")
+            {
+                Target.SetRevision("EA4");
+                Target.SetDM(Data.DM_EA4);
+                Target.SetPC(Data.PC_EA4);
+                Target.SetElectronic(Data.Electronic_EA4);
+                Target.SetMechanic(Data.Mechanic_EA4);
+                Target.SetNVR(Data.NVR_EA4);
+            }
+            else if (revision == "EA3")
+            {
+                Target.SetRevision("EA3");
+                Target.SetDM(Data.DM_EA3);
+                Target.SetPC(Data.PC_EA3);
+                Target.SetElectronic(Data.Electronic_EA3);
+                Target.SetMechanic(Data.Mechanic_EA3);
+                Target.SetNVR(Data.NVR_EA3);
+            }
+            else if (revision == "EA2")
+            {
+                Target.SetRevision("EA2");
+                Target.SetDM(Data.DM_EA2);
+                Target.SetPC(Data.PC_EA2);
+                Target.SetElectronic(Data.Electronic_EA2);
+                Target.SetMechanic(Data.Mechanic_EA2);
+                Target.SetNVR(Data.NVR_EA2);
+            }
+            else if (revision == "EA1")
+            {
+                Target.SetRevision("EA1");
+                Target.SetDM(Data.DM_EA1);
+                Target.SetPC(Data.PC_EA1);
+                Target.SetElectronic(Data.Electronic_EA1);
+                Target.SetMechanic(Data.Mechanic_EA1);
+                Target.SetNVR(Data.NVR_EA1);
+            }
+            else if (revision == "BU")
+            {
+                Target.SetRevision("BU");
+                Target.SetDM(Data.DM_BU);
+                Target.SetPC(Data.PC_BU);
+                Target.SetElectronic(Data.Electronic_BU);
+                Target.SetMechanic(Data.Mechanic_BU);
+                Target.SetNVR(Data.NVR_BU);
+            }
+        }
+
+        private void Load(Targets_CoinsDB Data)
+        {
+            var Target = MainProgram.Self.TargetView;
+            
+            if(Data.DM_EA4 != 0)
+            {
+                Target.SetRevision("EA4");
+                Target.SetDM(Data.DM_EA4);
+                Target.SetPC(Data.PC_EA4);
+                Target.SetElectronic(Data.Electronic_EA4);
+                Target.SetMechanic(Data.Mechanic_EA4);
+                Target.SetNVR(Data.NVR_EA4);
+            }
+            else if (Data.DM_EA3 != 0)
+            {
+                Target.SetRevision("EA3");
+                Target.SetDM(Data.DM_EA3);
+                Target.SetPC(Data.PC_EA3);
+                Target.SetElectronic(Data.Electronic_EA3);
+                Target.SetMechanic(Data.Mechanic_EA3);
+                Target.SetNVR(Data.NVR_EA3);
+            }
+            else if (Data.DM_EA2 != 0)
+            {
+                Target.SetRevision("EA2");
+                Target.SetDM(Data.DM_EA2);
+                Target.SetPC(Data.PC_EA2);
+                Target.SetElectronic(Data.Electronic_EA2);
+                Target.SetMechanic(Data.Mechanic_EA2);
+                Target.SetNVR(Data.NVR_EA2);
+            }
+            else if (Data.DM_EA1 != 0)
+            {
+                Target.SetRevision("EA1");
+                Target.SetDM(Data.DM_EA1);
+                Target.SetPC(Data.PC_EA1);
+                Target.SetElectronic(Data.Electronic_EA1);
+                Target.SetMechanic(Data.Mechanic_EA1);
+                Target.SetNVR(Data.NVR_EA1);
+            }
+            else 
+            {
+                Target.SetRevision("BU");
+                Target.SetDM(Data.DM_BU);
+                Target.SetPC(Data.PC_BU);
+                Target.SetElectronic(Data.Electronic_BU);
+                Target.SetMechanic(Data.Mechanic_BU);
+                Target.SetNVR(Data.NVR_BU);
             }
         }
     }
