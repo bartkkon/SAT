@@ -270,11 +270,11 @@ namespace Saving_Accelerator_Tool
 
                 if (cb_AdminANC.Checked)
                 {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "ANC");
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Baza, "ANC");
                 }
                 if (cb_AdminPNC.Checked)
                 {
-                    Data_Import.Singleton().Load_TxtToDataTable(ref Baza, "PNC");
+                    Data_Import.Singleton().Load_TxtToDataTable2(ref Baza, "PNC");
                 }
                 switch (Jak)
                 {
@@ -350,7 +350,7 @@ namespace Saving_Accelerator_Tool
                 }
                 if (cb_AdminPNC.Checked)
                 {
-                    Data_Import.Singleton().Save_DataTableToTXT(ref Baza, "PNC");
+                    Data_Import.Singleton().Save_DataTableToTXT2(ref Baza, "PNC");
                 }
                 this.Close();
                 Cursor.Current = Cursors.Default;

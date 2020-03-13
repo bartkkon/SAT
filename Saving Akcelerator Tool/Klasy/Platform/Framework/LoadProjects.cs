@@ -19,7 +19,7 @@ namespace Saving_Accelerator_Tool.Klasy.Platform.Framework
 
 
             RemoveAllObject();
-            LoadComboBox();
+            //LoadComboBox();
         }
 
         private void LoadComboBox()

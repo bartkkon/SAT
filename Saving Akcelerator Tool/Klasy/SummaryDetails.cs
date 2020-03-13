@@ -1067,14 +1067,17 @@ namespace Saving_Accelerator_Tool
 
                 for (int counter = 1; counter <= 4; counter++)
                 {
-                    decimal Tocheck = decimal.Parse(Percent.Rows[counter].Cells[0].Value.ToString());
-                    if (Tocheck >= 100)
+                    if (Percent.Rows[counter].Cells[0].Value != null)
                     {
-                        Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Green;
-                    }
-                    else
-                    {
-                        Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Red;
+                        decimal Tocheck = decimal.Parse(Percent.Rows[counter].Cells[0].Value.ToString());
+                        if (Tocheck >= 100)
+                        {
+                            Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Green;
+                        }
+                        else
+                        {
+                            Percent.Rows[counter].Cells[0].Style.ForeColor = Color.Red;
+                        }
                     }
                 }
             }

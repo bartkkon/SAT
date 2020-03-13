@@ -634,8 +634,8 @@ namespace Saving_Accelerator_Tool
                     NewRow["Delta"] = Delta[counter];
                 }
 
-                if (Preferencje["Actual"])
-                {
+                //if (Preferencje["Actual"])
+                //{
                     if (NewANC[counter] != "")
                     {
 
@@ -682,8 +682,8 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
-                }
-                else
+                //}
+                if(!Preferencje["Actual"])
                 {
                     if (!NewtoCalc)
                     {
@@ -978,7 +978,7 @@ namespace Saving_Accelerator_Tool
                         NewRow["Name"] = Help3[0];
                         for (int counter = MonthStart; counter <= 12; counter++)
                         {
-                            NewRow[counter.ToString()] = Help3[counter];
+                            NewRow[counter.ToString()] = Help3[counter - MonthStart +1];
                         }
                         PerANC.Rows.Add(NewRow);
                     }

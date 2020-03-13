@@ -29,6 +29,13 @@ namespace Saving_Accelerator_Tool.Klasy.Raporty
         {
             DataRow[] FindAction;
 
+            int FinishMonth = 12;
+            if (_Revision == "EA1")
+                FinishMonth = 10;
+            if (_Revision == "EA2")
+                FinishMonth = 7;
+            if ((_Revision == "EA3"))
+                FinishMonth = 4;
 
             FindAction = _History.Select(string.Format("History LIKE '%{0}%'", _Revision + "/" + _Year.ToString())).ToArray();
 
@@ -45,7 +52,7 @@ namespace Saving_Accelerator_Tool.Klasy.Raporty
                             if (OneANC != "")
                             {
                                 string[] One = OneANC.Split('|');
-                                for (int counter = 1; counter <= 12; counter++)
+                                for (int counter = 1; counter <= FinishMonth; counter++)
                                 {
                                     if (One[counter] != "")
                                     {
@@ -65,7 +72,7 @@ namespace Saving_Accelerator_Tool.Klasy.Raporty
                             if (OneANC != "")
                             {
                                 string[] One = OneANC.Split('|');
-                                for (int counter = 1; counter <= 12; counter++)
+                                for (int counter = 1; counter <= FinishMonth; counter++)
                                 {
                                     if (One[counter] != "")
                                     {

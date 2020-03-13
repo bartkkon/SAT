@@ -1081,7 +1081,7 @@ namespace Saving_Accelerator_Tool
                         NewRow["Name"] = Help3[0];
                         for (int counter = MonthStart; counter <= 12; counter++)
                         {
-                            NewRow[counter.ToString()] = Help3[counter];
+                            NewRow[counter.ToString()] = Help3[counter -MonthStart +1];
                         }
                         PerANC.Rows.Add(NewRow);
                     }

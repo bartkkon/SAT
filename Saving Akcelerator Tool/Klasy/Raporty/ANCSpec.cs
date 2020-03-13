@@ -641,8 +641,8 @@ namespace Saving_Accelerator_Tool
 
                 if (Calc[counter].ToString() == "true")
                 {
-                    if (Preferencje["Actual"])
-                    {
+                    //if (Preferencje["Actual"])
+                    //{
                         if (NewANC[counter] != "")
                         {
                             if (PerANCUSE.Rows.Count != 0)
@@ -692,8 +692,8 @@ namespace Saving_Accelerator_Tool
                                 }
                             }
                         }
-                    }
-                    else 
+                    //}
+                    if (!Preferencje["Actual"])
                     {
                         if (!NewtoCalc)
                         {

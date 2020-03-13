@@ -57,7 +57,7 @@ namespace Saving_Accelerator_Tool
                 }
                 else
                 {
-                    toolStripStatusLabel1.Text = "0.5.0.32  Beta Portable Version";
+                    toolStripStatusLabel1.Text = "0.5.0.33  Beta Portable Version";
                 }
 
                 if (Environment.UserName.ToString() == "BartkKon")
@@ -65,7 +65,7 @@ namespace Saving_Accelerator_Tool
                     string Link = data_Import.CheckLink();
                     toolStripStatusLabel1.Text = toolStripStatusLabel1.Text + "      " + Link;
                 }
-                
+
 
             }
             catch (Exception ex)
