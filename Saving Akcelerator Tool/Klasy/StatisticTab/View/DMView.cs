@@ -32,26 +32,44 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
             return dgv_StatisticDM;
         }
 
+        public void ClearDataGridView()
+        {
+            foreach (DataGridViewRow Row in dgv_StatisticDM.Rows)
+            {
+                foreach (DataGridViewColumn Column in dgv_StatisticDM.Columns)
+                {
+                    Row.Cells[Column.Name].Value = null;
+                    Row.Cells[Column.Name].Style.ForeColor = Color.FromArgb(0, 0, 0);
+                    Row.Cells[Column.Name].Style.BackColor = Color.FromArgb(255, 255, 255);
+                }
+            }
+
+            dgv_StatisticDM.Rows[0].Cells["BU"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[0].Cells["EA1"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[0].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[0].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[1].Cells["EA1"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[1].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[1].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[2].Cells["EA2"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[2].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+            dgv_StatisticDM.Rows[3].Cells["EA3"].Style.BackColor = Color.FromArgb(166, 166, 166);
+        }
+
         public int GetExchangeRateIndex()
         {
             return cb_Statistic_ExchangeRate.SelectedIndex;
         }
 
+        public string GetExchangeRate()
+        {
+            return cb_Statistic_ExchangeRate.SelectedItem.ToString();
+        }
+
         private void PreapreTable()
         {
-            dgv_StatisticDM.Columns.Add("DM", "DM");
-            dgv_StatisticDM.Columns["DM"].Width = 90;
-            dgv_StatisticDM.Columns.Add("BU", "BU");
-            dgv_StatisticDM.Columns["BU"].Width = 80;
-            dgv_StatisticDM.Columns.Add("EA1", "EA1");
-            dgv_StatisticDM.Columns["EA1"].Width = 80;
-            dgv_StatisticDM.Columns.Add("EA2", "EA2");
-            dgv_StatisticDM.Columns["EA2"].Width = 80;
-            dgv_StatisticDM.Columns.Add("EA3", "EA3");
-            dgv_StatisticDM.Columns["EA3"].Width = 80;
-            dgv_StatisticDM.Columns["DM"].DefaultCellStyle.Font = new Font(dgv_StatisticDM.Font, FontStyle.Bold);
+            dgv_StatisticDM.Columns["DM"].DefaultCellStyle.Font = new Font(dgv_StatisticDM.Font,FontStyle.Bold);
             dgv_StatisticDM.Rows.Add(5);
-            dgv_StatisticDM.RowHeadersWidth = 58;
             dgv_StatisticDM.Rows[0].HeaderCell.Value = "BU";
             dgv_StatisticDM.Rows[1].HeaderCell.Value = "EA1";
             dgv_StatisticDM.Rows[2].HeaderCell.Value = "EA2";
@@ -80,8 +98,10 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
         private void Cb_Statistic_ExchangeRate_SelectedIndexChanged(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            _ = new StatisticDMLoad(dgv_StatisticDM);
+            _ = new StatisticDMLoad(dgv_StatisticDM, cb_Statistic_ExchangeRate.SelectedItem.ToString());
             Cursor.Current = Cursors.Default;
         }
+
+
     }
 }

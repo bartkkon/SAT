@@ -19,6 +19,14 @@ namespace Saving_Accelerator_Tool.Controllers
             return Lista;
         }
 
+        public static IEnumerable<FrozenDB> Load()
+        {
+            var context = new DataBaseConnectionContext();
+            var List = context.Frozen.ToList();
+
+            return List;
+        }
+
         public static void AddValue(FrozenDB _AddValue)
         {
             var context = new DataBaseConnectionContext();

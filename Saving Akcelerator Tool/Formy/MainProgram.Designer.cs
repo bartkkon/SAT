@@ -50,9 +50,9 @@ namespace Saving_Accelerator_Tool
             this.SDSumAllAction = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDSumAllAction();
             this.sdOptions2 = new Saving_Accelerator_Tool.Klasy.SummaryDetails.View.SDOptions();
             this.tab_Statistic = new System.Windows.Forms.TabPage();
-            this.productionQuantityMonthView1 = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityMonthView();
+            this.ProductionQuantityMonthView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityMonthView();
             this.productionQuantityView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.ProductionQuantityView();
-            this.dmView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.DMView();
+            this.DMView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.DMView();
             this.optionView = new Saving_Accelerator_Tool.Klasy.StatisticTab.View.OptionView();
             this.tab_Platform = new System.Windows.Forms.TabPage();
             this.tab_STK = new System.Windows.Forms.TabPage();
@@ -236,23 +236,23 @@ namespace Saving_Accelerator_Tool
             // 
             // tab_Statistic
             // 
-            this.tab_Statistic.Controls.Add(this.productionQuantityMonthView1);
+            this.tab_Statistic.Controls.Add(this.ProductionQuantityMonthView);
             this.tab_Statistic.Controls.Add(this.productionQuantityView);
-            this.tab_Statistic.Controls.Add(this.dmView);
+            this.tab_Statistic.Controls.Add(this.DMView);
             this.tab_Statistic.Controls.Add(this.optionView);
-            this.tab_Statistic.Location = new System.Drawing.Point(4, 40);
+            this.tab_Statistic.Location = new System.Drawing.Point(4, 22);
             this.tab_Statistic.Name = "tab_Statistic";
-            this.tab_Statistic.Size = new System.Drawing.Size(192, 56);
+            this.tab_Statistic.Size = new System.Drawing.Size(1912, 974);
             this.tab_Statistic.TabIndex = 3;
             this.tab_Statistic.Text = "Statistic";
             this.tab_Statistic.UseVisualStyleBackColor = true;
             // 
-            // productionQuantityMonthView1
+            // ProductionQuantityMonthView
             // 
-            this.productionQuantityMonthView1.Location = new System.Drawing.Point(156, 169);
-            this.productionQuantityMonthView1.Name = "productionQuantityMonthView1";
-            this.productionQuantityMonthView1.Size = new System.Drawing.Size(1042, 148);
-            this.productionQuantityMonthView1.TabIndex = 3;
+            this.ProductionQuantityMonthView.Location = new System.Drawing.Point(156, 169);
+            this.ProductionQuantityMonthView.Name = "ProductionQuantityMonthView";
+            this.ProductionQuantityMonthView.Size = new System.Drawing.Size(1042, 148);
+            this.ProductionQuantityMonthView.TabIndex = 3;
             // 
             // productionQuantityView
             // 
@@ -261,12 +261,12 @@ namespace Saving_Accelerator_Tool
             this.productionQuantityView.Size = new System.Drawing.Size(490, 160);
             this.productionQuantityView.TabIndex = 2;
             // 
-            // dmView
+            // DMView
             // 
-            this.dmView.Location = new System.Drawing.Point(156, 3);
-            this.dmView.Name = "dmView";
-            this.dmView.Size = new System.Drawing.Size(550, 160);
-            this.dmView.TabIndex = 1;
+            this.DMView.Location = new System.Drawing.Point(156, 3);
+            this.DMView.Name = "DMView";
+            this.DMView.Size = new System.Drawing.Size(550, 160);
+            this.DMView.TabIndex = 1;
             // 
             // optionView
             // 
@@ -315,9 +315,9 @@ namespace Saving_Accelerator_Tool
             this.tab_Admin.Controls.Add(this.SumPNC);
             this.tab_Admin.Controls.Add(this.quantityRevAddView1);
             this.tab_Admin.Controls.Add(this.quantityMonthAddView1);
-            this.tab_Admin.Location = new System.Drawing.Point(4, 22);
+            this.tab_Admin.Location = new System.Drawing.Point(4, 58);
             this.tab_Admin.Name = "tab_Admin";
-            this.tab_Admin.Size = new System.Drawing.Size(1912, 974);
+            this.tab_Admin.Size = new System.Drawing.Size(192, 38);
             this.tab_Admin.TabIndex = 7;
             this.tab_Admin.Text = "Administration";
             this.tab_Admin.UseVisualStyleBackColor = true;
@@ -472,9 +472,9 @@ namespace Saving_Accelerator_Tool
         private Klasy.AdminTab.View.DataBaseView dataBaseView1;
         private Klasy.AdmnTab.View.SendMailView sendMailView1;
         public Klasy.StatisticTab.View.ProductionQuantityView productionQuantityView;
-        public Klasy.StatisticTab.View.DMView dmView;
+        public Klasy.StatisticTab.View.DMView DMView;
         public Klasy.StatisticTab.View.OptionView optionView;
-        public Klasy.StatisticTab.View.ProductionQuantityMonthView productionQuantityMonthView1;
+        public Klasy.StatisticTab.View.ProductionQuantityMonthView ProductionQuantityMonthView;
         public Klasy.SummaryDetails.View.SDOptions sdOptions1;
         public Klasy.SummaryDetails.View.SDOptions sdOptions2;
         public Klasy.SummaryDetails.View.SDTableAllView sdTableAllView;

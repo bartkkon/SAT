@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Controllers.AdminTableTab;
 using Saving_Accelerator_Tool.Controllers;
+using Saving_Accelerator_Tool.Controllers.AdminTab;
 
 namespace Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.View
 {
@@ -151,6 +152,44 @@ namespace Saving_Accelerator_Tool.Klasy.AdminTab.View.AdminTabTable.View
                     Convert.ToInt32(Option.GetYear()));
             }
 
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_SumPNCMonthly_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Option = MainProgram.Self.adminTableView.optionsView;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            Table.DataSource = SumMonthlyController.LoadByYear(Convert.ToInt32(Option.GetYear()));
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_SumPNCRevision_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Option = MainProgram.Self.adminTableView.optionsView;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            Table.DataSource = SumRevisionController.LoadByYear(Convert.ToInt32(Option.GetYear()));
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_Users_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            Table.DataSource = AddPersonController.GetUsers();
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void But_Frozen_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            var Table = MainProgram.Self.adminTableView.ReturnDataGridView();
+
+            Table.DataSource = FrozenController.Load();
             Cursor.Current = Cursors.Default;
         }
     }

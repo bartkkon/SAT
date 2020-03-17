@@ -63,6 +63,12 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.View
                     Row.Cells[Column.Name].Value = null;
                 }
             }
+
+            foreach(DataGridViewColumn Column in dgv_StatisticQuantityMonth.Columns)
+            {
+                dgv_StatisticQuantityMonth.Rows[2].Cells[Column.Name].Style.ForeColor = Color.FromArgb(0, 0, 0);
+                dgv_StatisticQuantityMonth.Rows[2].Cells[Column.Name].Style.BackColor = Color.FromArgb(255, 255, 255);
+            }
         }
 
         private void PrepareTable()

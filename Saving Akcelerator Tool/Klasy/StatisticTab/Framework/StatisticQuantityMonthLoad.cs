@@ -1,5 +1,6 @@
 ﻿using Saving_Accelerator_Tool.Controllers;
 using Saving_Accelerator_Tool.Controllers.AdminTab;
+using Saving_Accelerator_Tool.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +14,6 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 {
     class StatisticQuantityMonthLoad
     {
-        private static Data_Import _Import;
         private readonly string _Revision;
         private readonly string _Installation;
         private readonly string _Structure;
@@ -22,207 +22,154 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 
         public StatisticQuantityMonthLoad(DataGridView QuantityMonth)
         {
-            _Import = Data_Import.Singleton();
             _QuantityMonth = QuantityMonth;
-            _Revision = MainProgram.Self.productionQuantityMonthView1.GetRevision();
-            _Structure = MainProgram.Self.productionQuantityMonthView1.GetStructure();
-            _Installation = MainProgram.Self.productionQuantityMonthView1.GetInstallation();
+            _Revision = MainProgram.Self.ProductionQuantityMonthView.GetRevision();
+            _Structure = MainProgram.Self.ProductionQuantityMonthView.GetStructure();
+            _Installation = MainProgram.Self.ProductionQuantityMonthView.GetInstallation();
             _Year = MainProgram.Self.optionView.GetYear();
 
-            LoadData_QuantityMonth();
-        }
-
-        private void LoadData_QuantityMonth()
-        {
-            var Actual = SumMonthlyController.LoadByYear(Convert.ToInt32(_Year));
-            var Revision = SumRevisionController.LoadByYear(Convert.ToInt32(_Year));
-
-
-        }
-
-        //private void LoadData_QuantityMonth()
-        //{
-        //    DataTable Actual;
-        //    DataTable Plan;
-
-        //    Actual = ActualValue(false);
-        //    Plan = ActualValue(true);
-
-        //    ClearTable();
-
-        //    foreach (DataRow Row in Actual.Rows)
-        //    {
-        //        for (int counter = StartRevision(); counter <= 12; counter++)
-        //        {
-        //            if (Actual.Columns.Contains(counter.ToString() + "/" + _Year.ToString()))
-        //            {
-        //                if (_QuantityMonth.Rows[0].Cells[counter.ToString()].Value != null)
-        //                    _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
-        //                else
-        //                    _QuantityMonth.Rows[0].Cells[counter.ToString()].Value = decimal.Parse(Row[counter.ToString() + "/" + _Year.ToString()].ToString());
-        //            }
-        //        }
-        //    }
-        //    foreach (DataRow Row in Plan.Rows)
-        //    {
-        //        if (_Revision != "All")
-        //        {
-        //            for (int counter = StartRevision(); counter <= 12; counter++)
-        //            {
-        //                if (Plan.Columns.Contains(_Revision + "/" + counter.ToString() + "/" + _Year.ToString()))
-        //                {
-        //                    if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-        //                    else
-        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[_Revision + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            for (int counter = 1; counter <= 12; counter++)
-        //            {
-        //                string Rewizja;
-        //                if (counter < 3)
-        //                    Rewizja = "BU";
-        //                else if (counter < 6)
-        //                    Rewizja = "EA1";
-        //                else if (counter < 9)
-        //                    Rewizja = "EA2";
-        //                else
-        //                    Rewizja = "EA3";
-
-        //                if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()))
-        //                {
-        //                    if (_QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-        //                    else
-        //                        _QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + _Year.ToString()].ToString());
-        //                }
-        //            }
-        //        }
-        //    }
-        //    SumRow();
-        //    Different();
-        //}
-
-        private void SumRow()
-        {
-            decimal SumActual = 0;
-            decimal SumPlan = 0;
-
-            for (int counter = 0; counter < 12; counter++)
-            {
-                if (_QuantityMonth.Rows[0].Cells[counter].Value != null)
-                    SumActual += decimal.Parse(_QuantityMonth.Rows[0].Cells[counter].Value.ToString());
-                if (_QuantityMonth.Rows[1].Cells[counter].Value != null)
-                    SumPlan += decimal.Parse(_QuantityMonth.Rows[1].Cells[counter].Value.ToString());
-            }
-
-            if (SumActual != 0)
-                _QuantityMonth.Rows[0].Cells[12].Value = SumActual;
-            if (SumPlan != 0)
-                _QuantityMonth.Rows[1].Cells[12].Value = SumPlan;
+            MainProgram.Self.ProductionQuantityMonthView.ClearDataGridView();
+            LoadData_QuantityMonth_Actual();
+            LoadData_QuantityMonth_Revision();
+            SumTable();
+            Different();
         }
 
         private void Different()
         {
-
-            for (int counter = 0; counter <= 12; counter++)
+            for (int Column = 0; Column <= 12; Column++)
             {
-                if (_QuantityMonth.Rows[0].Cells[counter].Value != null && _QuantityMonth.Rows[1].Cells[counter].Value != null)
+                if (_QuantityMonth.Rows[0].Cells[Column].Value != null && _QuantityMonth.Rows[1].Cells[Column].Value != null)
                 {
-                    _QuantityMonth.Rows[2].Cells[counter].Value = decimal.Parse(_QuantityMonth.Rows[0].Cells[counter].Value.ToString()) - decimal.Parse(_QuantityMonth.Rows[1].Cells[counter].Value.ToString());
-                    ColorTable(_QuantityMonth.Rows[2].Cells[counter]);
+                    _QuantityMonth.Rows[2].Cells[Column].Value = Convert.ToDouble(_QuantityMonth.Rows[0].Cells[Column].Value) - Convert.ToDouble(_QuantityMonth.Rows[1].Cells[Column].Value);
+                    if (Convert.ToDouble(_QuantityMonth.Rows[2].Cells[Column].Value) > 0)
+                    {
+                        _QuantityMonth.Rows[2].Cells[Column].Style.ForeColor = Color.FromArgb(0, 97, 0);
+                        _QuantityMonth.Rows[2].Cells[Column].Style.BackColor = Color.FromArgb(198, 239, 206);
+                    }
+                    else if (Convert.ToDouble(_QuantityMonth.Rows[2].Cells[Column].Value) < 0)
+                    {
+                        _QuantityMonth.Rows[2].Cells[Column].Style.ForeColor = Color.FromArgb(156, 0, 6);
+                        _QuantityMonth.Rows[2].Cells[Column].Style.BackColor = Color.FromArgb(255, 199, 206);
+                    }
                 }
             }
         }
 
-        private void ColorTable(DataGridViewCell Cell)
+        private void SumTable()
         {
-            if (decimal.Parse(Cell.Value.ToString()) > 0)
+            double SumActual = 0;
+            double SumRevision = 0;
+
+            for (int Column = 0; Column < 12; Column++)
             {
-                Cell.Style.ForeColor = Color.FromArgb(0, 97, 0);
-                Cell.Style.BackColor = Color.FromArgb(198, 239, 206);
+                if (_QuantityMonth.Rows[0].Cells[Column].Value != null)
+                    SumActual += Convert.ToDouble(_QuantityMonth.Rows[0].Cells[Column].Value);
+
+                if (_QuantityMonth.Rows[1].Cells[Column].Value != null)
+                    SumRevision += Convert.ToDouble(_QuantityMonth.Rows[1].Cells[Column].Value);
             }
-            else if (decimal.Parse(Cell.Value.ToString()) < 0)
+
+            if (SumActual != 0)
+                _QuantityMonth.Rows[0].Cells["Sum"].Value = SumActual;
+            if (SumRevision != 0)
+                _QuantityMonth.Rows[1].Cells["Sum"].Value = SumRevision;
+        }
+
+        private void LoadData_QuantityMonth_Actual()
+        {
+            var Actual = SumMonthlyController.LoadByYear(Convert.ToInt32(_Year));
+            if (_Structure != "All")
+                Actual = Actual.Where(u => u.Platform == _Structure).ToList();
+
+            if (_Installation != "All")
+                Actual = Actual.Where(u => u.Installation == _Installation).ToList();
+
+            for (int Month = 1; Month <= 12; Month++)
             {
-                Cell.Style.ForeColor = Color.FromArgb(156, 0, 6);
-                Cell.Style.BackColor = Color.FromArgb(255, 199, 206);
+                var MonthActual = Actual.Where(u => u.Month == Month).ToList();
+
+                if (MonthActual.Count() != 0)
+                {
+                    double Sum = 0;
+                    foreach (var Row in MonthActual)
+                    {
+                        Sum += Row.Value;
+                    }
+                    _QuantityMonth.Rows[0].Cells[Month.ToString()].Value = Sum;
+                }
             }
         }
 
-        private void ClearTable()
+        private void LoadData_QuantityMonth_Revision()
         {
-            for (int counter = 0; counter <= 12; counter++)
+            int StartMonth;
+            int FinishMonth;
+
+            var Revision = SumRevisionController.LoadByYear(Convert.ToInt32(_Year));
+
+            if (_Structure != "All")
+                Revision = Revision.Where(u => u.Platform == _Structure).ToList();
+
+            if (_Installation != "All")
+                Revision = Revision.Where(u => u.Installation == _Installation).ToList();
+
+            if (_Revision == "BU")
             {
-                _QuantityMonth.Rows[0].Cells[counter].Value = null;
-                _QuantityMonth.Rows[1].Cells[counter].Value = null;
-                _QuantityMonth.Rows[2].Cells[counter].Value = null;
-                _QuantityMonth.Rows[2].Cells[counter].Style.ForeColor = Color.FromArgb(0, 0, 0);
-                _QuantityMonth.Rows[2].Cells[counter].Style.BackColor = Color.FromArgb(255, 255, 255);
-            }
-        }
-        private int StartRevision()
-        {
-            if (_Revision == "All" || _Revision == "BU")
-            {
-                return 1;
+                StartMonth = 1;
+                FinishMonth = 12;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "BU").ToList());
             }
             else if (_Revision == "EA1")
             {
-                return 3;
+                StartMonth = 3;
+                FinishMonth = 12;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA1").ToList());
             }
             else if (_Revision == "EA2")
             {
-                return 6;
+                StartMonth = 6;
+                FinishMonth = 12;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA2").ToList());
             }
-            else
+            else if (_Revision == "EA3")
             {
-                return 9;
+                StartMonth = 9;
+                FinishMonth = 12;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA3").ToList());
+            }
+            else if (_Revision == "All")
+            {
+                StartMonth = 1;
+                FinishMonth = 2;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "BU").ToList());
+                StartMonth = 3;
+                FinishMonth = 5;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA1").ToList());
+                StartMonth = 6;
+                FinishMonth = 9;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA2").ToList());
+                StartMonth = 9;
+                FinishMonth = 12;
+                LoadRevision(StartMonth, FinishMonth, Revision.Where(u => u.Revision == "EA3").ToList());
             }
         }
 
-        private DataTable ActualValue(bool Estymacja)
+        private void LoadRevision(int startMonth, int finishMonth, List<SumRevisionQuantityDB> list)
         {
-            DataTable SumPNC = new DataTable();
-            DataTable ActualAllRow;
-            DataRow Actual;
-
-            if (Estymacja)
-                _Import.Load_TxtToDataTable2(ref SumPNC, "SumPNCBU");
-            else
-                _Import.Load_TxtToDataTable2(ref SumPNC, "SumPNC");
-
-            ActualAllRow = SumPNC.Clone();
-
-            if (_Structure == _Installation)
+            for (int Month = startMonth; Month <= finishMonth; Month++)
             {
-                Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "All")).First();
-                ActualAllRow.Rows.Add(Actual.ItemArray);
-            }
-            else
-            {
-                if (_Installation == "All")
+                var MonthList = list.Where(u => u.Month == Month).ToList();
+                if (MonthList.Count() != 0)
                 {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", _Structure)).First();
-                    ActualAllRow.Rows.Add(Actual.ItemArray);
-                }
-                else if (_Structure == "All")
-                {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "DMD_" + _Installation)).First();
-                    ActualAllRow.Rows.Add(Actual.ItemArray);
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", "D45_" + _Installation)).First();
-                    ActualAllRow.Rows.Add(Actual.ItemArray);
-                }
-                else
-                {
-                    Actual = SumPNC.Select(string.Format("PNC LIKE '%{0}%'", _Structure + "_" + _Installation)).First();
-                    ActualAllRow.Rows.Add(Actual.ItemArray);
+                    double Sum = 0;
+                    foreach (var One in MonthList)
+                    {
+                        Sum += One.Value;
+                    }
+                    _QuantityMonth.Rows[1].Cells[Month.ToString()].Value = Sum;
                 }
             }
-
-            return ActualAllRow;
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Saving_Accelerator_Tool.Controllers.AdminTab
             _ = new LoadPerson(user);
         }
 
-        private static IEnumerable<UserDB> GetUsers()
+        public static IEnumerable<UserDB> GetUsers()
         {
             var _context = new DataBaseConnectionContext();
             List<UserDB> users = new List<UserDB>();

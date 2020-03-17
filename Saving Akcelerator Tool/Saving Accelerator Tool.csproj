@@ -507,8 +507,6 @@
     </Compile>
     <Compile Include="Klasy\Calculation.cs" />
     <Compile Include="Klasy\Charts.cs" />
-    <Compile Include="Klasy\ActionFormHendler.cs" />
-    <Compile Include="Klasy\ActionForm.cs" />
     <Compile Include="Formy\AddData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -556,8 +554,6 @@
     <Compile Include="Klasy\StatisticTab\View\ProductionQuantityView.Designer.cs">
       <DependentUpon>ProductionQuantityView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Klasy\ModifiActionForm.cs" />
-    <Compile Include="Klasy\ModifiActionFormHendler.cs" />
     <Compile Include="Klasy\LogSingleton.cs" />
     <Compile Include="Klasy\LoadAction.cs" />
     <Compile Include="Klasy\Raporty\Level1.cs" />
@@ -660,7 +656,27 @@
     <Compile Include="Migrations\20200311160713_Add_Table_Sum_CorrectValue.designer.cs">
       <DependentUpon>20200311160713_Add_Table_Sum_CorrectValue.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200317114319_ActionAdd.cs" />
+    <Compile Include="Migrations\20200317114319_ActionAdd.designer.cs">
+      <DependentUpon>20200317114319_ActionAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConnectionContextModelSnapshot.cs" />
+    <Compile Include="Model\ActionDB.cs" />
+    <Compile Include="Model\Action\ANCChangeDB.cs" />
+    <Compile Include="Model\Action\BU_Carry_DB.cs" />
+    <Compile Include="Model\Action\BU_DB.cs" />
+    <Compile Include="Model\Action\CalculationMassDB.cs" />
+    <Compile Include="Model\Action\EA1_Carry_DB.cs" />
+    <Compile Include="Model\Action\EA1_DB.cs" />
+    <Compile Include="Model\Action\EA2_Carry_DB.cs" />
+    <Compile Include="Model\Action\EA2_DB.cs" />
+    <Compile Include="Model\Action\EA3_Carry_DB.cs" />
+    <Compile Include="Model\Action\EA3_DB.cs" />
+    <Compile Include="Model\Action\EA4_Carry_DB.cs" />
+    <Compile Include="Model\Action\EA4_DB.cs" />
+    <Compile Include="Model\Action\PNCListDB.cs" />
+    <Compile Include="Model\Action\PNCSpecialDB.cs" />
+    <Compile Include="Model\ANC.cs" />
     <Compile Include="Model\ANCMonthlyDB.cs" />
     <Compile Include="Model\ANCRevisionDB.cs" />
     <Compile Include="Model\FrozenDB.cs" />

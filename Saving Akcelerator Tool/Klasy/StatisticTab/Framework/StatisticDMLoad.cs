@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Saving_Accelerator_Tool.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -11,207 +12,85 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
 {
     public class StatisticDMLoad
     {
-        private readonly Data_Import _Import;
-        private readonly DataGridView _DM;
-        private readonly decimal _Year;
-
-        public StatisticDMLoad(DataGridView DM)
+        public StatisticDMLoad(DataGridView DM, string Kurs)
         {
-            _Import = Data_Import.Singleton();
-            _DM = DM;
-            _Year = MainProgram.Self.optionView.GetYear();
+            decimal _Year = MainProgram.Self.optionView.GetYear();
 
-            LoadData_DM();
+            double EA4;
+            double BU;
+            double EA1;
+            double EA2;
+            double EA3;
+            double Rate =1;
+
+            var ActualItems = TargetsCoinsController.Load_Year(Convert.ToInt32(_Year));
+
+            if (Kurs == "EUR")
+                Rate = ActualItems.First().Euro;
+            else if (Kurs == "USD")
+                Rate = ActualItems.First().USD;
+            else if (Kurs == "SEK")
+                Rate = ActualItems.First().SEK;
+
+            if (ActualItems.Count() == 0)
+                return;
+
+            BU = ActualItems.First().DM_BU / Rate;
+            EA1 = ActualItems.First().DM_EA1 / Rate;
+            EA2 = ActualItems.First().DM_EA2 / Rate;
+            EA3 = ActualItems.First().DM_EA3 / Rate;
+            EA4 = ActualItems.First().DM_EA4 / Rate;
+
+            if (BU != 0)
+                DM.Rows[0].Cells[0].Value = BU;
+            if (EA1 != 0)
+                DM.Rows[1].Cells[0].Value = EA1;
+            if (EA2 != 0)
+                DM.Rows[2].Cells[0].Value = EA2;
+            if (EA3 != 0)
+                DM.Rows[3].Cells[0].Value = EA3;
+            if (EA4 != 0)
+                DM.Rows[4].Cells[0].Value = EA4;
+
+            if (BU != 0 && EA1 != 0)
+                AddData(DM.Rows[1].Cells["BU"], EA1 - BU);
+
+            if (BU != 0 && EA2 != 0)
+                AddData(DM.Rows[2].Cells["BU"], EA2 - BU);
+            if (EA1 != 0 && EA2 != 0)
+                AddData(DM.Rows[2].Cells["EA1"], EA2 - EA1);
+
+            if (BU != 0 && EA3 != 0)
+                AddData(DM.Rows[3].Cells["BU"], EA3 - BU);
+            if (EA1 != 0 && EA3 != 0)
+                AddData(DM.Rows[3].Cells["EA1"], EA3 - EA1);
+            if (EA2 != 0 && EA3 != 0)
+                AddData(DM.Rows[3].Cells["EA2"], EA3 - EA2);
+
+            if (BU != 0 && EA4 != 0)
+                AddData(DM.Rows[4].Cells["BU"], EA4 - BU);
+            if (EA1 != 0 && EA4 != 0)
+                AddData(DM.Rows[4].Cells["EA1"], EA4 - EA1);
+            if (EA2 != 0 && EA4 != 0)
+                AddData(DM.Rows[4].Cells["EA2"], EA4 - EA2);
+            if (EA3 != 0 && EA4 != 0)
+                AddData(DM.Rows[4].Cells["EA3"], EA4 - EA3);
         }
 
-        private void LoadData_DM()
+        private void AddData(DataGridViewCell Cell, double Delta)
         {
-            decimal Kurs;
+            Cell.Value = Delta;
 
-            DataTable Table = new DataTable();
-            DataRow Data;
-
-            _Import.Load_TxtToDataTable2(ref Table, "Kurs");
-
-            ClearDGVForDM();
-
-            Data = Table.Select(string.Format("Year LIKE '%{0}%'", _Year.ToString())).FirstOrDefault();
-
-            if (Data != null)
+            if (Delta > 0)
             {
-                Kurs = CheckExchangeRate(Data);
-
-                if (Kurs == 0)
-                {
-                    return;
-                }
-
-                string[] DMRevision = Data["DM"].ToString().Split('/');
-
-                if (DMRevision[0] != "")
-                {
-                    _DM.Rows[0].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[0]) / Kurs, 0, MidpointRounding.AwayFromZero);
-                }
-                if (DMRevision[1] != "")
-                {
-                    _DM.Rows[1].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[1]) / Kurs, 0, MidpointRounding.AwayFromZero);
-                }
-                if (DMRevision[2] != "")
-                {
-                    _DM.Rows[2].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[2]) / Kurs, 0, MidpointRounding.AwayFromZero);
-                }
-                if (DMRevision[3] != "")
-                {
-                    _DM.Rows[3].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[3]) / Kurs, 0, MidpointRounding.AwayFromZero);
-                }
-                if (DMRevision[4] != "")
-                {
-                    _DM.Rows[4].Cells["DM"].Value = Math.Round(decimal.Parse(DMRevision[4]) / Kurs, 0, MidpointRounding.AwayFromZero);
-                }
-
-                CalcDelta();
+                Cell.Style.ForeColor = Color.FromArgb(0, 97, 0);
+                Cell.Style.BackColor = Color.FromArgb(198, 239, 206);
             }
-        }
-
-        private decimal CheckExchangeRate(DataRow Data)
-        {
-            decimal Exchenage;
-            int ExchangeCombo = MainProgram.Self.dmView.GetExchangeRateIndex();
-
-            switch (ExchangeCombo)
+            else if (Delta < 0)
             {
-                case 0:
-                    Exchenage = 1;
-                    break;
-                case 1:
-                    if (Data["EURO"].ToString() != "")
-                        Exchenage = decimal.Parse(Data["EURO"].ToString());
-                    else
-                        Exchenage = 0;
-                    break;
-                case 2:
-                    if (Data["USD"].ToString() != "")
-                        Exchenage = decimal.Parse(Data["USD"].ToString());
-                    else
-                        Exchenage = 0;
-                    break;
-                case 3:
-                    if (Data["SEK"].ToString() != "")
-                        Exchenage = decimal.Parse(Data["SEK"].ToString());
-                    else
-                        Exchenage = 0;
-                    break;
-                default:
-                    Exchenage = 1;
-                    break;
+                Cell.Style.ForeColor = Color.FromArgb(156, 0, 6);
+                Cell.Style.BackColor = Color.FromArgb(255, 199, 206);
             }
-
-            return Exchenage;
-        }
-
-        private void ClearDGVForDM()
-        {
-            for (int counter = 0; counter < 5; counter++)
-            {
-                _DM.Rows[counter].Cells["DM"].Value = null;
-            }
-
-            for (int counter = 1; counter <= 4; counter++)
-            {
-                ClearCells(_DM.Rows[counter].Cells["BU"]);
-                if (counter >= 2)
-                {
-                    ClearCells(_DM.Rows[counter].Cells["EA1"]);
-                }
-                if (counter >= 3)
-                {
-                    ClearCells(_DM.Rows[counter].Cells["EA2"]);
-                }
-                if (counter == 4)
-                {
-                    ClearCells(_DM.Rows[counter].Cells["EA3"]);
-                }
-            }
-        }
-
-        private void CalcDelta()
-        {
-            decimal BU;
-            decimal EA1 = 0;
-            decimal EA2 = 0;
-            decimal EA3 = 0;
-            decimal EA4;
-
-            if (_DM.Rows[0].Cells["DM"].Value != null)
-            {
-                BU = decimal.Parse(_DM.Rows[0].Cells["DM"].Value.ToString());
-
-                if (_DM.Rows[1].Cells["DM"].Value != null)
-                {
-                    EA1 = decimal.Parse(_DM.Rows[1].Cells["DM"].Value.ToString());
-                    _DM.Rows[1].Cells["BU"].Value = EA1 - BU;
-                    ColoringCells(_DM.Rows[1].Cells["BU"]);
-                }
-                if (_DM.Rows[2].Cells["DM"].Value != null)
-                {
-                    EA2 = decimal.Parse(_DM.Rows[2].Cells["DM"].Value.ToString());
-                    _DM.Rows[2].Cells["BU"].Value = EA2 - BU;
-                    ColoringCells(_DM.Rows[2].Cells["BU"]);
-                    _DM.Rows[2].Cells["EA1"].Value = EA2 - EA1;
-                    ColoringCells(_DM.Rows[2].Cells["EA1"]);
-                }
-                if (_DM.Rows[3].Cells["DM"].Value != null)
-                {
-                    EA3 = decimal.Parse(_DM.Rows[3].Cells["DM"].Value.ToString());
-                    _DM.Rows[3].Cells["BU"].Value = EA3 - BU;
-                    ColoringCells(_DM.Rows[3].Cells["BU"]);
-                    _DM.Rows[3].Cells["EA1"].Value = EA3 - EA1;
-                    ColoringCells(_DM.Rows[3].Cells["EA1"]);
-                    _DM.Rows[3].Cells["EA2"].Value = EA3 - EA2;
-                    ColoringCells(_DM.Rows[3].Cells["EA2"]);
-                }
-                if (_DM.Rows[4].Cells["DM"].Value != null)
-                {
-                    EA4 = decimal.Parse(_DM.Rows[4].Cells["DM"].Value.ToString());
-                    _DM.Rows[4].Cells["BU"].Value = EA4 - BU;
-                    ColoringCells(_DM.Rows[4].Cells["BU"]);
-                    _DM.Rows[4].Cells["EA1"].Value = EA4 - EA1;
-                    ColoringCells(_DM.Rows[4].Cells["EA1"]);
-                    _DM.Rows[4].Cells["EA2"].Value = EA4 - EA2;
-                    ColoringCells(_DM.Rows[4].Cells["EA2"]);
-                    _DM.Rows[4].Cells["EA3"].Value = EA4 - EA3;
-                    ColoringCells(_DM.Rows[4].Cells["EA3"]);
-
-                }
-            }
-        }
-
-        private void ColoringCells(DataGridViewCell DMCells)
-        {
-            decimal Value = decimal.Parse(DMCells.Value.ToString());
-
-            if (Value > 0)
-            {
-                DMCells.Style.ForeColor = Color.FromArgb(0, 97, 0);
-                DMCells.Style.BackColor = Color.FromArgb(198, 239, 206);
-            }
-            else if (Value < 0)
-            {
-                DMCells.Style.ForeColor = Color.FromArgb(156, 0, 6);
-                DMCells.Style.BackColor = Color.FromArgb(255, 199, 206);
-            }
-            else
-            {
-                DMCells.Style.ForeColor = Color.FromArgb(0, 0, 0);
-                DMCells.Style.BackColor = Color.FromArgb(255, 255, 255);
-            }
-        }
-
-        private void ClearCells(DataGridViewCell DMCells)
-        {
-            DMCells.Value = null;
-            DMCells.Style.ForeColor = Color.FromArgb(0, 0, 0);
-            DMCells.Style.BackColor = Color.FromArgb(255, 255, 255);
         }
     }
 }

@@ -100,9 +100,9 @@ namespace Saving_Accelerator_Tool
             if (Users.Singleton.StatisticTab)
             {
                 optionView.SetYear(DateTime.UtcNow.Year);
-                dmView.InitializeData();
+                DMView.InitializeData();
                 productionQuantityView.InitializeData();
-                productionQuantityMonthView1.InitializeData();
+                ProductionQuantityMonthView.InitializeData();
             }
             else
             {
