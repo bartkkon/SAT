@@ -19,6 +19,15 @@ namespace Saving_Accelerator_Tool.Controllers
             return STKList;
         }
 
+        public static STKDB Load (int FindYear, string FindANC)
+        {
+            var context = new DataBaseConnectionContext();
+
+            var STK = context.STK.Where(u => u.Year == FindYear && u.ANC == FindANC).FirstOrDefault();
+
+            return STK;
+        }
+
         public static void AddNewValue(STKDB ToAdd)
         {
             var context = new DataBaseConnectionContext();

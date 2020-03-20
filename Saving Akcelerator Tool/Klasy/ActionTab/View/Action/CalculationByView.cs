@@ -42,6 +42,46 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 return "PNCSpec";
         }
 
+        public bool GetANC()
+        {
+            return Cb_CalcANC.Checked;
+        }
+
+        public bool GetANCSpec()
+        {
+            return Cb_CalcANCby.Checked;
+        }
+
+        public bool GetPNC()
+        {
+            return Cb_CalcPNC.Checked;
+        }
+
+        public bool GetPNCSpec()
+        {
+            return Cb_CalcPNCSpec.Checked;
+        }
+
+        public void SetANC(bool ANC)
+        {
+            Cb_CalcANC.Checked = ANC;
+        }
+
+        public void SetANCSpec(bool ANCSpec)
+        {
+            Cb_CalcANCby.Checked = ANCSpec;
+        }
+
+        public void SetPNC(bool PNC)
+        {
+            Cb_CalcPNC.Checked = PNC;
+        }
+
+        public void SetPNCSpec(bool PNCSpec)
+        {
+            Cb_CalcPNCSpec.Checked = PNCSpec;
+        }
+
         public void Clear()
         {
             Cb_CalcANC.Checked = true;

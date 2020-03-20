@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.Acton;
 using System.Text.RegularExpressions;
+using Saving_Accelerator_Tool.Klasy.ActionTab.Framework;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -131,7 +132,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         {
             string[] ANCList = new string[Rows];
 
-            for(int counter = 0; counter<Rows; counter++)
+            for (int counter = 0; counter < Rows; counter++)
             {
                 if (New)
                     ANCList[counter] = NewANCList[counter].Text;
@@ -224,8 +225,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             NewANCQList[iloscANC - 1].Visible = true;
             NewANCQList[iloscANC - 1].Text = "0";
             Arrows[iloscANC - 1].Visible = true;
-            MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC-1, true);
-            MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC-1, true);
+            MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC - 1, true);
+            MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC - 1, true);
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, true);
         }
 
@@ -240,148 +241,227 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             NewANCQList[iloscANC - 1].Visible = false;
             NewANCQList[iloscANC - 1].Text = "";
             Arrows[iloscANC - 1].Visible = false;
-            MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC-1, false);
-            MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC-1, false);
+            MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC - 1, false);
+            MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC - 1, false);
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, false);
         }
 
-        private void Tb_CheckifOK_TextChange(object sender, EventArgs e)
+        private void ANC_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox TextToCheck = sender as TextBox;
-            Regex GoodChar = new Regex("^[aA0-9]*$");
-            Regex OnlyNumber = new Regex("^[0-9]*$");
-            Regex SmallChar = new Regex("^[a]");
-            int CursorPosition = TextToCheck.SelectionStart - 1;
-            if (CursorPosition < 0)
-            {
-                CursorPosition = 0;
-            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != 'A') && (e.KeyChar != 'a'))
+                e.Handled = true;
 
-            if (TextToCheck.Text.Length > 1)
-            {
-                string Check = TextToCheck.Text.Remove(0, 1);
-                if (!OnlyNumber.IsMatch(Check))
-                {
-                    Check = Regex.Replace(Check, @"[^0-9]+", "");
+            if ((e.KeyChar == 'A') && ((sender as TextBox).Text.IndexOf('A') > -1))
+                e.Handled = true;
 
-                    TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition;
-                }
+            if ((e.KeyChar == 'a') && ((sender as TextBox).Text.IndexOf('a') > -1))
+                e.Handled = true;
 
-                Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
-                if (!GoodChar.IsMatch(Check))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = 0;
-                }
-                else if (Check == "a")
-                {
-                    TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition + 1;
-                }
+            if ((e.KeyChar == 'A') && ((sender as TextBox).Text.IndexOf('A') == -1) && ((sender as TextBox).SelectionStart != 0))
+                e.Handled = true;
 
-            }
-            else if (TextToCheck.Text.Length == 1)
-            {
-                if (!GoodChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-                if (SmallChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = "A";
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-            }
-            if (TextToCheck.Text.Length < 9)
-            {
-                TextToCheck.ForeColor = Color.Red;
-            }
-            else if (TextToCheck.Text.Length == 9)
-            {
-                TextToCheck.ForeColor = Color.Black;
-                int ElementNumber = Int32.Parse(TextToCheck.Name.Remove(0, 9));
-                if (OldANCList.Contains(TextToCheck))
-                {
-                    if (OldANCQList[ElementNumber - 1].Text == "0")
-                        OldANCQList[ElementNumber - 1].Text = "1";
-                }
-                else if (NewANCList.Contains(TextToCheck))
-                {
-                    if (NewANCQList[ElementNumber - 1].Text == "0")
-                        NewANCQList[ElementNumber - 1].Text = "1";
-                }
-            }
+            if ((e.KeyChar == 'a') && ((sender as TextBox).Text.IndexOf('a') == -1) && ((sender as TextBox).SelectionStart != 0))
+                e.Handled = true;
         }
 
-        private void Tb_CheckIfQuantity_TextChange(object sender, EventArgs e)
+        private void ANC_TextChange(object sender, EventArgs e)
         {
-            TextBox Quantity = sender as TextBox;
-            Regex Good = new Regex("^[0-9,]*$");
-            string[] Check;
-            int CursorPosition = Quantity.SelectionStart - 1;
+            (sender as TextBox).Text.Replace('a', 'A');
 
-            if (!Good.IsMatch(Quantity.Text))
+            if ((sender as TextBox).Text.Length < 9)
             {
-                Quantity.Text = Quantity.Text.Substring(0, Quantity.Text.Length - 1);
-                Quantity.Focus();
-                Quantity.SelectionStart = Quantity.Text.Length;
+                (sender as TextBox).ForeColor = Color.Red;
+                if (OldANCList.Contains(sender as TextBox))
+                {
+                    _ = new FindSTK(OldANCList.IndexOf(sender as TextBox), "Old", string.Empty, 0);
+                }
+                else if (NewANCList.Contains(sender as TextBox))
+                {
+                    _ = new FindSTK(NewANCList.IndexOf(sender as TextBox), "New", string.Empty, 0);
+                }
+            }
+            else if ((sender as TextBox).Text.Length == 9)
+            {
+                (sender as TextBox).ForeColor = Color.Black;
+                if (OldANCList.Contains(sender as TextBox))
+                {
+                    if (OldANCQList[OldANCList.IndexOf(sender as TextBox)].Text == "0")
+                        OldANCQList[OldANCList.IndexOf(sender as TextBox)].Text = "1";
+
+                    _ = new FindSTK(OldANCList.IndexOf(sender as TextBox), "Old", (sender as TextBox).Text, Convert.ToDouble(OldANCQList[OldANCList.IndexOf(sender as TextBox)].Text));
+                }
+                else if (NewANCList.Contains(sender as TextBox))
+                {
+                    if (NewANCQList[NewANCList.IndexOf(sender as TextBox)].Text == "0")
+                        NewANCQList[NewANCList.IndexOf(sender as TextBox)].Text = "1";
+
+                    _ = new FindSTK(NewANCList.IndexOf(sender as TextBox), "New", (sender as TextBox).Text, Convert.ToDouble(NewANCQList[NewANCList.IndexOf(sender as TextBox)].Text));
+                }
             }
 
-            Check = Quantity.Text.Split(',');
-            if (Check.Length == 3)
-            {
-                Quantity.Text = Quantity.Text.Remove(Quantity.SelectionStart - 1, 1);
-                Quantity.Focus();
-                Quantity.SelectionStart = CursorPosition;
-            }
         }
 
-        private void Tb_Quantity_Leave(object sender, EventArgs e)
+        //private void Tb_CheckifOK_TextChange(object sender, EventArgs e)
+        //{
+        //    TextBox TextToCheck = sender as TextBox;
+        //    Regex GoodChar = new Regex("^[aA0-9]*$");
+        //    Regex OnlyNumber = new Regex("^[0-9]*$");
+        //    Regex SmallChar = new Regex("^[a]");
+        //    int CursorPosition = TextToCheck.SelectionStart - 1;
+        //    if (CursorPosition < 0)
+        //    {
+        //        CursorPosition = 0;
+        //    }
+
+        //    if (TextToCheck.Text.Length > 1)
+        //    {
+        //        string Check = TextToCheck.Text.Remove(0, 1);
+        //        if (!OnlyNumber.IsMatch(Check))
+        //        {
+        //            Check = Regex.Replace(Check, @"[^0-9]+", "");
+
+        //            TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = CursorPosition;
+        //        }
+
+        //        Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
+        //        if (!GoodChar.IsMatch(Check))
+        //        {
+        //            TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = 0;
+        //        }
+        //        else if (Check == "a")
+        //        {
+        //            TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = CursorPosition + 1;
+        //        }
+
+        //    }
+        //    else if (TextToCheck.Text.Length == 1)
+        //    {
+        //        if (!GoodChar.IsMatch(TextToCheck.Text))
+        //        {
+        //            TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
+        //        }
+        //        if (SmallChar.IsMatch(TextToCheck.Text))
+        //        {
+        //            TextToCheck.Text = "A";
+        //            TextToCheck.Focus();
+        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
+        //        }
+        //    }
+        //    if (TextToCheck.Text.Length < 9)
+        //    {
+        //        TextToCheck.ForeColor = Color.Red;
+        //        if (OldANCList.Contains(TextToCheck))
+        //        {
+        //            _ = new FindSTK(OldANCList.IndexOf(TextToCheck), "Old", string.Empty, 0);
+        //        }
+        //        else if (NewANCList.Contains(TextToCheck))
+        //        {
+        //            _ = new FindSTK(NewANCList.IndexOf(TextToCheck), "New", string.Empty, 0);
+        //        }
+        //    }
+        //    else if (TextToCheck.Text.Length == 9)
+        //    {
+        //        TextToCheck.ForeColor = Color.Black;
+        //        int ElementNumber = Int32.Parse(TextToCheck.Name.Remove(0, 9));
+        //        if (OldANCList.Contains(TextToCheck))
+        //        {
+
+        //            if (OldANCQList[ElementNumber - 1].Text == "0")
+        //                OldANCQList[ElementNumber - 1].Text = "1";
+        //            _ = new FindSTK(OldANCList.IndexOf(TextToCheck), "Old", TextToCheck.Text, Convert.ToDouble(OldANCQList[ElementNumber - 1].Text));
+        //        }
+        //        else if (NewANCList.Contains(TextToCheck))
+        //        {
+
+        //            if (NewANCQList[ElementNumber - 1].Text == "0")
+        //                NewANCQList[ElementNumber - 1].Text = "1";
+        //            _ = new FindSTK(NewANCList.IndexOf(TextToCheck), "New", TextToCheck.Text, Convert.ToDouble(NewANCQList[ElementNumber - 1].Text));
+        //        }
+        //    }
+        //}
+
+        private void Quantity_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox Quantity;
-            TextBox ANCTB;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
+                e.Handled = true;
 
-            Quantity = sender as TextBox;
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
+                e.Handled = true;
 
-            int ElementNumber = Int32.Parse((sender as TextBox).Name.Remove(0, 10));
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') == -1) && ((sender as TextBox).SelectionStart == 0))
+                e.Handled = true;
+        }
 
-            if ((sender as TextBox).Name.Substring(0, 10) == "TB_OldANCQ")
+        private void Quantity_Leave(object sender, EventArgs e)
+        {
+            if ((sender as TextBox).Text.Length == 0)
             {
-                ANCTB = OldANCList[ElementNumber - 1];
+                if ((sender as TextBox).Name[3] == 'O')
+                {
+                    int Number = OldANCQList.IndexOf(sender as TextBox);
+                    if (OldANCList[Number].Text != string.Empty)
+                        (sender as TextBox).Text = "1";
+                    else
+                        (sender as TextBox).Text = "0";
+                    _ = new FindSTK(Number, "Old", OldANCList[Number].Text, Convert.ToDouble((sender as TextBox).Text));
+                }
+                else if ((sender as TextBox).Name[3] == 'N')
+                {
+                    int Number = NewANCQList.IndexOf(sender as TextBox);
+                    if (NewANCList[Number].Text != string.Empty)
+                        (sender as TextBox).Text = "1";
+                    else
+                        (sender as TextBox).Text = "0";
+                    _ = new FindSTK(Number, "New", NewANCList[Number].Text, Convert.ToDouble((sender as TextBox).Text));
+                }
             }
             else
             {
-                ANCTB = NewANCList[ElementNumber - 1];
-            }
-
-
-            if (Quantity.Text.Length == 0)
-            {
-                if (ANCTB.Text == "")
+                if ((sender as TextBox).Text[0] == ',')
                 {
-                    Quantity.Text = "0";
+                    (sender as TextBox).Text = "0" + (sender as TextBox).Text;
+                }
+
+                int Number;
+                if ((sender as TextBox).Name[3] == 'O')
+                {
+                    Number = OldANCQList.IndexOf(sender as TextBox);
+
+                    if ((sender as TextBox).Text == "0" && OldANCList[Number].Text.Length == 9)
+                        (sender as TextBox).Text = "1";
+                    else if ((sender as TextBox).Text != "0" && OldANCList[Number].Text.Length == 0)
+                        (sender as TextBox).Text = "0";
                 }
                 else
                 {
-                    Quantity.Text = "1";
+                    Number = NewANCQList.IndexOf(sender as TextBox);
+
+                    if ((sender as TextBox).Text == "0" && NewANCList[Number].Text.Length == 9)
+                        (sender as TextBox).Text = "1";
+                    else if((sender as TextBox).Text != "0" && NewANCList[Number].Text.Length == 0)
+                        (sender as TextBox).Text = "0";
                 }
-            }
-            else
-            {
-                if (ANCTB.Text == "")
+
+                double Value = Convert.ToDouble((sender as TextBox).Text);
+                if (Value > 100)
+                    Value = 100;
+                (sender as TextBox).Text = Math.Round(Value, 3, MidpointRounding.AwayFromZero).ToString();
+
+                if ((sender as TextBox).Name[3] == 'O')
                 {
-                    Quantity.Text = "0";
+                    _ = new FindSTK(Number, "Old", OldANCList[Number].Text, Convert.ToDouble((sender as TextBox).Text));
                 }
-                else if (Quantity.Text == "0")
+                else if((sender as TextBox).Name[3] == 'N')
                 {
-                    Quantity.Text = "1";
+                    _ = new FindSTK(Number, "New", NewANCList[Number].Text, Convert.ToDouble((sender as TextBox).Text));
                 }
             }
         }

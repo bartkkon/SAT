@@ -207,6 +207,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ConnectionString.cs" />
+    <Compile Include="Controllers\Action\ActionController.cs" />
+    <Compile Include="Controllers\Action\ANCChangeController.cs" />
+    <Compile Include="Controllers\Action\BUController.cs" />
+    <Compile Include="Controllers\Action\BU_CarryController.cs" />
+    <Compile Include="Controllers\Action\CalculationMassController.cs" />
+    <Compile Include="Controllers\Action\EA1Controller.cs" />
+    <Compile Include="Controllers\Action\EA1_CarryController.cs" />
+    <Compile Include="Controllers\Action\EA2Controller.cs" />
+    <Compile Include="Controllers\Action\EA2_CarryController.cs" />
+    <Compile Include="Controllers\Action\EA3Controller.cs" />
+    <Compile Include="Controllers\Action\EA3_CarryController.cs" />
+    <Compile Include="Controllers\Action\EA4Controller.cs" />
+    <Compile Include="Controllers\Action\EA4_CarryController.cs" />
+    <Compile Include="Controllers\Action\PNCListController.cs" />
+    <Compile Include="Controllers\Action\PNCSpecialController.cs" />
     <Compile Include="Controllers\AdminTableTab\AdminTableController.cs" />
     <Compile Include="Controllers\AdminTab\AddPersonController.cs" />
     <Compile Include="Controllers\AdminTab\ConvertTXTtoDB.cs" />
@@ -230,11 +245,13 @@
     <Compile Include="Klasy\ActionTab\Framework\Activation_Action.cs" />
     <Compile Include="Klasy\ActionTab\Framework\ClearForm.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Deactivation_Action.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\FindSTK.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadAction.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadActionToForm.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadActionToTree.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadDevision.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadEmployees.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\SaveAction.cs" />
     <Compile Include="Klasy\ActionTab\Framework\SaveActionFromForm.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
@@ -360,6 +377,8 @@
       <DependentUpon>TreeActionView.cs</DependentUpon>
     </Compile>
     <Compile Include="Klasy\Acton\Action.cs" />
+    <Compile Include="Klasy\Acton\IDAction.cs" />
+    <Compile Include="Klasy\Acton\ActionID.cs" />
     <Compile Include="Klasy\Acton\CheckIfEqual.cs" />
     <Compile Include="Klasy\Acton\CopyAction.cs" />
     <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
@@ -660,6 +679,10 @@
     <Compile Include="Migrations\20200317114319_ActionAdd.designer.cs">
       <DependentUpon>20200317114319_ActionAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200317125305_UpdateAction.cs" />
+    <Compile Include="Migrations\20200317125305_UpdateAction.designer.cs">
+      <DependentUpon>20200317125305_UpdateAction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataBaseConnectionContextModelSnapshot.cs" />
     <Compile Include="Model\ActionDB.cs" />
     <Compile Include="Model\Action\ANCChangeDB.cs" />
@@ -676,7 +699,6 @@
     <Compile Include="Model\Action\EA4_DB.cs" />
     <Compile Include="Model\Action\PNCListDB.cs" />
     <Compile Include="Model\Action\PNCSpecialDB.cs" />
-    <Compile Include="Model\ANC.cs" />
     <Compile Include="Model\ANCMonthlyDB.cs" />
     <Compile Include="Model\ANCRevisionDB.cs" />
     <Compile Include="Model\FrozenDB.cs" />

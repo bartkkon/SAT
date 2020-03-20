@@ -120,7 +120,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
         {
             var ECCC = MainProgram.Self.actionView.ecccView;
 
-            ECCC.SetECCC(_action.ECCC);
+            ECCC.SetECCC2(_action.ECCC);
         }
 
         private void PlatformInstallation()

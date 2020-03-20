@@ -18,7 +18,7 @@ namespace Saving_Accelerator_Tool.Model
         public string Group { get; set; }
         public string Status { get; set; }
         public int StartYear { get; set; }
-        public string Starus { get; set; }
+        public string StatusYear { get; set; }
         public string MonthStart { get; set; }
         public string Factory { get; set; }
         public string Leader { get; set; }

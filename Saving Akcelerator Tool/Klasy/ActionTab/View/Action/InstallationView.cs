@@ -19,7 +19,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetInstallation(string[] Installation)
         {
-            if (Installation[0] == "FS")                
+            if (Installation[0] == "FS")
                 Cb_FS.Checked = true;
             if (Installation[1] == "FI")
                 Cb_FI.Checked = true;
@@ -48,6 +48,47 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
             return Installation;
         }
+
+        public void SetFS(bool FS)
+        {
+            Cb_FS.Checked = FS;
+        }
+
+        public void SetFI(bool FI)
+        {
+            Cb_FI.Checked = FI;
+        }
+
+        public void SetBI(bool BI)
+        {
+            Cb_BI.Checked = BI;
+        }
+
+        public void SetFSBU(bool FSBU)
+        {
+            Cb_FSBU.Checked = FSBU;
+        }
+
+        public bool GetFS()
+        {
+            return Cb_FS.Checked;
+        }
+
+        public bool GetFI()
+        {
+            return Cb_FI.Checked;
+        }
+
+        public bool GetBI()
+        {
+            return Cb_BI.Checked;
+        }
+
+        public bool GetFSBU()
+        {
+            return Cb_FSBU.Checked;
+        }
+
 
         public void Clear()
         {

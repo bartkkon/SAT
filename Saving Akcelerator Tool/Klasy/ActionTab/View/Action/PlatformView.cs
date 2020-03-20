@@ -52,6 +52,26 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return platform;
         }
 
+        public bool GetDMD()
+        {
+            return Cb_DMD.Checked;
+        }
+
+        public bool GetD45()
+        {
+            return Cb_D45.Checked;
+        }
+
+        public void SetDMD(bool DMD)
+        {
+            Cb_DMD.Checked = DMD;
+        }
+
+        public void SetD45(bool D45)
+        {
+            Cb_D45.Checked = D45;
+        }
+
         public void Clear()
         {
             Cb_D45.Checked = false;

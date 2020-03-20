@@ -23,7 +23,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Cb_ECCCSpec.Visible = Visible;
         }
 
-        public void SetECCC(decimal[] ECCCValue)
+        public void SetECCC2(decimal[] ECCCValue)
         {
             if (ECCCValue != null)
             {
@@ -41,7 +41,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
         }
 
-        public decimal[] GetECCC()
+        public decimal[] GetECCC2()
         {
             decimal[] ECCC = new decimal[1];
             if (Cb_ECCC.Checked)
@@ -53,6 +53,35 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 }
             }
             return ECCC;
+        }
+
+        public bool GetECCC()
+        {
+            return Cb_ECCC.Checked;
+        }
+
+        public bool GetECCCSpec()
+        {
+            return Cb_ECCCSpec.Checked;
+        }
+        public decimal GetECCCSec()
+        {
+            return Num_ECCC.Value;
+        }
+
+        public void SetECCC(bool ECCC)
+        {
+            Cb_ECCC.Checked = ECCC;
+        }
+
+        public void SetECCCSpec(bool ECCCSpec)
+        {
+            Cb_ECCCSpec.Checked = ECCCSpec;
+        }
+
+        public void SetECCCSec(double ECCCSec)
+        {
+            Num_ECCC.Value = Convert.ToDecimal(ECCCSec);
         }
 
         public void Clear()

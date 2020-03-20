@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -35,7 +36,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Equal = new List<Label>();
             PercentLab = new List<Label>();
 
-            
+
             InitializeComponent();
 
             AddComponentToList();
@@ -51,7 +52,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Estimation[Row].Text = "";
             Estimation[Row].Visible = VisibleBool;
             Percent[Row].Visible = VisibleBool;
-            Percent[Row].Text = "";
+            Percent[Row].Text = "100";
             ToCalc[Row].Visible = VisibleBool;
             Arrow[Row].Visible = VisibleBool;
             Equal[Row].Visible = VisibleBool;
@@ -65,7 +66,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 OldSTK[counter].Text = Old[counter].ToString();
                 NewSTK[counter].Text = New[counter].ToString();
                 Delta[counter].Text = DeltaBase[counter].ToString();
-                if(STKEst[counter].ToString() != "0")
+                if (STKEst[counter].ToString() != "0")
                     Estimation[counter].Text = STKEst[counter].ToString();
                 Percent[counter].Text = PercentBase[counter].ToString();
                 ToCalc[counter].Text = STKCalc[counter].ToString();
@@ -146,6 +147,16 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return CalcStkTable;
         }
 
+        public void SetOldSTK(int Count, string Value)
+        {
+            OldSTK[Count].Text = Value;
+        }
+
+        public void SetNewSTK(int Count, string Value)
+        {
+            NewSTK[Count].Text = Value;
+        }
+
         public void Clear()
         {
             for (int counter = 0; counter < 10; counter++)
@@ -154,11 +165,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 OldSTK[counter].Visible = false;
                 NewSTK[counter].Text = "";
                 NewSTK[counter].Visible = false;
-                Delta[counter].Text = "";
                 Delta[counter].Visible = false;
                 Estimation[counter].Text = "";
                 Estimation[counter].Visible = false;
-                Percent[counter].Text = "";
+                Percent[counter].Text = "100";
                 Percent[counter].Visible = false;
                 ToCalc[counter].Text = "";
                 ToCalc[counter].Visible = false;
@@ -302,6 +312,116 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             PercentLab.Add(lab_Percent8);
             PercentLab.Add(lab_Percent9);
             PercentLab.Add(lab_Percent10);
+        }
+
+        private void CalcEstimation(int number)
+        {
+            double Calculate = 0;
+            if (Estimation[number].Text != "")
+            {
+                Calculate = Convert.ToDouble(Estimation[number].Text) * (Convert.ToDouble(Percent[number].Text) / 100);
+                ToCalc[number].Text = Math.Round(Calculate, 4, MidpointRounding.AwayFromZero).ToString();
+            }
+            else if (Delta[number].Text != "")
+            {
+                Calculate = Convert.ToDouble(Delta[number].Text) * (Convert.ToDouble(Percent[number].Text) / 100);
+                ToCalc[number].Text = Math.Round(Calculate, 4, MidpointRounding.AwayFromZero).ToString();
+            }
+            else
+                ToCalc[number].Text = "";
+
+            if (Calculate > 0)
+                ToCalc[number].ForeColor = Color.Green;
+            else if (Calculate < 0)
+                ToCalc[number].ForeColor = Color.Red;
+            else
+                ToCalc[number].ForeColor = Color.Black;
+        }
+
+        private void CalcDelta(int number)
+        {
+            double Old = 0;
+            double New = 0;
+
+            if (OldSTK[number].Text != "" && OldSTK[number].Text != "n/a")
+            {
+                Old = Convert.ToDouble(OldSTK[number].Text);
+            }
+            if (NewSTK[number].Text != "" && NewSTK[number].Text != "n/a")
+            {
+                New = Convert.ToDouble(NewSTK[number].Text);
+            }
+
+            double DeltaSum = Old - New;
+            Delta[number].Text = (Math.Round(DeltaSum, 4, MidpointRounding.AwayFromZero)).ToString();
+
+            if (DeltaSum > 0)
+                Delta[number].ForeColor = Color.Green;
+            else if (DeltaSum < 0)
+                Delta[number].ForeColor = Color.Red;
+            else
+                Delta[number].ForeColor = Color.Black;
+        }
+
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            if ((sender as TextBox).Text.Length > 0)
+            {
+                if ((sender as TextBox).Text[0] == ',')
+                    (sender as TextBox).Text = "0" + (sender as TextBox).Text;
+                if ((sender as TextBox).Text[0] == '-' && (sender as TextBox).Text[1] == ',')
+                    (sender as TextBox).Text = "-0" + (sender as TextBox).Text.Remove(0, 1);
+
+                if ((sender as TextBox).Name[3] == 'P')
+                    (sender as TextBox).Text = Math.Round(Convert.ToDouble((sender as TextBox).Text), 1, MidpointRounding.AwayFromZero).ToString();
+                else
+                    (sender as TextBox).Text = Math.Round(Convert.ToDouble((sender as TextBox).Text), 4, MidpointRounding.AwayFromZero).ToString();
+            }
+
+            if ((sender as TextBox).Name[3] == 'E' && (sender as TextBox).Text == "0")
+                (sender as TextBox).Text = string.Empty;
+
+            if ((sender as TextBox).Name[3] == 'P' && (sender as TextBox).Text == "0")
+                (sender as TextBox).Text = "100";
+
+            if ((sender as TextBox).Text.Length == 0 && (sender as TextBox).Name[3] == 'P')
+                (sender as TextBox).Text = "100";
+
+            if ((sender as TextBox).Name[3] == 'P')
+                CalcEstimation(Percent.IndexOf((sender as TextBox)));
+            else if ((sender as TextBox).Name[3] == 'E')
+                CalcEstimation(Estimation.IndexOf((sender as TextBox)));
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '-'))
+                e.Handled = true;
+
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf(',') > -1))
+                e.Handled = true;
+
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf(',') == -1) && ((sender as TextBox).SelectionStart == 0))
+                e.Handled = true;
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+                e.Handled = true;
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') == -1) && ((sender as TextBox).SelectionStart != 0))
+                e.Handled = true;
+        }
+
+        private void Lab_Delta_TextChanged(object sender, EventArgs e)
+        {
+            CalcEstimation(Delta.IndexOf(sender as Label));
+        }
+
+        private void Lab_STK_TextChanged(object sender, EventArgs e)
+        {
+            if ((sender as Label).Name[4] == 'O')
+                CalcDelta(OldSTK.IndexOf(sender as Label));
+            if ((sender as Label).Name[4] == 'N')
+                CalcDelta(NewSTK.IndexOf(sender as Label));
         }
     }
 }

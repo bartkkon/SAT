@@ -1,5 +1,6 @@
 ﻿using Saving_Accelerator_Tool.Data;
 using Saving_Accelerator_Tool.Model;
+using Saving_Accelerator_Tool.Model.Action;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,18 +16,16 @@ namespace Saving_Accelerator_Tool.Controllers.AdminTab
 
         public static void Upload()
         {
-            var context = new DataBaseConnectionContext();
-            var Find = context.STK.Where(u => u.Year == 20).ToList();
-            int Remove = 0;
+            List<ANCChangeDB> Lista = new List<ANCChangeDB>();
+            ANCChangeDB Jeden = new ANCChangeDB();
+            ANCChangeDB Dwa = new ANCChangeDB();
+            Jeden.ActionID = 1;
+            Dwa.ActionID = 2;
 
-            foreach (STKDB One in Find)
-            {
-                context.Remove(One);
-                Remove++;
-            }
+            Lista.Add(Jeden);
+            Lista.Add(Dwa);
+            
 
-            context.SaveChanges();
-            MessageBox.Show("Usunięto: " + Remove.ToString());
         }
 
     }

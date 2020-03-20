@@ -77,7 +77,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
 
         private void ECCCSave()
         {
-            _action.ECCC = _display.ecccView.GetECCC();
+            _action.ECCC = _display.ecccView.GetECCC2();
         }
 
         private void PlatformInstalationSave()
