@@ -645,8 +645,8 @@ namespace Saving_Accelerator_Tool
                     //{
                         if (NewANC[counter] != "")
                         {
-                            if (PerANCUSE.Rows.Count != 0)
-                            {
+                            //if (PerANCUSE.Rows.Count != 0)
+                            //{
                                 DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                                 if (ANC != null)
@@ -665,12 +665,12 @@ namespace Saving_Accelerator_Tool
                                         }
                                     }
                                 }
-                            }
+                            //}
                         }
                         if (Next[counter] != "")
                         {
-                            if (PerANCUSE.Rows.Count != 0)
-                            {
+                            //if (PerANCUSE.Rows.Count != 0)
+                            //{
                                 DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
 
                                 if (ANC != null)
@@ -690,7 +690,7 @@ namespace Saving_Accelerator_Tool
                                         }
                                     }
                                 }
-                            }
+                            //}
                         }
                     //}
                     if (!Preferencje["Actual"])
