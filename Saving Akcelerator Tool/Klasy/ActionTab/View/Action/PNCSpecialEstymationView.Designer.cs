@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.TB_EstymacjaPNC = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PNC Special Estymation:";
             // 
+            // TB_EstymacjaPNC
+            // 
+            this.TB_EstymacjaPNC.Location = new System.Drawing.Point(21, 55);
+            this.TB_EstymacjaPNC.Name = "TB_EstymacjaPNC";
+            this.TB_EstymacjaPNC.Size = new System.Drawing.Size(92, 20);
+            this.TB_EstymacjaPNC.TabIndex = 1;
+            this.TB_EstymacjaPNC.TextChanged += new System.EventHandler(this.TB_Estymacja_TextChange);
+            this.TB_EstymacjaPNC.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_EstymacjaPNC_KeyPress);
+            this.TB_EstymacjaPNC.Leave += new System.EventHandler(this.TB_EstymacjaPNC_Leave);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -54,15 +64,6 @@
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Estymation:";
-            // 
-            // TB_EstymacjaPNC
-            // 
-            this.TB_EstymacjaPNC.Location = new System.Drawing.Point(21, 55);
-            this.TB_EstymacjaPNC.Name = "TB_EstymacjaPNC";
-            this.TB_EstymacjaPNC.Size = new System.Drawing.Size(92, 20);
-            this.TB_EstymacjaPNC.TabIndex = 1;
-            this.TB_EstymacjaPNC.TextChanged += new System.EventHandler(this.TB_EstymacjaPNC_TextChanged);
-            this.TB_EstymacjaPNC.Leave += new System.EventHandler(this.TB_EstymacjaPNC_Leave);
             // 
             // Gb_PNCEsty
             // 

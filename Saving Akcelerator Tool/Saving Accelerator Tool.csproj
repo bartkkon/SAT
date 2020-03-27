@@ -251,8 +251,15 @@
     <Compile Include="Klasy\ActionTab\Framework\LoadActionToTree.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadDevision.cs" />
     <Compile Include="Klasy\ActionTab\Framework\LoadEmployees.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\ActionLoad.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\ANCChangeLoad.cs" />
     <Compile Include="Klasy\ActionTab\Framework\SaveAction.cs" />
     <Compile Include="Klasy\ActionTab\Framework\SaveActionFromForm.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Save\ActionSave.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Save\ANCChangeSave.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Save\CalculationMassSave.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Save\PNCSave.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Save\PNCSpecialSave.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\InitializeData_DataGrid.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Load_Action_SM.cs" />
     <Compile Include="Klasy\ActionTab\NewWindow\SpecialCalc\Framework\Save_Action_SM.cs" />
@@ -682,6 +689,22 @@
     <Compile Include="Migrations\20200317125305_UpdateAction.cs" />
     <Compile Include="Migrations\20200317125305_UpdateAction.designer.cs">
       <DependentUpon>20200317125305_UpdateAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200323100202_AddAvticeStack.cs" />
+    <Compile Include="Migrations\20200323100202_AddAvticeStack.designer.cs">
+      <DependentUpon>20200323100202_AddAvticeStack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200324100034_UpdateQuantityPNCSpec.cs" />
+    <Compile Include="Migrations\20200324100034_UpdateQuantityPNCSpec.designer.cs">
+      <DependentUpon>20200324100034_UpdateQuantityPNCSpec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200327132045_AddActionIDOriginal.cs" />
+    <Compile Include="Migrations\20200327132045_AddActionIDOriginal.designer.cs">
+      <DependentUpon>20200327132045_AddActionIDOriginal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200327150316_UpdateANCQuantityFromIntToDouble.cs" />
+    <Compile Include="Migrations\20200327150316_UpdateANCQuantityFromIntToDouble.designer.cs">
+      <DependentUpon>20200327150316_UpdateANCQuantityFromIntToDouble.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataBaseConnectionContextModelSnapshot.cs" />
     <Compile Include="Model\ActionDB.cs" />

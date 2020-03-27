@@ -49,12 +49,14 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
                         double Suma = ANCSTK.Value * Quantity;
                         Suma = Math.Round(Suma, 4, MidpointRounding.AwayFromZero);
                         MainProgram.Self.actionView.StkChange.SetNewSTK(Count, Suma.ToString());
+                        MainProgram.Self.actionView.ANCChangeView.SetNewIDCO(Count, ANCSTK.IDCO);
                     }
                     else if (NewOld == "Old")
                     {
                         double Suma = ANCSTK.Value * Quantity;
                         Suma = Math.Round(Suma, 4, MidpointRounding.AwayFromZero);
                         MainProgram.Self.actionView.StkChange.SetOldSTK(Count, Suma.ToString());
+                        MainProgram.Self.actionView.ANCChangeView.SetOldIDCO(Count, ANCSTK.IDCO);
                     }
                 }
             }

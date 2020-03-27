@@ -96,6 +96,7 @@
             0,
             0,
             0});
+            this.num_Action_YearAction.ValueChanged += new System.EventHandler(this.ChangeSomenthing_Change);
             // 
             // label2
             // 
@@ -126,6 +127,7 @@
             this.comBox_Month.Name = "comBox_Month";
             this.comBox_Month.Size = new System.Drawing.Size(84, 21);
             this.comBox_Month.TabIndex = 5;
+            this.comBox_Month.SelectedIndexChanged += new System.EventHandler(this.ChangeSomenthing_Change);
             // 
             // label3
             // 
@@ -155,6 +157,7 @@
             this.comBox_Factory.Name = "comBox_Factory";
             this.comBox_Factory.Size = new System.Drawing.Size(66, 21);
             this.comBox_Factory.TabIndex = 8;
+            this.comBox_Factory.SelectedIndexChanged += new System.EventHandler(this.ChangeSomenthing_Change);
             // 
             // comBox_Leader
             // 
@@ -163,6 +166,7 @@
             this.comBox_Leader.Name = "comBox_Leader";
             this.comBox_Leader.Size = new System.Drawing.Size(121, 21);
             this.comBox_Leader.TabIndex = 9;
+            this.comBox_Leader.SelectedIndexChanged += new System.EventHandler(this.ChangeSomenthing_Change);
             // 
             // label5
             // 
@@ -180,6 +184,7 @@
             this.comBox_Devision.Name = "comBox_Devision";
             this.comBox_Devision.Size = new System.Drawing.Size(121, 21);
             this.comBox_Devision.TabIndex = 11;
+            this.comBox_Devision.SelectedIndexChanged += new System.EventHandler(this.ChangeSomenthing_Change);
             // 
             // StateView
             // 

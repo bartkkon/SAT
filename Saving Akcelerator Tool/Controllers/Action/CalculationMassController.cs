@@ -29,34 +29,31 @@ namespace Saving_Accelerator_Tool.Controllers.Action
             context.SaveChanges();
         }
 
-        public static void Add(IEnumerable<CalculationMassDB> ListToAdd)
+        public static void Add(CalculationMassDB ToAdd)
         {
             var context = new DataBaseConnectionContext();
-            foreach (var Row in ListToAdd)
-            {
-                context.CalculationMass.Add(Row);
-            }
+                context.CalculationMass.Add(ToAdd);
 
             context.SaveChanges();
         }
 
-        public static void Update(IEnumerable<CalculationMassDB> ListToUpdate)
-        {
-            var context = new DataBaseConnectionContext();
+        //public static void Update(CalculationMassDB ListToUpdate)
+        //{
+        //    var context = new DataBaseConnectionContext();
 
-            foreach (var Row in ListToUpdate)
-            {
-                if (Row.ID != 0)
-                {
-                    context.CalculationMass.Update(Row);
-                }
-                else
-                {
-                    context.CalculationMass.Add(Row);
-                }
-            }
+        //    foreach (var Row in ListToUpdate)
+        //    {
+        //        if (Row.ID != 0)
+        //        {
+        //            context.CalculationMass.Update(Row);
+        //        }
+        //        else
+        //        {
+        //            context.CalculationMass.Add(Row);
+        //        }
+        //    }
 
-            context.SaveChanges();
-        }
+        //    context.SaveChanges();
+        //}
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -147,14 +148,82 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return CalcStkTable;
         }
 
+        public double GetSTKNew(int Count)
+        {
+            if (NewSTK[Count - 1].Text != "n/a")
+                return Convert.ToDouble(NewSTK[Count - 1].Text);
+            else
+                return -999999;
+        }
+
+        public double GetSTKOld(int Count)
+        {
+            if (OldSTK[Count - 1].Text != "n/a")
+                return Convert.ToDouble(OldSTK[Count - 1].Text);
+            else
+                return -999999;
+        }
+
+        public double GetDelta(int Count)
+        {
+            return Convert.ToDouble(Delta[Count - 1].Text);
+        }
+
+        public double GetEstimation(int Count)
+        {
+            if (Estimation[Count - 1].Text != "")
+                return Convert.ToDouble(Estimation[Count - 1].Text);
+            else
+                return 0;
+        }
+
+        public double GetPercent(int Count)
+        {
+            return Convert.ToDouble(Percent[Count - 1].Text);
+        }
+
+        public double GetCalculation(int Count)
+        {
+            return Convert.ToDouble(ToCalc[Count - 1].Text);
+        }
+
         public void SetOldSTK(int Count, string Value)
         {
-            OldSTK[Count].Text = Value;
+            if (Value != "-999999")
+                OldSTK[Count].Text = Value;
+            else
+                OldSTK[Count].Text = "n/a";
         }
 
         public void SetNewSTK(int Count, string Value)
         {
-            NewSTK[Count].Text = Value;
+            if (Value != "-999999")
+                NewSTK[Count].Text = Value;
+            else
+                NewSTK[Count].Text = "n/a";
+        }
+
+        public void SetDelta(int Count, string Value)
+        {
+            Delta[Count].Text = Value;
+        }
+
+        public void SetEstimation (int Count, string Value)
+        {
+            if (Value != "0")
+                Estimation[Count].Text = Value;
+            else
+                Estimation[Count].Text = string.Empty;
+        }
+
+        public void SetPercent(int Count, string Value)
+        {
+            Percent[Count].Text = Value;
+        }
+
+        public void SetToCalc(int Count, string Value)
+        {
+            ToCalc[Count].Text = Value;
         }
 
         public void Clear()
@@ -391,6 +460,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 CalcEstimation(Percent.IndexOf((sender as TextBox)));
             else if ((sender as TextBox).Name[3] == 'E')
                 CalcEstimation(Estimation.IndexOf((sender as TextBox)));
+
+            ActionID.Singleton.ANCModification = true;
         }
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)

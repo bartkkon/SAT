@@ -1,4 +1,6 @@
-﻿using Saving_Accelerator_Tool.Klasy.User;
+﻿using Saving_Accelerator_Tool.Controllers.Action;
+using Saving_Accelerator_Tool.Klasy.User;
+using Saving_Accelerator_Tool.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,8 +27,37 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
             ActionStatus();
             ClearNode();
             AddNode();
-            ActionLoad();
+            //ActionLoad();
+            ActionLoadDB();
             TreeExpandAll();
+        }
+
+        private void ActionLoadDB()
+        {
+            IEnumerable<ActionDB> ActionList;
+            ActionList = ActionController.Load(Convert.ToInt32(_year));
+
+            foreach (ActionDB Action in ActionList)
+            {
+                if (Users.Singleton.ActionEle && Action.Group == "Electronic")
+                    AddAction("Electronic", Action.Name, Action.Leader);
+                else if (Users.Singleton.ActionMech && Action.Group == "Mechanic")
+                    AddAction("Mechanic", Action.Name, Action.Leader);
+                else if (Users.Singleton.ActionNVR && Action.Group == "NVR")
+                    AddAction("NVR", Action.Name, Action.Leader);
+            }
+
+            //CarryOver
+            ActionList = ActionController.Load(Convert.ToInt32(_year - 1));
+            foreach (ActionDB Action in ActionList)
+            {
+                if (Users.Singleton.ActionEle && Action.Group == "Electronic")
+                    AddAction("Electronic Carry Over", Action.Name, Action.Leader);
+                else if (Users.Singleton.ActionMech && Action.Group == "Mechanic")
+                    AddAction("Mechanic Carry Over", Action.Name, Action.Leader);
+                else if (Users.Singleton.ActionNVR && Action.Group == "NVR")
+                    AddAction("NVR Carry Over", Action.Name, Action.Leader);
+            }
         }
 
         private void TreeExpandAll()
@@ -35,55 +66,55 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
             _actionTree.Nodes[0].EnsureVisible();
         }
 
-        private void ActionLoad()
-        {
-            DataTable ActionList = new DataTable();
+        //private void ActionLoad()
+        //{
+        //    DataTable ActionList = new DataTable();
 
-            Data_Import.Singleton().Load_TxtToDataTable2(ref ActionList, "Action");
+        //    Data_Import.Singleton().Load_TxtToDataTable2(ref ActionList, "Action");
 
-            foreach (DataRow Action in ActionList.Rows)
-            {
-                //Elektronicy
-                if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Electronic", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Electronic", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Electronic Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                //Mechanicy
-                else if (Users.Singleton.ActionMech && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Mechanic", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Mechanic", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("Mechanic Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                //NVR
-                else if (Users.Singleton.ActionMech && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("NVR", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("NVR", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-                else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
-                {
-                    AddAction("NVR Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
-                }
-            }
-        }
+        //    foreach (DataRow Action in ActionList.Rows)
+        //    {
+        //        //Elektronicy
+        //        if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Electronic", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Electronic", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Electronic" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Electronic Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        //Mechanicy
+        //        else if (Users.Singleton.ActionMech && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Mechanic", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Mechanic", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "Mechanic" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("Mechanic Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        //NVR
+        //        else if (Users.Singleton.ActionMech && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("NVR", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == "SA/" + _year.ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("NVR", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //        else if (Users.Singleton.ActionEle && Action["Group"].ToString() == "NVR" && Action["StartYear"].ToString() == (_year - 1).ToString() && Action["Status"].ToString() == _status)
+        //        {
+        //            AddAction("NVR Carry Over", Action["Name"].ToString(), Action["Leader"].ToString());
+        //        }
+        //    }
+        //}
 
         private void AddAction(string Node, string ActionName, string ActionLeader)
         {

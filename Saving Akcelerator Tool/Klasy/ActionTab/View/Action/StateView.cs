@@ -58,9 +58,29 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 return "Idea";
         }
 
+        public void SetActionIdea(string What)
+        {
+            cb_Active.CheckedChanged -= Cb_Active_CheckedChanged;
+            cb_Idea.CheckedChanged -= Cb_Active_CheckedChanged;
+            if (What == "Active")
+            {
+                cb_Active.Checked = true;
+                cb_Idea.Checked = false;
+            }
+            else if (What == "Idea")
+            {
+                cb_Active.Checked = false;
+                cb_Idea.Checked = true;
+            }
+            cb_Active.CheckedChanged += Cb_Active_CheckedChanged;
+            cb_Idea.CheckedChanged += Cb_Active_CheckedChanged;
+        }
+
         public void SetYear(decimal Year)
         {
+            num_Action_YearAction.ValueChanged -= ChangeSomenthing_Change;
             num_Action_YearAction.Value = Year;
+            num_Action_YearAction.ValueChanged += ChangeSomenthing_Change;
         }
 
         public decimal GetYear()
@@ -70,10 +90,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetFactory(string Factory)
         {
-            if(comBox_Factory.Items.Contains(Factory))
+            comBox_Factory.SelectedIndexChanged -= ChangeSomenthing_Change;
+            if (comBox_Factory.Items.Contains(Factory))
             {
                 comBox_Factory.SelectedIndex = comBox_Factory.FindString(Factory);
             }
+            comBox_Factory.SelectedIndexChanged += ChangeSomenthing_Change;
         }
 
         public string GetFactory()
@@ -83,10 +105,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetLeader(string Leader)
         {
+            comBox_Leader.SelectedIndexChanged -= ChangeSomenthing_Change;
             if (comBox_Leader.Items.Contains(Leader))
             {
                 comBox_Leader.SelectedIndex = comBox_Leader.FindString(Leader);
             }
+            comBox_Leader.SelectedIndexChanged += ChangeSomenthing_Change;
         }
 
         public string GetLeader()
@@ -96,10 +120,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetDevision(string Devision)
         {
+            comBox_Devision.SelectedIndexChanged -= ChangeSomenthing_Change;
             if (comBox_Devision.Items.Contains(Devision))
             {
                 comBox_Devision.SelectedIndex = comBox_Devision.FindString(Devision);
             }
+            comBox_Devision.SelectedIndexChanged += ChangeSomenthing_Change;
         }
         public string GetDevison()
         {
@@ -108,20 +134,31 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetStartMonth(string Month)
         {
+            comBox_Month.SelectedIndexChanged -= ChangeSomenthing_Change;
             if (comBox_Month.Items.Contains(Month))
             {
                 comBox_Month.SelectedIndex = comBox_Month.FindString(Month);
             }
+            comBox_Month.SelectedIndexChanged += ChangeSomenthing_Change;
         }
 
         public void Clear()
         {
+            cb_Active.CheckedChanged -= Cb_Active_CheckedChanged;
+            cb_Idea.CheckedChanged -= Cb_Active_CheckedChanged;
+            comBox_Devision.SelectedIndexChanged -= ChangeSomenthing_Change;
+
             cb_Active.Checked = true;
+            cb_Idea.Checked = false;
             SetFactory("PLV");
-            num_Action_YearAction.Value = DateTime.UtcNow.Year;
-            comBox_Month.SelectedIndex = DateTime.UtcNow.Month;
+            SetYear(DateTime.UtcNow.Year) ;
+            SetStartMonth(DateTime.UtcNow.Month.ToString("MMMM"));
             SetLeader(Users.Singleton.Name);
             comBox_Devision.SelectedIndex = 1;
+
+            comBox_Devision.SelectedIndexChanged += ChangeSomenthing_Change;
+            cb_Active.CheckedChanged += Cb_Active_CheckedChanged;
+            cb_Idea.CheckedChanged += Cb_Active_CheckedChanged;
         }
 
         public string GetStartMonth()
@@ -140,14 +177,20 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             {
                 cb_Idea.CheckedChanged -= Cb_Active_CheckedChanged;
                 cb_Idea.Checked = false;
+                ActionID.Singleton.ActionModification = true;
                 cb_Idea.CheckedChanged += Cb_Active_CheckedChanged;
             }
             else if((sender as CheckBox).Text == "Idea")
             {
                 cb_Active.CheckedChanged -= Cb_Active_CheckedChanged;
                 cb_Active.Checked = false;
+                ActionID.Singleton.ActionModification = true;
                 cb_Active.CheckedChanged += Cb_Active_CheckedChanged;
             }
+        }
+        private void ChangeSomenthing_Change(object sender, EventArgs e)
+        {
+            ActionID.Singleton.ActionModification = true;
         }
     }
 }

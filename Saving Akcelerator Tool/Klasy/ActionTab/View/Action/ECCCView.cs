@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -97,11 +98,18 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Num_ECCC.Enabled = Cb_ECCC.Checked;
             Cb_ECCCSpec.Enabled = Cb_ECCC.Checked;
             Num_ECCC.Value = 0;
+            ActionID.Singleton.ActionModification = true;
         }
 
         private void Cb_ECCCSpec_CheckedChanged(object sender, EventArgs e)
         {
             Num_ECCC.Enabled = !Cb_ECCCSpec.Checked;
+            ActionID.Singleton.ActionModification = true;
+        }
+
+        private void Change (object sender, EventArgs e)
+        {
+            ActionID.Singleton.ActionModification = true;
         }
     }
 }

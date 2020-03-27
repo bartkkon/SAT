@@ -187,6 +187,7 @@
             this.TB_NewANCQ10.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ10.TabIndex = 41;
             this.TB_NewANCQ10.Visible = false;
+            this.TB_NewANCQ10.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ10.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -197,6 +198,7 @@
             this.TB_OldANCQ10.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ10.TabIndex = 38;
             this.TB_OldANCQ10.Visible = false;
+            this.TB_OldANCQ10.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ10.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -239,6 +241,7 @@
             this.TB_NewANCQ9.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ9.TabIndex = 37;
             this.TB_NewANCQ9.Visible = false;
+            this.TB_NewANCQ9.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ9.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -249,6 +252,7 @@
             this.TB_OldANCQ9.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ9.TabIndex = 35;
             this.TB_OldANCQ9.Visible = false;
+            this.TB_OldANCQ9.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ9.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -291,6 +295,7 @@
             this.TB_NewANCQ8.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ8.TabIndex = 33;
             this.TB_NewANCQ8.Visible = false;
+            this.TB_NewANCQ8.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ8.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -301,6 +306,7 @@
             this.TB_OldANCQ8.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ8.TabIndex = 31;
             this.TB_OldANCQ8.Visible = false;
+            this.TB_OldANCQ8.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ8.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -343,6 +349,7 @@
             this.TB_NewANCQ7.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ7.TabIndex = 29;
             this.TB_NewANCQ7.Visible = false;
+            this.TB_NewANCQ7.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ7.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -353,6 +360,7 @@
             this.TB_OldANCQ7.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ7.TabIndex = 27;
             this.TB_OldANCQ7.Visible = false;
+            this.TB_OldANCQ7.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ7.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -395,6 +403,7 @@
             this.TB_NewANCQ6.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ6.TabIndex = 25;
             this.TB_NewANCQ6.Visible = false;
+            this.TB_NewANCQ6.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ6.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -405,6 +414,7 @@
             this.TB_OldANCQ6.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ6.TabIndex = 23;
             this.TB_OldANCQ6.Visible = false;
+            this.TB_OldANCQ6.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ6.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -447,6 +457,7 @@
             this.TB_NewANCQ5.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ5.TabIndex = 21;
             this.TB_NewANCQ5.Visible = false;
+            this.TB_NewANCQ5.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ5.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -457,6 +468,7 @@
             this.TB_OldANCQ5.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ5.TabIndex = 19;
             this.TB_OldANCQ5.Visible = false;
+            this.TB_OldANCQ5.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ5.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -499,6 +511,7 @@
             this.TB_NewANCQ4.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ4.TabIndex = 17;
             this.TB_NewANCQ4.Visible = false;
+            this.TB_NewANCQ4.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ4.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -509,6 +522,7 @@
             this.TB_OldANCQ4.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ4.TabIndex = 15;
             this.TB_OldANCQ4.Visible = false;
+            this.TB_OldANCQ4.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ4.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -551,6 +565,7 @@
             this.TB_NewANCQ3.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ3.TabIndex = 13;
             this.TB_NewANCQ3.Visible = false;
+            this.TB_NewANCQ3.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ3.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -561,6 +576,7 @@
             this.TB_OldANCQ3.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ3.TabIndex = 11;
             this.TB_OldANCQ3.Visible = false;
+            this.TB_OldANCQ3.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ3.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -603,6 +619,7 @@
             this.TB_NewANCQ2.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ2.TabIndex = 9;
             this.TB_NewANCQ2.Visible = false;
+            this.TB_NewANCQ2.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ2.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -613,6 +630,7 @@
             this.TB_OldANCQ2.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ2.TabIndex = 7;
             this.TB_OldANCQ2.Visible = false;
+            this.TB_OldANCQ2.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ2.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -655,6 +673,7 @@
             this.TB_NewANCQ1.Size = new System.Drawing.Size(40, 20);
             this.TB_NewANCQ1.TabIndex = 5;
             this.TB_NewANCQ1.Visible = false;
+            this.TB_NewANCQ1.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_NewANCQ1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_NewANCQ1.Leave += new System.EventHandler(this.Quantity_Leave);
             // 
@@ -665,6 +684,7 @@
             this.TB_OldANCQ1.Size = new System.Drawing.Size(40, 20);
             this.TB_OldANCQ1.TabIndex = 3;
             this.TB_OldANCQ1.Visible = false;
+            this.TB_OldANCQ1.TextChanged += new System.EventHandler(this.Quantity_TextChange);
             this.TB_OldANCQ1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Quantity_KeyPress);
             this.TB_OldANCQ1.Leave += new System.EventHandler(this.Quantity_Leave);
             // 

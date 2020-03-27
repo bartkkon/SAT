@@ -15,14 +15,18 @@ namespace Saving_Accelerator_Tool.Model.Action
         public string PNC { get; set; }
         public double ECCC { get; set; }
         public string Old_ANC { get; set; }
-        public int Old_Quant_ANC { get; set; }
+        public double Old_Quant_ANC { get; set; }
         public string Old_IDCO { get; set; }
         public string New_ANC { get; set; }
-        public int New_Quant_ANC { get; set; }
+        public double New_Quant_ANC { get; set; }
         public string New_IDCO { get; set; }
         public double Old_STK { get; set; }
         public double New_STK { get; set; }
         public double Delta { get; set; }
-
+        public bool Active { get; set; }
+        public int Rev { get; set; }
+        public string ChangeBy { get; set; }
+        public DateTime ChangeTime { get; set; }
+        public int ActionIDOriginal { get; set; }
     }
 }

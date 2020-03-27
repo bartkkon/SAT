@@ -74,6 +74,16 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             return Next;
         }
 
+        public string GetANCNext1(int Count)
+        {
+            return Next1[Count - 1].Text;
+        }
+
+        public string GetANCNext2(int Count)
+        {
+            return Next2[Count - 1].Text;
+        }
+
         public void Clear()
         {
             for (int counter = 0; counter < 10; counter++)
@@ -107,6 +117,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Next2.Add(tb_Next2ANC8);
             Next2.Add(tb_Next2ANC9);
             Next2.Add(tb_Next2ANC10);
+        }
+
+        private void Tb_NextANC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
 
         private void Tb_NextANC_TextChanged(object sender, EventArgs e)

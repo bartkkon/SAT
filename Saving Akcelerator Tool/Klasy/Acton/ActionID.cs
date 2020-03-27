@@ -15,10 +15,10 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
         {
             get
             {
-                if(_instance ==null)
+                if (_instance == null)
                 {
-                    lock(syncRoot)
-                        if(_instance == null)
+                    lock (syncRoot)
+                        if (_instance == null)
                         {
                             _instance = new ActionID();
                         }
@@ -27,5 +27,16 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
             }
         }
 
+        public static void Delete()
+        {
+                if (_instance != null)
+                {
+                    lock (syncRoot)
+                        if (_instance != null)
+                        {
+                            _instance = null;
+                        }
+                }
+        }
     }
 }

@@ -20,7 +20,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         private void Pb_Save_Click(object sender, EventArgs e)
         {
-            _ = new SaveActionFromForm();
+            //_ = new SaveActionFromForm();
+            _ = new Framework.SaveAction();
         }
 
         private void Pb_SaveDraft_Click(object sender, EventArgs e)

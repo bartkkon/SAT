@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -20,10 +21,26 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetPNCEstymation(string Value)
         {
-            if(Value != "")
+            TB_EstymacjaPNC.TextChanged -= TB_Estymacja_TextChange;
+            if (Value != "")
             {
                 TB_EstymacjaPNC.Text = Value;
             }
+            TB_EstymacjaPNC.TextChanged += TB_Estymacja_TextChange;
+        }
+
+        public void SetPNCEstimationValue(double Value)
+        {
+            TB_EstymacjaPNC.TextChanged -= TB_Estymacja_TextChange;
+            if (Value !=0)
+            {
+                TB_EstymacjaPNC.Text = Value.ToString();
+            }
+            else
+            {
+                TB_EstymacjaPNC.Text = string.Empty;
+            }
+            TB_EstymacjaPNC.TextChanged += TB_Estymacja_TextChange;
         }
 
         public decimal GetPNCEstymation()
@@ -36,74 +53,39 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void Clear()
         {
+            TB_EstymacjaPNC.TextChanged += TB_Estymacja_TextChange;
             TB_EstymacjaPNC.Text = "";
+            TB_EstymacjaPNC.TextChanged += TB_Estymacja_TextChange;
         }
 
-        private void TB_EstymacjaPNC_TextChanged(object sender, EventArgs e)
+        private void TB_Estymacja_TextChange(object sender, EventArgs e)
         {
-            string[] Estyma;
-            int CursorPosition = TB_EstymacjaPNC.SelectionStart - 1;
-            int LenghtText = TB_EstymacjaPNC.Text.Length;
-            Regex GoodChar = new Regex("^[0-9,-]*$");
-            Regex GoodChar2 = new Regex("^[0-9,]*$");
-            string CharToCheck;
+            ActionID.Singleton.ActionModification = true;
+        }
 
-            TB_EstymacjaPNC.TextChanged -= TB_EstymacjaPNC_TextChanged;
-
-            if (CursorPosition < 0)
-            {
-                CursorPosition = 0;
-            }
-
-            if (TB_EstymacjaPNC.Text.Length != 0)
-            {
-                Estyma = TB_EstymacjaPNC.Text.Split('.');
-                if (Estyma.Length == 2)
-                {
-                    TB_EstymacjaPNC.Text = TB_EstymacjaPNC.Text.Replace('.', ',');
-                    TB_EstymacjaPNC.Focus();
-                    TB_EstymacjaPNC.SelectionStart = CursorPosition + 1;
-                }
-
-                Estyma = TB_EstymacjaPNC.Text.Split(',');
-                if (Estyma.Length > 2)
-                {
-                    if (TB_EstymacjaPNC.SelectionStart == TB_EstymacjaPNC.Text.Length)
-                    {
-                        TB_EstymacjaPNC.Text = TB_EstymacjaPNC.Text.Substring(0, CursorPosition);
-                    }
-                    else
-                    {
-                        TB_EstymacjaPNC.Text = TB_EstymacjaPNC.Text.Substring(0, CursorPosition) + TB_EstymacjaPNC.Text.Substring(TB_EstymacjaPNC.SelectionStart, TB_EstymacjaPNC.Text.Length - TB_EstymacjaPNC.SelectionStart);
-                    }
-
-                    TB_EstymacjaPNC.Focus();
-                    TB_EstymacjaPNC.SelectionStart = CursorPosition;
-                }
-
-                if (!GoodChar.IsMatch(TB_EstymacjaPNC.Text))
-                {
-                    TB_EstymacjaPNC.Text = Regex.Replace(TB_EstymacjaPNC.Text, @"[^0-9,-]+", "");
-                    TB_EstymacjaPNC.Focus();
-                    TB_EstymacjaPNC.SelectionStart = CursorPosition;
-                }
-
-                CharToCheck = TB_EstymacjaPNC.Text.Substring(1, TB_EstymacjaPNC.Text.Length - 1);
-                if (!GoodChar2.IsMatch(CharToCheck))
-                {
-                    CharToCheck = Regex.Replace(CharToCheck, @"[^0-9,]+", "");
-                    TB_EstymacjaPNC.Text = TB_EstymacjaPNC.Text.Substring(0, 1) + CharToCheck;
-                    TB_EstymacjaPNC.Focus();
-                    TB_EstymacjaPNC.SelectionStart = CursorPosition;
-                }
-            }
-
-            TB_EstymacjaPNC.TextChanged += TB_EstymacjaPNC_TextChanged;
+        private void TB_EstymacjaPNC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && e.KeyChar != '-' )
+                e.Handled = true;
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
+                e.Handled = true;
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') == -1) && (sender as TextBox).SelectionStart == 0)
+                e.Handled = true;
+            if (e.KeyChar == '-' && (sender as TextBox).Text.IndexOf('-') > -1)
+                e.Handled = true;
+            if (e.KeyChar == '-' && (sender as TextBox).Text.IndexOf('-') == -1 && (sender as TextBox).SelectionStart != 0)
+                e.Handled = true;
         }
 
         private void TB_EstymacjaPNC_Leave(object sender, EventArgs e)
         {
             decimal Convert = 0;
+
+            if(TB_EstymacjaPNC.Text.IndexOf(',') ==0)
+                TB_EstymacjaPNC.Text = 0 + TB_EstymacjaPNC.Text;
+       
+            if (TB_EstymacjaPNC.Text.IndexOf('-') == 0 && TB_EstymacjaPNC.Text.IndexOf(',') == 1)
+                TB_EstymacjaPNC.Text = TB_EstymacjaPNC.Text.Replace("-,", "-0,");
 
             if (TB_EstymacjaPNC.Text.Length != 0)
             {
@@ -112,22 +94,14 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 TB_EstymacjaPNC.Text = Convert.ToString();
             }
             else
-            {
                 TB_EstymacjaPNC.Text = Convert.ToString();
-            }
 
             if (Convert > 0)
-            {
                 TB_EstymacjaPNC.ForeColor = Color.Green;
-            }
             else if (Convert < 0)
-            {
                 TB_EstymacjaPNC.ForeColor = Color.Red;
-            }
             else
-            {
                 TB_EstymacjaPNC.ForeColor = Color.Black;
-            }
         }
     }
 }

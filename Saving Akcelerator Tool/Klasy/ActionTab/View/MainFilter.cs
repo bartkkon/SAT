@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Saving_Accelerator_Tool.Klasy.User;
 using Saving_Accelerator_Tool.Klasy.ActionTab.Framework;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View
 {
@@ -35,6 +36,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View
             _ = new ClearForm();
             _ = new ActionVerificationEnabled();
             MainProgram.Self.actionView.SetActionName("New Action");
+            ActionID.Singleton.ID = 0;
         }
 
         private void Active_Idea_CheckedChange(object sender, EventArgs e)

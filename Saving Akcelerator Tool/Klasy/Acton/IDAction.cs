@@ -15,5 +15,6 @@ namespace Saving_Accelerator_Tool.Klasy.Acton
         public bool CalcModification { get; set; }
         public bool MassModification { get; set; }
         public bool PNCModification { get; set; }
+        public bool PNCSpecModification { get; set; }
     }
 }

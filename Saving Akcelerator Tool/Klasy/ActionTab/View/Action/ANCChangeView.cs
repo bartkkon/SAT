@@ -17,16 +17,20 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
     {
         private readonly List<TextBox> OldANCList;
         private readonly List<TextBox> OldANCQList;
+        private readonly List<string> OldIDCO;
         private readonly List<TextBox> NewANCList;
         private readonly List<TextBox> NewANCQList;
+        private readonly List<string> NewIDCO;
         private readonly List<Label> Arrows;
 
         public ANCChangeView()
         {
             OldANCList = new List<TextBox>();
             OldANCQList = new List<TextBox>();
+            OldIDCO = new List<string>();
             NewANCList = new List<TextBox>();
             NewANCQList = new List<TextBox>();
+            NewIDCO = new List<string>();
             Arrows = new List<Label>();
 
 
@@ -87,6 +91,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Arrows.Add(Arrow8);
             Arrows.Add(Arrow9);
             Arrows.Add(Arrow10);
+
+            for (int counter = 0; counter < 10; counter++)
+            {
+                OldIDCO.Add("");
+                NewIDCO.Add("");
+            }
         }
 
         public void SetVisibleANC(int VisibleRows)
@@ -104,6 +114,27 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.NextANC.SetVisisble(counter, true);
                 MainProgram.Self.actionView.CalculationGroup.SetVisible(counter, true);
             }
+        }
+
+        public int GetVisibleNumber()
+        {
+            int visible = 0;
+            foreach (var List in OldANCList)
+            {
+                if (List.Visible)
+                    visible++;
+            }
+            return visible;
+        }
+
+        public void SetOldIDCO(int Count, string Value)
+        {
+            OldIDCO[Count] = Value;
+        }
+
+        public void SetNewIDCO(int Count, string Value)
+        {
+            NewIDCO[Count] = Value;
         }
 
         public void SetANC(string[] ANCList, int Rows, bool TrueifNew)
@@ -156,6 +187,75 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
 
             return QuantityList;
+        }
+
+        public string GetOldANC(int Count)
+        {
+            return OldANCList[Count-1].Text;
+        }
+
+        public int GetOldANCQ (int Count)
+        {
+            return Convert.ToInt32(OldANCQList[Count-1].Text);
+        }
+
+        public string GetNewANC(int Count)
+        {
+            return NewANCList[Count-1].Text;
+        }
+
+        public int GetNewANCQ(int Count)
+        {
+            return Convert.ToInt32(NewANCQList[Count-1].Text);
+        }
+
+        public string GetOldIDCO(int Count)
+        {
+            return OldIDCO[Count - 1];
+        }
+
+        public string GetNewIDCO(int Count)
+        {
+            return NewIDCO[Count - 1];
+        }
+
+        public void SetOldANC(int Count, string Value)
+        {
+            OldANCList[Count].TextChanged -= ANC_TextChange;
+            OldANCList[Count].Text = Value;
+            OldANCList[Count].TextChanged += ANC_TextChange;
+        }
+
+        public void SetOldANCQ(int Count, double Value)
+        {
+            OldANCQList[Count].TextChanged -= Quantity_TextChange;
+            OldANCQList[Count].Leave -= Quantity_Leave;
+            OldANCQList[Count].Text = Value.ToString();
+            OldANCQList[Count].Leave += Quantity_Leave;
+            OldANCQList[Count].TextChanged += Quantity_TextChange;
+        }
+
+        public void SetNewANC(int Count, string Value)
+        {
+            NewANCList[Count].TextChanged -= ANC_TextChange;
+            NewANCList[Count].Text = Value;
+            NewANCList[Count].TextChanged += ANC_TextChange;
+        }
+        public void SetNewANCQ(int Count, double Value)
+        {
+            NewANCQList[Count].TextChanged -= Quantity_TextChange;
+            NewANCQList[Count].Leave -= Quantity_Leave;
+            NewANCQList[Count].Text = Value.ToString();
+            NewANCQList[Count].Leave += Quantity_Leave;
+            NewANCQList[Count].TextChanged += Quantity_TextChange;
+        }
+        public void SetOldANC_IDCO(int Count, string Value)
+        {
+            OldIDCO[Count] = Value;
+        }
+        public void SetNewANC_IDCO(int Count, string Value)
+        {
+            NewIDCO[Count] = Value;
         }
 
         public void Clear()
@@ -228,6 +328,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC - 1, true);
             MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC - 1, true);
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, true);
+            ActionID.Singleton.ANCModification = true;
         }
 
         private void RemoveRow(int iloscANC)
@@ -244,6 +345,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             MainProgram.Self.actionView.StkChange.SetVisibleANC(iloscANC - 1, false);
             MainProgram.Self.actionView.NextANC.SetVisisble(iloscANC - 1, false);
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, false);
+            ActionID.Singleton.ANCModification = true;
         }
 
         private void ANC_KeyPress(object sender, KeyPressEventArgs e)
@@ -298,95 +400,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     _ = new FindSTK(NewANCList.IndexOf(sender as TextBox), "New", (sender as TextBox).Text, Convert.ToDouble(NewANCQList[NewANCList.IndexOf(sender as TextBox)].Text));
                 }
             }
-
+            ActionID.Singleton.ANCModification = true;
         }
-
-        //private void Tb_CheckifOK_TextChange(object sender, EventArgs e)
-        //{
-        //    TextBox TextToCheck = sender as TextBox;
-        //    Regex GoodChar = new Regex("^[aA0-9]*$");
-        //    Regex OnlyNumber = new Regex("^[0-9]*$");
-        //    Regex SmallChar = new Regex("^[a]");
-        //    int CursorPosition = TextToCheck.SelectionStart - 1;
-        //    if (CursorPosition < 0)
-        //    {
-        //        CursorPosition = 0;
-        //    }
-
-        //    if (TextToCheck.Text.Length > 1)
-        //    {
-        //        string Check = TextToCheck.Text.Remove(0, 1);
-        //        if (!OnlyNumber.IsMatch(Check))
-        //        {
-        //            Check = Regex.Replace(Check, @"[^0-9]+", "");
-
-        //            TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
-        //            TextToCheck.Focus();
-        //            TextToCheck.SelectionStart = CursorPosition;
-        //        }
-
-        //        Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
-        //        if (!GoodChar.IsMatch(Check))
-        //        {
-        //            TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
-        //            TextToCheck.Focus();
-        //            TextToCheck.SelectionStart = 0;
-        //        }
-        //        else if (Check == "a")
-        //        {
-        //            TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
-        //            TextToCheck.Focus();
-        //            TextToCheck.SelectionStart = CursorPosition + 1;
-        //        }
-
-        //    }
-        //    else if (TextToCheck.Text.Length == 1)
-        //    {
-        //        if (!GoodChar.IsMatch(TextToCheck.Text))
-        //        {
-        //            TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
-        //            TextToCheck.Focus();
-        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
-        //        }
-        //        if (SmallChar.IsMatch(TextToCheck.Text))
-        //        {
-        //            TextToCheck.Text = "A";
-        //            TextToCheck.Focus();
-        //            TextToCheck.SelectionStart = TextToCheck.Text.Length;
-        //        }
-        //    }
-        //    if (TextToCheck.Text.Length < 9)
-        //    {
-        //        TextToCheck.ForeColor = Color.Red;
-        //        if (OldANCList.Contains(TextToCheck))
-        //        {
-        //            _ = new FindSTK(OldANCList.IndexOf(TextToCheck), "Old", string.Empty, 0);
-        //        }
-        //        else if (NewANCList.Contains(TextToCheck))
-        //        {
-        //            _ = new FindSTK(NewANCList.IndexOf(TextToCheck), "New", string.Empty, 0);
-        //        }
-        //    }
-        //    else if (TextToCheck.Text.Length == 9)
-        //    {
-        //        TextToCheck.ForeColor = Color.Black;
-        //        int ElementNumber = Int32.Parse(TextToCheck.Name.Remove(0, 9));
-        //        if (OldANCList.Contains(TextToCheck))
-        //        {
-
-        //            if (OldANCQList[ElementNumber - 1].Text == "0")
-        //                OldANCQList[ElementNumber - 1].Text = "1";
-        //            _ = new FindSTK(OldANCList.IndexOf(TextToCheck), "Old", TextToCheck.Text, Convert.ToDouble(OldANCQList[ElementNumber - 1].Text));
-        //        }
-        //        else if (NewANCList.Contains(TextToCheck))
-        //        {
-
-        //            if (NewANCQList[ElementNumber - 1].Text == "0")
-        //                NewANCQList[ElementNumber - 1].Text = "1";
-        //            _ = new FindSTK(NewANCList.IndexOf(TextToCheck), "New", TextToCheck.Text, Convert.ToDouble(NewANCQList[ElementNumber - 1].Text));
-        //        }
-        //    }
-        //}
 
         private void Quantity_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -464,6 +479,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     _ = new FindSTK(Number, "New", NewANCList[Number].Text, Convert.ToDouble((sender as TextBox).Text));
                 }
             }
+        }
+
+        private void Quantity_TextChange(object sender, EventArgs e)
+        {
+            ActionID.Singleton.ANCModification = true;
         }
     }
 }

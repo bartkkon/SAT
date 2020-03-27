@@ -40,5 +40,10 @@ namespace Saving_Accelerator_Tool.Model
         public bool ANC_Calc { get; set; }
         public bool Group_Calc { get; set; }
         public double PNCSpec_Estimation { get; set; }
+        public bool Active { get; set; }
+        public int Rev { get; set; }
+        public string ChangeBy { get; set; }    
+        public DateTime ChangeTime { get; set; }
+        public  int ActionIDOriginal { get; set; }
     }
 }

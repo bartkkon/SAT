@@ -20,6 +20,11 @@ namespace Saving_Accelerator_Tool.Model.Action
         public bool D45_FS { get; set; }
         public bool D45_BI { get; set; }
         public bool D45_FSBU { get; set; }
+        public bool Active { get; set; }
+        public int Rev { get; set; }
+        public string ChangeBy { get; set; }
+        public DateTime ChangeTime { get; set; }
+        public int ActionIDOriginal { get; set; }
 
     }
 }

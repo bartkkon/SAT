@@ -33,6 +33,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
         }
 
+        public DataGridView GetTable()
+        {
+            return dg_PNC;
+        }
+
         public void SetPNCSpec(DataTable PNCList, DataTable ANCList, DataTable QuantitlyList, DataTable STKList, DataTable Deltalist, DataTable PNCSumSTKList, DataTable SumDeltaList, decimal[] ECCC)
         {
             bool ECCCCalc = false;

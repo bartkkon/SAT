@@ -19,6 +19,14 @@ namespace Saving_Accelerator_Tool.Controllers.Action
             return Action;
         }
 
+        public static IEnumerable<ActionDB> Load(int Year)
+        {
+            var context = new DataBaseConnectionContext();
+            List<ActionDB> List = context.Action.Where(u => u.StartYear == Year && u.Active == true).ToList();
+
+            return List;
+        }
+
         public static void Save(ActionDB action)
         {
             var context = new DataBaseConnectionContext();
@@ -33,6 +41,27 @@ namespace Saving_Accelerator_Tool.Controllers.Action
 
             context.Action.Add(action);
             context.SaveChanges();
+        }
+
+        public static void ModificationAction(ActionDB Original, ActionDB Updaeted)
+        {
+            var context = new DataBaseConnectionContext();
+
+            Original.Active = false;
+            Updaeted.Rev = Original.Rev + 1;
+            Updaeted.ActionIDOriginal = Original.ID;
+
+            context.Action.Update(Original);
+            context.Action.Add(Updaeted);
+
+            context.SaveChanges();
+        }
+
+        public static ActionDB FindAction(string ActionName, int Year)
+        {
+            var context = new DataBaseConnectionContext();
+            ActionDB FindAction = context.Action.Where(u => u.Name == ActionName && u.StartYear == Year && u.Active == true).FirstOrDefault();
+            return FindAction;
         }
     }
 }

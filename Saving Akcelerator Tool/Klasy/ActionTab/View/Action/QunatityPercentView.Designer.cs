@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.gb_percent = new System.Windows.Forms.GroupBox();
-            this.num_QuantityPercent = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.num_QuantityPercent = new System.Windows.Forms.NumericUpDown();
             this.gb_percent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_QuantityPercent)).BeginInit();
             this.SuspendLayout();
@@ -46,6 +46,15 @@
             this.gb_percent.TabIndex = 0;
             this.gb_percent.TabStop = false;
             this.gb_percent.Text = "Quantity Percent:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(105, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(15, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "%";
             // 
             // num_QuantityPercent
             // 
@@ -69,15 +78,7 @@
             0,
             0,
             0});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(105, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(15, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "%";
+            this.num_QuantityPercent.ValueChanged += new System.EventHandler(this.Num_QuantityPercent_ValueChanged);
             // 
             // QunatityPercentView
             // 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Saving_Accelerator_Tool.Data;
 
 namespace Saving_Accelerator_Tool.Migrations
 {
     [DbContext(typeof(DataBaseConnectionContext))]
-    partial class DataBaseConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20200327132045_AddActionIDOriginal")]
+    partial class AddActionIDOriginal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,8 +109,8 @@ namespace Saving_Accelerator_Tool.Migrations
                     b.Property<string>("New_IDCO")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("New_Quant_ANC")
-                        .HasColumnType("float");
+                    b.Property<int>("New_Quant_ANC")
+                        .HasColumnType("int");
 
                     b.Property<double>("New_STK")
                         .HasColumnType("float");
@@ -125,8 +127,8 @@ namespace Saving_Accelerator_Tool.Migrations
                     b.Property<string>("Old_ANC")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Old_Quant_ANC")
-                        .HasColumnType("float");
+                    b.Property<int>("Old_Quant_ANC")
+                        .HasColumnType("int");
 
                     b.Property<double>("Old_STK")
                         .HasColumnType("float");

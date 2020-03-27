@@ -13,9 +13,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
     public partial class CalculationByView : UserControl
     {
+        private bool Calculation;
         public CalculationByView()
         {
             InitializeComponent();
+            Calculation = true;
         }
 
         public void SetCalcMethod(string Method)
@@ -64,29 +66,38 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void SetANC(bool ANC)
         {
+            Calculation = false;
             Cb_CalcANC.Checked = ANC;
+            Calculation = true;
         }
 
         public void SetANCSpec(bool ANCSpec)
         {
+            Calculation = false;
             Cb_CalcANCby.Checked = ANCSpec;
+            Calculation = true;
         }
 
         public void SetPNC(bool PNC)
         {
+            Calculation = false;
             Cb_CalcPNC.Checked = PNC;
+            Calculation = true;
         }
 
         public void SetPNCSpec(bool PNCSpec)
         {
+            Calculation = false;
             Cb_CalcPNCSpec.Checked = PNCSpec;
+            Calculation = true;
         }
 
         public void Clear()
         {
+            Calculation = false;
             Cb_CalcANC.Checked = true;
+            Calculation = true;
         }
-
 
         private void Cb_Calc_CheckedChanged(object sender, EventArgs e)
         {
@@ -109,6 +120,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCListView.Visible = false;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(false);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(false);
+                if (Calculation)
+                    ActionID.Singleton.CalcModification = true;
             }
             else if ((sender as CheckBox).Text == "ANC Special")
             {
@@ -125,6 +138,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCListView.Visible = false;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(false);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(false);
+                if(Calculation)
+                    ActionID.Singleton.CalcModification = true;
             }
             else if ((sender as CheckBox).Text == "PNC")
             {
@@ -141,6 +156,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCListView.Visible = true;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(true);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(false);
+                if(Calculation)
+                    ActionID.Singleton.PNCModification = true;
             }
             else if((sender as CheckBox).Text == "PNC Special")
             {
@@ -157,6 +174,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCListView.Visible = true;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(true);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(true);
+                if (Calculation)
+                    ActionID.Singleton.PNCSpecModification = true;
             }
 
             Cb_CalcANC.CheckedChanged += Cb_Calc_CheckedChanged;
@@ -164,6 +183,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Cb_CalcPNC.CheckedChanged += Cb_Calc_CheckedChanged;
             Cb_CalcPNCSpec.CheckedChanged += Cb_Calc_CheckedChanged;
 
+            if(Calculation)
+            {
+                ActionID.Singleton.ActionModification = true;
+            }
         }
 
         private void Pb_PNC_Click(object sender, EventArgs e)

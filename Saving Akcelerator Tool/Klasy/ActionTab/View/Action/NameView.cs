@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -20,7 +21,9 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         }
         public void ActionNameChange(string Name)
         {
+            Tb_Name.TextChanged -= Tb_Name_TextChanged;
             Tb_Name.Text = Name;
+            Tb_Name.TextChanged += Tb_Name_TextChanged;
         }
 
         public string GetActionName()
@@ -35,13 +38,21 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         public void Description(string Des)
         {
+            Tb_Description.TextChanged -= Tb_Description_TextChanged;
             Tb_Description.Text = Des.Replace("/n", Environment.NewLine);
+            Lab_MaxLength.Text = Tb_Description.Text.Length.ToString() + "/1000";
+            Tb_Description.TextChanged += Tb_Description_TextChanged;
         }
 
         public void Clear()
         {
-            Tb_Description.Text = "";
-            Tb_Name.Text = "";
+            Tb_Name.TextChanged -= Tb_Name_TextChanged;
+            Tb_Description.TextChanged -= Tb_Description_TextChanged;
+            Tb_Description.Text = string.Empty;
+            Tb_Name.Text = string.Empty;
+            Lab_MaxLength.Text = Tb_Description.Text.Length.ToString() + "/1000";
+            Tb_Description.TextChanged += Tb_Description_TextChanged;
+            Tb_Name.TextChanged += Tb_Name_TextChanged;
         }
 
         private void Tb_Name_TextChanged(object sender, EventArgs e)
@@ -71,6 +82,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     }
                 }
             }
+            ActionID.Singleton.ActionModification = true;
         }
 
         private void Tb_Name_Leave(object sender, EventArgs e)
@@ -81,6 +93,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         private void Tb_Description_TextChanged(object sender, EventArgs e)
         {
             Lab_MaxLength.Text = Tb_Description.Text.Length.ToString() + "/1000";
+            ActionID.Singleton.ActionModification = true;
         }
     }
 }

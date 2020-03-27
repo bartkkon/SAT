@@ -77,6 +77,7 @@
             this.Num_ECCC.Name = "Num_ECCC";
             this.Num_ECCC.Size = new System.Drawing.Size(57, 20);
             this.Num_ECCC.TabIndex = 2;
+            this.Num_ECCC.Click += new System.EventHandler(this.Change);
             // 
             // Cb_ECCCSpec
             // 
