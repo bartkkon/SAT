@@ -212,7 +212,7 @@ namespace Saving_Accelerator_Tool
             NewRow["StartYear"] = Year.ToString();
             NewRow["StartMonth"] = ((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Text;
 
-            ClearDataforUse(((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Text);
+            //ClearDataforUse(((ComboBox)MainProgram.Self.TabControl.Controls.Find("comBox_Month", true).First()).Text);
 
             NewRow["Platform"] = Platform();
 
@@ -590,7 +590,7 @@ namespace Saving_Accelerator_Tool
             ActionRow["Next"] = NextANC;
         }
 
-        //Odczyt które ANC jest brane pod uwagę przy ANC Spec
+        //Odczyt które ANC jest brane pod uwagę przy ANC Specf
         private string ANCCalcby()
         {
             string Calcby = "";
