@@ -10,6 +10,14 @@ namespace Saving_Accelerator_Tool.Model
     class FrozenDB
     {
         [Key]
+
+        /*
+        Logic:
+        0 - Close - Month/Revision not calculated,
+        1 - Open - Month/Revision can be calculated,
+        2 - Approve - Month/Revision is approved.
+        */
+
         public int ID { get; set; }
         public int Year { get; set; }
         public int BU { get; set; }

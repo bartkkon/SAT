@@ -15,6 +15,8 @@
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>\\PLWS4031\Project\CAD\Work\ELECTRICAL TEAM\Saving Accelerator Tool\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
@@ -34,8 +36,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,11 +59,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3313390A6DC2A217E0D3EDA3592E0894670E1A65</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>9B617862BC0C64F99E564EF22DEDCECC6AA15D82</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>Saving Accelerator Tool_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -229,6 +228,7 @@
     <Compile Include="Controllers\AdminTab\SumRevisionController.cs" />
     <Compile Include="Controllers\ANCMonthlyQuantity.cs" />
     <Compile Include="Controllers\ANCRevisionQuantity.cs" />
+    <Compile Include="Controllers\Excptions\NoConnection.cs" />
     <Compile Include="Controllers\FrozenController.cs" />
     <Compile Include="Controllers\PNCMonthlyQuantity.cs" />
     <Compile Include="Controllers\PNCRevisionQuantity.cs" />
@@ -243,6 +243,8 @@
     </Compile>
     <Compile Include="Klasy\ActionTab\Framework\ActionVerificationEnabled.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Activation_Action.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\CalculationAction.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Calculation\ANC_Calc.cs" />
     <Compile Include="Klasy\ActionTab\Framework\ClearForm.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Deactivation_Action.cs" />
     <Compile Include="Klasy\ActionTab\Framework\FindSTK.cs" />
@@ -253,6 +255,11 @@
     <Compile Include="Klasy\ActionTab\Framework\LoadEmployees.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Load\ActionLoad.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Load\ANCChangeLoad.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\CalculationMassLoad.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\PNCLoad.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\PNCSpecialLoad.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\Load\PNSpecialDB.cs" />
+    <Compile Include="Klasy\ActionTab\Framework\PNCSpecSTK.cs" />
     <Compile Include="Klasy\ActionTab\Framework\SaveAction.cs" />
     <Compile Include="Klasy\ActionTab\Framework\SaveActionFromForm.cs" />
     <Compile Include="Klasy\ActionTab\Framework\Save\ActionSave.cs" />
@@ -390,6 +397,8 @@
     <Compile Include="Klasy\Acton\CopyAction.cs" />
     <Compile Include="Klasy\Acton\LoadActionToMemeory.cs" />
     <Compile Include="Klasy\Acton\OriginalAction.cs" />
+    <Compile Include="Klasy\AddDataView\ActionPNCAdd.cs" />
+    <Compile Include="Klasy\AddDataView\ActionPNCSpecAdd.cs" />
     <Compile Include="Klasy\AddDataView\ANCQuantityAdd.cs" />
     <Compile Include="Klasy\AddDataView\ANCRevisionQuantityAdd.cs" />
     <Compile Include="Klasy\AddDataView\ManualUpdateSTK.cs" />
@@ -904,6 +913,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Saving Accelerator Tool_1_TemporaryKey.pfx" />
     <None Include="Saving Accelerator Tool_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

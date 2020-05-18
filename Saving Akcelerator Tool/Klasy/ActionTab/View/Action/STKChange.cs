@@ -55,6 +55,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Percent[Row].Visible = VisibleBool;
             Percent[Row].Text = "100";
             ToCalc[Row].Visible = VisibleBool;
+            ToCalc[Row].Text = string.Empty;
             Arrow[Row].Visible = VisibleBool;
             Equal[Row].Visible = VisibleBool;
             PercentLab[Row].Visible = VisibleBool;

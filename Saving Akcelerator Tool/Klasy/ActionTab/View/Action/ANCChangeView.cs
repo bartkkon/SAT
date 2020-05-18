@@ -22,6 +22,9 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         private readonly List<TextBox> NewANCQList;
         private readonly List<string> NewIDCO;
         private readonly List<Label> Arrows;
+        private int VisibleRows;
+
+        public bool Save;
 
         public ANCChangeView()
         {
@@ -37,8 +40,24 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             InitializeComponent();
 
             AddComponentToList();
+            Save = true;
         }
+        private void ChecIFIsPermisionToSave()
+        {
+            bool CanSave = true;
+            foreach(TextBox OldANC in OldANCList)
+            {
+                if (OldANC.Text.Length != 9 && OldANC.Text.Length != 0)
+                    CanSave = false;
+            }
+            foreach (TextBox NewANC in NewANCList)
+            {
+                if (NewANC.Text.Length != 9 && NewANC.Text.Length != 0)
+                    CanSave = false;
+            }
 
+            Save = CanSave;
+        }
         private void AddComponentToList()
         {
             OldANCList.Add(TB_OldANC1);
@@ -98,9 +117,9 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 NewIDCO.Add("");
             }
         }
-
         public void SetVisibleANC(int VisibleRows)
         {
+            this.VisibleRows = VisibleRows;
             for (int counter = 0; counter < VisibleRows; counter++)
             {
                 OldANCList[counter].Visible = true;
@@ -115,7 +134,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.CalculationGroup.SetVisible(counter, true);
             }
         }
-
         public int GetVisibleNumber()
         {
             int visible = 0;
@@ -126,17 +144,14 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             }
             return visible;
         }
-
         public void SetOldIDCO(int Count, string Value)
         {
             OldIDCO[Count] = Value;
         }
-
         public void SetNewIDCO(int Count, string Value)
         {
             NewIDCO[Count] = Value;
         }
-
         public void SetANC(string[] ANCList, int Rows, bool TrueifNew)
         {
             for (int counter = 0; counter < Rows; counter++)
@@ -147,7 +162,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     OldANCList[counter].Text = ANCList[counter];
             }
         }
-
         public void SetANCQ(decimal[] QuantityList, int Rows, bool TrueIfNew)
         {
             for (int counter = 0; counter < Rows; counter++)
@@ -158,7 +172,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     OldANCQList[counter].Text = QuantityList[counter].ToString();
             }
         }
-
         public string[] GetANC(int Rows, bool New)
         {
             string[] ANCList = new string[Rows];
@@ -173,7 +186,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
             return ANCList;
         }
-
         public decimal[] GetQuantity(int Rows, bool New)
         {
             decimal[] QuantityList = new decimal[Rows];
@@ -188,57 +200,51 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
             return QuantityList;
         }
-
         public string GetOldANC(int Count)
         {
             return OldANCList[Count-1].Text;
         }
-
         public int GetOldANCQ (int Count)
         {
             return Convert.ToInt32(OldANCQList[Count-1].Text);
         }
-
         public string GetNewANC(int Count)
         {
             return NewANCList[Count-1].Text;
         }
-
         public int GetNewANCQ(int Count)
         {
             return Convert.ToInt32(NewANCQList[Count-1].Text);
         }
-
         public string GetOldIDCO(int Count)
         {
             return OldIDCO[Count - 1];
         }
-
         public string GetNewIDCO(int Count)
         {
             return NewIDCO[Count - 1];
         }
-
         public void SetOldANC(int Count, string Value)
         {
             OldANCList[Count].TextChanged -= ANC_TextChange;
             OldANCList[Count].Text = Value;
+            OldANCList[Count].ForeColor = Color.Black;
             OldANCList[Count].TextChanged += ANC_TextChange;
         }
-
         public void SetOldANCQ(int Count, double Value)
         {
             OldANCQList[Count].TextChanged -= Quantity_TextChange;
             OldANCQList[Count].Leave -= Quantity_Leave;
             OldANCQList[Count].Text = Value.ToString();
+            OldANCQList[Count].ForeColor = Color.Black;
             OldANCQList[Count].Leave += Quantity_Leave;
             OldANCQList[Count].TextChanged += Quantity_TextChange;
         }
-
         public void SetNewANC(int Count, string Value)
         {
             NewANCList[Count].TextChanged -= ANC_TextChange;
             NewANCList[Count].Text = Value;
+            NewANCList[Count].ForeColor = Color.Black;
             NewANCList[Count].TextChanged += ANC_TextChange;
         }
         public void SetNewANCQ(int Count, double Value)
@@ -246,6 +252,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             NewANCQList[Count].TextChanged -= Quantity_TextChange;
             NewANCQList[Count].Leave -= Quantity_Leave;
             NewANCQList[Count].Text = Value.ToString();
+            NewANCQList[Count].ForeColor = Color.Black;
             NewANCQList[Count].Leave += Quantity_Leave;
             NewANCQList[Count].TextChanged += Quantity_TextChange;
         }
@@ -257,7 +264,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         {
             NewIDCO[Count] = Value;
         }
-
         public void Clear()
         {
             foreach (TextBox Box in OldANCList)
@@ -288,26 +294,20 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             MainProgram.Self.actionView.NextANC.Clear();
             MainProgram.Self.actionView.CalculationGroup.Clear();
         }
-
         private void Pb_Plus_Click(object sender, EventArgs e)
         {
-            CopyAction.Value.IloscANC++;
-            if (CopyAction.Value.IloscANC <= 10)
+            if(VisibleRows <10)
             {
-                AddRow(CopyAction.Value.IloscANC);
-            }
-            else
-            {
-                CopyAction.Value.IloscANC--;
+                VisibleRows++;
+                AddRow(VisibleRows);
             }
         }
-
         private void Pb_Minus_Click(object sender, EventArgs e)
         {
-            if (CopyAction.Value.IloscANC > 1)
+            if (VisibleRows >1)
             {
-                RemoveRow(CopyAction.Value.IloscANC);
-                CopyAction.Value.IloscANC--;
+                RemoveRow(VisibleRows);
+                VisibleRows--;
             }
             else
             {
@@ -315,7 +315,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 AddRow(1);
             }
         }
-
         private void AddRow(int iloscANC)
         {
             OldANCList[iloscANC - 1].Visible = true;
@@ -330,7 +329,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, true);
             ActionID.Singleton.ANCModification = true;
         }
-
         private void RemoveRow(int iloscANC)
         {
             OldANCList[iloscANC - 1].Visible = false;
@@ -347,7 +345,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             MainProgram.Self.actionView.CalculationGroup.SetVisible(iloscANC - 1, false);
             ActionID.Singleton.ANCModification = true;
         }
-
         private void ANC_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != 'A') && (e.KeyChar != 'a'))
@@ -365,7 +362,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             if ((e.KeyChar == 'a') && ((sender as TextBox).Text.IndexOf('a') == -1) && ((sender as TextBox).SelectionStart != 0))
                 e.Handled = true;
         }
-
         private void ANC_TextChange(object sender, EventArgs e)
         {
             (sender as TextBox).Text.Replace('a', 'A');
@@ -400,9 +396,9 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     _ = new FindSTK(NewANCList.IndexOf(sender as TextBox), "New", (sender as TextBox).Text, Convert.ToDouble(NewANCQList[NewANCList.IndexOf(sender as TextBox)].Text));
                 }
             }
+            ChecIFIsPermisionToSave();
             ActionID.Singleton.ANCModification = true;
         }
-
         private void Quantity_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
@@ -414,7 +410,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') == -1) && ((sender as TextBox).SelectionStart == 0))
                 e.Handled = true;
         }
-
         private void Quantity_Leave(object sender, EventArgs e)
         {
             if ((sender as TextBox).Text.Length == 0)
@@ -480,7 +475,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 }
             }
         }
-
         private void Quantity_TextChange(object sender, EventArgs e)
         {
             ActionID.Singleton.ANCModification = true;

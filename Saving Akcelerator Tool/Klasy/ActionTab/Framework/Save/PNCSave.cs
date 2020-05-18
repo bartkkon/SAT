@@ -1,6 +1,7 @@
 ﻿using Saving_Accelerator_Tool.Model.Action;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,20 +15,19 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework.Save
         {
             List<PNCListDB> PNCList = new List<PNCListDB>();
 
-            DataGridView PNCTable = MainProgram.Self.actionView.PNCListView.GetTable();
+            DataTable PNC= MainProgram.Self.actionView.PNCListView.GetDataTable();
 
-            foreach(DataGridViewRow PNCRow in PNCTable.Rows)
+            foreach(DataRow PNCRow in PNC.Rows)
             {
                 PNCListDB NewRow = new PNCListDB
                 {
-                    List = PNCRow.Cells["PNC"].Value.ToString(),
+                    List = PNCRow["PNC"].ToString(),
                     Active = true,
                     ChangeBy = Environment.UserName.ToLower(),
                     ChangeTime = DateTime.UtcNow,
                 };
                 PNCList.Add(NewRow);
             }
-
 
             return PNCList;
         }

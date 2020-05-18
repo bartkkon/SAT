@@ -38,8 +38,6 @@
             this.cb_Mass_DMD_BI = new System.Windows.Forms.CheckBox();
             this.cb_Mass_DMD_FI = new System.Windows.Forms.CheckBox();
             this.cb_Mass_DMD_FS = new System.Windows.Forms.CheckBox();
-            this.cb_Mass_D45 = new System.Windows.Forms.CheckBox();
-            this.cb_Mass_DMD = new System.Windows.Forms.CheckBox();
             this.cb_Mass_All = new System.Windows.Forms.CheckBox();
             this.cb_Mass_GroupUse = new System.Windows.Forms.CheckBox();
             this.cb_Mass_ANCUse = new System.Windows.Forms.CheckBox();
@@ -54,6 +52,8 @@
             this.cb_ANCby3 = new System.Windows.Forms.CheckBox();
             this.cb_ANCby2 = new System.Windows.Forms.CheckBox();
             this.cb_ANCby1 = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.gb_CalculationGroup.SuspendLayout();
             this.gb_ByGroup.SuspendLayout();
             this.gb_ANCby.SuspendLayout();
@@ -75,6 +75,8 @@
             // 
             // gb_ByGroup
             // 
+            this.gb_ByGroup.Controls.Add(this.label2);
+            this.gb_ByGroup.Controls.Add(this.label1);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_D45_FSBU);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_D45_BI);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_D45_FI);
@@ -83,8 +85,6 @@
             this.gb_ByGroup.Controls.Add(this.cb_Mass_DMD_BI);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_DMD_FI);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_DMD_FS);
-            this.gb_ByGroup.Controls.Add(this.cb_Mass_D45);
-            this.gb_ByGroup.Controls.Add(this.cb_Mass_DMD);
             this.gb_ByGroup.Controls.Add(this.cb_Mass_All);
             this.gb_ByGroup.Enabled = false;
             this.gb_ByGroup.Location = new System.Drawing.Point(45, 55);
@@ -96,7 +96,7 @@
             // cb_Mass_D45_FSBU
             // 
             this.cb_Mass_D45_FSBU.AutoSize = true;
-            this.cb_Mass_D45_FSBU.Location = new System.Drawing.Point(79, 163);
+            this.cb_Mass_D45_FSBU.Location = new System.Drawing.Point(79, 134);
             this.cb_Mass_D45_FSBU.Name = "cb_Mass_D45_FSBU";
             this.cb_Mass_D45_FSBU.Size = new System.Drawing.Size(54, 17);
             this.cb_Mass_D45_FSBU.TabIndex = 10;
@@ -107,7 +107,7 @@
             // cb_Mass_D45_BI
             // 
             this.cb_Mass_D45_BI.AutoSize = true;
-            this.cb_Mass_D45_BI.Location = new System.Drawing.Point(79, 140);
+            this.cb_Mass_D45_BI.Location = new System.Drawing.Point(79, 111);
             this.cb_Mass_D45_BI.Name = "cb_Mass_D45_BI";
             this.cb_Mass_D45_BI.Size = new System.Drawing.Size(56, 17);
             this.cb_Mass_D45_BI.TabIndex = 9;
@@ -118,7 +118,7 @@
             // cb_Mass_D45_FI
             // 
             this.cb_Mass_D45_FI.AutoSize = true;
-            this.cb_Mass_D45_FI.Location = new System.Drawing.Point(79, 117);
+            this.cb_Mass_D45_FI.Location = new System.Drawing.Point(79, 88);
             this.cb_Mass_D45_FI.Name = "cb_Mass_D45_FI";
             this.cb_Mass_D45_FI.Size = new System.Drawing.Size(35, 17);
             this.cb_Mass_D45_FI.TabIndex = 8;
@@ -129,7 +129,7 @@
             // cb_Mass_D45_FS
             // 
             this.cb_Mass_D45_FS.AutoSize = true;
-            this.cb_Mass_D45_FS.Location = new System.Drawing.Point(79, 94);
+            this.cb_Mass_D45_FS.Location = new System.Drawing.Point(79, 65);
             this.cb_Mass_D45_FS.Name = "cb_Mass_D45_FS";
             this.cb_Mass_D45_FS.Size = new System.Drawing.Size(39, 17);
             this.cb_Mass_D45_FS.TabIndex = 7;
@@ -140,7 +140,7 @@
             // cb_Mass_DMD_FSBU
             // 
             this.cb_Mass_DMD_FSBU.AutoSize = true;
-            this.cb_Mass_DMD_FSBU.Location = new System.Drawing.Point(11, 163);
+            this.cb_Mass_DMD_FSBU.Location = new System.Drawing.Point(11, 134);
             this.cb_Mass_DMD_FSBU.Name = "cb_Mass_DMD_FSBU";
             this.cb_Mass_DMD_FSBU.Size = new System.Drawing.Size(54, 17);
             this.cb_Mass_DMD_FSBU.TabIndex = 6;
@@ -151,7 +151,7 @@
             // cb_Mass_DMD_BI
             // 
             this.cb_Mass_DMD_BI.AutoSize = true;
-            this.cb_Mass_DMD_BI.Location = new System.Drawing.Point(11, 140);
+            this.cb_Mass_DMD_BI.Location = new System.Drawing.Point(11, 111);
             this.cb_Mass_DMD_BI.Name = "cb_Mass_DMD_BI";
             this.cb_Mass_DMD_BI.Size = new System.Drawing.Size(56, 17);
             this.cb_Mass_DMD_BI.TabIndex = 5;
@@ -162,7 +162,7 @@
             // cb_Mass_DMD_FI
             // 
             this.cb_Mass_DMD_FI.AutoSize = true;
-            this.cb_Mass_DMD_FI.Location = new System.Drawing.Point(11, 117);
+            this.cb_Mass_DMD_FI.Location = new System.Drawing.Point(11, 88);
             this.cb_Mass_DMD_FI.Name = "cb_Mass_DMD_FI";
             this.cb_Mass_DMD_FI.Size = new System.Drawing.Size(35, 17);
             this.cb_Mass_DMD_FI.TabIndex = 4;
@@ -173,35 +173,13 @@
             // cb_Mass_DMD_FS
             // 
             this.cb_Mass_DMD_FS.AutoSize = true;
-            this.cb_Mass_DMD_FS.Location = new System.Drawing.Point(11, 94);
+            this.cb_Mass_DMD_FS.Location = new System.Drawing.Point(11, 65);
             this.cb_Mass_DMD_FS.Name = "cb_Mass_DMD_FS";
             this.cb_Mass_DMD_FS.Size = new System.Drawing.Size(39, 17);
             this.cb_Mass_DMD_FS.TabIndex = 3;
             this.cb_Mass_DMD_FS.Text = "FS";
             this.cb_Mass_DMD_FS.UseVisualStyleBackColor = true;
             this.cb_Mass_DMD_FS.CheckedChanged += new System.EventHandler(this.Cb_Mass_Group_CheckedChanged);
-            // 
-            // cb_Mass_D45
-            // 
-            this.cb_Mass_D45.AutoSize = true;
-            this.cb_Mass_D45.Location = new System.Drawing.Point(79, 46);
-            this.cb_Mass_D45.Name = "cb_Mass_D45";
-            this.cb_Mass_D45.Size = new System.Drawing.Size(46, 17);
-            this.cb_Mass_D45.TabIndex = 2;
-            this.cb_Mass_D45.Text = "D45";
-            this.cb_Mass_D45.UseVisualStyleBackColor = true;
-            this.cb_Mass_D45.CheckedChanged += new System.EventHandler(this.Cb_Mass_Group_CheckedChanged);
-            // 
-            // cb_Mass_DMD
-            // 
-            this.cb_Mass_DMD.AutoSize = true;
-            this.cb_Mass_DMD.Location = new System.Drawing.Point(11, 46);
-            this.cb_Mass_DMD.Name = "cb_Mass_DMD";
-            this.cb_Mass_DMD.Size = new System.Drawing.Size(51, 17);
-            this.cb_Mass_DMD.TabIndex = 1;
-            this.cb_Mass_DMD.Text = "DMD";
-            this.cb_Mass_DMD.UseVisualStyleBackColor = true;
-            this.cb_Mass_DMD.CheckedChanged += new System.EventHandler(this.Cb_Mass_Group_CheckedChanged);
             // 
             // cb_Mass_All
             // 
@@ -265,6 +243,7 @@
             this.cb_ANCby10.TabIndex = 9;
             this.cb_ANCby10.UseVisualStyleBackColor = true;
             this.cb_ANCby10.Visible = false;
+            this.cb_ANCby10.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby9
             // 
@@ -275,6 +254,7 @@
             this.cb_ANCby9.TabIndex = 8;
             this.cb_ANCby9.UseVisualStyleBackColor = true;
             this.cb_ANCby9.Visible = false;
+            this.cb_ANCby9.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby8
             // 
@@ -285,6 +265,7 @@
             this.cb_ANCby8.TabIndex = 7;
             this.cb_ANCby8.UseVisualStyleBackColor = true;
             this.cb_ANCby8.Visible = false;
+            this.cb_ANCby8.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby7
             // 
@@ -295,6 +276,7 @@
             this.cb_ANCby7.TabIndex = 6;
             this.cb_ANCby7.UseVisualStyleBackColor = true;
             this.cb_ANCby7.Visible = false;
+            this.cb_ANCby7.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby6
             // 
@@ -305,6 +287,7 @@
             this.cb_ANCby6.TabIndex = 5;
             this.cb_ANCby6.UseVisualStyleBackColor = true;
             this.cb_ANCby6.Visible = false;
+            this.cb_ANCby6.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby5
             // 
@@ -315,6 +298,7 @@
             this.cb_ANCby5.TabIndex = 4;
             this.cb_ANCby5.UseVisualStyleBackColor = true;
             this.cb_ANCby5.Visible = false;
+            this.cb_ANCby5.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby4
             // 
@@ -325,6 +309,7 @@
             this.cb_ANCby4.TabIndex = 3;
             this.cb_ANCby4.UseVisualStyleBackColor = true;
             this.cb_ANCby4.Visible = false;
+            this.cb_ANCby4.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby3
             // 
@@ -335,6 +320,7 @@
             this.cb_ANCby3.TabIndex = 2;
             this.cb_ANCby3.UseVisualStyleBackColor = true;
             this.cb_ANCby3.Visible = false;
+            this.cb_ANCby3.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby2
             // 
@@ -345,6 +331,7 @@
             this.cb_ANCby2.TabIndex = 1;
             this.cb_ANCby2.UseVisualStyleBackColor = true;
             this.cb_ANCby2.Visible = false;
+            this.cb_ANCby2.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
             // 
             // cb_ANCby1
             // 
@@ -355,6 +342,27 @@
             this.cb_ANCby1.TabIndex = 0;
             this.cb_ANCby1.UseVisualStyleBackColor = true;
             this.cb_ANCby1.Visible = false;
+            this.cb_ANCby1.CheckedChanged += new System.EventHandler(this.SelectedANC_CheckedChange);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(4, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "DMD:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Location = new System.Drawing.Point(76, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "D45:";
             // 
             // CalculationGroupView
             // 
@@ -396,10 +404,10 @@
         private System.Windows.Forms.CheckBox cb_Mass_DMD_BI;
         private System.Windows.Forms.CheckBox cb_Mass_DMD_FI;
         private System.Windows.Forms.CheckBox cb_Mass_DMD_FS;
-        private System.Windows.Forms.CheckBox cb_Mass_D45;
-        private System.Windows.Forms.CheckBox cb_Mass_DMD;
         private System.Windows.Forms.CheckBox cb_Mass_All;
         private System.Windows.Forms.CheckBox cb_Mass_GroupUse;
         private System.Windows.Forms.CheckBox cb_Mass_ANCUse;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }

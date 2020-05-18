@@ -12,6 +12,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
     public partial class PNCListView : UserControl
     {
+        private Dictionary<string, string> IDCO = new Dictionary<string, string>();
+
         public PNCListView()
         {
             InitializeComponent();
@@ -21,10 +23,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         {
             dg_PNC.Rows.Clear();
             dg_PNC.Columns.Clear();
+            IDCO.Clear();
         }
 
         public void SetPNC(DataTable PNCList)
         {
+            Clear();
             NewColumn(dg_PNC, "PNC", 80, Color.Black);
 
             foreach (DataRow Row in PNCList.Rows)
@@ -32,6 +36,100 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 dg_PNC.Rows.Add(Row[0]);
             }
         }
+
+        public void SetPNCSpecial(DataTable TableToAdd)
+        {
+            Clear();
+            NewColumn(dg_PNC, "PNC", 80, Color.Black);
+            NewColumn(dg_PNC, "OLD ANC", 75, Color.Red);
+            NewColumn(dg_PNC, "OLD Q", 35, Color.Red);
+            NewColumn(dg_PNC, "NEW ANC", 75, Color.Green);
+            NewColumn(dg_PNC, "NEW Q", 35, Color.Green);
+            NewColumn(dg_PNC, "OLD STK", 70, Color.Red);
+            NewColumn(dg_PNC, "NEW STK", 70, Color.Green);
+            NewColumn(dg_PNC, "Delta", 70, Color.Black);
+
+            foreach (DataRow Row in TableToAdd.Rows)
+            {
+                dg_PNC.Rows.Add(Row.ItemArray);
+            }
+
+            ColorTable();
+        }
+        public void AddIDCOValue(string ANC, string ANC_IDCO)
+        {
+            IDCO.Add(ANC, ANC_IDCO);
+        }
+
+        public void SetIDCoLoad(Dictionary<string, string> LoadIDCO)
+        {
+            IDCO.Clear();
+            IDCO = LoadIDCO;
+        }
+
+        public string GetIDCO(string ANC)
+        {
+            if (ANC != string.Empty)
+            {
+                if (IDCO.ContainsKey(ANC))
+                    return IDCO[ANC];
+            }
+            return string.Empty;
+        }
+
+        private void ColorTable()
+        {
+            foreach(DataGridViewRow Row in dg_PNC.Rows)
+            {
+                if(Row.Cells["PNC"].Value.ToString() != string.Empty)
+                {
+                    Row.DefaultCellStyle.BackColor = Color.LightBlue;
+                    Row.DefaultCellStyle.Font = new Font(dg_PNC.Font, FontStyle.Bold);
+                    Row.Cells[1].Style.Font = new Font(dg_PNC.Font, FontStyle.Regular);
+                }
+                if (Row.Cells["Delta"].Value.ToString() != string.Empty)
+                {
+                    double Delta = Convert.ToDouble(Row.Cells["Delta"].Value.ToString());
+                    if (Delta > 0)
+                    {
+                        Row.Cells["Delta"].Style.ForeColor = Color.Green;
+                    }
+                    else if (Delta < 0)
+                    {
+                        Row.Cells["Delta"].Style.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        Row.Cells["Delta"].Style.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
+        public DataTable GetDataTable()
+        {
+            DataTable ExistTable = new DataTable();
+
+            foreach (DataGridViewColumn Column in dg_PNC.Columns)
+            {
+                ExistTable.Columns.Add(Column.Name);
+            }
+
+            foreach(DataGridViewRow Row in dg_PNC.Rows)
+            {
+                DataRow NewRow = ExistTable.NewRow();
+
+                foreach(DataGridViewColumn Column in dg_PNC.Columns)
+                {
+                    NewRow[Column.Name] = Row.Cells[Column.Name].Value; 
+                }
+
+                ExistTable.Rows.Add(NewRow);
+            }
+
+            return ExistTable;
+        }
+
 
         public DataGridView GetTable()
         {

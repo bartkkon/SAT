@@ -133,13 +133,16 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCSpecialEstymationView.Clear();
                 MainProgram.Self.actionView.PNCSpecialEstymationView.Visible = false;
                 MainProgram.Self.actionView.CalculationGroup.Clear();
-                MainProgram.Self.actionView.CalculationGroup.SetVisibleCount(CopyAction.Value.IloscANC);
+                MainProgram.Self.actionView.CalculationGroup.SetVisibleCount(MainProgram.Self.actionView.ANCChangeView.GetVisibleNumber());
                 MainProgram.Self.actionView.CalculationGroup.Visible = true;
                 MainProgram.Self.actionView.PNCListView.Visible = false;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(false);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(false);
-                if(Calculation)
+                if (Calculation)
+                {
                     ActionID.Singleton.CalcModification = true;
+                    ActionID.Singleton.MassModification = true;
+                }
             }
             else if ((sender as CheckBox).Text == "PNC")
             {
@@ -156,8 +159,11 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.PNCListView.Visible = true;
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(true);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(false);
-                if(Calculation)
+                if (Calculation)
+                {
                     ActionID.Singleton.PNCModification = true;
+                    ActionID.Singleton.CalcModification = true;
+                }
             }
             else if((sender as CheckBox).Text == "PNC Special")
             {
@@ -175,7 +181,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 MainProgram.Self.actionView.ButtonsView.SetSaveButtonVisible(true);
                 MainProgram.Self.actionView.ButtonsView.SetSpecialButtonEnable(true);
                 if (Calculation)
+                {
                     ActionID.Singleton.PNCSpecModification = true;
+                    ActionID.Singleton.CalcModification = true;
+                }
             }
 
             Cb_CalcANC.CheckedChanged += Cb_Calc_CheckedChanged;

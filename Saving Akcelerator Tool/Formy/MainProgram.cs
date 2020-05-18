@@ -13,6 +13,7 @@ using Saving_Accelerator_Tool.Klasy.User;
 using Saving_Accelerator_Tool.Klasy.Acton;
 using Saving_Accelerator_Tool.Klasy.ActionTab.Framework;
 
+
 namespace Saving_Accelerator_Tool
 {
     public partial class MainProgram : Form
@@ -33,6 +34,7 @@ namespace Saving_Accelerator_Tool
                 MessageBox.Show("You don't have permision to acces this tool. Please contact with administrator!", "No Access!");
                 Environment.Exit(0);
             }
+
 
             //Inicjalizowanie programu
             InitializeComponent();

@@ -88,6 +88,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         private void Tb_Name_Leave(object sender, EventArgs e)
         {
             Tb_Name.Text = Tb_Name.Text.Trim();
+            Tb_Name.Text = Tb_Name.Text.Replace("  ", " ");
         }
 
         private void Tb_Description_TextChanged(object sender, EventArgs e)

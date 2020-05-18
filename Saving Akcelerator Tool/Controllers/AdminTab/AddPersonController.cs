@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Saving_Accelerator_Tool.Klasy.AdminTab.Framework.Access;
+using System.Windows.Forms;
+using System.Globalization;
+using Saving_Accelerator_Tool.Controllers.Excptions;
 
 namespace Saving_Accelerator_Tool.Controllers.AdminTab
 {
@@ -13,78 +16,152 @@ namespace Saving_Accelerator_Tool.Controllers.AdminTab
     {
         public static bool AddUser()
         {
-            var context = new DataBaseConnectionContext();
-            var user = new UserDB
+            while (true)
             {
-                Login = MainProgram.Self.addPersonView.GetUserName(),
-            };
-            context.Add(user);
-            context.SaveChanges();
-            return true;
+                try
+                {
+                    var context = new DataBaseConnectionContext();
+                    var user = new UserDB
+                    {
+                        Login = MainProgram.Self.addPersonView.GetUserName(),
+                    };
+                    context.Add(user);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
+            }
         }
 
         public static UserDB ReturnUser(string UserLogin)
         {
-            var context = new DataBaseConnectionContext();
-            UserDB user = context.Users.Where(u => u.Login == UserLogin).FirstOrDefault();
+            while (true)
+            {
+                try
+                {
+                    var context = new DataBaseConnectionContext();
 
-            if (user != null)
-                return user;
+                    UserDB user = context.Users.Where(u => u.Login == UserLogin).FirstOrDefault();
 
-            return null;
+                    if (user != null)
+                        return user;
+
+                    return null;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
+            }
         }
 
         public static bool DeleteUser(string UserLogin)
         {
-            var context = new DataBaseConnectionContext();
-            UserDB user = context.Users.Where(u => u.Login == UserLogin).FirstOrDefault();
-
-            if (user != null)
+            while (true)
             {
-                context.Users.Remove(user);
-                context.SaveChanges();
-                return true;
-            }
+                try
+                {
+                    var context = new DataBaseConnectionContext();
+                    UserDB user = context.Users.Where(u => u.Login == UserLogin).FirstOrDefault();
 
-            return false;
+                    if (user != null)
+                    {
+                        context.Users.Remove(user);
+                        context.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
+            }
         }
 
         public static void UpdatePerson(UserDB UpdateUsers)
         {
-            var context = new DataBaseConnectionContext();
-            context.Users.Update(UpdateUsers);
-            context.SaveChanges();
+            while (true)
+            {
+                try
+                {
+                    var context = new DataBaseConnectionContext();
+                    context.Users.Update(UpdateUsers);
+                    context.SaveChanges();
+                    return;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
+            }
         }
 
         public static void Refresh()
         {
-            var users = GetUsers();
-
-            MainProgram.Self.addPersonView.ClearAllLogin();
-
-            foreach (var user in users)
+            while (true)
             {
-                MainProgram.Self.addPersonView.SetAllLogin(user.Login);
+                try
+                {
+                    var users = GetUsers();
+
+                    MainProgram.Self.addPersonView.ClearAllLogin();
+
+                    foreach (var user in users)
+                    {
+                        MainProgram.Self.addPersonView.SetAllLogin(user.Login);
+                    }
+                    return;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
             }
         }
 
         public static void PersonLoad(string SelectedLogin)
         {
-            var context = new DataBaseConnectionContext();
-            UserDB user = context.Users.Where(u => u.Login == SelectedLogin).FirstOrDefault();
+            while (true)
+            {
+                try
+                {
+                    var context = new DataBaseConnectionContext();
+                    UserDB user = context.Users.Where(u => u.Login == SelectedLogin).FirstOrDefault();
 
-            _ = new LoadPerson(user);
+                    _ = new LoadPerson(user);
+                    return;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
+            }
         }
 
         public static IEnumerable<UserDB> GetUsers()
         {
-            var _context = new DataBaseConnectionContext();
-            List<UserDB> users = new List<UserDB>();
-            foreach (UserDB user in _context.Users)
+            while (true)
             {
-                users.Add(user);
+                try
+                {
+                    var _context = new DataBaseConnectionContext();
+                    List<UserDB> users = new List<UserDB>();
+                    foreach (UserDB user in _context.Users)
+                    {
+                        users.Add(user);
+                    }
+                    return users;
+                }
+                catch
+                {
+                    NoConnection.Info();
+                }
             }
-            return users;
         }
     }
 }

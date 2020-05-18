@@ -19,8 +19,13 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework
             _ = new ActionVerificationEnabled();
 
             ActionDB Action = ActionController.FindAction(ActionName, Convert.ToInt32(Year));
-
-            _ = new ActionLoad(Action);
+            ActionLoad.Load(Action);
+            ANCChangeLoad.Load(Action.ID);
+            CalculationMassLoad.Load(Action.ID);
+            if (Action.PNC == true)
+                PNCLoad.Load(Action.ID);
+            if (Action.PNCSpec == true)
+                PNCSpecialLoad.Load(Action.ID);
 
             ActionID.Delete();
             ActionID.Singleton.ID = Action.ID;

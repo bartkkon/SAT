@@ -15,14 +15,59 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
     {
         private readonly List<CheckBox> ANCby;
         private bool Change;
+
+        public bool Save_ANC;
+        public bool Save_Group;
         public CalculationGroupView()
         {
             ANCby = new List<CheckBox>();
             Change = true;
+            Save_ANC = false;
+            Save_Group = false;
 
             InitializeComponent();
 
             AddComponentsToList();
+        }
+
+        private void CheckIfCanSave()
+        {
+            bool CanSave = false;
+
+            if (cb_Mass_ANCUse.Checked)
+            {
+                foreach(CheckBox ANC in ANCby)
+                {
+                    if (ANC.Checked)
+                        CanSave = true;
+                }
+                Save_ANC = CanSave;
+            }
+            else
+            {
+                Save_ANC = true;
+            }
+            
+            if(cb_Mass_GroupUse.Checked)
+            {
+                if(cb_Mass_D45_BI.Checked ||
+                    cb_Mass_D45_FI.Checked ||
+                    cb_Mass_D45_FS.Checked ||
+                    cb_Mass_D45_FSBU.Checked||
+                    cb_Mass_DMD_BI.Checked||
+                    cb_Mass_DMD_FI.Checked ||
+                    cb_Mass_DMD_FS.Checked ||
+                    cb_Mass_DMD_FSBU.Checked)
+                {
+                    CanSave = true;
+                }
+                Save_Group = CanSave;
+            }
+            else
+            {
+                Save_Group = true;
+            }
+
         }
 
         public void SetVisible(int Row, bool ifVisibel)
@@ -67,10 +112,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     cb_Mass_All.Checked = true;
                 else
                 {
-                    if (Mass[1] == "DMD")
-                        cb_Mass_DMD.Checked = true;
-                    if (Mass[2] == "D45")
-                        cb_Mass_D45.Checked = true;
                     if (Mass[3] == "DMD_FS")
                         cb_Mass_DMD_FS.Checked = true;
                     if (Mass[4] == "DMD_FI")
@@ -107,7 +148,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             cb_Mass_DMD_FS.Checked = Check;
             Change = true;
         }
-        
+
         public bool GetDMD_FS()
         {
             return cb_Mass_DMD_FS.Checked;
@@ -199,10 +240,21 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         {
             return cb_Mass_ANCUse.Checked;
         }
-
+        public void SetANCbyGroup(bool check)
+        {
+            Change = false;
+            cb_Mass_ANCUse.Checked = check;
+            Change = false;
+        }
         public bool GetMassGroup()
         {
             return cb_Mass_GroupUse.Checked;
+        }
+        public void SetMassGroup(bool Check)
+        {
+            Change = false;
+            cb_Mass_GroupUse.Checked = Check;
+            Change = true;
         }
 
         public bool[] GetANCby()
@@ -211,7 +263,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
             for (int counter = 0; counter < 10; counter++)
             {
-                if(ANCby[counter].Checked)
+                if (ANCby[counter].Checked)
                 {
                     Status[counter] = true;
                 }
@@ -226,10 +278,6 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
             if (cb_Mass_All.Checked)
                 MassStatus[0] = "All";
-            if (cb_Mass_DMD.Checked)
-                MassStatus[1] = "DMD";
-            if (cb_Mass_D45.Checked)
-                MassStatus[2] = "D45";
             if (cb_Mass_DMD_FS.Checked)
                 MassStatus[3] = "DMD_FS";
             if (cb_Mass_DMD_FI.Checked)
@@ -287,12 +335,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         private void ClearMass()
         {
             cb_Mass_All.Checked = false;
-            cb_Mass_DMD.Checked = false;
             cb_Mass_DMD_FS.Checked = false;
             cb_Mass_DMD_FI.Checked = false;
             cb_Mass_DMD_BI.Checked = false;
             cb_Mass_DMD_FSBU.Checked = false;
-            cb_Mass_D45.Checked = false;
             cb_Mass_D45_FS.Checked = false;
             cb_Mass_D45_FI.Checked = false;
             cb_Mass_D45_BI.Checked = false;
@@ -301,12 +347,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         private void SetMass(bool Set)
         {
-            cb_Mass_DMD.Checked = Set;
             cb_Mass_DMD_FS.Checked = Set;
             cb_Mass_DMD_FI.Checked = Set;
             cb_Mass_DMD_BI.Checked = Set;
             cb_Mass_DMD_FSBU.Checked = Set;
-            cb_Mass_D45.Checked = Set;
             cb_Mass_D45_FS.Checked = Set;
             cb_Mass_D45_FI.Checked = Set;
             cb_Mass_D45_BI.Checked = Set;
@@ -322,7 +366,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             ClearChecked();
             ClearMass();
             cb_Mass_GroupUse.CheckedChanged += Cb_Mass_GroupUse_CheckedChanged;
-            if(Change)
+            CheckIfCanSave();
+            if (Change)
             {
                 ActionID.Singleton.ANCModification = true;
                 ActionID.Singleton.ActionModification = true;
@@ -338,6 +383,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             gb_ByGroup.Enabled = (sender as CheckBox).Checked;
             ClearChecked();
             ClearMass();
+            CheckIfCanSave();
             cb_Mass_ANCUse.CheckedChanged += Cb_Mass_ANCUse_CheckedChanged;
             if (Change)
             {
@@ -350,14 +396,15 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
         private void Cb_Mass_All_CheckedChanged(object sender, EventArgs e)
         {
             SetMass((sender as CheckBox).Checked);
+            CheckIfCanSave();
             ActionID.Singleton.MassModification = true;
         }
 
         private void Cb_Mass_Group_CheckedChanged(object sender, EventArgs e)
         {
-            if (cb_Mass_DMD.Checked &&
-                cb_Mass_D45.Checked &&
-                cb_Mass_DMD_FS.Checked &&
+            if ((sender as CheckBox).Name != "cb_Mass_All")
+            {
+                if (cb_Mass_DMD_FS.Checked &&
                 cb_Mass_DMD_FI.Checked &&
                 cb_Mass_DMD_BI.Checked &&
                 cb_Mass_DMD_FSBU.Checked &&
@@ -365,19 +412,55 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                 cb_Mass_D45_FI.Checked &&
                 cb_Mass_D45_BI.Checked &&
                 cb_Mass_D45_FSBU.Checked)
-            {
-                cb_Mass_All.CheckedChanged -= Cb_Mass_All_CheckedChanged;
-                cb_Mass_All.Checked = true;
-                cb_Mass_All.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                {
+                    cb_Mass_All.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                    cb_Mass_All.Checked = true;
+                    cb_Mass_All.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                }
+                else
+                {
+                    cb_Mass_All.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                    cb_Mass_All.Checked = false; ;
+                    cb_Mass_All.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                }
             }
             else
             {
-                cb_Mass_All.CheckedChanged -= Cb_Mass_All_CheckedChanged;
-                cb_Mass_All.Checked = false; ;
-                cb_Mass_All.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_FS.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_FI.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_BI.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_FSBU.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FS.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FI.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_BI.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FSBU.CheckedChanged -= Cb_Mass_All_CheckedChanged;
+
+                cb_Mass_DMD_FS.Checked = (sender as CheckBox).Checked;
+                cb_Mass_DMD_FI.Checked = (sender as CheckBox).Checked;
+                cb_Mass_DMD_BI.Checked = (sender as CheckBox).Checked;
+                cb_Mass_DMD_FSBU.Checked = (sender as CheckBox).Checked;
+                cb_Mass_D45_FS.Checked = (sender as CheckBox).Checked;
+                cb_Mass_D45_FI.Checked = (sender as CheckBox).Checked;
+                cb_Mass_D45_BI.Checked = (sender as CheckBox).Checked;
+                cb_Mass_D45_FSBU.Checked = (sender as CheckBox).Checked;
+
+                cb_Mass_DMD_FS.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_FI.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_BI.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_DMD_FSBU.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FS.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FI.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_BI.CheckedChanged += Cb_Mass_All_CheckedChanged;
+                cb_Mass_D45_FSBU.CheckedChanged += Cb_Mass_All_CheckedChanged;
             }
+            CheckIfCanSave();
             if (Change)
                 ActionID.Singleton.MassModification = true;
+        }
+
+        private void SelectedANC_CheckedChange(object sender, EventArgs e)
+        {
+            CheckIfCanSave();
         }
     }
 }

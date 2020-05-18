@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Saving_Accelerator_Tool.Klasy.Acton;
 
 namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 {
@@ -15,6 +16,8 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
     {
         private readonly List<TextBox> Next1;
         private readonly List<TextBox> Next2;
+
+        public bool Save;
 
         public NextANC()
         {
@@ -24,6 +27,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             InitializeComponent();
 
             AddComponetsToList();
+            Save = true;
         }
 
         public void SetVisisble(int Row, bool ifVisible)
@@ -32,6 +36,24 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             Next1[Row].Text = "";
             Next2[Row].Visible = ifVisible;
             Next2[Row].Text = "";
+        }
+
+        private void CheckIfCanSave()
+        {
+            bool CanSave = true;
+
+            foreach(TextBox N1 in Next1)
+            {
+                if (N1.Text.Length != 9 && N1.Text.Length != 0)
+                    CanSave = false;
+            }
+            foreach(TextBox N2 in Next2)
+            {
+                if (N2.Text.Length != 9 && N2.Text.Length != 0)
+                    CanSave = false;
+            }
+
+            Save = CanSave;
         }
 
         public void SetData(string[] NextANC1, string[] NextANC2)
@@ -50,6 +72,12 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
                     Next2[counter].Text = NextANC2[counter];
                 }
             }
+        }
+
+        public void SetNext(int Count, string Next_1, string Next_2)
+        {
+            Next1[Count].Text = Next_1;
+            Next2[Count].Text = Next_2;
         }
 
         public string[] GetNext1(int Ilosc)
@@ -121,71 +149,37 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
 
         private void Tb_NextANC_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != 'A') && (e.KeyChar != 'a'))
+                e.Handled = true;
 
+            if ((e.KeyChar == 'A') && ((sender as TextBox).Text.IndexOf('A') > -1))
+                e.Handled = true;
+
+            if ((e.KeyChar == 'a') && ((sender as TextBox).Text.IndexOf('a') > -1))
+                e.Handled = true;
+
+            if ((e.KeyChar == 'A') && ((sender as TextBox).Text.IndexOf('A') == -1) && ((sender as TextBox).SelectionStart != 0))
+                e.Handled = true;
+
+            if ((e.KeyChar == 'a') && ((sender as TextBox).Text.IndexOf('a') == -1) && ((sender as TextBox).SelectionStart != 0))
+                e.Handled = true;
         }
 
         private void Tb_NextANC_TextChanged(object sender, EventArgs e)
         {
-            TextBox TextToCheck = sender as TextBox;
-            Regex GoodChar = new Regex("^[aA0-9]*$");
-            Regex OnlyNumber = new Regex("^[0-9]*$");
-            Regex SmallChar = new Regex("^[a]");
-            int CursorPosition = TextToCheck.SelectionStart - 1;
-            if (CursorPosition < 0)
+            (sender as TextBox).Text.Replace('a', 'A');
+
+            if((sender as TextBox).Text.Length <9)
             {
-                CursorPosition = 0;
+                (sender as TextBox).ForeColor = Color.Red;
+            }
+            else if((sender as TextBox).Text.Length ==9)
+            {
+                (sender as TextBox).ForeColor = Color.Black;
             }
 
-            if (TextToCheck.Text.Length > 1)
-            {
-                string Check = TextToCheck.Text.Remove(0, 1);
-                if (!OnlyNumber.IsMatch(Check))
-                {
-                    Check = Regex.Replace(Check, @"[^0-9]+", "");
-
-                    TextToCheck.Text = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1) + Check;
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition;
-                }
-
-                Check = TextToCheck.Text.Remove(1, TextToCheck.Text.Length - 1);
-                if (!GoodChar.IsMatch(Check))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = 0;
-                }
-                else if (Check == "a")
-                {
-                    TextToCheck.Text = "A" + TextToCheck.Text.Remove(0, 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = CursorPosition + 1;
-                }
-
-            }
-            else if (TextToCheck.Text.Length == 1)
-            {
-                if (!GoodChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = TextToCheck.Text.Substring(0, TextToCheck.Text.Length - 1);
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-                if (SmallChar.IsMatch(TextToCheck.Text))
-                {
-                    TextToCheck.Text = "A";
-                    TextToCheck.Focus();
-                    TextToCheck.SelectionStart = TextToCheck.Text.Length;
-                }
-            }
-            if (TextToCheck.Text.Length < 9)
-            {
-                TextToCheck.ForeColor = Color.Red;
-            }
-            else if (TextToCheck.Text.Length == 9)
-            {
-                TextToCheck.ForeColor = Color.Black;
-            }
+            CheckIfCanSave();
+            ActionID.Singleton.ANCModification = true;
         }
     }
 }

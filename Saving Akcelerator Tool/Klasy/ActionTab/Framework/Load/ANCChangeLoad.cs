@@ -10,7 +10,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework.Load
 {
     class ANCChangeLoad
     {
-        public ANCChangeLoad(int ActionID)
+        public static void Load(int ActionID)
         {
             IEnumerable<ANCChangeDB> ANCList;
 
@@ -20,6 +20,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework.Load
             {
                 var Action = MainProgram.Self.actionView;
                 int Count = 0;
+                Action.ANCChangeView.SetVisibleANC(ANCList.Count());
 
                 foreach (ANCChangeDB ANC in ANCList)
                 {
@@ -36,6 +37,10 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework.Load
                     Action.StkChange.SetDelta(Count, ANC.Delta.ToString());
                     Action.StkChange.SetEstimation(Count, ANC.Estimation.ToString());
                     Action.StkChange.SetPercent(Count, ANC.Percent.ToString());
+
+                    Action.NextANC.SetNext(Count, ANC.Next_ANC_1, ANC.Next_ANC_2);
+                    Action.CalculationGroup.SetANCCalc(Count, ANC.ANC_Calculation);
+
 
                     Count++;
                 }

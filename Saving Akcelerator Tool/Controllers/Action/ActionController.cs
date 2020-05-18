@@ -63,5 +63,16 @@ namespace Saving_Accelerator_Tool.Controllers.Action
             ActionDB FindAction = context.Action.Where(u => u.Name == ActionName && u.StartYear == Year && u.Active == true).FirstOrDefault();
             return FindAction;
         }
+
+        public static bool CheckIfNameExist(string ActionName)
+        {
+            var context = new DataBaseConnectionContext();
+            IEnumerable<ActionDB> List = context.Action.Where(u => u.Name == ActionName).ToList();
+
+            if (List.Count() != 0)
+                return false;
+
+            return true;
+        }
     }
 }

@@ -91,6 +91,7 @@
             this.tb_Next2ANC10.TabIndex = 19;
             this.tb_Next2ANC10.Visible = false;
             this.tb_Next2ANC10.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC10
             // 
@@ -101,6 +102,7 @@
             this.tb_NextANC10.TabIndex = 18;
             this.tb_NextANC10.Visible = false;
             this.tb_NextANC10.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC9
             // 
@@ -111,6 +113,7 @@
             this.tb_Next2ANC9.TabIndex = 17;
             this.tb_Next2ANC9.Visible = false;
             this.tb_Next2ANC9.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC9
             // 
@@ -121,6 +124,7 @@
             this.tb_NextANC9.TabIndex = 16;
             this.tb_NextANC9.Visible = false;
             this.tb_NextANC9.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC8
             // 
@@ -131,6 +135,7 @@
             this.tb_Next2ANC8.TabIndex = 15;
             this.tb_Next2ANC8.Visible = false;
             this.tb_Next2ANC8.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC8
             // 
@@ -141,6 +146,7 @@
             this.tb_NextANC8.TabIndex = 14;
             this.tb_NextANC8.Visible = false;
             this.tb_NextANC8.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC7
             // 
@@ -151,6 +157,7 @@
             this.tb_Next2ANC7.TabIndex = 13;
             this.tb_Next2ANC7.Visible = false;
             this.tb_Next2ANC7.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC7
             // 
@@ -161,6 +168,7 @@
             this.tb_NextANC7.TabIndex = 12;
             this.tb_NextANC7.Visible = false;
             this.tb_NextANC7.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC6
             // 
@@ -171,6 +179,7 @@
             this.tb_Next2ANC6.TabIndex = 11;
             this.tb_Next2ANC6.Visible = false;
             this.tb_Next2ANC6.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC6
             // 
@@ -181,6 +190,7 @@
             this.tb_NextANC6.TabIndex = 10;
             this.tb_NextANC6.Visible = false;
             this.tb_NextANC6.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC5
             // 
@@ -191,6 +201,7 @@
             this.tb_Next2ANC5.TabIndex = 9;
             this.tb_Next2ANC5.Visible = false;
             this.tb_Next2ANC5.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC5
             // 
@@ -201,6 +212,7 @@
             this.tb_NextANC5.TabIndex = 8;
             this.tb_NextANC5.Visible = false;
             this.tb_NextANC5.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC4
             // 
@@ -211,6 +223,7 @@
             this.tb_Next2ANC4.TabIndex = 7;
             this.tb_Next2ANC4.Visible = false;
             this.tb_Next2ANC4.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC4
             // 
@@ -221,6 +234,7 @@
             this.tb_NextANC4.TabIndex = 6;
             this.tb_NextANC4.Visible = false;
             this.tb_NextANC4.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC3
             // 
@@ -231,6 +245,7 @@
             this.tb_Next2ANC3.TabIndex = 5;
             this.tb_Next2ANC3.Visible = false;
             this.tb_Next2ANC3.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC3
             // 
@@ -241,6 +256,7 @@
             this.tb_NextANC3.TabIndex = 4;
             this.tb_NextANC3.Visible = false;
             this.tb_NextANC3.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC2
             // 
@@ -251,6 +267,7 @@
             this.tb_Next2ANC2.TabIndex = 3;
             this.tb_Next2ANC2.Visible = false;
             this.tb_Next2ANC2.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC2
             // 
@@ -261,6 +278,7 @@
             this.tb_NextANC2.TabIndex = 2;
             this.tb_NextANC2.Visible = false;
             this.tb_NextANC2.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_Next2ANC1
             // 
@@ -271,6 +289,7 @@
             this.tb_Next2ANC1.TabIndex = 1;
             this.tb_Next2ANC1.Visible = false;
             this.tb_Next2ANC1.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_Next2ANC1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // tb_NextANC1
             // 
@@ -281,6 +300,7 @@
             this.tb_NextANC1.TabIndex = 0;
             this.tb_NextANC1.Visible = false;
             this.tb_NextANC1.TextChanged += new System.EventHandler(this.Tb_NextANC_TextChanged);
+            this.tb_NextANC1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_NextANC_KeyPress);
             // 
             // NextANC
             // 

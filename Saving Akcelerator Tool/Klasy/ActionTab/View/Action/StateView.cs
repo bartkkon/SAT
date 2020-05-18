@@ -154,7 +154,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View.Action
             SetYear(DateTime.UtcNow.Year) ;
             SetStartMonth(DateTime.UtcNow.Month.ToString("MMMM"));
             SetLeader(Users.Singleton.Name);
-            comBox_Devision.SelectedIndex = 1;
+            comBox_Devision.SelectedIndex = 0;
 
             comBox_Devision.SelectedIndexChanged += ChangeSomenthing_Change;
             cb_Active.CheckedChanged += Cb_Active_CheckedChanged;

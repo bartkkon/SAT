@@ -53,7 +53,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.View
 
         private void Tree_Action_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if(e.Node.Text !="Electronic" || e.Node.Text != "Mechanic" || e.Node.Text != "NVR" || e.Node.Text != "Electronic Carry Over" || e.Node.Text != "Mechanic Carry Over" || e.Node.Text != "NVR Carry Over")
+            if(e.Node.Text !="Electronic" && e.Node.Text != "Mechanic" && e.Node.Text != "NVR" && e.Node.Text != "Electronic Carry Over" && e.Node.Text != "Mechanic Carry Over" && e.Node.Text != "NVR Carry Over")
             {
                 _ = new Framework.LoadAction(e.Node.Text, num_Action_YearOption.Value);
             }

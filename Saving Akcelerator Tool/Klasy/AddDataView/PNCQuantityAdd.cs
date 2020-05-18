@@ -42,6 +42,7 @@ namespace Saving_Accelerator_Tool.Klasy.AddDataView
             if(ListPNC != null)
             {
                 PNCMonthlyQuantity.AddList(ListPNC);
+                
             }
         }
     }

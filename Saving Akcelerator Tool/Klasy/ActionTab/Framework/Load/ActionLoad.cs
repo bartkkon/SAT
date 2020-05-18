@@ -9,7 +9,7 @@ namespace Saving_Accelerator_Tool.Klasy.ActionTab.Framework.Load
 {
     class ActionLoad
     {
-        public ActionLoad(ActionDB Action)
+        public static void Load(ActionDB Action)
         {
             var ActionView = MainProgram.Self.actionView;
 
