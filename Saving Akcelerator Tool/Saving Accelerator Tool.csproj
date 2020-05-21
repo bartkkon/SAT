@@ -56,11 +56,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3313390A6DC2A217E0D3EDA3592E0894670E1A65</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8E17A80D693A43FCA5FF7BE7AAC46F4307AEFF64</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>Saving Accelerator Tool_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -326,6 +325,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Saving Accelerator Tool_2_TemporaryKey.pfx" />
     <None Include="Saving Accelerator Tool_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
