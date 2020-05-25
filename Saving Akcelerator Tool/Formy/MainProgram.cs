@@ -48,7 +48,7 @@ namespace Saving_Accelerator_Tool
             if (ApplicationDeployment.IsNetworkDeployed)
                 toolStripStatusLabel1.Text = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + " Beta Version";
             else
-                toolStripStatusLabel1.Text = "0.5.0.32  Beta Version Portable Version";
+                toolStripStatusLabel1.Text = "0.5.0.43  Beta Version Portable Version";
 
 
             if (Environment.UserName.ToString() == "BartkKon")

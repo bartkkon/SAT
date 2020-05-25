@@ -40,7 +40,7 @@ namespace Saving_Accelerator_Tool
                 if (FrozenRow["EA2"].ToString() == "Open")
                 {
                     DeleteRowFromHistory("EA2", Year);
-                    AddRowForHistory("RA2", Year);
+                    AddRowForHistory("EA2", Year);
                 }
                 if (FrozenRow["EA3"].ToString() == "Open")
                 {
