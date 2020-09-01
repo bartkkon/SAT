@@ -267,7 +267,14 @@ namespace Saving_Accelerator_Tool
 
             RevisionStart = RevisionStartMonth[Revision];
 
-            Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            if (!CarryOver && YearToCalc > DateTime.UtcNow.Year)
+            {
+                Delta = false;
+            }
+            else
+            {
+                Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            }
 
             QuantityPercent = decimal.Parse(((TextBox)MainProgram.Self.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text) / 100;
 
@@ -430,8 +437,14 @@ namespace Saving_Accelerator_Tool
             }
 
             int RevisionStart = RevisionStartMonth[Revision];
-
-            Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            if (!CarryOver && YearToCalc > DateTime.UtcNow.Year)
+            {
+                Delta = false;
+            }
+            else
+            {
+                Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            }
 
             QuantityPercent = decimal.Parse(((TextBox)MainProgram.Self.TabControl.Controls.Find("TB_PercentANCPNC", true).First()).Text) / 100;
 
@@ -645,7 +658,14 @@ namespace Saving_Accelerator_Tool
             QuantityPNCTable = LoadQuantityPNCTable(Revision, YearToCalc);
 
             //Sprawdzenie czy ma brać jeszcze po estymacji czy po finalnych wyliczeniach 
-            Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            if (!CarryOver && YearToCalc > DateTime.UtcNow.Year)
+            {
+                Delta = false;
+            }
+            else
+            {
+                Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            }
 
             for (int Month = MonthCalcStart; Month <= MonthCalcFinish; Month++)
             {
@@ -773,7 +793,14 @@ namespace Saving_Accelerator_Tool
             QuantityPNCTable = LoadQuantityPNCTable(Revision, YearToCalc);
 
             //Sprawdzenie czy ma brać jeszcze po estymacji czy po finalnych wyliczeniach 
-            Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            if (!CarryOver && YearToCalc > DateTime.UtcNow.Year)
+            {
+                Delta = false;
+            }
+            else
+            {
+                Delta = DeltaIFcanCalculate(CarryOver, RevisionStart, MonthAction);
+            }
 
             if (PNCTable.Columns.Count == 8)
             {

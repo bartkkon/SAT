@@ -104,19 +104,11 @@ namespace Saving_Accelerator_Tool
                     }
                     else if (Row["StartYear"].ToString() == (Year - 1).ToString() && Row["Name"].ToString() == NameAction2)
                     {
-                        //NewRow = Row;
                         if (Year.ToString() != Row["StartYear"].ToString())
                         {
                             if (GridCheck(decimal.Parse(Row["StartYear"].ToString())))
                             {
-                                //TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
-                                //foreach (DataRow Row2 in TableRow.Take(TableRow.Length))
-                                //{
-                                //if (Row["Name"].ToString() == NameAction)
-                                //{
                                 Row["StartYear"] = "BU/" + Row["StartYear"].ToString();
-                                //}
-                                //}
 
                                 NewRow = ActionList.NewRow();
                                 New_Year = true;
@@ -130,6 +122,10 @@ namespace Saving_Accelerator_Tool
                         {
                             NewRow = Row;
                         }
+                    }
+                    else if(Row["StartYear"].ToString() == (Year +1).ToString() && Row["Name"].ToString() == NameAction2)
+                    {
+                        NewRow = Row;
                     }
                 }
 
@@ -863,7 +859,7 @@ namespace Saving_Accelerator_Tool
 
             for (int Row = 0; Row < 5; Row++)
             {
-                for (int Column = 0; Column < 13; Column++)
+                for (int Column = 0; Column < 12; Column++)
                 {
                     if (Table_Check.Rows[Row].Cells[Column] != null && Table_Check.Rows[Row].Cells[Column].ToString() != "")
                     {
