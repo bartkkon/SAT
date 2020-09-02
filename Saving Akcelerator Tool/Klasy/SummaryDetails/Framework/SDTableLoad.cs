@@ -219,7 +219,7 @@ namespace Saving_Accelerator_Tool.Klasy.SummaryDetails.Framework
             }
             else if (Year > DateTime.UtcNow.Year)
             {
-                if (FrozenYear["BU"].ToString() == "Approve" || FrozenYear["BU"].ToString() == "Open")
+                if (FrozenYear["BU"].ToString() == "Approve" || FrozenYear["BU"].ToString() == "Open" || FrozenYear["BU"].ToString() == "Close")
                     Revision = "BU";
                 else
                     Revision = "";
