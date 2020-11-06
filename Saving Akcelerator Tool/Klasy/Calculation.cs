@@ -158,12 +158,12 @@ namespace Saving_Accelerator_Tool
                 if (USEBool)
                 {
                     ClearDataGridViewForMonthActual(Month);
+                    ClearColumnInUSE(Month);
                     SumDataGridView();
                     if (!CarryOver)
                     {
                         if (Month >= ActionStart)
                         {
-                            ClearColumnInUSE(Month);
                             CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
                         }
                     }
@@ -171,7 +171,6 @@ namespace Saving_Accelerator_Tool
                     {
                         if (Month < ActionStart)
                         {
-                            ClearColumnInUSE(Month);
                             CalculationUSESaving(TypeofCalc, Month, CarryOver, YearToCalc);
                         }
                     }

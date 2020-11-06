@@ -85,6 +85,7 @@ namespace Saving_Accelerator_Tool
             //Action action = new Action();
             Cursor.Current = Cursors.WaitCursor;
             string[] row = tb_AddData_Data.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            int DuplicateCount = 0;
             bool IFCalc = false;
 
             if (row[0] != "")
@@ -132,16 +133,22 @@ namespace Saving_Accelerator_Tool
 
                     if (IFCalc)
                     {
-                        for (int counter = 0; counter < row.Length - 1; counter++)
+                        foreach(string OneRow in row)
                         {
-                            if (row[counter] != "")
+                            if (OneRow != "")
                             {
-                                dg_PNC.Rows.Add(row[counter]);
+                                var Row = dg_PNC.Rows.Cast<DataGridViewRow>().Where(u => u.Cells["PNC"].Value.ToString().Equals(OneRow)).FirstOrDefault();
+                                if (Row == null)
+                                    dg_PNC.Rows.Add(OneRow);
+                                else
+                                    DuplicateCount++;
                             }
                         }
                     }
                     this.Close();
                     Cursor.Current = Cursors.Default;
+                    if (DuplicateCount > 0)
+                        MessageBox.Show($"Was remove {DuplicateCount} Duplicate Value", "Duplicate counter");
                     return;
                 }
                 if (Jak == "PNCSpec")

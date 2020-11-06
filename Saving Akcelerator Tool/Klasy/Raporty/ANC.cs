@@ -664,7 +664,7 @@ namespace Saving_Accelerator_Tool
 
                         for (int counter2 = Start; counter2 <= Finish; counter2++)
                         {
-                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+                            DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", Next[counter])).FirstOrDefault();
 
                             if (ANC != null)
                             {

@@ -169,26 +169,6 @@ namespace Saving_Accelerator_Tool
                             }
                         }
                     }
-                    //else
-                    //{
-                    //    if (Year.ToString() != NewRow["StartYear"].ToString())
-                    //    {
-                    //        if (GridCheck(decimal.Parse(NewRow["StartYear"].ToString())))
-                    //        {
-                    //            TableRow = ActionList.Select(string.Format("Name LIKE '%{0}%'", NameAction)).ToArray();
-                    //            foreach (DataRow Row in TableRow.Take(TableRow.Length))
-                    //            {
-                    //                if(Row["Name"].ToString() == NameAction)
-                    //                {
-                    //                    Row["StartYear"] = "BU/" + NewRow["StartYear"].ToString();
-                    //                }
-                    //            }
-
-                    //            NewRow = ActionList.NewRow();
-                    //            New_Year = true;
-                    //        }
-                    //    }
-                    //}
                 }
             }
 
@@ -271,7 +251,8 @@ namespace Saving_Accelerator_Tool
             IDCOAdd(ref NewRow);
 
             //Zapis kalkulacji poszczególych ANC?PNC
-            PerANC_PNC(ref NewRow, Year);
+            if(!New_Year)
+                PerANC_PNC(ref NewRow, Year);
 
             //Jesli zmienił się rok to ma do gridów wpisać puste warości
             if (New_Year)

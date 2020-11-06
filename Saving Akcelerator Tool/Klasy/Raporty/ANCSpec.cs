@@ -792,38 +792,61 @@ namespace Saving_Accelerator_Tool
                 Devision.Rows.Add(NewRow);
             }
 
-            if (Rewizion["CalcMass"].ToString() != "")
+            if (Rewizion["CalcMass"].ToString() != "" & Rewizion["CalcMass"].ToString() != "///////////")
             {
-                DataTable HelpTable;
-                if (Rewizja == "USE")
-                    HelpTable = PerANCUSE;
+                DataTable HelpTable = new DataTable();
+                if (Preferencje["Actual"])
+                    HelpTable = PerANCUSE.Copy();
                 else
-                    HelpTable = PerANCRew;
+                    HelpTable = PerANCRew.Copy();
 
                 foreach(DataRow Row in HelpTable.Rows)
                 {
-                    if(Row[0].ToString().Remove(1) == "D" || Row[0].ToString() == "All")
+                    if (Row[0].ToString().Length != 0)
                     {
-                        DataRow NewRow = Devision.NewRow();
-                        if (Preferencje["ANC New"])
-                            NewRow["ANC New"] = Row[0].ToString();
-                        else if (Preferencje["ANC Old"])
-                            NewRow["ANC Old"] = Row[0].ToString();
-
-                        for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
+                        if (Row[0].ToString().Remove(1) == "D" || Row[0].ToString() == "All")
                         {
-                            string[] Help = Row[counter2.ToString()].ToString().Split(':');
-                            if (Help[0] != "")
+                            DataRow NewRow = Devision.NewRow();
+                            if (Preferencje["ANC New"])
+                                NewRow["ANC New"] = Row[0].ToString();
+                            else if (Preferencje["ANC Old"])
+                                NewRow["ANC Old"] = Row[0].ToString();
+
+                            for (int counter2 = 1; counter2 <= 12; counter2++)
                             {
-                                if (Preferencje["Quantity"])
-                                    if (Help[0] != "")
-                                        NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
-                                if (Preferencje["Savings"])
-                                    if (Help[1] != "")
-                                        NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
+                                string[] Help = Row[counter2.ToString()].ToString().Split(':');
+                                if (Help[0] != "")
+                                {
+                                    if (Preferencje["Quantity"])
+                                        if (Help[0] != "")
+                                            NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
+                                    if (Preferencje["Savings"])
+                                        if (Help[1] != "")
+                                            NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
+                                }
                             }
+                            double sum = 0;
+                            if (Preferencje["Quantity"])
+                            {
+                                for (int counter2 = 1; counter2 <= 12; counter2++)
+                                {
+                                    if (NewRow["Q" + counter2.ToString()].ToString() != "")
+                                        sum += double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                }
+                                NewRow["Q13"] = sum;
+                                sum = 0;
+                            }
+                            if (Preferencje["Savings"])
+                            {
+                                for (int counter2 = 1; counter2 <= 12; counter2++)
+                                {
+                                    if (NewRow["S" + counter2.ToString()].ToString() != "")
+                                        sum += double.Parse(NewRow["S" + counter2.ToString()].ToString());
+                                }
+                                NewRow["S13"] = sum;
+                            }
+                            Devision.Rows.Add(NewRow);
                         }
-                        Devision.Rows.Add(NewRow);
                     }
                 }
             }
