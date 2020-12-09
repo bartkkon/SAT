@@ -382,26 +382,23 @@ namespace Saving_Accelerator_Tool
                 if (Devision == "Electronic Rejected")
                 {
                     FrozenRow["EleApp"] = "Close";
-#if !DEBUG
+
                     MailTo = new SentTo(true, false, false, false).SentToList();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
-#endif
                 }
                 if (Devision == "Mechanic Rejected")
                 {
                     FrozenRow["MechApp"] = "Close";
-#if !DEBUG
+
                     MailTo = new SentTo(false, true, false, false).SentToList();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
-#endif
                 }
                 if (Devision == "NVR Rejected")
                 {
                     FrozenRow["NVRApp"] = "Close";
-#if !DEBUG
+
                     MailTo = new SentTo(false, false, true, false).SentToList();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().ReportRejected_Devision_Topic(), new MailInfo().ReportRejected_Devision_Body(ToReject));
-#endif
                 }
             }
             Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
@@ -425,29 +422,26 @@ namespace Saving_Accelerator_Tool
                 if (Devision == "Electronic Approve")
                 {
                     FrozenRow["EleApp"] = "Approve";
-#if !DEBUG
+
                     MailTo = new SentTo().SentToAdmin();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Electronic"), new MailInfo().RaportApprove_Devision_Body("Electronic", ToApprove));
                     CheckIfAllDevisionApprove(FrozenRow, ToApprove);
-#endif
                 }
                 if (Devision == "Mechanic Approve")
                 {
                     FrozenRow["MechApp"] = "Approve";
-#if !DEBUG
+
                     MailTo = new SentTo().SentToAdmin();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("Mechanic"), new MailInfo().RaportApprove_Devision_Body("Mechanic", ToApprove));
                     CheckIfAllDevisionApprove(FrozenRow, ToApprove);
-#endif
                 }
                 if (Devision == "NVR Approve")
                 {
                     FrozenRow["NVRApp"] = "Approve";
-#if !DEBUG
+
                     MailTo = new SentTo().SentToAdmin();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_Devision_Topic("NVR"), new MailInfo().RaportApprove_Devision_Body("NVR", ToApprove));
                     CheckIfAllDevisionApprove(FrozenRow, ToApprove);
-#endif
                 }
                 if (Devision == "Product Care Approve")
                 {
@@ -455,10 +449,9 @@ namespace Saving_Accelerator_Tool
                     FrozenRow["MechApp"] = "Close";
                     FrozenRow["NVRApp"] = "Close";
                     FrozenRow[ToApprove] = "Approve";
-#if !DEBUG
+
                     MailTo = new SentTo(true, true, true, true).SentToList();
                     SentEmail.Instance.Sent_Email(MailTo, new MailInfo().RaportApprove_PC_Topic(ToApprove), new MailInfo().RaportApprove_PC_Body(ToApprove));
-#endif
                 }
             }
             Data_Import.Singleton().Save_DataTableToTXT2(ref Frozen, "Frozen");
