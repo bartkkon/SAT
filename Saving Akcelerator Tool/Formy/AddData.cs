@@ -225,17 +225,23 @@ namespace Saving_Accelerator_Tool
 
                     if (IFCalc)
                     {
-                        for (int counter = 0; counter < row.Length - 1; counter++)
+                        foreach(string SingleRow in row)
                         {
-                            string[] row2 = row[counter].Split(';');
-                            string PNC = row2[0];
-                            string ECCC = "";
-                            int Limit = ((row2.Length - 3) / 2);
-                            if (row2[1].ToString() != "")
+                            if(SingleRow == string.Empty)
                             {
-                                ECCC = "ECCC(" + row2[1] + ")";
+                                continue;
                             }
-                            dg_PNC.Rows.Add(PNC, ECCC, "");
+
+                            string[] SelectedRow = SingleRow.Split(';');
+                            string PNC = SelectedRow[0];
+                            string ECCC = string.Empty;
+
+                            int Limit = ((SelectedRow.Length - 3) / 2);
+                            if (SelectedRow[1].ToString() != string.Empty)
+                            {
+                                ECCC = "ECCC(" + SelectedRow[1] + ")";
+                            }
+                            dg_PNC.Rows.Add(PNC, ECCC, string.Empty);
 
                             dg_PNC.Rows[dg_PNC.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
                             dg_PNC.Rows[dg_PNC.Rows.Count - 1].DefaultCellStyle.Font = new Font(dg_PNC.Font, FontStyle.Bold);
@@ -244,15 +250,14 @@ namespace Saving_Accelerator_Tool
 
                             for (int counter2 = 2; counter2 < Limit + 2; counter2++)
                             {
-                                if (row2[counter2] != "" || row2[counter2 + Limit + 1] != "")
+                                if (SelectedRow[counter2] != string.Empty || SelectedRow[counter2 + Limit + 1] != string.Empty)
                                 {
-                                    dg_PNC.Rows.Add("", row2[counter2], row2[counter2 + 1], row2[counter2 + Limit + 1], row2[counter2 + Limit + 2]);
+                                    dg_PNC.Rows.Add(string.Empty, SelectedRow[counter2], SelectedRow[counter2 + 1], SelectedRow[counter2 + Limit + 1], SelectedRow[counter2 + Limit + 2]);
                                 }
                                 counter2++;
                             }
 
                         }
-
                     }
                     this.Close();
                     Cursor.Current = Cursors.Default;

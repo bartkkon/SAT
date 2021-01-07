@@ -59,7 +59,7 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
                         if (Plan.Columns.Contains(Revision + "/" + counter.ToString() + "/" + Year.ToString()))
                         {
                             if (QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Revision + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Revision + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
                             else
                                 QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Revision + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
                         }
@@ -82,7 +82,7 @@ namespace Saving_Accelerator_Tool.Klasy.StatisticTab.Framework
                         if (Plan.Columns.Contains(Rewizja + "/" + counter.ToString() + "/" + Year.ToString()))
                         {
                             if (QuantityMonth.Rows[1].Cells[counter.ToString()].Value != null)
-                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[0].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
+                                QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(QuantityMonth.Rows[1].Cells[counter.ToString()].Value.ToString()) + decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
                             else
                                 QuantityMonth.Rows[1].Cells[counter.ToString()].Value = decimal.Parse(Row[Rewizja + "/" + counter.ToString() + "/" + Year.ToString()].ToString());
                         }

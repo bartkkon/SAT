@@ -513,6 +513,7 @@ namespace Saving_Accelerator_Tool
             TextBox PercentQuantity = sender as TextBox;
 
             PercentQuantity.Text = Regex.Replace(PercentQuantity.Text, @"[^0-9,]+", "");
+            action.Action_CalcNeed();
             action.Action_ChangeInAction();
         }
 

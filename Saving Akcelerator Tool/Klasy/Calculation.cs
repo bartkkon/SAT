@@ -2015,10 +2015,10 @@ namespace Saving_Accelerator_Tool
 
             if (CarryOver)
             {
-                if (MonthAction > DateTime.Now.Month)
-                    Delta = false;
-                else
+                if (MonthAction > RevisionStart)
                     Delta = true;
+                else
+                    Delta = false;
             }
             else if (MonthAction <= RevisionStart)
             {

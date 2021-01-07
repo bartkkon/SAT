@@ -47,7 +47,7 @@ namespace Saving_Accelerator_Tool
             ((TextBox)MainProgram.Self.TabControl.Controls.Find("tb_Name", true).First()).Text = Action["Name"].ToString();
             ((GroupBox)MainProgram.Self.TabControl.Controls.Find("gb_ActiveAction", true).First()).Text = Action["Name"].ToString();
             ((TextBox)MainProgram.Self.TabControl.Controls.Find("tb_Description", true).First()).Text = (Action["Description"].ToString()).Replace("/n", Environment.NewLine);
-            if(Action["StartYear"].ToString().Length == 4)
+            if (Action["StartYear"].ToString().Length == 4)
                 ((NumericUpDown)MainProgram.Self.TabControl.Controls.Find("num_Action_YearAction", true).First()).Value = decimal.Parse(Action["StartYear"].ToString());
             else
             {
@@ -63,7 +63,7 @@ namespace Saving_Accelerator_Tool
             if (Action["StartYear"].ToString().Length == 4)
                 CarryOverButton(decimal.Parse(Action["StartYear"].ToString()), Year);
             else
-                CarryOverButton(decimal.Parse(Action["StartYear"].ToString().Remove(0, 3)),Year);
+                CarryOverButton(decimal.Parse(Action["StartYear"].ToString().Remove(0, 3)), Year);
 
             //Fabryka 
             Plant(Action["Factory"].ToString());
@@ -768,9 +768,9 @@ namespace Saving_Accelerator_Tool
                     ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_ANCby" + (counter + 1).ToString(), true).First()).Checked = true;
                 }
             }
-            if(!Status)
+            if (!Status)
             {
-                if(CalcMass[0] == "All")
+                if (CalcMass[0] == "All")
                 {
                     ((CheckBox)MainProgram.Self.TabControl.Controls.Find("cb_Mass_All", true).First()).Checked = true;
                     return;
@@ -811,10 +811,10 @@ namespace Saving_Accelerator_Tool
             string[] What = new string[3] { "Quantity", "Saving", "ECCC" };
             decimal YearStart;
 
-            if (Action["StartYear"].ToString().Length ==4    )
+            if (Action["StartYear"].ToString().Length == 4)
                 YearStart = decimal.Parse(Action["StartYear"].ToString());
             else
-                YearStart = decimal.Parse(Action["StartYear"].ToString().Remove(0,3));
+                YearStart = decimal.Parse(Action["StartYear"].ToString().Remove(0, 3));
 
             if (YearStart == Year - 1)
             {
@@ -831,6 +831,10 @@ namespace Saving_Accelerator_Tool
         private void SpecififcGridLoad(DataRow Action, string TableName, string Carry)
         {
             DataGridView DG = (DataGridView)MainProgram.Self.TabControl.Controls.Find("dg_" + TableName, true).First();
+            decimal Sum_EA1 = 0;
+            decimal Sum_EA2 = 0;
+            decimal Sum_EA3 = 0;
+            decimal Sum_Use = 0;
 
             string[] BU = Action["CalcBU" + TableName + Carry].ToString().Split('/');
             string[] EA1 = Action["CalcEA1" + TableName + Carry].ToString().Split('/');
@@ -840,7 +844,7 @@ namespace Saving_Accelerator_Tool
 
             if (BU.Length != 1)
             {
-                for (int counter = 0; counter < 13; counter++)
+                for (int counter = 0; counter < 12; counter++)
                 {
                     if (BU[counter] != "")
                     {
@@ -849,19 +853,53 @@ namespace Saving_Accelerator_Tool
                     if (EA1[counter] != "")
                     {
                         DG.Rows[3].Cells[counter].Value = decimal.Parse(EA1[counter]);
+                        Sum_EA1 += decimal.Parse(EA1[counter]);
                     }
                     if (EA2[counter] != "")
                     {
                         DG.Rows[2].Cells[counter].Value = decimal.Parse(EA2[counter]);
+                        Sum_EA2 += decimal.Parse(EA2[counter]);
                     }
                     if (EA3[counter] != "")
                     {
                         DG.Rows[1].Cells[counter].Value = decimal.Parse(EA3[counter]);
+                        Sum_EA3 += decimal.Parse(EA3[counter]);
                     }
-                    if (USE[counter] != "")
+
+                }
+                if (BU[12] != "")
+                {
+                    DG.Rows[4].Cells[12].Value = decimal.Parse(BU[12]);
+                }
+
+                for (int Month = 0; Month < 12; Month++)
+                {
+                    
+                    if (Month == 2)
                     {
-                        DG.Rows[0].Cells[counter].Value = decimal.Parse(USE[counter]);
+                        if ((Sum_EA1 + Sum_Use) != 0)
+                            DG.Rows[3].Cells[12].Value = Sum_EA1 + Sum_Use;
                     }
+                    else if(Month == 5)
+                    {
+                        if ((Sum_EA2 + Sum_Use) != 0)
+                            DG.Rows[2].Cells[12].Value = Sum_EA2 + Sum_Use;
+                    }
+                    else if (Month == 8)
+                    {
+                        if ((Sum_EA3 + Sum_Use) != 0)
+                            DG.Rows[1].Cells[12].Value = Sum_EA3 + Sum_Use;
+                    }
+
+                    if (USE[Month] != "")
+                    {
+                        DG.Rows[0].Cells[Month].Value = decimal.Parse(USE[Month]);
+                        Sum_Use += decimal.Parse(USE[Month]);
+                    }
+                }
+                if(Sum_Use != 0)
+                {
+                    DG.Rows[0].Cells[12].Value = Sum_Use;
                 }
             }
         }
