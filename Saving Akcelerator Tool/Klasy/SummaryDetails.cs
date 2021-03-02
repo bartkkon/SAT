@@ -593,7 +593,7 @@ namespace Saving_Accelerator_Tool
                     }
                 }
 
-                if (ActionRow["StartYear"].ToString() == (Year - 1).ToString())
+                if (ActionRow["StartYear"].ToString() == (Year - 1).ToString() || ActionRow["StartYear"].ToString() == "BU/" + (Year-1).ToString() || ActionRow["StartYear"].ToString() == "SA/" + (Year-1).ToString())
                 {
                     if (ActionRow["Status"].ToString() == "Active" && ActionRow["StartMonth"].ToString() != "January" && Active.Checked)
                     {

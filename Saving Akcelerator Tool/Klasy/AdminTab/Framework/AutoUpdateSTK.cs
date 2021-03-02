@@ -83,8 +83,8 @@ namespace Saving_Accelerator_Tool.Klasy.AdmnTab.Framework
                         {
                             if (!_STKActionList.ContainsKey(PNC_ANC2[counter3]))
                             {
-                                DataRow Row = _STK.Select(string.Format("ANC LIKE '%{0}%'", PNC_ANC2[counter3])).First();
-                                if (Row[1] != null && Row[1].ToString() != "")
+                                DataRow Row = _STK.Select(string.Format("ANC LIKE '%{0}%'", PNC_ANC2[counter3])).FirstOrDefault();
+                                if (Row != null && Row[1].ToString() != "")
                                 {
                                     _STKActionList.Add(PNC_ANC2[counter3], decimal.Parse(Row[1].ToString()));
                                     PNC_STK2[counter3] = (_STKActionList[PNC_ANC2[counter3]] * decimal.Parse(PNC_ANCQ2[counter3])).ToString();
