@@ -27,12 +27,12 @@ namespace Saving_Accelerator_Tool
             {"December",12},
         };
 
-        public ANCSpec(Dictionary<string,bool> Preferencje)
+        public ANCSpec(Dictionary<string, bool> Preferencje)
         {
             this.Preferencje = Preferencje;
         }
 
-        public void PrepareANCSpec (DataRow ActionRow, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
+        public void PrepareANCSpec(DataRow ActionRow, ref DataTable Devision, int MonthEnd, bool CarryOver, string Status)
         {
             DataRow RowtoAdd = Devision.NewRow();
             bool OnlyOneRow = false;
@@ -41,7 +41,7 @@ namespace Saving_Accelerator_Tool
 
             if (ActionRow["IloscANC"].ToString() == "1")
             {
-                if(ActionRow["CalcMass"].ToString() == "")
+                if (ActionRow["CalcMass"].ToString() == "")
                     OnlyOneRow = true;
             }
 
@@ -58,7 +58,7 @@ namespace Saving_Accelerator_Tool
 
             if (Preferencje["Minimum"] || OnlyOneRow)
             {
-                AddMinimum(ref RowtoAdd, ActionRow, MonthEnd, CarryOver,IDCO);
+                AddMinimum(ref RowtoAdd, ActionRow, MonthEnd, CarryOver, IDCO);
                 Devision.Rows.Add(RowtoAdd);
             }
             else if (Preferencje["Medium"] || Preferencje["Maximum"])
@@ -120,7 +120,7 @@ namespace Saving_Accelerator_Tool
             return IDCO;
         }
 
-        private void AddMinimum(ref DataRow RowtoAdd, DataRow ActionRow, int MonthEnd, bool CarryOver,string[] IDCO)
+        private void AddMinimum(ref DataRow RowtoAdd, DataRow ActionRow, int MonthEnd, bool CarryOver, string[] IDCO)
         {
             int Monthstart = Month[ActionRow["StartMonth"].ToString()];
             decimal YearAction;
@@ -216,8 +216,8 @@ namespace Saving_Accelerator_Tool
 
                     for (int counter = 1; counter < RevStart; counter++)
                     {
-                        if(Help[counter-1] != "")
-                        RowtoAdd["Q" + counter] = double.Parse(Help[counter - 1]);
+                        if (Help[counter - 1] != "")
+                            RowtoAdd["Q" + counter] = double.Parse(Help[counter - 1]);
                     }
 
                     if (!CarryOver)
@@ -643,55 +643,55 @@ namespace Saving_Accelerator_Tool
                 {
                     //if (Preferencje["Actual"])
                     //{
-                        if (NewANC[counter] != "")
+                    if (NewANC[counter] != "")
+                    {
+                        //if (PerANCUSE.Rows.Count != 0)
+                        //{
+                        DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+
+                        if (ANC != null)
                         {
-                            //if (PerANCUSE.Rows.Count != 0)
-                            //{
-                                DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
-
-                                if (ANC != null)
+                            for (int counter2 = Start; counter2 <= Finish; counter2++)
+                            {
+                                string[] Help = ANC[counter2.ToString()].ToString().Split(':');
+                                if (Help[0] != "")
                                 {
-                                    for (int counter2 = Start; counter2 <= Finish; counter2++)
-                                    {
-                                        string[] Help = ANC[counter2.ToString()].ToString().Split(':');
+                                    if (Preferencje["Quantity"])
                                         if (Help[0] != "")
-                                        {
-                                            if (Preferencje["Quantity"])
-                                                if (Help[0] != "")
-                                                    NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
-                                            if (Preferencje["Savings"])
-                                                if (Help[1] != "")
-                                                    NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
-                                        }
-                                    }
+                                            NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
+                                    if (Preferencje["Savings"])
+                                        if (Help[1] != "")
+                                            NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
                                 }
-                            //}
+                            }
                         }
-                        if (Next[counter] != "")
+                        //}
+                    }
+                    if (Next[counter] != "")
+                    {
+                        //if (PerANCUSE.Rows.Count != 0)
+                        //{
+                        DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+
+                        if (ANC != null)
                         {
-                            //if (PerANCUSE.Rows.Count != 0)
-                            //{
-                                DataRow ANC = PerANCUSE.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+                            for (int counter2 = Start; counter2 <= Finish; counter2++)
+                            {
+                                string[] Help = ANC[counter2.ToString()].ToString().Split(':');
 
-                                if (ANC != null)
+                                if (Help[0] != "")
                                 {
-                                    for (int counter2 = Start; counter2 <= Finish; counter2++)
-                                    {
-                                        string[] Help = ANC[counter2.ToString()].ToString().Split(':');
-
+                                    if (Preferencje["Quantity"])
                                         if (Help[0] != "")
-                                        {
-                                            if (Preferencje["Quantity"])
-                                                if (Help[0] != "")
-                                                    NewRow["Q" + counter2.ToString()] = double.Parse(NewRow["Q" + counter2.ToString()].ToString());
-                                            if (Preferencje["Savings"])
-                                                if (Help[1] != "")
-                                                    NewRow["S" + counter2.ToString()] = double.Parse(NewRow["S" + counter2.ToString()].ToString());
-                                        }
-                                    }
+                                            NewRow["Q" + counter2.ToString()] = double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                    if (Preferencje["Savings"])
+                                        if (Help[1] != "")
+                                            NewRow["S" + counter2.ToString()] = double.Parse(NewRow["S" + counter2.ToString()].ToString());
                                 }
-                            //}
+                            }
                         }
+                        //}
+                    }
                     //}
                     if (!Preferencje["Actual"])
                     {
@@ -748,7 +748,7 @@ namespace Saving_Accelerator_Tool
                             {
                                 for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                                 {
-                                    DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+                                    DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", Next[counter])).FirstOrDefault();
 
                                     if (ANC != null)
                                     {
@@ -758,10 +758,10 @@ namespace Saving_Accelerator_Tool
                                         {
                                             if (Preferencje["Quantity"])
                                                 if (Help[0] != "")
-                                                    NewRow["Q" + counter2.ToString()] =  double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                                    NewRow["Q" + counter2.ToString()] = double.Parse(NewRow["Q" + counter2.ToString()].ToString());
                                             if (Preferencje["Savings"])
                                                 if (Help[1] != "")
-                                                    NewRow["S" + counter2.ToString()] =  double.Parse(NewRow["S" + counter2.ToString()].ToString());
+                                                    NewRow["S" + counter2.ToString()] = double.Parse(NewRow["S" + counter2.ToString()].ToString());
                                         }
                                     }
                                 }
@@ -795,12 +795,18 @@ namespace Saving_Accelerator_Tool
             if (Rewizion["CalcMass"].ToString() != "" & Rewizion["CalcMass"].ToString() != "///////////")
             {
                 DataTable HelpTable = new DataTable();
-                if (Preferencje["Actual"])
-                    HelpTable = PerANCUSE.Copy();
-                else
-                    HelpTable = PerANCRew.Copy();
+                HelpTable = PerANCUSE.Copy();
+                DataTable HelpTableRevision = new DataTable();
+                HelpTableRevision = PerANCRew.Copy();
+                int counterCalc = 1;
 
-                foreach(DataRow Row in HelpTable.Rows)
+                if(!NewtoCalc)
+                {
+                    HelpTable = PerANCRew.Copy();
+                    counterCalc = RevStart;
+                }
+
+                foreach (DataRow Row in HelpTable.Rows)
                 {
                     if (Row[0].ToString().Length != 0)
                     {
@@ -812,8 +818,11 @@ namespace Saving_Accelerator_Tool
                             else if (Preferencje["ANC Old"])
                                 NewRow["ANC Old"] = Row[0].ToString();
 
-                            for (int counter2 = 1; counter2 <= 12; counter2++)
+
+
+                            for (int counter2 = counterCalc; counter2 <= 12; counter2++)
                             {
+
                                 string[] Help = Row[counter2.ToString()].ToString().Split(':');
                                 if (Help[0] != "")
                                 {
@@ -824,6 +833,7 @@ namespace Saving_Accelerator_Tool
                                         if (Help[1] != "")
                                             NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
                                 }
+
                             }
                             double sum = 0;
                             if (Preferencje["Quantity"])
@@ -844,6 +854,53 @@ namespace Saving_Accelerator_Tool
                                         sum += double.Parse(NewRow["S" + counter2.ToString()].ToString());
                                 }
                                 NewRow["S13"] = sum;
+                            }
+                            if (NewtoCalc)
+                            {
+                                DataRow RevisionRow = null;
+                                foreach(DataRow RevRow in HelpTableRevision.Rows)
+                                {
+                                    if (RevRow[0].ToString() == Row[0].ToString())
+                                        RevisionRow = RevRow;
+                                }
+                                if (RevisionRow != null)
+                                {
+                                    for (int counter2 = RevStart; counter2 <= 12; counter2++)
+                                    {
+
+                                        string[] Help = RevisionRow[counter2.ToString()].ToString().Split(':');
+                                        if (Help[0] != "")
+                                        {
+                                            if (Preferencje["Quantity"])
+                                                if (Help[0] != "")
+                                                    NewRow["Q" + counter2.ToString()] = double.Parse(Help[0]);
+                                            if (Preferencje["Savings"])
+                                                if (Help[1] != "")
+                                                    NewRow["S" + counter2.ToString()] = double.Parse(Help[1]);
+                                        }
+
+                                    }
+                                    sum = 0;
+                                    if (Preferencje["Quantity"])
+                                    {
+                                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                                        {
+                                            if (NewRow["Q" + counter2.ToString()].ToString() != "")
+                                                sum += double.Parse(NewRow["Q" + counter2.ToString()].ToString());
+                                        }
+                                        NewRow["Q13"] = sum;
+                                        sum = 0;
+                                    }
+                                    if (Preferencje["Savings"])
+                                    {
+                                        for (int counter2 = 1; counter2 <= 12; counter2++)
+                                        {
+                                            if (NewRow["S" + counter2.ToString()].ToString() != "")
+                                                sum += double.Parse(NewRow["S" + counter2.ToString()].ToString());
+                                        }
+                                        NewRow["S13"] = sum;
+                                    }
+                                }
                             }
                             Devision.Rows.Add(NewRow);
                         }
@@ -963,7 +1020,7 @@ namespace Saving_Accelerator_Tool
             {
                 minus = 2;
             }
-            else if(Rew == "EA2")
+            else if (Rew == "EA2")
             {
                 minus = 5;
             }
@@ -983,7 +1040,7 @@ namespace Saving_Accelerator_Tool
                         NewRow["Name"] = Help3[0];
                         for (int counter = MonthStart; counter <= 12; counter++)
                         {
-                            NewRow[counter.ToString()] = Help3[counter-minus];
+                            NewRow[counter.ToString()] = Help3[counter - minus];
                         }
                         PerANC.Rows.Add(NewRow);
                     }

@@ -61,6 +61,19 @@ namespace Saving_Accelerator_Tool
             };
             But_Next.Click += new EventHandler(Button_Next_Click);
             TopSumm.Controls.Add(But_Next);
+
+            CheckBox All = new CheckBox
+            {
+                Size = new Size(30, 30),
+                Location = new Point(400, 10),
+                Name = "All_CheckBox",
+                Text = "All",
+                Checked = true,
+                Visible = false,
+            };
+            All.CheckedChanged += new EventHandler(All_CheckedChange);
+            TopSumm.Controls.Add(All);
+
         }
 
         //Personalizwoanie raportu
@@ -1120,6 +1133,17 @@ namespace Saving_Accelerator_Tool
             ((CheckBox)this.Controls.Find("CB_STKNEW", true).First()).Enabled = (sender as CheckBox).Checked;
         }
 
+        private void All_CheckedChange(object sender, EventArgs e)
+        {
+            DataGridView DG = (DataGridView)this.Controls.Find("DGV_SelectedAction", true).First();
+            bool value = (sender as CheckBox).Checked;
+
+            foreach (DataGridViewRow Row in DG.Rows)
+            {
+                Row.Cells[0].Value = value;
+            }
+        }
+
         private void ActionList_CheckedChange(object sender, EventArgs e)
         {
             ((GroupBox)this.Controls.Find("GB_Action", true).First()).Enabled = (sender as CheckBox).Checked;
@@ -1172,6 +1196,7 @@ namespace Saving_Accelerator_Tool
                 Click.Text = "Genereted";
                 Genereted_Dictionary();
                 Action_Selected();
+                ((CheckBox)this.Controls.Find("All_CheckBox", true).First()).Visible = true;
                 return;
             }
             else if (Click.Text == "Genereted")

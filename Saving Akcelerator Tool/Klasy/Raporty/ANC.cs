@@ -513,7 +513,7 @@ namespace Saving_Accelerator_Tool
 
             if (YearAction == DateTime.Now.Year)
             {
-                if (Monthstart < DateTime.Now.Month)
+                if (Monthstart <= DateTime.Now.Month)
                 {
                     Delta = Rewizion["Delta"].ToString().Split('|');
                     NewtoCalc = true;
@@ -740,7 +740,7 @@ namespace Saving_Accelerator_Tool
 
                             for (int counter2 = RevStart; counter2 <= RefFinish; counter2++)
                             {
-                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", NewANC[counter])).FirstOrDefault();
+                                DataRow ANC = PerANCRew.Select(string.Format("Name LIKE '%{0}%'", Next[counter])).FirstOrDefault();
 
                                 if (ANC != null)
                                 {
